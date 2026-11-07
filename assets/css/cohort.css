@@ -1,0 +1,303 @@
+.co-hero .btn-outline-gold {
+  color: #fff;
+  background: transparent;
+}
+.co-hero .btn-outline-gold:hover {
+  background: var(--color-accent);
+  color: var(--color-ink);
+}
+
+.co-compare-note {
+  max-width: 640px;
+  margin: 0 auto 8px;
+  text-align: center;
+  color: var(--color-text);
+}
+
+.co-consult-sub {
+  margin: 48px 0 24px;
+  text-align: center;
+}
+.co-consult-sub h3 {
+  margin: 0 0 8px;
+  color: var(--color-primary);
+  font-size: clamp(22px, 3vw, 28px);
+}
+.co-consult-sub p {
+  margin: 0 auto;
+  max-width: 560px;
+  color: var(--color-text);
+}
+.co-consult-cta {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+.co-compare-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-top: 40px;
+  align-items: stretch;
+}
+@media (min-width: 960px) {
+  .co-compare-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+.co-compare-grid .feature-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.co-compare-grid .feature-card h3 {
+  min-height: 2.4em;
+}
+
+.co-center { text-align: center; }
+.co-icon-center { margin-inline: auto; }
+.co-prose-card { max-width: 820px; margin: 0 auto; }
+.co-prose-card .section-lead { margin-bottom: 0; }
+.co-prose-card .section-title { margin-left: auto; margin-right: auto; }
+
+.co-checks { display: grid; gap: 12px; margin-top: 8px; text-align: left; }
+.co-checks li { display: flex; gap: 10px; align-items: flex-start; color: var(--color-ink); font-size: 15px; }
+.co-checks i { margin-top: 4px; flex-shrink: 0; }
+.co-checks i.co-mark--yes { color: #1a8a5f; }
+.co-checks i.co-mark--no { color: #b8281e; }
+.co-checks i.co-mark--warn { color: #c98a1b; }
+.co-checks i.co-mark--dash { color: var(--color-muted); }
+
+.co-media-slot {
+  aspect-ratio: 4 / 3;
+  min-height: 200px;
+  display: grid;
+  place-items: center;
+  background: var(--color-mint);
+  color: var(--color-muted);
+  font-size: 32px;
+}
+.co-media-slot--video { aspect-ratio: 9 / 16; background: var(--color-footer); color: #fff; }
+.co-video-card {
+  padding: 0;
+  overflow: hidden;
+}
+.co-video {
+  position: relative;
+  aspect-ratio: 9 / 16;
+  margin: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  background: var(--color-footer);
+}
+.co-video video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #000;
+}
+.co-fit-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 40px;
+}
+.co-play {
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+}
+
+.feature-card.is-brand {
+  border-color: var(--color-accent);
+  box-shadow: 0 18px 40px rgba(229, 184, 88, 0.18);
+}
+.feature-card.is-brand .feature-card__icon { background: var(--color-accent); color: var(--color-ink); }
+
+.co-swipe__dots {
+  display: none;
+}
+
+@media (max-width: 899px) {
+  body.co-page .section.section-mint {
+    background: #fff;
+  }
+  .co-page .section {
+    padding: 48px 0;
+  }
+  .co-page .section-heading {
+    margin-bottom: 20px;
+  }
+  .co-page .section-title {
+    font-size: 26px;
+    margin-bottom: 10px;
+  }
+  .co-page .section-lead {
+    font-size: 15px;
+    margin-bottom: 16px;
+  }
+  .co-page .pill-label {
+    font-size: 12px;
+    padding: 6px 12px;
+    margin-bottom: 10px;
+  }
+  .co-page .feature-card,
+  .co-page .process-card {
+    padding: 18px 16px;
+  }
+  .co-page .feature-card__icon,
+  .co-page .process-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  .co-page .feature-card__num,
+  .co-page .process-num {
+    font-size: 28px;
+    top: 14px;
+    right: 14px;
+  }
+  .co-page .feature-card h3,
+  .co-page .process-card h3 {
+    font-size: 17px;
+    margin-bottom: 6px;
+  }
+  .co-page .feature-card p,
+  .co-page .process-card p,
+  .co-page .co-checks li {
+    font-size: 13px;
+  }
+  .co-page .co-checks {
+    gap: 8px;
+  }
+  .co-page .co-consult-sub {
+    margin: 28px 0 16px;
+  }
+  .co-page .co-consult-sub h3 {
+    font-size: 20px;
+  }
+  .co-page .process-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .co-page .why-grid--five:not(.co-swipe) {
+    grid-template-columns: 1fr;
+  }
+  .co-page .why-grid {
+    margin-top: 16px;
+  }
+  .co-page .cta-box {
+    padding: 28px 20px;
+  }
+  .co-page .cta-box h2,
+  .co-page .cta-box .split-title {
+    font-size: 22px;
+  }
+  .co-hero {
+    padding: 36px 0;
+  }
+  .co-hero h1 {
+    font-size: 28px;
+  }
+  .co-hero p {
+    font-size: 15px;
+  }
+  .co-stats {
+    gap: 8px;
+    margin-top: 16px;
+    padding-top: 16px;
+  }
+  .co-stats strong {
+    font-size: 18px;
+  }
+  .co-stats span {
+    font-size: 9px;
+    letter-spacing: 0.03em;
+  }
+  .co-page .about-photos {
+    min-height: 0;
+  }
+  .co-page .about-photos .main {
+    height: 260px;
+  }
+  .co-page .about-photos .side {
+    height: 120px;
+  }
+  .co-page .faq-panel {
+    padding: 24px 16px;
+  }
+  .co-page .faq-illustration {
+    display: none;
+  }
+
+  .co-page .co-swipe {
+    display: flex;
+    align-items: stretch;
+    grid-template-columns: none;
+    gap: 0;
+    overflow: hidden;
+    background: #fff;
+    scroll-snap-type: x mandatory;
+    touch-action: pan-y;
+    cursor: grab;
+    margin-top: 16px;
+    overscroll-behavior-x: contain;
+  }
+  .co-page .co-swipe.is-dragging {
+    cursor: grabbing;
+    scroll-snap-type: none;
+    user-select: none;
+  }
+  .co-page .co-swipe > * {
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 100%;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    min-width: 0;
+  }
+  .co-page .co-compare-grid .feature-card h3 {
+    min-height: 0;
+  }
+  .co-page .co-swipe .feature-card,
+  .co-page .co-swipe .feature-card:hover,
+  .co-page .co-swipe .program-card,
+  .co-page .co-swipe .program-card:hover {
+    transform: none;
+    box-shadow: none;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .co-page .programs-grid.co-swipe {
+    margin-top: 16px;
+  }
+
+  .co-swipe__dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .co-swipe__dots button {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: rgba(1, 78, 78, 0.22);
+    cursor: pointer;
+  }
+  .co-swipe__dots button.is-active {
+    width: 22px;
+    background: var(--color-primary);
+  }
+}
