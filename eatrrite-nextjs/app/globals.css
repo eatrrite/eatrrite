@@ -387,10 +387,12 @@
   font-size: 18px;
 }
 @utility type-eyebrow {
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-family: var(--font-script);
+  font-size: 1.5rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  line-height: 1;
 }
 @utility type-field-label {
   font-size: 12px;

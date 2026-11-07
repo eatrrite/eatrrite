@@ -23,7 +23,7 @@ export function SectionIntro({
   return (
     <div className={cn("max-w-3xl", center && "mx-auto text-center", className)}>
       <BlurIn>
-        <p className="mb-0 text-xs font-semibold tracking-[0.12em] text-primary uppercase sm:text-sm">{eyebrow}</p>
+        <p className="mb-0 font-script text-2xl leading-none text-primary sm:text-3xl">{eyebrow}</p>
       </BlurIn>
       {accent ? (
         <BlurIn delay={0.05}>
