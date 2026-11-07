@@ -557,7 +557,7 @@
 
 /* Recessed field — inputs and select triggers */
 @utility field-inset {
-  border-radius: var(--radius);
+  border-radius: calc(var(--radius-lg) / 2);
   color: var(--foreground);
   background-image:
     linear-gradient(

@@ -54,7 +54,7 @@ export function PatientsToolbar({
               if (query) notifyFilterApplied(showToast, "Search applied", query);
             }}
             placeholder="Search patients..."
-            className="h-8 w-full rounded-lg border border-input bg-background py-1.5 pr-3 pl-9 text-sm outline-none transition-colors placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
+            className="h-8 w-full rounded-[calc(var(--radius-lg)/2)] border border-input bg-background py-1.5 pr-3 pl-9 text-sm outline-none transition-colors placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
           />
         </label>
 
