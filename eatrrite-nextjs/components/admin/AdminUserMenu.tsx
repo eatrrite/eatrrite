@@ -48,7 +48,7 @@ export function AdminUserMenu({ onLogout }: AdminUserMenuProps) {
             />
           }
         >
-          <span className="flex size-7 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-foreground">
+          <span className="flex size-7 items-center justify-center rounded-full bg-primary text-[10px] font-semibold text-primary-foreground">
             {ADMIN_USER_PROFILE.initials}
           </span>
           <span className="hidden max-w-[7.5rem] truncate text-sm font-medium text-foreground sm:inline">
