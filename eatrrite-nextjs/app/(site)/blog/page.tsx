@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Blog } from "@/components/home/Blog";
+import { BlogSection } from "@/components/home/BlogSection";
 import { PageBanner } from "@/components/layout/PageBanner";
 
 export const metadata: Metadata = {
@@ -11,7 +11,7 @@ export default function BlogPage() {
   return (
     <>
       <PageBanner title="Blog" />
-      <Blog />
+      <BlogSection />
     </>
   );
 }

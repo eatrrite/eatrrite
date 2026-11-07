@@ -200,6 +200,16 @@ Emails (moved from Phase 4):
 
 - [ ] **Farhan approves the admin panel**
 
+## Home Page Redesign (Deccan Dentics style)
+
+- [x] Keep header, hero and marquee unchanged; keep all home copy
+- [x] Programs tabs, founder, why choose, process, program cards, FAQ picker, blog, testimonials carousel and call to action rebuilt in the Deccan layout
+- [x] Slide, fade and blur reveal on every element
+- [x] Floating food icons behind sections (desktop only)
+- [x] No overflow at 320 and 375 px
+- [ ] Swap the floating icons for real cut-out food images, if wanted
+- [ ] **Mukta approves the redesign** (the brief asked for no redesign)
+
 ## Launch
 
 - [ ] Deploy to staging and show Mukta
