@@ -1,5 +1,5 @@
-import { SectionHeading } from "@/components/site/section-heading";
-import about from "@/lib/data/about.json";
+import { SectionHeading } from "@/components/shared/SectionHeading";
+import about from "@/constants/about/content.json";
 
 // Copies .about-mission from pages.css.
 export function AboutMission() {

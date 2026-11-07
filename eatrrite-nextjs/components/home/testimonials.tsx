@@ -1,10 +1,10 @@
 import Image from "next/image";
 import { faQuoteRight, faStar } from "@fortawesome/free-solid-svg-icons";
-import { Reveal } from "@/components/motion/reveal";
-import { Icon } from "@/components/site/icon";
-import { SectionHeading } from "@/components/site/section-heading";
+import { Reveal } from "@/components/motion/Reveal";
+import { Icon } from "@/components/shared/Icon";
+import { SectionHeading } from "@/components/shared/SectionHeading";
 import { Card } from "@/components/ui/card";
-import home from "@/lib/data/home.json";
+import home from "@/constants/home/content.json";
 
 // Copies .testimonial-grid and .testimonial-card from style.css.
 export function Testimonials() {

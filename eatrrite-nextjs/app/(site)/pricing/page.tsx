@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { PackageGrid } from "@/components/programs/package-grid";
-import { PageBanner } from "@/components/site/page-banner";
-import { SectionHeading } from "@/components/site/section-heading";
-import inner from "@/lib/data/inner.json";
+import { PackageGrid } from "@/components/shared/PackageGrid";
+import { PageBanner } from "@/components/layout/PageBanner";
+import { SectionHeading } from "@/components/shared/SectionHeading";
+import copy from "@/constants/pricing/content.json";
 
 export const metadata: Metadata = {
   title: "Pricing",
@@ -10,8 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default function PricingPage() {
-  const copy = inner.pricing;
-  return (
+    return (
     <>
       <PageBanner title="Pricing" />
       <section className="er-section">

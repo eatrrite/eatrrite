@@ -1,5 +1,6 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Lora } from "next/font/google";
+import { BRAND } from "@/constants/brand";
 import "./globals.css";
 
 // Same Google families, weights and axes as the PHP includes/header.php.
@@ -18,10 +19,20 @@ const bricolage = Bricolage_Grotesque({
 });
 
 export const metadata: Metadata = {
-  title: "Eat Rrite - Nutritionist, Holistic Health and Wellness",
-  description:
-    "Eat Rrite is a nutrition and holistic wellness platform offering personalised diet programs, yoga, and lifestyle guidance.",
+  metadataBase: new URL(BRAND.url),
+  title: `${BRAND.name} - Nutritionist, Holistic Health and Wellness`,
+  description: BRAND.description,
+  applicationName: BRAND.name,
+  openGraph: {
+    type: "website",
+    siteName: BRAND.name,
+    locale: BRAND.locale,
+    images: [BRAND.shareImage],
+  },
+  twitter: { card: "summary_large_image" },
 };
+
+export const viewport: Viewport = { themeColor: BRAND.themeColor };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (

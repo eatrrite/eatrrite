@@ -7,14 +7,14 @@ import {
   faVenus,
   faWheatAwn,
 } from "@fortawesome/free-solid-svg-icons";
-import { Reveal } from "@/components/motion/reveal";
-import { ButtonLink } from "@/components/site/button-link";
-import { Icon } from "@/components/site/icon";
-import { SectionHeading } from "@/components/site/section-heading";
+import { Reveal } from "@/components/motion/Reveal";
+import { ButtonLink } from "@/components/shared/ButtonLink";
+import { Icon } from "@/components/shared/Icon";
+import { SectionHeading } from "@/components/shared/SectionHeading";
 import { Card } from "@/components/ui/card";
-import home from "@/lib/data/home.json";
-import programs from "@/lib/data/programs.json";
-import { programHref } from "@/lib/data/site";
+import home from "@/constants/home/content.json";
+import programs from "@/constants/programs/programs.json";
+import { programPath } from "@/constants/routes";
 
 // Same order as 'icons' in constants/home/services.php.
 const icons = [faWheatAwn, faDroplet, faLeaf, faVenus];
@@ -26,7 +26,7 @@ export function Services() {
     <section id="services" className="er-section bg-white">
       <div className="er-container">
         <SectionHeading pill={services.pill} title={services.title} lead={services.lead} />
-        <div className="grid grid-cols-4 items-stretch gap-[22px] er-md:grid-cols-2 er-sm:grid-cols-1">
+        <div className="grid grid-cols-4 items-stretch gap-6 er-md:grid-cols-2 er-sm:grid-cols-1">
           {programs.map((p, i) => (
             <Reveal key={p.slug} preset="card" className="group/svc h-full">
               <Card
@@ -53,7 +53,7 @@ export function Services() {
                       {p.summary}
                     </p>
                     <Link
-                      href={programHref(p.slug)}
+                      href={programPath(p.slug)}
                       aria-label={`Learn more about ${p.short}`}
                       className="mt-auto inline-grid size-10 shrink-0 place-items-center rounded-full bg-white/15 text-base text-white transition-[transform,translate,scale,rotate,background-color] duration-[350ms] ease-[ease] hover:translate-x-1 hover:scale-[1.06] hover:bg-accent-hover"
                     >
@@ -65,7 +65,7 @@ export function Services() {
             </Reveal>
           ))}
         </div>
-        <div className="mt-9 flex flex-wrap justify-center gap-3.5">
+        <div className="mt-9 flex flex-wrap justify-center gap-4">
           <ButtonLink href={services.cta.href}>{services.cta.label}</ButtonLink>
         </div>
       </div>

@@ -26,6 +26,7 @@ const nextConfig: NextConfig = {
         statusCode: 301,
       },
       { source: "/program.php", destination: "/programs", statusCode: 301 },
+      { source: "/admin", destination: "/admin/dashboard", permanent: false },
       ...pages.map(([source, destination]) => ({ source, destination, statusCode: 301 as const })),
     ];
   },

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { AboutDoctors } from "@/components/about/doctors";
-import { AboutMission } from "@/components/about/mission";
-import { AboutStory } from "@/components/about/story";
-import { PageBanner } from "@/components/site/page-banner";
+import { AboutDoctors } from "@/components/about/Doctors";
+import { AboutMission } from "@/components/about/Mission";
+import { AboutStory } from "@/components/about/Story";
+import { PageBanner } from "@/components/layout/PageBanner";
 
 export const metadata: Metadata = {
   title: "About Mukta Patil",

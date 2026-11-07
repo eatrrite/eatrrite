@@ -1,9 +1,9 @@
-import home from "@/lib/data/home.json";
+import home from "@/constants/home/content.json";
 
 // Copies .marquee from style.css. The track holds two copies and slides by half.
 export function Marquee() {
   return (
-    <div aria-hidden className="group/marquee relative overflow-hidden bg-primary py-[22px] whitespace-nowrap text-white">
+    <div aria-hidden className="group/marquee relative overflow-hidden bg-primary py-6 whitespace-nowrap text-white">
       <div className="flex w-max animate-marquee group-hover/marquee:[animation-play-state:paused]">
         {[0, 1].map((copy) => (
           <div
@@ -13,7 +13,7 @@ export function Marquee() {
             {home.marquee.map((item) => (
               <span
                 key={item}
-                className="inline-flex items-center px-9 after:ml-[72px] after:text-[18px] after:text-accent after:content-['✦']"
+                className="inline-flex items-center px-9 after:ml-18 after:text-[18px] after:text-accent after:content-['✦']"
               >
                 {item}
               </span>

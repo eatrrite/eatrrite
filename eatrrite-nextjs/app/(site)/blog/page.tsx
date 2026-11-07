@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { Blog } from "@/components/home/blog";
-import { PageBanner } from "@/components/site/page-banner";
+import { Blog } from "@/components/home/Blog";
+import { PageBanner } from "@/components/layout/PageBanner";
 
 export const metadata: Metadata = {
   title: "Blog | Eat Rrite",

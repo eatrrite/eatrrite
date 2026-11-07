@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { redirect } from "next/navigation";
-import { SplitTitle } from "@/components/motion/split-title";
-import { PackageGrid } from "@/components/programs/package-grid";
-import { ButtonLink } from "@/components/site/button-link";
-import { PageBanner } from "@/components/site/page-banner";
-import { SectionHeading, SectionPill } from "@/components/site/section-heading";
-import inner from "@/lib/data/inner.json";
-import programs from "@/lib/data/programs.json";
+import { SplitTitle } from "@/components/motion/SplitTitle";
+import { PackageGrid } from "@/components/shared/PackageGrid";
+import { ButtonLink } from "@/components/shared/ButtonLink";
+import { PageBanner } from "@/components/layout/PageBanner";
+import { SectionHeading, SectionPill } from "@/components/shared/SectionHeading";
+import content from "@/constants/programs/content.json";
+import programs from "@/constants/programs/programs.json";
 
 // All four slugs are prerendered by generateStaticParams, so no loading state is needed.
 export const instant = false;
@@ -40,7 +40,7 @@ const split = "er-container grid grid-cols-[1.05fr_0.95fr] items-center gap-12 e
 export default async function ProgramPage({ params }: Props) {
   const program = find((await params).slug);
   if (!program) redirect("/programs");
-  const copy = inner.program;
+  const copy = content.detail;
   return (
     <>
       <PageBanner title={program.short} crumb="Program" />

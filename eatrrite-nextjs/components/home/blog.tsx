@@ -1,12 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import { Reveal } from "@/components/motion/reveal";
-import { SplitTitle } from "@/components/motion/split-title";
-import { Icon } from "@/components/site/icon";
-import { SectionPill } from "@/components/site/section-heading";
+import { Reveal } from "@/components/motion/Reveal";
+import { SplitTitle } from "@/components/motion/SplitTitle";
+import { Icon } from "@/components/shared/Icon";
+import { SectionPill } from "@/components/shared/SectionHeading";
 import { Card } from "@/components/ui/card";
-import home from "@/lib/data/home.json";
+import home from "@/constants/home/content.json";
 
 // Copies .blog-section, .blog-heading and .blog-card from style.css and match.css.
 export function Blog() {
@@ -28,9 +28,9 @@ export function Blog() {
             <Reveal key={post.title} preset="card" className="group/blog h-full">
               <Card
                 lift={false}
-                className="block h-full overflow-hidden rounded-xl bg-mint p-[18px] shadow-none transition-[transform,translate,scale,rotate,box-shadow,border-color] duration-[350ms] ease-[ease] group-hover/blog:-translate-y-2 group-hover/blog:border-border-hover group-hover/blog:shadow-lift"
+                className="block h-full overflow-hidden rounded-xl bg-mint p-4 shadow-none transition-[transform,translate,scale,rotate,box-shadow,border-color] duration-[350ms] ease-[ease] group-hover/blog:-translate-y-2 group-hover/blog:border-border-hover group-hover/blog:shadow-lift"
               >
-                <div className="relative mb-[18px] overflow-hidden rounded-md">
+                <div className="relative mb-4 overflow-hidden rounded-md">
                   <Image
                     src={post.image}
                     alt={post.title}
@@ -39,13 +39,13 @@ export function Blog() {
                     sizes="(max-width: 640px) 100vw, (max-width: 980px) 50vw, 400px"
                     className="aspect-[4/3] w-full object-cover transition-transform duration-500 ease-[ease] group-hover/blog:scale-106"
                   />
-                  <span className="absolute top-3.5 left-3.5 grid h-11 min-w-11 place-items-center rounded-[10px] bg-primary px-2.5 text-base font-bold text-white">
+                  <span className="absolute top-4 left-4 grid h-11 min-w-11 place-items-center rounded-[10px] bg-primary px-2.5 text-base font-bold text-white">
                     {post.date}
                   </span>
                 </div>
                 <div className="px-2 pt-1 pb-2.5">
                   <h3 className="mb-3 text-[22px] leading-[1.3] text-primary">{post.title}</h3>
-                  <p className="mb-[18px] text-[15px] text-text">{post.text}</p>
+                  <p className="mb-4 text-[15px] text-text">{post.text}</p>
                   <Link
                     href="/blog"
                     className="inline-flex items-center gap-2.5 font-semibold text-ink transition-colors duration-300 ease-[ease] group-hover/blog:text-primary"

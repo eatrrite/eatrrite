@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Reveal } from "@/components/motion/reveal";
-import { SplitTitle } from "@/components/motion/split-title";
-import { ButtonLink } from "@/components/site/button-link";
-import { SectionPill } from "@/components/site/section-heading";
-import home from "@/lib/data/home.json";
+import { Reveal } from "@/components/motion/Reveal";
+import { SplitTitle } from "@/components/motion/SplitTitle";
+import { ButtonLink } from "@/components/shared/ButtonLink";
+import { SectionPill } from "@/components/shared/SectionHeading";
+import home from "@/constants/home/content.json";
 
 type Stat = { value: string; label: string; href?: string };
 
@@ -49,7 +49,7 @@ export function About() {
           <Reveal preset="copy">
             <p>{about.text}</p>
           </Reveal>
-          <blockquote className="my-6 rounded-r-sm border-l-4 border-accent bg-mint px-[22px] py-5 font-heading text-lg text-primary italic">
+          <blockquote className="my-6 rounded-r-sm border-l-4 border-accent bg-mint px-6 py-5 font-heading text-lg text-primary italic">
             “{about.quote}”
             <cite className="mt-2.5 block font-sans text-sm text-text not-italic">{about.cite}</cite>
           </blockquote>

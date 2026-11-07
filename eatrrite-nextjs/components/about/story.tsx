@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { SectionPill } from "@/components/site/section-heading";
-import about from "@/lib/data/about.json";
+import { SectionPill } from "@/components/shared/SectionHeading";
+import about from "@/constants/about/content.json";
 
 // Copies .about-story from pages.css.
 export function AboutStory() {

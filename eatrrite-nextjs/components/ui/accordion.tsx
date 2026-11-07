@@ -1,7 +1,7 @@
 import { Accordion as AccordionPrimitive } from "@base-ui/react/accordion"
 import { cn } from "cn"
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons"
-import { Icon } from "@/components/site/icon"
+import { Icon } from "@/components/shared/Icon"
 
 // Copies .faq-item, .faq-question, .faq-chevron and .faq-answer from the PHP
 // style.css, including the gold open state.
@@ -9,7 +9,7 @@ function Accordion({ className, ...props }: AccordionPrimitive.Root.Props) {
   return (
     <AccordionPrimitive.Root
       data-slot="accordion"
-      className={cn("flex w-full flex-col gap-3.5", className)}
+      className={cn("flex w-full flex-col gap-4", className)}
       {...props}
     />
   )
@@ -38,7 +38,7 @@ function AccordionTrigger({
       <AccordionPrimitive.Trigger
         data-slot="accordion-trigger"
         className={cn(
-          "type-faq flex flex-1 cursor-pointer leading-[normal] items-center justify-between gap-4 bg-transparent px-[22px] py-5 text-left text-ink outline-none focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:ring-inset aria-disabled:pointer-events-none aria-disabled:opacity-50",
+          "type-faq flex flex-1 cursor-pointer leading-[normal] items-center justify-between gap-4 bg-transparent px-6 py-5 text-left text-ink outline-none focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:ring-inset aria-disabled:pointer-events-none aria-disabled:opacity-50",
           className
         )}
         {...props}
@@ -68,7 +68,7 @@ function AccordionContent({
     >
       <div
         className={cn(
-          "px-[22px] pb-5 text-[15px] leading-[1.7] text-text group-data-open/faq:text-ink",
+          "px-6 pb-5 text-[15px] leading-[1.7] text-text group-data-open/faq:text-ink",
           className
         )}
       >

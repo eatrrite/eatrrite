@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { Reveal } from "@/components/motion/reveal";
-import { ButtonLink } from "@/components/site/button-link";
-import { PageBanner } from "@/components/site/page-banner";
-import { SectionPill } from "@/components/site/section-heading";
-import { buttonVariants } from "@/components/ui/button";
+import { Reveal } from "@/components/motion/Reveal";
+import { ButtonLink } from "@/components/shared/ButtonLink";
+import { PageBanner } from "@/components/layout/PageBanner";
+import { SectionPill } from "@/components/shared/SectionHeading";
+import { pillVariants } from "@/components/shared/PillButton";
 import { Card } from "@/components/ui/card";
-import inner from "@/lib/data/inner.json";
-import programs from "@/lib/data/programs.json";
-import { site } from "@/lib/data/site";
+import copy from "@/constants/contact/content.json";
+import programs from "@/constants/programs/programs.json";
+import { BRAND } from "@/constants/brand";
 
 export const metadata: Metadata = {
   title: "Contact Eat Rrite",
@@ -16,7 +16,6 @@ export const metadata: Metadata = {
 
 // Copies contact.php and .contact-grid.
 export default function ContactPage() {
-  const copy = inner.contact;
   return (
     <>
       <PageBanner title="Contact Us" />
@@ -30,24 +29,24 @@ export default function ContactPage() {
               <p>
                 <strong>Phone / WhatsApp</strong>
                 <br />
-                <a href={site.phoneHref}>{site.phone}</a>
+                <a href={BRAND.phoneHref}>{BRAND.phone}</a>
               </p>
               <p>
                 <strong>Email</strong>
                 <br />
-                <a href={site.emailHref}>{site.email}</a>
+                <a href={BRAND.emailHref}>{BRAND.email}</a>
               </p>
               <p>
                 <strong>Based in</strong>
                 <br />
-                {site.address1} &amp; {site.address2}
+                {BRAND.address1} &amp; {BRAND.address2}
                 <br />
-                <span className="text-sm text-muted-foreground">{site.locationsNote}</span>
+                <span className="text-sm text-muted-foreground">{BRAND.locationsNote}</span>
               </p>
               <p>
                 <strong>Hours</strong>
                 <br />
-                {site.hours}
+                {BRAND.hours}
               </p>
             </Card>
           </Reveal>
@@ -59,7 +58,7 @@ export default function ContactPage() {
                 <ButtonLink variant="accent" href="/appointment">Get Consultation</ButtonLink>
                 <a
                   className={buttonClass}
-                  href={site.whatsapp}
+                  href={BRAND.whatsapp}
                   target="_blank"
                   rel="noopener"
                 >
@@ -79,4 +78,4 @@ export default function ContactPage() {
   );
 }
 
-const buttonClass = buttonVariants();
+const buttonClass = pillVariants();

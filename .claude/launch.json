@@ -4,8 +4,28 @@
     {
       "name": "eatrrite-nextjs",
       "runtimeExecutable": "bun",
-      "runtimeArgs": ["run", "--cwd", "eatrrite-nextjs", "dev", "--port", "3100"],
+      "runtimeArgs": [
+        "run",
+        "--cwd",
+        "eatrrite-nextjs",
+        "dev",
+        "--port",
+        "3100"
+      ],
       "port": 3100
+    },
+    {
+      "name": "deccan-dentics",
+      "runtimeExecutable": "bun",
+      "runtimeArgs": [
+        "run",
+        "--cwd",
+        "/Users/farhan/my-work/my-sideworks/deccan-dentics",
+        "dev",
+        "--port",
+        "3300"
+      ],
+      "port": 3300
     }
   ]
 }

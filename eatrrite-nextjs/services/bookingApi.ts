@@ -1,0 +1,41 @@
+import { API } from "@/constants/api";
+import type { CheckoutOrder } from "@/hooks/useRazorpayCheckout";
+import type { BookingInput, QuestionnaireAnswers } from "@/types/appointment";
+import type { RazorpaySuccess } from "@/types/razorpay";
+
+type ApiResult<T> = ({ ok: true } & T) | { ok: false; error: string };
+
+// One POST helper for the browser. Network errors become a readable message.
+async function post<T>(url: string, body: unknown): Promise<ApiResult<T>> {
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    return await response.json();
+  } catch {
+    return { ok: false, error: "Network error. Please check your connection and try again." };
+  }
+}
+
+export const startBooking = (input: BookingInput) =>
+  post<CheckoutOrder & { appointmentId: string }>(API.appointments, input);
+
+export const verifyPayment = (payment: RazorpaySuccess) =>
+  post<{ appointmentId: string }>(API.verifyPayment, payment);
+
+export const submitQuestionnaire = (id: string, answers: QuestionnaireAnswers) =>
+  post<{ saved: boolean }>(API.questionnaire(id), { answers });
+
+export const requestMeetLink = (id: string) =>
+  post<{ meetLink?: string; status?: string }>(API.meet(id), {});
+
+export async function fetchSlotTimes(date: string): Promise<string[] | null> {
+  try {
+    const data = await (await fetch(`${API.slots}?date=${date}`)).json();
+    return data.ok ? data.times : null;
+  } catch {
+    return null;
+  }
+}

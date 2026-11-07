@@ -2,6 +2,7 @@
 includes/secrets.php
 includes/db.local.php
 .env*
+!.env.example
 
 # Booking data
 appointment-form/storage/*.json

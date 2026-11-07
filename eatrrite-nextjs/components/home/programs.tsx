@@ -1,8 +1,8 @@
-import { ProgramCard } from "@/components/programs/program-card";
-import { ButtonLink } from "@/components/site/button-link";
-import { SectionHeading } from "@/components/site/section-heading";
-import home from "@/lib/data/home.json";
-import programs from "@/lib/data/programs.json";
+import { ProgramCard } from "@/components/shared/ProgramCard";
+import { ButtonLink } from "@/components/shared/ButtonLink";
+import { SectionHeading } from "@/components/shared/SectionHeading";
+import home from "@/constants/home/content.json";
+import programs from "@/constants/programs/programs.json";
 
 // Copies .programs-grid--four and .card.program-card from style.css and match.css.
 export function Programs() {
@@ -16,7 +16,7 @@ export function Programs() {
             <ProgramCard key={p.slug} program={p} linkLabel="Learn More" />
           ))}
         </div>
-        <div className="mt-9 flex flex-wrap justify-center gap-3.5">
+        <div className="mt-9 flex flex-wrap justify-center gap-4">
           <ButtonLink href={block.cta.href}>{block.cta.label}</ButtonLink>
         </div>
       </div>

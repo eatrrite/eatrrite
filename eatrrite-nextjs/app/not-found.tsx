@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { ButtonLink } from "@/components/site/button-link";
-import { FloatActions } from "@/components/site/float-actions";
-import { SiteFooter } from "@/components/site/site-footer";
-import { SiteHeader } from "@/components/site/site-header";
-import { TopBar } from "@/components/site/top-bar";
+import { ButtonLink } from "@/components/shared/ButtonLink";
+import { FloatActions } from "@/components/layout/FloatActions";
+import { SiteFooter } from "@/components/layout/SiteFooter";
+import { SiteHeader } from "@/components/layout/SiteHeader";
+import { TopBar } from "@/components/layout/TopBar";
 
 export const metadata: Metadata = {
   title: "Page not found | Eat Rrite",

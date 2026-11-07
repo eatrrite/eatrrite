@@ -12,7 +12,7 @@ The new project lives in `eatrrite-nextjs/`. The PHP site stays in the project r
 | 2. Home page | Header, footer and the home page, matching the PHP home page exactly | Side-by-side check passes |
 | 3. Other pages | About, Programs, Pricing, Blog, Contact, Book Appointment and the program detail pages | Side-by-side check passes on every page |
 | 4. Payments and booking | Razorpay ₹800 payment, slots, confirmed appointments, questionnaire, Google Meet and emails | Test booking works from start to finish |
-| 5. Admin panel | Admin login, appointments calendar, hide and show slots, cancel booking | Admin can do everything the PHP admin can |
+| 5. Admin panel | Admin UI copied from the Deccan Dentics admin, then connected to Neon | Farhan approves the admin UI, then the live data |
 
 Each phase waits for approval before the next one starts. Phases 1 to 3 are front end only, with no backend, database or payment logic.
 
@@ -45,6 +45,9 @@ Each phase waits for approval before the next one starts. Phases 1 to 3 are fron
 | Animation | Framer Motion, replacing the PHP site's GSAP |
 | Fonts | Lora and Bricolage Grotesque, self-hosted through `next/font` |
 | Package manager | Bun |
+| Database | Neon Postgres, through `@neondatabase/serverless` |
+| Auth | Neon Auth (users in `neon_auth.user`), linked to `profiles` |
+| Payments | Razorpay Standard Checkout, test mode for now |
 
 ## Design Tokens
 
@@ -110,6 +113,34 @@ Program detail pages are not in the navigation, but the footer and Programs page
 
 Phase 4 adds `/appointment-confirmed` and `/appointment-thank-you`.
 
+## Database
+
+Run `db/migrations/001_initial.sql` in the Neon SQL Editor, after turning on Neon Auth.
+
+| Table | Purpose | Key columns |
+| --- | --- | --- |
+| `neon_auth.user` | Signed-in users, managed by Neon Auth | `id` |
+| `profiles` | One per user, for roles | `user_id` → `neon_auth.user(id)`, `email`, `phone`, `role` (`admin` or `customer`) |
+| `appointments` | One per booking | contact details, `service`, `slot_start`, `status`, Razorpay order and payment ids, `questionnaire` (JSON), `meet_link` |
+
+- Guests book without an account, as on the PHP site. So `appointments` keeps its own contact details and has no link to `profiles`.
+- The PHP `holds` table is not needed. A `pending` appointment holds its slot for 15 minutes.
+- The PHP `questionnaire_answers` table becomes one `questionnaire` JSON column.
+- Phase 5 adds `disabled_slots` for the admin's hide and show, and a `patients` table (name, phone, email, age, profession, status) that `appointments` link to, because the admin has a Patients page.
+- Statuses follow the PHP flow: `pending` → `confirmed` → `finalizing` → `completed`, or `failed` if the Meet link fails, or `cancelled`.
+
+## Environment
+
+`eatrrite-nextjs/.env.local`, never committed. `.env.example` lists the names.
+
+| Name | Value |
+| --- | --- |
+| `DATABASE_URL` | Neon connection string |
+| `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET` | Razorpay test keys, from the PHP site |
+| `RAZORPAY_WEBHOOK_SECRET` | Set when the webhook is added in the Razorpay dashboard |
+| `APPOINTMENT_FEE_RUPEES` | `800` |
+| `APPS_SCRIPT_URL`, `APPS_SCRIPT_SECRET` | The Apps Script that creates Meet links, same as PHP |
+
 ## What Phases 4 and 5 Must Replace
 
 | PHP code | What it does |
@@ -129,7 +160,6 @@ The booking order must not change: payment, confirmed appointment, questionnaire
 | # | Question | Needed by | Current plan |
 | --- | --- | --- | --- |
 | 3 | Are `cohort.php` and `snackbar.php` part of the rebuild? They are not in the navigation you listed. | Phase 3 | Leave both out. `snackbar.php` also conflicts with the client's rule against mentioning the product line, so ask Mukta about it. |
-| 4 | Booking fields and the pay button show in the browser's default font (Arial) on the live site, because the PHP CSS never sets a font on them. Keep this or use Bricolage Grotesque? | Phase 3 | Keep Arial to match the live site, unless Farhan decides otherwise. |
 | 5 | Where will Next.js run? It needs Node.js hosting, and the PHP site is on Hostinger. | Phase 4 | Check the Hostinger plan before Phase 4 starts. |
 | 6 | Keep the existing Hostinger MySQL database and its data? | Phase 4 | Keep it, so existing appointments carry over. |
 
@@ -140,6 +170,11 @@ The booking order must not change: payment, confirmed appointment, questionnaire
 | Icons | Font Awesome 6.5.2 on the site, the version the PHP site loads, drawn as inline SVG by `components/site/icon.tsx`. Lucide stays inside shadcn components. |
 | Hover lift | Deliberate change from PHP, asked for by Farhan: lifting cards use a 350 ms `ease` transition, and hover sits on a wrapper that does not move, so a card cannot rise off the pointer and flicker. |
 | Layout below 375 px | The site must work down to 310 px. The top bar and call to action have small additions for this, below the widths the PHP site was built for. |
+| Spacing and fields | From Phase 4, spacing follows the 4px Tailwind scale and all form fields share one 48px style in the site font. This replaces the copied PHP values (including Arial on the booking form). |
+| Admin design | The admin copies the Deccan Dentics admin (not the PHP admin), in Eat Rrite colours and fonts, including Patients. Appointments link to a patient, as in Deccan. Its theme applies only when the admin shell is on the page (`:root:has(.admin-shell)` in `globals.css`). |
+| Buttons | The shadcn `Button` uses the Deccan variants (default, outline, secondary, ghost, destructive, link). Public pages use `PillButton`, which keeps the PHP pill style. |
+| Admin password | `eatrrite@1234`, checked in the browser for the UI preview only. Anyone can read it in the page code. It is replaced by Neon Auth before launch. |
+| Emails | Moved to Phase 5. The confirmation page no longer says an email is on its way. |
 | Heading tags | "Reserve your slot" is an H2, as the brief asks. PHP has it as a second H1. It looks the same. |
 | Brief's wording corrections | Copy the site as it stands during the rebuild, then apply the brief in one pass. List of corrections: `php-site-tasks.md`. Applying them later means the home page still shows the blog placeholders, testimonials and the 4.8★ rating as they are on the live site. |
 

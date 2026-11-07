@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { easePower3Out, revealPresets, type RevealPreset } from "@/lib/motion";
+import { easePower3Out, revealPresets, type RevealPreset } from "@/constants/motion";
 
 // Framer Motion version of revealOnEnter() from the PHP main.js.
 // It animates this wrapper, so hover transforms on the child keep working.

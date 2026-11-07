@@ -24,16 +24,6 @@ function Card({
   return lift ? <div className="group/card h-full">{card}</div> : card
 }
 
-function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="card-header"
-      className={cn("grid auto-rows-min items-start gap-3", className)}
-      {...props}
-    />
-  )
-}
-
 function CardTitle({ className, ...props }: React.ComponentProps<"h3">) {
   return (
     <h3
@@ -54,36 +44,4 @@ function CardDescription({ className, ...props }: React.ComponentProps<"p">) {
   )
 }
 
-function CardAction({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="card-action"
-      className={cn("self-start justify-self-end", className)}
-      {...props}
-    />
-  )
-}
-
-function CardContent({ className, ...props }: React.ComponentProps<"div">) {
-  return <div data-slot="card-content" className={className} {...props} />
-}
-
-function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="card-footer"
-      className={cn("mt-auto flex items-center", className)}
-      {...props}
-    />
-  )
-}
-
-export {
-  Card,
-  CardHeader,
-  CardFooter,
-  CardTitle,
-  CardAction,
-  CardDescription,
-  CardContent,
-}
+export { Card, CardTitle, CardDescription }

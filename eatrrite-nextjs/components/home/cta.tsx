@@ -1,8 +1,8 @@
-import { Reveal } from "@/components/motion/reveal";
-import { SplitTitle } from "@/components/motion/split-title";
-import { ButtonLink } from "@/components/site/button-link";
+import { Reveal } from "@/components/motion/Reveal";
+import { SplitTitle } from "@/components/motion/SplitTitle";
+import { ButtonLink } from "@/components/shared/ButtonLink";
 import { Badge, BadgeDot } from "@/components/ui/badge";
-import home from "@/lib/data/home.json";
+import home from "@/constants/home/content.json";
 
 // Copies .cta-section and .cta-box from style.css.
 export function Cta() {
@@ -14,7 +14,7 @@ export function Cta() {
           <div className="relative flex items-center justify-between gap-10 overflow-hidden rounded-2xl border border-accent/25 bg-[linear-gradient(135deg,var(--er-color-primary)_0%,var(--er-color-cta-mid)_55%,var(--er-color-primary)_100%)] px-20 py-16 text-white shadow-cta before:absolute before:-right-[100px] before:-bottom-[100px] before:z-1 before:size-[300px] before:rounded-full before:bg-accent/12 er-md:flex-col er-md:px-8 er-md:py-12 er-md:text-center max-[360px]:px-5">
             <div className="pointer-events-none absolute -top-[60px] -left-[60px] size-[200px] rounded-full bg-accent-green/12" />
             <div>
-              <Badge variant="on-dark" className="mb-[18px]">
+              <Badge variant="on-dark" className="mb-4">
                 <BadgeDot />
                 {cta.pill}
               </Badge>

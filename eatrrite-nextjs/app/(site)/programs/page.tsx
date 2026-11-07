@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { ProgramCard } from "@/components/programs/program-card";
-import { PageBanner } from "@/components/site/page-banner";
-import { SectionHeading } from "@/components/site/section-heading";
-import inner from "@/lib/data/inner.json";
-import programs from "@/lib/data/programs.json";
+import { ProgramCard } from "@/components/shared/ProgramCard";
+import { PageBanner } from "@/components/layout/PageBanner";
+import { SectionHeading } from "@/components/shared/SectionHeading";
+import content from "@/constants/programs/content.json";
+import programs from "@/constants/programs/programs.json";
 
 export const metadata: Metadata = {
   title: "Nutrition Programs",
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 export default function ProgramsPage() {
-  const copy = inner.programs;
+  const copy = content.list;
   return (
     <>
       <PageBanner title="Programs" />

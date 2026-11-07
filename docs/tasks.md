@@ -112,61 +112,92 @@ Known preview limits, removed in Phase 4:
 
 **Goal:** The booking flow works exactly as it does on PHP. Do not change the order of steps.
 
+Clean-up from Phases 1 to 3:
+
+- [x] Folders by page: `components/<page>`, `constants/<page>`. Component files in PascalCase.
+- [x] Remove unused code: foundation page, unused shadcn parts, `lib/`
+- [x] Brand manifest in `constants/brand.ts`, used by the header, footer, SEO metadata and `app/manifest.ts`
+- [x] Spacing on the 4px Tailwind scale. Form fields 48px high with one shared style.
+- [x] Short `docs/RULES.md`
+
 Setup:
 
+- [x] `.env.local` with Razorpay test keys, fee and Apps Script values from the PHP site
+- [x] `DATABASE_URL` placeholder in `.env.local`
+- [x] Migration `db/migrations/001_initial.sql`: `profiles`, `appointments`, `set_updated_at` trigger
+- [ ] Turn on Neon Auth, paste `DATABASE_URL`, run the migration
 - [ ] Choose hosting and confirm it runs Next.js (open decision 5)
-- [ ] Decide on the database and connect to MySQL (open decision 6)
-- [ ] Set up environment variables for Razorpay, Apps Script, SMTP and the cron secret, with test keys first
-- [ ] Back up the live database
 
 Slots:
 
-- [ ] Port slot hours, slot grid and slot rules
-- [ ] Port slot holds and 45-minute blocking
-- [ ] Respect slots hidden by the admin
-- [ ] Connect the slot picker to live data
+- [x] Weekly hours, 15-minute steps, 45-minute blocking, 30-day window (`utils/slots.ts`)
+- [x] A pending booking holds its slot for 15 minutes
+- [x] Slot picker loads open times from `/api/slots`
+- [ ] Respect slots hidden by the admin (needs the Phase 5 admin)
 
-Payment:
+Payment (Razorpay Standard Checkout):
 
-- [ ] Create a Razorpay order for ₹800
-- [ ] Verify the payment signature on the server
-- [ ] Save the confirmed appointment and email the customer the questionnaire link
-- [ ] Protect form requests against CSRF
+- [x] Create the order on the server, with the fee from the server
+- [x] Checkout closes before the hold ends, so a payment cannot land on an expired hold
+- [x] Handle cancel, payment failure, script load failure and double clicks
+- [x] Verify the payment signature on the server, then confirm the booking
+- [x] Webhook `/api/payments/webhook` for `payment.captured`, in case the browser closes after paying
+- [ ] Add the webhook URL and secret in the Razorpay dashboard once the site has a public URL
 
 After payment:
 
-- [ ] `/appointment-confirmed` with appointment details and the questionnaire
-- [ ] Validate and save questionnaire answers against `appointment_id`
-- [ ] Generate the Meet link through the existing Apps Script and save it on the appointment
-- [ ] Show the Meet link, including the loading and error states
-- [ ] Email the customer the Meet link and email the admin the booking
-- [ ] Questionnaire reminder job at 1, 3, 6, 12, 24, 30 and 36 hours, stopping once the form is submitted
-- [ ] `/appointment-thank-you`
+- [x] `/appointment-confirmed` with booking details and the questionnaire
+- [x] Validate and save questionnaire answers on the appointment
+- [x] Create the Meet link through the existing Apps Script and save it
+- [x] Show the Meet link, with loading and error states
+- [ ] `/appointment-thank-you` (PHP page has no content beyond a redirect; confirm it is still needed)
 
 Checks:
 
-- [ ] Run a full booking in Razorpay test mode
-- [ ] Test a failed payment, an expired hold and a Meet failure
-- [ ] Two people cannot book the same slot
-- [ ] No health or personal data appears in URLs or tracking events
-- [ ] Questionnaire answers are stored securely
+- [x] Razorpay test keys create an order
+- [x] Server checks: bad input, bad signature, dates outside the window
+- [ ] Full booking in Razorpay test mode (needs the database)
+- [ ] Meet link creation end to end (needs the database; creates a real calendar event)
+- [ ] Test a failed payment, a cancelled checkout and a Meet failure
 - [ ] **Farhan approves the booking flow**
 
 ## Phase 5: Admin Panel
 
-**Goal:** Everything the PHP admin does, on Next.js.
+**Goal:** An admin panel that copies the Deccan Dentics admin UI, including Patients, in Eat Rrite colours and fonts.
 
-- [ ] Admin login, logout and session, with the password kept on the server
-- [ ] Protect every admin page and admin API route
-- [ ] Admin layout matching `admin/layout-start.php`
-- [ ] Appointments calendar: toolbar and month grid
-- [ ] Day slot list with 45-minute booked blocks
-- [ ] Hide and show slots
-- [ ] Appointment detail drawer, including questionnaire answers
-- [ ] Cancel booking, with the existing confirmation step
-- [ ] Decide on the cohort and snackbar admin lists (depends on open decision 3)
-- [ ] Compare side by side with the PHP admin
+Admin UI (front end, sample data):
+
+- [x] Port the Deccan admin shell: sidebar, collapse, header, breadcrumbs, search, user menu, mobile sheet
+- [x] Password dialog on entry (`eatrrite@1234`, front end only for now)
+- [x] Dashboard: stats, appointments chart, filters, today's to-do list with add and delete, today's appointments, recent patients
+- [x] Patients: table, age and status filters, details card, add, edit, delete
+- [x] Appointments: table, filters, details card, add, edit, delete, confirm and toasts
+- [x] Calendar: month, week and day views, day details, add and edit from the calendar
+- [x] Schedule: weekly hours with multiple time slots, set to the current consultation hours
+- [x] Account and Settings pages
+- [x] Deccan button styles for every shadcn Button variant, in Eat Rrite colours
+- [x] Admin theme scoped to admin pages, so the public site keeps its approved look
+- [x] Replace dental sample data and wording with consultation data
+- [ ] Replace the Deccan sidebar illustration (it shows a tooth icon) with an Eat Rrite one
+
+Connect to Neon (next step):
+
+- [ ] Admin sign-in with Neon Auth; access by `profiles.role = admin`. Remove the front-end password.
+- [ ] Migration for a `patients` table, and link `appointments` to it with `patient_id`
+- [ ] Create or match a patient from each public booking (by phone)
+- [ ] Read and update real patients and appointments instead of sample data
+- [ ] Migration for a `disabled_slots` table and hide or show slots
+- [ ] Save the weekly schedule and use it for public booking slots
+- [ ] Save to-dos and settings (tables to be decided)
 - [ ] Test that logged-out visitors cannot reach any admin page or API
+
+Emails (moved from Phase 4):
+
+- [ ] Customer email with the questionnaire link after payment
+- [ ] Customer email with the Meet link, and the admin booking email
+- [ ] Questionnaire reminders at 1, 3, 6, 12, 24, 30 and 36 hours, stopping once the form is submitted
+- [ ] Confirmation page wording about emails, once emails are sent
+
 - [ ] **Farhan approves the admin panel**
 
 ## Launch
