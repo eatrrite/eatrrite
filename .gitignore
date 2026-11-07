@@ -1,0 +1,12 @@
+# Secrets and server config. Never commit these.
+includes/secrets.php
+includes/db.local.php
+.env*
+
+# Booking data
+appointment-form/storage/*.json
+
+# Build output and OS files
+node_modules/
+.next/
+.DS_Store

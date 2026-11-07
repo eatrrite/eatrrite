@@ -1,0 +1,26 @@
+[
+    {
+        "slug": "weight-lifestyle-management",
+        "short": "Complete Weight & Lifestyle Management",
+        "image": "/images/services/weight.jpg",
+        "summary": "Lose weight without giving up the food you grew up eating — dal-chawal, idli-dosa-sambar and paratha-sabzi included."
+    },
+    {
+        "slug": "diabetes-management",
+        "short": "Diabetes Management & Reversal",
+        "image": "/images/services/diabetes.jpg",
+        "summary": "Manage and work toward reversing diabetes or high blood sugar with food you already eat — alongside your doctor."
+    },
+    {
+        "slug": "gut-health",
+        "short": "Gut Health",
+        "image": "/images/services/gut.jpg",
+        "summary": "Relief from acidity, bloating, constipation and GERD — using your regular Indian meals."
+    },
+    {
+        "slug": "female-hormone-health",
+        "short": "Female Hormone Health",
+        "image": "/images/services/hormone.jpg",
+        "summary": "Nutrition for perimenopause/PMOS, Menopause and Postpartum Recovery."
+    }
+]

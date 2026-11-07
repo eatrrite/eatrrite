@@ -1,0 +1,299 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Same breakpoints as the PHP style.css media queries */
+@custom-variant er-lg (@media (max-width: 1100px));
+@custom-variant er-md (@media (max-width: 980px));
+@custom-variant er-sm (@media (max-width: 640px));
+@custom-variant er-xs (@media (max-width: 520px));
+
+/*
+ * Eat Rrite design tokens.
+ * Source of truth: assets/css/style.css :root in the PHP site.
+ * The --er-* block mirrors the PHP variables 1:1 (--color-primary => --er-color-primary).
+ * shadcn tokens below only point at these values. Change a colour here, nowhere else.
+ * The PHP site has no dark mode, so no .dark theme is defined.
+ */
+:root {
+  /* PHP :root, unchanged values */
+  --er-color-primary: #014e4e;
+  --er-color-primary-dark: #003636;
+  --er-color-accent: #e5b858;
+  --er-color-accent-green: #52c834;
+  --er-color-cream: #f8f5f0;
+  --er-color-mint: #f1f7f4;
+  --er-color-white: #ffffff;
+  --er-color-ink: #1c2029;
+  --er-color-text: #595b62;
+  --er-color-muted: #819291;
+  --er-color-footer: #111416;
+  --er-color-border: rgba(1, 78, 78, 0.12);
+  --er-color-border-hover: rgba(229, 184, 88, 0.45);
+  --er-radius: 24px;
+  --er-radius-sm: 16px;
+  --er-shadow: 0 18px 50px rgba(1, 78, 78, 0.06);
+  --er-container: 1200px;
+
+  /* Hard-coded in PHP rules, named here so they stay in one place */
+  --er-color-accent-hover: #f0c96a;
+  --er-color-pill: #eceeed;
+  --er-color-chevron: #eef3f1;
+  --er-color-soft: #e8f3ef;
+  --er-color-footer-text: #c9d0ce;
+  --er-color-alert-bg: #fdecee;
+  --er-color-alert-text: #842029;
+  --er-color-whatsapp: #25d366;
+  --er-color-input-border: rgba(1, 78, 78, 0.08);
+  --er-color-cta-mid: #026363;
+  --er-ease: cubic-bezier(0.25, 1, 0.5, 1);
+
+  /* shadcn semantic tokens */
+  --background: var(--er-color-white);
+  --foreground: var(--er-color-text);
+  --card: var(--er-color-white);
+  --card-foreground: var(--er-color-text);
+  --popover: var(--er-color-white);
+  --popover-foreground: var(--er-color-ink);
+  --primary: var(--er-color-primary);
+  --primary-foreground: var(--er-color-white);
+  --secondary: var(--er-color-mint);
+  --secondary-foreground: var(--er-color-primary);
+  --muted: var(--er-color-pill);
+  --muted-foreground: var(--er-color-muted);
+  --accent: var(--er-color-accent);
+  --accent-foreground: var(--er-color-ink);
+  --destructive: var(--er-color-alert-text);
+  --border: var(--er-color-border);
+  --input: var(--er-color-input-border);
+  --ring: var(--er-color-primary);
+  --radius: var(--er-radius);
+
+  --chart-1: var(--er-color-primary);
+  --chart-2: var(--er-color-accent);
+  --chart-3: var(--er-color-accent-green);
+  --chart-4: var(--er-color-muted);
+  --chart-5: var(--er-color-primary-dark);
+
+  --sidebar: var(--er-color-mint);
+  --sidebar-foreground: var(--er-color-ink);
+  --sidebar-primary: var(--er-color-primary);
+  --sidebar-primary-foreground: var(--er-color-white);
+  --sidebar-accent: var(--er-color-accent);
+  --sidebar-accent-foreground: var(--er-color-ink);
+  --sidebar-border: var(--er-color-border);
+  --sidebar-ring: var(--er-color-primary);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Eat Rrite colours as Tailwind utilities: bg-cream, text-ink, ... */
+  --color-primary-dark: var(--er-color-primary-dark);
+  --color-accent-hover: var(--er-color-accent-hover);
+  --color-accent-green: var(--er-color-accent-green);
+  --color-cream: var(--er-color-cream);
+  --color-mint: var(--er-color-mint);
+  --color-soft: var(--er-color-soft);
+  --color-ink: var(--er-color-ink);
+  --color-text: var(--er-color-text);
+  --color-footer: var(--er-color-footer);
+  --color-footer-text: var(--er-color-footer-text);
+  --color-pill: var(--er-color-pill);
+  --color-chevron: var(--er-color-chevron);
+  --color-border-hover: var(--er-color-border-hover);
+  --color-whatsapp: var(--er-color-whatsapp);
+  --color-alert-bg: var(--er-color-alert-bg);
+  --color-alert-text: var(--er-color-alert-text);
+
+  /* PHP sets line-height 1.7 on body and sizes inherit it. Tailwind's per-size
+     line heights would make text shorter than the live site. */
+  --text-xs--line-height: 1.7;
+  --text-sm--line-height: 1.7;
+  --text-base--line-height: 1.7;
+  --text-lg--line-height: 1.7;
+  --text-xl--line-height: 1.7;
+
+  --font-sans: var(--font-bricolage), sans-serif;
+  --font-heading: var(--font-lora), serif;
+
+  /* Fixed px scale taken from PHP border-radius values, not shadcn's calc() scale */
+  --radius-2xs: 8px;
+  --radius-xs: 12px;
+  --radius-sm: var(--er-radius-sm); /* 16px */
+  --radius-md: 20px;
+  --radius-lg: var(--er-radius); /* 24px */
+  --radius-xl: 28px;
+  --radius-2xl: 36px;
+
+  --shadow-card: var(--er-shadow);
+  --shadow-card-hover: 0 30px 60px rgba(1, 78, 78, 0.12);
+  --shadow-btn-primary: 0 10px 25px rgba(1, 78, 78, 0.2);
+  --shadow-btn-light: 0 10px 25px rgba(0, 0, 0, 0.08);
+  --shadow-btn-accent: 0 10px 25px rgba(229, 184, 88, 0.35);
+  --shadow-faq-open: 0 18px 40px rgba(229, 184, 88, 0.28);
+  --shadow-svc-hover: 0 28px 60px rgba(1, 78, 78, 0.18);
+  --shadow-feature-hover: 0 28px 60px rgba(1, 78, 78, 0.12);
+  --shadow-lift: 0 24px 50px rgba(1, 78, 78, 0.12);
+  --shadow-cta: 0 25px 60px rgba(1, 78, 78, 0.25);
+  --shadow-float: 0 12px 28px rgba(1, 78, 78, 0.18);
+  --shadow-float-hover: 0 16px 34px rgba(1, 78, 78, 0.22);
+  --shadow-nav-sticky: 0 10px 30px rgba(1, 78, 78, 0.08);
+  --shadow-nav-menu: 0 20px 40px rgba(0, 0, 0, 0.08);
+  --shadow-field: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-field-focus: 0 0 0 4px rgba(1, 78, 78, 0.05);
+  --shadow-booking-focus: 0 0 0 3px rgba(1, 78, 78, 0.18);
+
+  --ease-er: var(--er-ease);
+
+  --animate-marquee: marquee-scroll 32s linear infinite;
+  @keyframes marquee-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+}
+
+/* PHP base rules (style.css lines 26-62) */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-behavior: smooth;
+    @apply font-sans;
+  }
+  body {
+    margin: 0;
+    line-height: 1.7;
+    @apply bg-background text-foreground;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-family: var(--font-heading);
+    color: var(--er-color-ink);
+    font-size: revert;
+    font-weight: revert;
+    line-height: 1.2;
+    margin: 0 0 16px;
+  }
+  p {
+    margin: 0 0 16px;
+  }
+}
+
+/* Layout rules: same values as .container and .section */
+@utility er-container {
+  width: min(var(--er-container), calc(100% - 40px));
+  margin-inline: auto;
+}
+@utility er-section {
+  padding-block: 100px;
+}
+
+/* Type rules: named after the PHP selector they copy. Size, weight and line height only. */
+@utility type-hero {
+  font-family: var(--font-heading);
+  font-size: clamp(32px, 4.6vw, 56px);
+  font-weight: 700;
+  line-height: 1.15;
+}
+@utility type-banner {
+  font-family: var(--font-heading);
+  font-size: clamp(36px, 5vw, 60px);
+  font-weight: 600;
+  line-height: 1.2;
+}
+@utility type-section {
+  font-family: var(--font-heading);
+  font-size: clamp(30px, 3.8vw, 44px);
+  font-weight: 600;
+  line-height: 1.2;
+}
+@utility type-section-split {
+  font-family: var(--font-heading);
+  font-size: clamp(28px, 3.2vw, 40px);
+  font-weight: 600;
+  line-height: 1.25;
+}
+@utility type-card {
+  font-family: var(--font-heading);
+  font-size: clamp(17px, 1.3vw, 20px);
+  font-weight: 600;
+  line-height: 1.25;
+}
+@utility type-faq {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 600;
+}
+@utility type-cta {
+  font-family: var(--font-heading);
+  font-size: clamp(28px, 3.5vw, 42px);
+  font-weight: 600;
+  line-height: 1.2;
+}
+@utility type-lead {
+  font-size: 18px;
+}
+@utility type-eyebrow {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+@utility type-field-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+@utility type-stat {
+  font-family: var(--font-heading);
+  font-size: 24px;
+  line-height: 1.15;
+}
+@utility type-micro {
+  font-size: 11px;
+  line-height: 1.35;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
