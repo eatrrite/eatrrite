@@ -56,7 +56,7 @@ export function SiteHeader() {
           )}
         >
           {navLinks.map(({ label, href }) => {
-            const active = pathname === href;
+            const active = pathname === href || (href !== "/" && pathname.startsWith(`${href}/`));
             return (
               <Link
                 key={href}

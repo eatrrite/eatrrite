@@ -19,22 +19,36 @@ export function SectionHeading({
   pill,
   title,
   lead,
+  center = true,
+  split = true,
+  titleClassName,
 }: {
   pill: string;
   title: string;
   lead?: string;
+  center?: boolean;
+  split?: boolean;
+  titleClassName?: string;
 }) {
+  const titleClass = cn(
+    center ? "type-section mx-auto mb-5 max-w-[920px]" : "type-section mb-5 max-w-[760px]",
+    titleClassName
+  );
   return (
-    <div className="mb-12 text-center">
+    <div className={cn("mb-12", center && "text-center")}>
       <SectionPill>{pill}</SectionPill>
-      <SplitTitle
-        text={title}
-        className="type-section mx-auto mb-5 max-w-[920px]"
-        lineClassName="justify-center"
-      />
+      {split ? (
+        <SplitTitle
+          text={title}
+          className={titleClass}
+          lineClassName={center ? "justify-center" : undefined}
+        />
+      ) : (
+        <h2 className={titleClass}>{title}</h2>
+      )}
       {lead ? (
         <Reveal preset="label">
-          <p className={cn("type-lead mx-auto mb-10 max-w-[600px] text-center")}>{lead}</p>
+          <p className="type-lead mx-auto mb-10 max-w-[600px] text-center">{lead}</p>
         </Reveal>
       ) : null}
     </div>

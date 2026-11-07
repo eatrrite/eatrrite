@@ -13,6 +13,8 @@ export const revealPresets = {
   copy: { y: 28, duration: 0.8, amount: 0.35, margin: viewMargin },
   cta: { y: 48, duration: 0.95, amount: 0.3, margin: viewMargin },
   footer: { y: 28, duration: 0.8, amount: 0.25, margin: "0px 0px -8% 0px" },
+  grid: { y: 36, duration: 0.85, amount: 0.3, margin: viewMargin },
+  banner: { y: 30, duration: 0.8, amount: 0, margin: viewMargin },
   hero: { y: 28, duration: 0.8, amount: 0, margin: viewMargin },
 } as const;
 

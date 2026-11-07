@@ -78,6 +78,8 @@ Each phase waits for approval before the next one starts. Phases 1 to 3 are fron
 
 **Motion:** `lib/motion.ts` holds the durations, distances, thresholds and staggers from `assets/js/main.js`.
 
+**Transitions:** Tailwind 4 moves elements with the CSS `translate`, `scale` and `rotate` properties. A `transition-[...]` list must name them, or the movement jumps instead of animating.
+
 **Line height:** PHP text inherits 1.7 from `body`, so Tailwind's `text-xs` to `text-xl` are set to 1.7. For headings, which use 1.2 in PHP, write the size as `text-[20px]` instead, or the heading comes out too tall.
 
 ## Project Layout
@@ -88,6 +90,7 @@ Each phase waits for approval before the next one starts. Phases 1 to 3 are fron
 | `app/foundation/` | Foundation UI reference page, not indexed |
 | `components/site/` | Top bar, header, footer, floating buttons and shared parts |
 | `components/home/` | One file per home page section |
+| `components/about/`, `components/programs/`, `components/appointment/` | Parts of the other pages |
 | `lib/data/` | Page copy, exported from the PHP `constants/` files |
 
 ## Pages
@@ -135,9 +138,12 @@ The booking order must not change: payment, confirmed appointment, questionnaire
 | Decision | Outcome |
 | --- | --- |
 | Icons | Font Awesome 6.5.2 on the site, the version the PHP site loads, drawn as inline SVG by `components/site/icon.tsx`. Lucide stays inside shadcn components. |
+| Hover lift | Deliberate change from PHP, asked for by Farhan: lifting cards use a 350 ms `ease` transition, and hover sits on a wrapper that does not move, so a card cannot rise off the pointer and flicker. |
+| Layout below 375 px | The site must work down to 310 px. The top bar and call to action have small additions for this, below the widths the PHP site was built for. |
+| Heading tags | "Reserve your slot" is an H2, as the brief asks. PHP has it as a second H1. It looks the same. |
 | Brief's wording corrections | Copy the site as it stands during the rebuild, then apply the brief in one pass. List of corrections: `php-site-tasks.md`. Applying them later means the home page still shows the blog placeholders, testimonials and the 4.8★ rating as they are on the live site. |
 
 ## Differences Found in the Existing Docs
 
-- `DESIGN.md` gives mint as `#e5fad1`, but no stylesheet on the site uses that value. The PHP `:root` value `#f1f7f4` is used here.
+- `DESIGN.md` gives mint as `#e5fad1`. That value only appears as the slot picker's day hover colour. The site-wide mint is the PHP `:root` value `#f1f7f4`.
 - `--color-muted` (`#819291`) has about 3.3:1 contrast on white, and the brief asks for 4.5:1. It is kept for an exact match. Changing it is one line in `globals.css` if Mukta wants it.

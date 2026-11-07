@@ -61,7 +61,7 @@ Animation and checks:
 - [x] Compare screenshots side by side at 1440 px, and the mobile menu at 375 px
 - [x] Fix hover flicker: animate `translate`, and keep hover on a wrapper that does not move
 - [x] Check for overflow from 310 to 1100 px, and fix the top bar and call to action at 310 px
-- [ ] **Farhan approves the home page**
+- [x] **Farhan approves the home page**
 
 Links to pages not built yet (`/about`, `/programs` and others) show a 404 until Phase 3.
 
@@ -71,34 +71,42 @@ Links to pages not built yet (`/about`, `/programs` and others) show a 404 until
 
 Shared:
 
-- [ ] Decide `cohort.php` and `snackbar.php` (open decision 3)
-- [ ] Page banner section
-- [ ] Move `constants/about.php`, `constants/inner.php` and `constants/programs/` into typed data files
+- [ ] Decide `cohort.php` and `snackbar.php` (open decision 3). Both are left out for now.
+- [x] Page banner section
+- [x] Export `constants/about.php`, `constants/inner.php` and `constants/programs/` to `lib/data/*.json`
 
 Pages:
 
-- [ ] About (`/about`): story, doctors, mission
-- [ ] Programs (`/programs`)
-- [ ] Program detail (`/programs/[slug]`): Diabetes, Female Hormone Health, Gut Health, Weight and Lifestyle
-- [ ] Pricing (`/pricing`), with no program fees published
-- [ ] Blog (`/blog`)
-- [ ] Contact (`/contact`)
-- [ ] Book Appointment (`/appointment`): form and slot picker UI, no payment yet, fee shown as ₹800
+- [x] About (`/about`): story, doctors, mission
+- [x] Programs (`/programs`)
+- [x] Program detail (`/programs/[slug]`): Diabetes, Female Hormone Health, Gut Health, Weight and Lifestyle
+- [x] Pricing (`/pricing`), with no program fees published
+- [x] Blog (`/blog`)
+- [x] Contact (`/contact`)
+- [x] Book Appointment (`/appointment`): form and slot picker UI, no payment yet, fee shown as ₹800
 
 Site-wide:
 
-- [ ] Page titles and descriptions, carried over from PHP
-- [ ] Redirects from every `.php` address to its new route
-- [ ] Branded 404 page
+- [x] Page titles and descriptions, carried over from PHP
+- [x] 301 redirects from each `.php` page in the navigation, and `program.php`, to its new route
+- [x] Branded 404 page. The wording is a placeholder: check it against brief section 3.
 
 Checks:
 
-- [ ] Compare every page side by side at 1440, 1024, 768 and 375 px widths
-- [ ] Check every link in the navigation, footer and buttons
-- [ ] Search the new site for fees, the product line and client details without consent
-- [ ] Confirm "PMOS" is unchanged
-- [ ] Mobile PageSpeed of 80+, LCP under 2.5 s, INP under 200 ms, CLS under 0.1
+- [x] Compare section heights on every page against live at 1440, 768 and 375 px widths
+- [x] Compare screenshots at 1440 px, for About, program detail, Pricing, Contact and Book Appointment
+- [x] Check for overflow at 310 px on every page
+- [x] Search the new site for program fees and the product line
+- [x] Confirm "PMOS" is unchanged
+- [x] Check every internal route used by the navigation, footer and buttons returns 200
+- [ ] Mobile PageSpeed of 80+, LCP under 2.5 s, INP under 200 ms, CLS under 0.1 (needs a deployed site)
+- [ ] Confirm written consent for client names and photos in testimonials
 - [ ] **Farhan approves the complete front end**
+
+Known preview limits, removed in Phase 4:
+
+- The slot picker shows every slot in the weekly hours as open.
+- The pay button only shows a notice.
 
 ## Phase 4: Payments and Booking
 
