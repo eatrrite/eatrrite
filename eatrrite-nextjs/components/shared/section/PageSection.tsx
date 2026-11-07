@@ -21,7 +21,9 @@ export function PageSection({
     <section
       id={id}
       className={cn(
-        "relative overflow-hidden border-b border-border py-20",
+        // Keep overflow visible so sticky children (e.g. program rail) can pin.
+        // FloatingFood clips itself in its own absolute layer.
+        "relative border-b border-border py-20",
         tone === "white" ? "bg-white" : "bg-mint",
         className
       )}
