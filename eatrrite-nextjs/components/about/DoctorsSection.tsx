@@ -9,7 +9,7 @@ import { pageFood } from "@/constants/home/floatingFood";
 export function DoctorsSection() {
   const { doctors } = about;
   return (
-    <PageSection tone="mint" food={pageFood(2)}>
+    <PageSection tone="white" food={pageFood(2)}>
       <SectionIntro eyebrow={doctors.pill} title={doctors.title} lead={doctors.lead} />
       {doctors.people.map((doctor) => {
         const rows = [

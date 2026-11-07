@@ -8,7 +8,7 @@ import { pageFood } from "@/constants/home/floatingFood";
 export function MissionSection() {
   const { mission } = about;
   return (
-    <PageSection tone="white" food={pageFood(3)}>
+    <PageSection tone="mint" food={pageFood(3)}>
       <SectionIntro eyebrow={mission.pill} title={mission.title} count={mission.cards.length} />
       <ol className="mt-10 mb-0 grid gap-5 p-0 md:grid-cols-3">
         {mission.cards.map((card, index) => (

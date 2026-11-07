@@ -2,9 +2,17 @@ import Image from "next/image";
 import { Star } from "lucide-react";
 import { cn } from "cn";
 
-type Testimonial = { image: string; name: string; role: string; quote: string };
+type Testimonial = { image?: string; name: string; role: string; quote: string };
 
-// Copies ReviewCard from Deccan Dentics, with the client photo as the avatar.
+const initials = (name: string) =>
+  name
+    .split(" ")
+    .slice(0, 2)
+    .map((part) => part[0])
+    .join("");
+
+// Copies ReviewCard from Deccan Dentics, with the client photo as the avatar,
+// or their initials when there is no photo.
 export function TestimonialCard({ item, index, focused }: { item: Testimonial; index: number; focused: boolean }) {
   return (
     <article
@@ -16,7 +24,13 @@ export function TestimonialCard({ item, index, focused }: { item: Testimonial; i
       <span aria-hidden className="pointer-events-none absolute -top-3 -right-1 font-heading text-7xl leading-none font-bold text-primary/10">”</span>
       <div className="relative flex items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <Image src={item.image} alt={item.name} width={96} height={96} className="size-12 rounded-full border-2 border-accent object-cover" />
+          {item.image ? (
+            <Image src={item.image} alt={item.name} width={96} height={96} className="size-12 rounded-full border-2 border-accent object-cover" />
+          ) : (
+            <span aria-hidden className="grid size-12 shrink-0 place-items-center rounded-full border-2 border-accent bg-mint font-heading text-sm font-bold text-primary">
+              {initials(item.name)}
+            </span>
+          )}
           <div>
             <p className="m-0 font-heading text-base font-bold text-ink">{item.name}</p>
             <p className="m-0 text-xs text-muted-foreground">{item.role}</p>

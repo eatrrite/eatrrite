@@ -215,6 +215,10 @@ Emails (moved from Phase 4):
 - [x] Hero left side in the Deccan style: eyebrow, gold title words with brush mark, four Eat Rrite points with Lucide icons, trust card
 - [x] Hero and header buttons use shadcn Buttons, with a new gold `accent` variant
 - [x] Header and hero checked at 1440, 375 and 320 px, with no overflow
+- [x] Header pill sits 12px below the top on scroll, with a see-through glass blur
+- [x] About menu item opens a dropdown: Founder's Story (`/about`) and Doctors on Board (`/about/doctors`)
+- [x] Doctors section moved to its own page; About keeps the story and mission sections
+- [x] Three more client reviews from Eat Rrite's Google reviews (Jayawardhan Suryaprakash, Omkar Nath, Anshul Kundu), shown with initials since there are no photos
 - [ ] Connect the contact form (backend and the consent box the brief asks for)
 - [ ] Swap the floating icons for real cut-out food images, if wanted
 - [ ] **Mukta approves the redesign** (the brief asked for no redesign)

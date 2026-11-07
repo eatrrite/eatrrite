@@ -27,14 +27,16 @@ const BAR = {
 };
 const PILL = {
   maxWidth: 1100,
-  marginTop: 10,
+  marginTop: 12,
   paddingTop: 8,
   paddingBottom: 8,
   borderRadius: 20,
-  backgroundColor: "rgba(255, 255, 255, 0.86)",
-  borderColor: "rgba(1, 78, 78, 0.12)",
+  backgroundColor: "rgba(255, 255, 255, 0.62)",
+  borderColor: "rgba(1, 78, 78, 0.10)",
   boxShadow: "0 12px 32px rgba(1, 78, 78, 0.10)",
 };
+// The open mobile menu needs a more solid pill so the links stay readable.
+const PILL_OPEN = { ...PILL, backgroundColor: "rgba(255, 255, 255, 0.94)" };
 
 export function SiteHeader() {
   const scrolled = useScrolled();
@@ -42,7 +44,7 @@ export function SiteHeader() {
   const close = () => setOpen(false);
 
   return (
-    <header className="sticky top-0 z-40 px-2">
+    <header className="sticky top-0 z-40 flow-root px-2">
       <motion.div
         aria-hidden
         className="absolute inset-0 -z-10 border-b border-border bg-white"
@@ -50,9 +52,9 @@ export function SiteHeader() {
         transition={transition}
       />
       <motion.nav
-        className="mx-auto w-full border px-4 backdrop-blur-md sm:px-5"
+        className="mx-auto w-full border px-4 backdrop-blur-xl backdrop-saturate-150 sm:px-5"
         initial={false}
-        animate={scrolled ? PILL : BAR}
+        animate={scrolled ? (open ? PILL_OPEN : PILL) : BAR}
         transition={transition}
       >
         <div className="flex items-center justify-between gap-5">

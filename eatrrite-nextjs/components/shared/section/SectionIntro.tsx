@@ -21,7 +21,7 @@ export function SectionIntro({
   className?: string;
 }) {
   return (
-    <div className={cn("max-w-2xl", center && "mx-auto text-center", className)}>
+    <div className={cn("max-w-3xl", center && "mx-auto text-center", className)}>
       <BlurIn>
         <p className="mb-0 text-xs font-semibold tracking-[0.12em] text-primary uppercase sm:text-sm">{eyebrow}</p>
       </BlurIn>

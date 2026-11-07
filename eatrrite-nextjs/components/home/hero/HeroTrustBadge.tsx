@@ -3,7 +3,7 @@ import { Plus, Star } from "lucide-react";
 import { cn } from "cn";
 import home from "@/constants/home/content.json";
 
-const PHOTOS = home.testimonials.items.map((item) => ({ src: item.image, name: item.name }));
+const PHOTOS = home.testimonials.items.flatMap((item) => (item.image ? [{ src: item.image, name: item.name }] : []));
 const LIVES = home.about.stats.find((stat) => stat.label === "Lives Transformed")?.value ?? "500+";
 
 // Deccan Dentics "Trusted by" badge, using the testimonial photos and the

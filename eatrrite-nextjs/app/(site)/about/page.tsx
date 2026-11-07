@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { DoctorsSection } from "@/components/about/DoctorsSection";
 import { MissionSection } from "@/components/about/MissionSection";
 import { StorySection } from "@/components/about/StorySection";
 import { PageBanner } from "@/components/layout/PageBanner";
@@ -14,7 +13,6 @@ export default function AboutPage() {
     <>
       <PageBanner title="About Us" />
       <StorySection />
-      <DoctorsSection />
       <MissionSection />
     </>
   );
