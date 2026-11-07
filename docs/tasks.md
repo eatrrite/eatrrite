@@ -211,6 +211,10 @@ Emails (moved from Phase 4):
 - [x] Light footer in the Deccan layout, using the normal logo
 - [x] About, Programs, program detail, Pricing, Blog, Contact, Book Appointment, confirmation and 404 pages in the same section style
 - [x] Contact page enquiry form in the Deccan style (name, phone, city, program, message)
+- [x] Header shrinks into a floating pill on scroll (Pico style), with an animated mobile menu
+- [x] Hero left side in the Deccan style: eyebrow, gold title words with brush mark, four Eat Rrite points with Lucide icons, trust card
+- [x] Hero and header buttons use shadcn Buttons, with a new gold `accent` variant
+- [x] Header and hero checked at 1440, 375 and 320 px, with no overflow
 - [ ] Connect the contact form (backend and the consent box the brief asks for)
 - [ ] Swap the floating icons for real cut-out food images, if wanted
 - [ ] **Mukta approves the redesign** (the brief asked for no redesign)

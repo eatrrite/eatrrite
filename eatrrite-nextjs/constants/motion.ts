@@ -19,12 +19,3 @@ export const revealPresets = {
 } as const;
 
 export type RevealPreset = keyof typeof revealPresets;
-
-export const staggerReveal = { y: 28, duration: 0.8, stagger: 0.1 };
-export const splitTitle = {
-  yPercent: 110,
-  duration: 0.7,
-  stagger: 0.022,
-  amount: 0.28,
-  margin: viewMargin,
-};
