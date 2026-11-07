@@ -3,15 +3,15 @@ import { BlurIn } from "@/components/motion/BlurIn";
 import { FLOATING_FOOD } from "@/constants/home/floatingFood";
 import home from "@/constants/home/content.json";
 import { FounderStats } from "./FounderStats";
-import { HomeSection } from "./kit/HomeSection";
-import { LinkButton } from "./kit/LinkButton";
-import { SectionIntro } from "./kit/SectionIntro";
+import { PageSection } from "@/components/shared/section/PageSection";
+import { LinkButton } from "@/components/shared/section/LinkButton";
+import { SectionIntro } from "@/components/shared/section/SectionIntro";
 
 // Founder spotlight in the Deccan Dentics about layout (3fr text, 2fr side).
 export function AboutSection() {
   const { about } = home;
   return (
-    <HomeSection tone="white" food={FLOATING_FOOD.about}>
+    <PageSection tone="white" food={FLOATING_FOOD.about}>
       <div className="grid items-start gap-12 lg:grid-cols-[3fr_2fr] lg:gap-14">
         <div className="min-w-0">
           <SectionIntro eyebrow={about.pill} title={about.title} lead={about.lead} />
@@ -26,7 +26,7 @@ export function AboutSection() {
         <div className="min-w-0">
           <BlurIn delay={0.12}>
             <div className="rounded-lg border border-border bg-mint p-5 sm:p-6">
-              <p className="m-0 font-heading text-xl text-primary italic sm:text-2xl">“{about.quote}”</p>
+              <p className="m-0 font-script text-2xl text-primary sm:text-3xl">“{about.quote}”</p>
               <p className="mt-3 mb-0 text-sm text-text">{about.cite}</p>
             </div>
           </BlurIn>
@@ -38,6 +38,6 @@ export function AboutSection() {
           </BlurIn>
         </div>
       </div>
-    </HomeSection>
+    </PageSection>
   );
 }

@@ -207,6 +207,11 @@ Emails (moved from Phase 4):
 - [x] Slide, fade and blur reveal on every element
 - [x] Floating food icons behind sections (desktop only)
 - [x] No overflow at 320 and 375 px
+- [x] Fonts switched to the Deccan set: Libre Baskerville (headings), Merriweather (body), Caveat (handwritten accents)
+- [x] Light footer in the Deccan layout, using the normal logo
+- [x] About, Programs, program detail, Pricing, Blog, Contact, Book Appointment, confirmation and 404 pages in the same section style
+- [x] Contact page enquiry form in the Deccan style (name, phone, city, program, message)
+- [ ] Connect the contact form (backend and the consent box the brief asks for)
 - [ ] Swap the floating icons for real cut-out food images, if wanted
 - [ ] **Mukta approves the redesign** (the brief asked for no redesign)
 

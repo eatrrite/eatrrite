@@ -1,81 +1,34 @@
 import type { Metadata } from "next";
-import { Reveal } from "@/components/motion/Reveal";
-import { ButtonLink } from "@/components/shared/ButtonLink";
+import { ContactAside } from "@/components/contact/ContactAside";
+import { ContactForm } from "@/components/contact/ContactForm";
 import { PageBanner } from "@/components/layout/PageBanner";
-import { SectionPill } from "@/components/shared/SectionHeading";
-import { pillVariants } from "@/components/shared/PillButton";
-import { Card } from "@/components/ui/card";
-import copy from "@/constants/contact/content.json";
-import programs from "@/constants/programs/programs.json";
+import { BlurIn } from "@/components/motion/BlurIn";
+import { PageSection } from "@/components/shared/section/PageSection";
+import { SectionIntro } from "@/components/shared/section/SectionIntro";
 import { BRAND } from "@/constants/brand";
+import copy from "@/constants/contact/content.json";
+import { pageFood } from "@/constants/home/floatingFood";
 
 export const metadata: Metadata = {
   title: "Contact Eat Rrite",
   description: "Get in touch with Eat Rrite to book your nutrition consultation.",
 };
 
-// Copies contact.php and .contact-grid.
+// Copies contact.php in the Deccan Dentics contact section layout.
 export default function ContactPage() {
   return (
     <>
       <PageBanner title="Contact Us" />
-      <section className="er-section">
-        <div className="er-container grid grid-cols-[0.95fr_1.05fr] gap-12 er-md:grid-cols-1">
-          <Reveal preset="grid" className="h-full min-w-0">
-            <Card className="block h-full">
-              <SectionPill>{copy.pill}</SectionPill>
-              <h2 className="type-section mb-5 max-w-[760px]">{copy.title}</h2>
-              <p>{copy.text}</p>
-              <p>
-                <strong>Phone / WhatsApp</strong>
-                <br />
-                <a href={BRAND.phoneHref}>{BRAND.phone}</a>
-              </p>
-              <p>
-                <strong>Email</strong>
-                <br />
-                <a href={BRAND.emailHref}>{BRAND.email}</a>
-              </p>
-              <p>
-                <strong>Based in</strong>
-                <br />
-                {BRAND.address1} &amp; {BRAND.address2}
-                <br />
-                <span className="text-sm text-muted-foreground">{BRAND.locationsNote}</span>
-              </p>
-              <p>
-                <strong>Hours</strong>
-                <br />
-                {BRAND.hours}
-              </p>
-            </Card>
-          </Reveal>
-          <Reveal preset="grid" className="h-full min-w-0">
-            <Card className="block h-full">
-              <h3>{copy.enquireTitle}</h3>
-              <p>{copy.enquireText}</p>
-              <div className="mt-5 mb-6 grid gap-3">
-                <ButtonLink variant="accent" href="/appointment">Get Consultation</ButtonLink>
-                <a
-                  className={buttonClass}
-                  href={BRAND.whatsapp}
-                  target="_blank"
-                  rel="noopener"
-                >
-                  Message on WhatsApp
-                </a>
-              </div>
-              <ul className="mt-2">
-                {programs.map((p) => (
-                  <li key={p.slug}>✓ {p.short}</li>
-                ))}
-              </ul>
-            </Card>
-          </Reveal>
+      <PageSection tone="white" food={pageFood(9)}>
+        <SectionIntro eyebrow={copy.pill} title={copy.title} lead={copy.text} />
+        <BlurIn delay={0.2}>
+          <p className="mt-5 mb-0 font-heading text-4xl font-bold text-primary/15 tabular-nums sm:text-5xl">{BRAND.phone}</p>
+        </BlurIn>
+        <div className="mt-10 grid gap-8 lg:grid-cols-2">
+          <BlurIn><ContactForm /></BlurIn>
+          <BlurIn delay={0.1}><ContactAside /></BlurIn>
         </div>
-      </section>
+      </PageSection>
     </>
   );
 }
-
-const buttonClass = pillVariants();

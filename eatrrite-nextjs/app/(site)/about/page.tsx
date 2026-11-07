@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { AboutDoctors } from "@/components/about/Doctors";
-import { AboutMission } from "@/components/about/Mission";
-import { AboutStory } from "@/components/about/Story";
+import { DoctorsSection } from "@/components/about/DoctorsSection";
+import { MissionSection } from "@/components/about/MissionSection";
+import { StorySection } from "@/components/about/StorySection";
 import { PageBanner } from "@/components/layout/PageBanner";
 
 export const metadata: Metadata = {
@@ -13,9 +13,9 @@ export default function AboutPage() {
   return (
     <>
       <PageBanner title="About Us" />
-      <AboutStory />
-      <AboutDoctors />
-      <AboutMission />
+      <StorySection />
+      <DoctorsSection />
+      <MissionSection />
     </>
   );
 }

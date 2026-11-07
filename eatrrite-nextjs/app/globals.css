@@ -78,7 +78,7 @@
   --border: var(--er-color-border);
   --input: var(--er-color-input-border);
   --ring: var(--er-color-primary);
-  --radius: var(--er-radius);
+  --radius: 0.875rem; /* Deccan Dentics control radius (buttons, fields) */
 
   --chart-1: var(--er-color-primary);
   --chart-2: var(--er-color-accent);
@@ -155,9 +155,10 @@
   --color-slot-border: var(--er-color-slot-border);
   --color-slot-time-hover: var(--er-color-slot-time-hover);
 
-  --font-sans: var(--font-bricolage), sans-serif;
-  --font-heading: var(--font-lora), serif;
-  --font-body: var(--font-bricolage), sans-serif;
+  --font-sans: var(--font-merriweather), ui-serif, Georgia, serif;
+  --font-heading: var(--font-libre-baskerville), ui-serif, Georgia, serif;
+  --font-body: var(--font-merriweather), ui-serif, Georgia, serif;
+  --font-script: var(--font-caveat), ui-serif, Georgia, cursive;
 
 
   --shadow-card: var(--er-shadow);
@@ -267,7 +268,7 @@
 /* Admin base type, same as the Deccan Dentics base layer. */
 @layer base {
   :root:has(.admin-shell) body {
-    font-family: var(--font-bricolage), sans-serif;
+    font-family: var(--font-body);
     font-size: 1rem;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
@@ -276,7 +277,7 @@
     margin: 0;
     color: inherit;
     font-weight: inherit;
-    font-family: var(--font-lora), serif;
+    font-family: var(--font-heading);
     line-height: 1.2;
     letter-spacing: -0.02em;
   }

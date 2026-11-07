@@ -1,20 +1,13 @@
 import { cacheLife } from "next/cache";
 import Image from "next/image";
 import Link from "next/link";
-import { Reveal } from "@/components/motion/Reveal";
-import programs from "@/constants/programs/programs.json";
+import { Clock3, Mail, MapPin, Phone } from "lucide-react";
+import { BlurIn } from "@/components/motion/BlurIn";
 import { BRAND } from "@/constants/brand";
+import programs from "@/constants/programs/programs.json";
 import { FOOTER_LINKS, programPath } from "@/constants/routes";
 
-const link = "transition-colors duration-300 ease-[ease] hover:text-accent";
-
-function FooterTitle({ children }: { children: React.ReactNode }) {
-  return (
-    <h3 className="relative mb-6 pb-3 text-[20px] font-semibold text-white after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-10 after:bg-accent">
-      {children}
-    </h3>
-  );
-}
+const link = "text-sm text-text transition-colors hover:text-primary";
 
 // Cached because Cache Components does not allow a bare new Date() during prerender.
 async function currentYear() {
@@ -23,60 +16,56 @@ async function currentYear() {
   return new Date().getFullYear();
 }
 
-// Copies .site-footer and .footer-grid from the PHP style.css.
+function FooterTitle({ children }: { children: React.ReactNode }) {
+  return <h3 className="m-0 font-heading text-base font-bold text-ink">{children}</h3>;
+}
+
+// Light footer in the Deccan Dentics layout. Copy and links match the PHP footer.
 export async function SiteFooter() {
   const year = await currentYear();
   return (
-    <footer className="bg-footer pt-20 text-[15px] text-footer-text">
-      <div className="er-container grid grid-cols-[1.2fr_1fr_1fr_1.1fr] gap-10 er-lg:grid-cols-2 er-md:grid-cols-1">
-        <Reveal preset="footer">
-          <Image
-            src="/images/logo/logo-horizontal-light.png"
-            alt="Eat Rrite"
-            width={1162}
-            height={332}
-            className="mb-4 block h-[52px] w-auto"
-          />
-          <p>
-            Science-backed, culturally-rooted nutrition coaching — so you learn how to Eat Rrite
-            for life, without crash diets.
+    <footer className="bg-white">
+      <div className="er-container grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+        <BlurIn className="flex flex-col gap-4">
+          <Image src={BRAND.logo} alt={BRAND.name} width={1162} height={332} className="h-12 w-auto self-start object-contain" />
+          <p className="m-0 max-w-xs text-sm leading-relaxed text-text">
+            Science-backed, culturally-rooted nutrition coaching — so you learn how to Eat Rrite for life, without crash diets.
           </p>
-          <p className="mt-3.5 text-sm">
-            {BRAND.address1} &amp; {BRAND.address2}
-            <br />
-            <small className="text-muted-foreground">{BRAND.locationsNote}</small>
-          </p>
-        </Reveal>
-        <Reveal preset="footer">
+        </BlurIn>
+        <BlurIn delay={0.06}>
           <FooterTitle>Quick Links</FooterTitle>
-          <ul className="grid gap-3">
+          <ul className="mt-4 mb-0 grid gap-2.5 p-0">
             {FOOTER_LINKS.map(({ label, href }) => (
-              <li key={href}>
-                <Link className={link} href={href}>{label}</Link>
-              </li>
+              <li key={href}><Link className={link} href={href}>{label}</Link></li>
             ))}
           </ul>
-        </Reveal>
-        <Reveal preset="footer">
+        </BlurIn>
+        <BlurIn delay={0.12}>
           <FooterTitle>Programs</FooterTitle>
-          <ul className="grid gap-3">
+          <ul className="mt-4 mb-0 grid gap-2.5 p-0">
             {programs.map((p) => (
-              <li key={p.slug}>
-                <Link className={link} href={programPath(p.slug)}>{p.short}</Link>
-              </li>
+              <li key={p.slug}><Link className={link} href={programPath(p.slug)}>{p.short}</Link></li>
             ))}
           </ul>
-        </Reveal>
-        <Reveal preset="footer">
+        </BlurIn>
+        <BlurIn delay={0.18}>
           <FooterTitle>Get In Touch</FooterTitle>
-          <p><a className={link} href={BRAND.emailHref}>{BRAND.email}</a></p>
-          <p><a className={link} href={BRAND.phoneHref}>{BRAND.phone}</a></p>
-          <p>{BRAND.hours}</p>
-        </Reveal>
+          <ul className="mt-4 mb-0 grid gap-3 p-0 text-sm text-text">
+            <li className="flex items-center gap-2.5"><Mail className="size-4 shrink-0 text-primary" /><a className={link} href={BRAND.emailHref}>{BRAND.email}</a></li>
+            <li className="flex items-center gap-2.5"><Phone className="size-4 shrink-0 text-primary" /><a className={link} href={BRAND.phoneHref}>{BRAND.phone}</a></li>
+            <li className="flex items-center gap-2.5"><Clock3 className="size-4 shrink-0 text-primary" />{BRAND.hours}</li>
+            <li className="flex gap-2.5">
+              <MapPin className="mt-0.5 size-4 shrink-0 text-primary" />
+              <span>{BRAND.address1} &amp; {BRAND.address2}<br /><span className="text-xs text-muted-foreground">{BRAND.locationsNote}</span></span>
+            </li>
+          </ul>
+        </BlurIn>
       </div>
-      <div className="er-container mt-16 flex flex-wrap justify-between gap-4 border-t border-white/6 py-6 text-sm text-white/40">
-        <span>&copy; {year} Eat Rrite. All rights reserved.</span>
-        <span>Learn to Eat Rrite.</span>
+      <div className="border-t border-border">
+        <div className="er-container flex flex-col gap-2 py-5 text-xs text-text sm:flex-row sm:items-center sm:justify-between">
+          <p className="m-0">&copy; {year} {BRAND.name}. All rights reserved.</p>
+          <p className="m-0">Learn to Eat Rrite.</p>
+        </div>
       </div>
     </footer>
   );

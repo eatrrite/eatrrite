@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { PillButton } from "@/components/shared/PillButton";
+import { Button } from "@/components/ui/button";
 import questionnaire from "@/constants/appointment/questionnaire.json";
 import { submitQuestionnaire } from "@/services/bookingApi";
 import type { QuestionnaireAnswers } from "@/types/appointment";
@@ -35,8 +35,8 @@ export function Questionnaire({ appointmentId }: { appointmentId: string }) {
   if (submitted) return <MeetStatus appointmentId={appointmentId} initialLink={null} />;
   return (
     <div>
-      <p className="type-eyebrow mb-2 text-primary">{questionnaire.kicker}</p>
-      <p className="type-lead mb-2">{questionnaire.lead}</p>
+      <p className="mb-2 font-script text-2xl text-primary sm:text-3xl">{questionnaire.kicker}</p>
+      <p className="mb-2 text-text">{questionnaire.lead}</p>
       <p className="mb-0 text-sm text-muted-foreground">{questionnaire.note}</p>
       <QuestionProgress index={index} total={QUESTION_STEPS.length} />
       {error ? <p role="alert" className="mb-4 rounded-xs bg-alert-bg px-4 py-3 text-sm text-alert-text">{error}</p> : null}
@@ -49,7 +49,7 @@ export function Questionnaire({ appointmentId }: { appointmentId: string }) {
       </fieldset>
       <div className="mt-6 flex justify-between gap-3">
         {index > 0 ? <button type="button" className="cursor-pointer px-4 font-semibold text-text" onClick={() => setIndex(index - 1)}>Back</button> : <span />}
-        <PillButton type="button" onClick={next} disabled={busy}>{busy ? "Submitting…" : isLast ? "Submit questionnaire" : "Continue"}</PillButton>
+        <Button type="button" size="xl" onClick={next} disabled={busy}>{busy ? "Submitting…" : isLast ? "Submit questionnaire" : "Continue"}</Button>
       </div>
     </div>
   );

@@ -1,21 +1,26 @@
 import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, Lora } from "next/font/google";
+import { Caveat, Libre_Baskerville, Merriweather } from "next/font/google";
 import { BRAND } from "@/constants/brand";
 import "./globals.css";
 
-// Same Google families, weights and axes as the PHP includes/header.php.
-const lora = Lora({
-  variable: "--font-lora",
+// Same three families as the Deccan Dentics site: Libre Baskerville for
+// headings, Merriweather for body text, Caveat for handwritten accents.
+const libreBaskerville = Libre_Baskerville({
+  variable: "--font-libre-baskerville",
   subsets: ["latin"],
-  weight: "variable",
-  style: ["normal", "italic"],
+  weight: ["400", "700"],
 });
 
-const bricolage = Bricolage_Grotesque({
-  variable: "--font-bricolage",
+const merriweather = Merriweather({
+  variable: "--font-merriweather",
   subsets: ["latin"],
-  weight: "variable",
-  axes: ["opsz"],
+  weight: ["300", "400", "700"],
+});
+
+const caveat = Caveat({
+  variable: "--font-caveat",
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -36,7 +41,7 @@ export const viewport: Viewport = { themeColor: BRAND.themeColor };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${lora.variable} ${bricolage.variable}`}>
+    <html lang="en" className={`${libreBaskerville.variable} ${merriweather.variable} ${caveat.variable}`}>
       <body>{children}</body>
     </html>
   );

@@ -25,7 +25,6 @@ export const BRAND = {
     twitter: "https://twitter.com/19muktapatil",
   },
   logo: "/images/logo/logo-horizontal.png",
-  logoLight: "/images/logo/logo-horizontal-light.png",
   shareImage: "/images/hero/carousel-1.png",
   themeColor: "#014e4e",
   backgroundColor: "#f8f5f0",

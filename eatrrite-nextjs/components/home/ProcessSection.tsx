@@ -3,8 +3,8 @@ import { BlurInItem } from "@/components/motion/BlurIn";
 import { Icon } from "@/components/shared/Icon";
 import { FLOATING_FOOD } from "@/constants/home/floatingFood";
 import home from "@/constants/home/content.json";
-import { HomeSection } from "./kit/HomeSection";
-import { SectionIntro } from "./kit/SectionIntro";
+import { PageSection } from "@/components/shared/section/PageSection";
+import { SectionIntro } from "@/components/shared/section/SectionIntro";
 
 const ICONS = {
   "fa-clipboard-check": faClipboardCheck,
@@ -17,7 +17,7 @@ const ICONS = {
 export function ProcessSection() {
   const { process } = home;
   return (
-    <HomeSection tone="white" food={FLOATING_FOOD.process}>
+    <PageSection tone="white" food={FLOATING_FOOD.process}>
       <SectionIntro eyebrow={process.pill} title={process.title} count={process.steps.length} center />
       <ol className="mt-10 mb-0 grid gap-4 p-0 sm:grid-cols-2 lg:grid-cols-4">
         {process.steps.map((step, index) => (
@@ -33,6 +33,6 @@ export function ProcessSection() {
           </BlurInItem>
         ))}
       </ol>
-    </HomeSection>
+    </PageSection>
   );
 }

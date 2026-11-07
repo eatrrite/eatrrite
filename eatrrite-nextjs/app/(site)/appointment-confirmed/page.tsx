@@ -28,9 +28,9 @@ async function Confirmed({ searchParams }: Props) {
   const appointment = await loadAppointment(searchParams);
   const started = Boolean(appointment.questionnaire);
   return (
-    <div className="er-container grid items-start gap-10 min-[900px]:grid-cols-[1fr_2fr]">
+    <div className="er-container grid items-start gap-10 lg:grid-cols-[1fr_2fr]">
       <ConfirmedSummary appointment={appointment} />
-      <div className="rounded-lg border border-border bg-white p-6 shadow-card sm:p-8">
+      <div className="rounded-xl border border-border bg-white p-6 md:p-8">
         {started ? (
           <MeetStatus appointmentId={appointment.id} initialLink={appointment.meetLink} />
         ) : (
@@ -44,7 +44,7 @@ async function Confirmed({ searchParams }: Props) {
 // Copies appointment-confirmed.php: summary on the left, questionnaire on the right.
 export default function AppointmentConfirmedPage(props: Props) {
   return (
-    <section className="er-section bg-cream">
+    <section className="border-b border-border bg-mint py-20">
       <Suspense fallback={<div className="er-container min-h-96" />}>
         <Confirmed {...props} />
       </Suspense>

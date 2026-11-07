@@ -2,14 +2,14 @@ import Image from "next/image";
 import { BlurIn, BlurInItem } from "@/components/motion/BlurIn";
 import { FLOATING_FOOD } from "@/constants/home/floatingFood";
 import home from "@/constants/home/content.json";
-import { HomeSection } from "./kit/HomeSection";
-import { SectionIntro } from "./kit/SectionIntro";
+import { PageSection } from "@/components/shared/section/PageSection";
+import { SectionIntro } from "@/components/shared/section/SectionIntro";
 
 // Why choose us in the Deccan Dentics layout: round image left, numbered reasons right.
 export function WhyChooseSection() {
   const { why } = home;
   return (
-    <HomeSection id="why-choose" tone="mint" food={FLOATING_FOOD.why}>
+    <PageSection id="why-choose" tone="mint" food={FLOATING_FOOD.why}>
       <div aria-hidden className="pointer-events-none absolute top-1/2 -left-24 size-[28rem] -translate-y-1/2 rounded-full bg-secondary/70 blur-3xl" />
       <div className="relative grid items-center gap-12 lg:grid-cols-[2fr_3fr] lg:gap-16">
         <BlurIn className="mx-auto w-full max-w-sm lg:mx-0 lg:max-w-none">
@@ -33,6 +33,6 @@ export function WhyChooseSection() {
           </ul>
         </div>
       </div>
-    </HomeSection>
+    </PageSection>
   );
 }

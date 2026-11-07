@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
-import { ProgramCard } from "@/components/shared/ProgramCard";
 import { PageBanner } from "@/components/layout/PageBanner";
-import { SectionHeading } from "@/components/shared/SectionHeading";
+import { BlurIn } from "@/components/motion/BlurIn";
+import { ProgramTile } from "@/components/shared/ProgramTile";
+import { PageSection } from "@/components/shared/section/PageSection";
+import { SectionIntro } from "@/components/shared/section/SectionIntro";
+import { pageFood } from "@/constants/home/floatingFood";
 import content from "@/constants/programs/content.json";
 import programs from "@/constants/programs/programs.json";
 
@@ -16,16 +19,16 @@ export default function ProgramsPage() {
   return (
     <>
       <PageBanner title="Programs" />
-      <section className="er-section">
-        <div className="er-container">
-          <SectionHeading pill={copy.pill} title={copy.title} lead={copy.lead} />
-          <div className="mt-10 grid grid-cols-2 gap-6 er-900:grid-cols-1">
-            {programs.map((p) => (
-              <ProgramCard key={p.slug} program={p} linkLabel="View Program" wide />
-            ))}
-          </div>
+      <PageSection tone="white" food={pageFood(0)}>
+        <SectionIntro eyebrow={copy.pill} title={copy.title} lead={copy.lead} count={programs.length} center />
+        <div className="mt-10 grid gap-5 sm:grid-cols-2">
+          {programs.map((program, index) => (
+            <BlurIn key={program.slug} delay={0.1 + index * 0.08} className="h-full">
+              <ProgramTile program={program} index={index} linkLabel="View Program" />
+            </BlurIn>
+          ))}
         </div>
-      </section>
+      </PageSection>
     </>
   );
 }

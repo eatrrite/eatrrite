@@ -14,7 +14,7 @@ export function FaqPicker() {
   return (
     <div className="grid gap-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:gap-10">
       <div className="order-2 flex flex-col justify-center rounded-xl border border-border bg-mint p-6 sm:p-8 lg:order-none">
-        <p className="m-0 font-heading text-2xl text-primary italic sm:text-3xl">Good to know</p>
+        <p className="m-0 font-script text-2xl text-primary sm:text-3xl">Good to know</p>
         <p className="mt-2 mb-0 text-xs text-muted-foreground tabular-nums">Question {pad(activeIndex + 1)} of {pad(ITEMS.length)}</p>
         <h3 className="mt-4 mb-0 font-heading text-xl font-bold text-ink sm:text-2xl">{active.q}</h3>
         <p className="mt-4 mb-0 text-sm leading-relaxed text-text sm:text-base">{active.a}</p>

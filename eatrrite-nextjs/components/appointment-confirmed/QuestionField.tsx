@@ -9,7 +9,7 @@ type Value = string | string[];
 
 const choice = (active: boolean) =>
   cn(
-    "flex w-full cursor-pointer items-start gap-3 rounded-xs border px-4 py-3 text-left transition-colors",
+    "flex w-full cursor-pointer items-start gap-3 rounded-lg border px-4 py-3 text-left text-sm transition-colors",
     active ? "border-primary bg-slot-hover text-primary" : "border-border bg-white text-ink hover:border-primary"
   );
 
@@ -36,7 +36,7 @@ function Options({ options, value, multi, onChange }: { options: string[]; value
 // Renders one question in the style of the PHP .er-q-choice tap targets.
 export function QuestionField({ step, value, onChange }: { step: QuestionStep; value: Value; onChange: (v: Value) => void }) {
   if (step.type === "text" || step.type === "number") {
-    return <Input className="h-12" type={step.type} min={step.min} max={step.max} value={String(value ?? "")} onChange={(e) => onChange(e.target.value)} aria-label={step.label} />;
+    return <Input type={step.type} min={step.min} max={step.max} value={String(value ?? "")} onChange={(e) => onChange(e.target.value)} aria-label={step.label} />;
   }
   if (step.type === "radio") return <Options options={step.options ?? []} value={value} multi={false} onChange={onChange} />;
   if (step.type === "checkbox") return <Options options={step.options ?? []} value={value} multi onChange={onChange} />;
@@ -44,7 +44,7 @@ export function QuestionField({ step, value, onChange }: { step: QuestionStep; v
     <div className="grid gap-4">
       {Object.entries(step.groups ?? {}).map(([group, options]) => (
         <div key={group}>
-          <p className="type-field-label mb-2 text-text">{group}</p>
+          <p className="mb-2 text-xs font-semibold tracking-wide text-muted-foreground uppercase">{group}</p>
           <Options options={options} value={value} multi onChange={onChange} />
         </div>
       ))}

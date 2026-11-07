@@ -9,7 +9,7 @@ import { Icon } from "@/components/shared/Icon";
 import { Button } from "@/components/ui/button";
 import programs from "@/constants/programs/programs.json";
 import { programPath } from "@/constants/routes";
-import { LinkButton } from "./kit/LinkButton";
+import { LinkButton } from "@/components/shared/section/LinkButton";
 
 // Same order as 'icons' in constants/home/services.php.
 const ICONS = [faWheatAwn, faDroplet, faLeaf, faVenus];

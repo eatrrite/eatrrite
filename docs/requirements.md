@@ -43,7 +43,7 @@ Each phase waits for approval before the next one starts. Phases 1 to 3 are fron
 | Components | shadcn (`base-nova` style, built on Base UI) |
 | Icons | Font Awesome 6.5.2 as inline SVG |
 | Animation | Framer Motion, replacing the PHP site's GSAP |
-| Fonts | Lora and Bricolage Grotesque, self-hosted through `next/font` |
+| Fonts | Libre Baskerville (headings), Merriweather (body), Caveat (accents), self-hosted through `next/font`, as on Deccan Dentics |
 | Package manager | Bun |
 | Database | Neon Postgres, through `@neondatabase/serverless` |
 | Auth | Neon Auth (users in `neon_auth.user`), linked to `profiles` |
@@ -174,7 +174,7 @@ The booking order must not change: payment, confirmed appointment, questionnaire
 | Admin design | The admin copies the Deccan Dentics admin (not the PHP admin), in Eat Rrite colours and fonts, including Patients. Appointments link to a patient, as in Deccan. Its theme applies only when the admin shell is on the page (`:root:has(.admin-shell)` in `globals.css`). |
 | Buttons | The shadcn `Button` uses the Deccan variants (default, outline, secondary, ghost, destructive, link). Public pages use `PillButton`, which keeps the PHP pill style. |
 | Admin password | `eatrrite@1234`, checked in the browser for the UI preview only. Anyone can read it in the page code. It is replaced by Neon Auth before launch. |
-| Home page redesign | Farhan asked for the home page (after the hero) to follow the Deccan Dentics home design: alternating white and mint sections with a bottom border, faint floating food icons behind content, numbered lists, a programs tab panel, an FAQ picker and a testimonials carousel. Every element reveals with slide, fade and blur (`components/motion/BlurIn.tsx`). Header, hero and marquee are unchanged, and all home copy is kept. **This goes against the client brief's "no redesign" rule, so Mukta must approve it before launch.** |
+| Home page redesign | Farhan asked for the home page (after the hero) to follow the Deccan Dentics home design: alternating white and mint sections with a bottom border, faint floating food icons behind content, numbered lists, a programs tab panel, an FAQ picker and a testimonials carousel. Every element reveals with slide, fade and blur (`components/motion/BlurIn.tsx`). Header, hero and marquee are unchanged, and all home copy is kept. The same style now covers every page and a light footer, and the fonts are the Deccan Dentics set. **This goes against the client brief's "no redesign" rule, so Mukta must approve it before launch.** |
 | Emails | Moved to Phase 5. The confirmation page no longer says an email is on its way. |
 | Heading tags | "Reserve your slot" is an H2, as the brief asks. PHP has it as a second H1. It looks the same. |
 | Brief's wording corrections | Copy the site as it stands during the rebuild, then apply the brief in one pass. List of corrections: `php-site-tasks.md`. Applying them later means the home page still shows the blog placeholders, testimonials and the 4.8★ rating as they are on the live site. |

@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
-import { PackageGrid } from "@/components/shared/PackageGrid";
 import { PageBanner } from "@/components/layout/PageBanner";
-import { SectionHeading } from "@/components/shared/SectionHeading";
+import { BlurIn } from "@/components/motion/BlurIn";
+import { PackageCards } from "@/components/shared/PackageCards";
+import { PageSection } from "@/components/shared/section/PageSection";
+import { SectionIntro } from "@/components/shared/section/SectionIntro";
 import copy from "@/constants/pricing/content.json";
+import { pageFood } from "@/constants/home/floatingFood";
 
 export const metadata: Metadata = {
   title: "Pricing",
@@ -10,16 +13,16 @@ export const metadata: Metadata = {
 };
 
 export default function PricingPage() {
-    return (
+  return (
     <>
       <PageBanner title="Pricing" />
-      <section className="er-section">
-        <div className="er-container">
-          <SectionHeading pill={copy.pill} title={copy.title} lead={copy.lead} />
-          <PackageGrid badge />
-          <p className="mt-7 mb-4 text-center text-[15px] text-muted-foreground">{copy.note}</p>
-        </div>
-      </section>
+      <PageSection tone="white" food={pageFood(4)}>
+        <SectionIntro eyebrow={copy.pill} title={copy.title} lead={copy.lead} center />
+        <PackageCards badge />
+        <BlurIn delay={0.2}>
+          <p className="mx-auto mt-8 mb-0 max-w-2xl text-center text-sm text-text">{copy.note}</p>
+        </BlurIn>
+      </PageSection>
     </>
   );
 }

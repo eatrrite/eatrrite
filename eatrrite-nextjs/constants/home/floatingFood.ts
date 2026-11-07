@@ -33,3 +33,8 @@ export const FLOATING_FOOD = {
   testimonials: [left("carrot", "top-[34%]", -12), right("wheat", "bottom-[16%]", 14)],
   cta: [left("sprout", "top-[28%]", 10), right("grape", "bottom-[12%]", -12)],
 } satisfies Record<string, FloatingFoodItem[]>;
+
+const PAIRS = Object.values(FLOATING_FOOD);
+
+// Floating icons for inner-page sections, cycling through the home sets.
+export const pageFood = (index: number) => PAIRS[index % PAIRS.length];

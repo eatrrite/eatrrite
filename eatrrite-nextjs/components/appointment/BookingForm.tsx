@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { PillButton } from "@/components/shared/PillButton";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -29,38 +29,38 @@ export function BookingForm({ feeRupees }: { feeRupees: number }) {
   }
 
   return (
-    <form noValidate onSubmit={submit} className="grid gap-4 text-primary">
-      {error ? <p role="alert" className="m-0 rounded-xs bg-alert-bg px-4 py-3 text-sm text-alert-text">{error}</p> : null}
-      <div className="grid gap-1.5">
-        <Label className="type-field-label text-text" htmlFor="booking-service">Service</Label>
+    <form noValidate onSubmit={submit} className="space-y-4">
+      {error ? <p role="alert" className="m-0 rounded-lg bg-alert-bg px-4 py-3 text-sm text-alert-text">{error}</p> : null}
+      <div className="space-y-2">
+        <Label htmlFor="booking-service">Service</Label>
         <Select items={SERVICES.map((s) => ({ label: s, value: s }))} value={fields.service || null} onValueChange={(v) => update("service")(String(v ?? ""))}>
-          <SelectTrigger id="booking-service" className="h-12 w-full bg-white"><SelectValue placeholder="Select a service" /></SelectTrigger>
+          <SelectTrigger id="booking-service" className="w-full"><SelectValue placeholder="Select a service" /></SelectTrigger>
           <SelectContent>
             {SERVICES.map((s) => <SelectItem key={s} value={s} className="whitespace-normal">{s}</SelectItem>)}
           </SelectContent>
         </Select>
       </div>
-      <div className="grid gap-4 min-[576px]:grid-cols-2">
-        <div className="grid min-w-0 gap-1.5">
-          <Label className="type-field-label text-text" htmlFor="booking-name">Full name</Label>
-          <Input className="h-12 bg-white" id="booking-name" autoComplete="name" maxLength={80} placeholder="Your name" value={fields.name} onChange={(e) => update("name")(e.target.value)} />
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div className="min-w-0 space-y-2">
+          <Label htmlFor="booking-name">Full name</Label>
+          <Input id="booking-name" autoComplete="name" maxLength={80} placeholder="Your name" value={fields.name} onChange={(e) => update("name")(e.target.value)} />
         </div>
-        <div className="grid min-w-0 gap-1.5">
-          <Label className="type-field-label text-text" htmlFor="booking-email">Email address</Label>
-          <Input className="h-12 bg-white" id="booking-email" type="email" autoComplete="email" maxLength={120} placeholder="you@example.com" value={fields.email} onChange={(e) => update("email")(e.target.value)} />
+        <div className="min-w-0 space-y-2">
+          <Label htmlFor="booking-email">Email address</Label>
+          <Input id="booking-email" type="email" autoComplete="email" maxLength={120} placeholder="you@example.com" value={fields.email} onChange={(e) => update("email")(e.target.value)} />
         </div>
       </div>
-      <div className="grid gap-1.5">
-        <Label className="type-field-label text-text" htmlFor="booking-mobile">Mobile number</Label>
-        <Input className="h-12 bg-white" id="booking-mobile" type="tel" inputMode="numeric" autoComplete="tel" maxLength={13} placeholder="10-digit number" value={fields.phone} onChange={(e) => update("phone")(e.target.value)} />
+      <div className="space-y-2">
+        <Label htmlFor="booking-mobile">Mobile number</Label>
+        <Input id="booking-mobile" type="tel" inputMode="numeric" autoComplete="tel" maxLength={13} placeholder="10-digit number" value={fields.phone} onChange={(e) => update("phone")(e.target.value)} />
       </div>
       <SlotTrigger slot={slot} onOpen={() => { setCalendarUsed(true); setSlotOpen(true); }} />
-      <p className="m-0 text-sm leading-normal text-text">
+      <p className="m-0 text-sm leading-relaxed text-muted-foreground">
         A ₹{feeRupees} confirmation fee holds your {MEETING_MINUTES}-minute consultation. Hours (IST): {HOURS_NOTE}.
       </p>
-      <PillButton type="submit" variant="accent" disabled={busy} className="w-full">
+      <Button type="submit" size="xl" disabled={busy} className="w-full sm:w-auto">
         {busy ? "Processing…" : `Pay ₹${feeRupees} and book`}
-      </PillButton>
+      </Button>
       {calendarUsed ? <SlotDialog open={slotOpen} onOpenChange={setSlotOpen} onConfirm={setSlot} /> : null}
     </form>
   );

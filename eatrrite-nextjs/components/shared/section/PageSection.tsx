@@ -1,10 +1,10 @@
 import { cn } from "cn";
 import type { FloatingFoodItem } from "@/constants/home/floatingFood";
-import { FloatingFood } from "./FloatingFood";
+import { FloatingFood } from "@/components/shared/section/FloatingFood";
 
 // One home section in the Deccan Dentics pattern: alternating background,
 // bottom border, faint floating images behind the content.
-export function HomeSection({
+export function PageSection({
   id,
   tone,
   food,

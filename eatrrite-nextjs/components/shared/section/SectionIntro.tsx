@@ -27,7 +27,7 @@ export function SectionIntro({
       </BlurIn>
       {accent ? (
         <BlurIn delay={0.05}>
-          <p className="mt-3 mb-0 font-heading text-2xl text-primary italic sm:text-3xl">{accent}</p>
+          <p className="mt-3 mb-0 font-script text-2xl text-primary sm:text-3xl">{accent}</p>
         </BlurIn>
       ) : null}
       <BlurIn delay={0.1}>

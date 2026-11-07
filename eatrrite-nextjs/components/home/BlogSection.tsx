@@ -5,14 +5,14 @@ import { BlurIn } from "@/components/motion/BlurIn";
 import { FLOATING_FOOD } from "@/constants/home/floatingFood";
 import home from "@/constants/home/content.json";
 import { ROUTES } from "@/constants/routes";
-import { HomeSection } from "./kit/HomeSection";
-import { SectionIntro } from "./kit/SectionIntro";
+import { PageSection } from "@/components/shared/section/PageSection";
+import { SectionIntro } from "@/components/shared/section/SectionIntro";
 
 // Blog posts as Deccan-style cards. Also used on the /blog page.
 export function BlogSection() {
   const { blog } = home;
   return (
-    <HomeSection id="blog" tone="mint" food={FLOATING_FOOD.blog}>
+    <PageSection id="blog" tone="mint" food={FLOATING_FOOD.blog}>
       <SectionIntro eyebrow={blog.pill} title={blog.title} lead={blog.lead} count={blog.posts.length} />
       <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {blog.posts.map((post, index) => (
@@ -33,6 +33,6 @@ export function BlogSection() {
           </BlurIn>
         ))}
       </div>
-    </HomeSection>
+    </PageSection>
   );
 }
