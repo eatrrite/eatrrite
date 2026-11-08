@@ -12,7 +12,7 @@ import { CalendarWeekView } from "@/components/admin/calendar/CalendarWeekView";
 import { useCalendarDayActions } from "@/hooks/admin/useCalendarDayActions";
 import { useCalendarState } from "@/hooks/admin/useCalendarState";
 import { useClinicStore } from "@/stores/adminStore";
-import type { Appointment } from "@/types/admin/admin";
+import type { ClinicAppointment } from "@/types/admin/appointment";
 import { toDateValue } from "@/utils/admin/date";
 import { formatMonthTitle } from "@/utils/admin/calendarMonth";
 import { formatWeekTitle } from "@/utils/admin/calendarWeek";
@@ -38,7 +38,7 @@ export function CalendarWorkspace() {
     return format(cursorDate, "EEEE, d MMMM yyyy");
   }, [view, cursorDate]);
 
-  const openAppointment = (item: Appointment) => {
+  const openAppointment = (item: ClinicAppointment) => {
     selectDate(parseISO(item.date));
     actions.setDetail(item);
   };
@@ -72,7 +72,7 @@ export function CalendarWorkspace() {
             selected={selectedDate}
             today={today}
             appointments={appointments}
-            patientName={actions.patientName}
+            leadName={actions.leadName}
             onSelectDate={selectDate}
             onSelectAppointment={openAppointment}
             onEmptySlot={openSlot}
@@ -81,7 +81,7 @@ export function CalendarWorkspace() {
           <CalendarDayView
             date={cursorDate}
             appointments={appointments}
-            patientName={actions.patientName}
+            leadName={actions.leadName}
             onEmptySlot={(time) => openSlot(cursorDate, time)}
             onSelectAppointment={openAppointment}
           />
@@ -91,8 +91,8 @@ export function CalendarWorkspace() {
       <CalendarPanel className="flex h-[min(28rem,60dvh)] flex-col overflow-hidden lg:h-full lg:min-h-0">
         <CalendarDayDetails
           selectedDate={selectedDate}
-          patientName={actions.patientName}
-          canAdd={actions.patients.length > 0}
+          leadName={actions.leadName}
+          canAdd={actions.leads.length > 0}
           onAdd={() => actions.openCreate()}
           onOpenAppointment={openAppointment}
         />

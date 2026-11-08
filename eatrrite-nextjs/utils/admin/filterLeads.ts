@@ -1,28 +1,19 @@
-import { matchesAgeFilter, type PatientAgeFilter } from "@/constants/admin/patients/ageFilters";
-import type { Patient, PatientStatus } from "@/types/admin/admin";
+import { matchesAgeFilter } from "@/constants/admin/leads/ageFilters";
+import type { Lead } from "@/types/admin/lead";
+import type { LeadListFilters } from "@/types/admin/lead";
 
-export type PatientListFilters = {
-  query: string;
-  age: PatientAgeFilter;
-  status: "all" | PatientStatus;
-};
+export type { LeadListFilters };
 
-export function filterPatients(
-  patients: Patient[],
-  filters: PatientListFilters,
-): Patient[] {
+export function filterLeads(leads: Lead[], filters: LeadListFilters): Lead[] {
   const query = filters.query.trim().toLowerCase();
 
-  return patients.filter((patient) => {
-    if (!matchesAgeFilter(patient.age, filters.age)) return false;
-    if (filters.status !== "all" && patient.status !== filters.status) {
-      return false;
-    }
+  return leads.filter((lead) => {
+    if (!matchesAgeFilter(lead.age, filters.age)) return false;
     if (!query) return true;
     return (
-      patient.name.toLowerCase().includes(query) ||
-      patient.phone.toLowerCase().includes(query) ||
-      (patient.profession?.toLowerCase().includes(query) ?? false)
+      lead.name.toLowerCase().includes(query) ||
+      lead.phone.toLowerCase().includes(query) ||
+      (lead.profession?.toLowerCase().includes(query) ?? false)
     );
   });
 }

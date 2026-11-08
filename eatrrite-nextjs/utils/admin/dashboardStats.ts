@@ -5,7 +5,8 @@ import {
   Users,
 } from "lucide-react";
 import { COMPLETED_VISIT_FEE } from "@/constants/admin/dashboard/reference";
-import type { Appointment, Patient } from "@/types/admin/admin";
+import type { ClinicAppointment } from "@/types/admin/appointment";
+import type { Lead } from "@/types/admin/lead";
 import type { DashboardFilters, StatsCardModel } from "@/types/admin/dashboard";
 import {
   getCustomPreviousWindow,
@@ -17,13 +18,13 @@ import {
 import {
   countAppointments,
   countCompleted,
-  countPatients,
+  countLeads,
   percentChange,
 } from "@/utils/admin/dashboardStatsCount";
 
 export function buildDashboardStats(
-  patients: Patient[],
-  appointments: Appointment[],
+  leads: Lead[],
+  appointments: ClinicAppointment[],
   filters: DashboardFilters,
   reference: Date,
 ): StatsCardModel[] {
@@ -40,12 +41,12 @@ export function buildDashboardStats(
     return [];
   }
 
-  const patientNow = countPatients(patients, current);
+  const leadNow = countLeads(leads, current);
   const aptNow = countAppointments(appointments, filters, current);
   const doneNow = countCompleted(appointments, filters, current);
   const revenueNow = doneNow * COMPLETED_VISIT_FEE;
 
-  const patientPrev = previous ? countPatients(patients, previous) : null;
+  const leadPrev = previous ? countLeads(leads, previous) : null;
   const aptPrev = previous
     ? countAppointments(appointments, filters, previous)
     : null;
@@ -56,12 +57,12 @@ export function buildDashboardStats(
 
   return [
     {
-      id: "patients",
-      label: "Total Patients",
-      value: String(patientNow),
+      id: "leads",
+      label: "Total Leads",
+      value: String(leadNow),
       icon: Users,
       trendPercent:
-        patientPrev === null ? null : percentChange(patientNow, patientPrev),
+        leadPrev === null ? null : percentChange(leadNow, leadPrev),
       trendLabel,
     },
     {

@@ -1,5 +1,5 @@
 import { SERVICES } from "@/constants/appointment/schedule";
-import type { BookingInput } from "@/types/appointment";
+import type { BookingInput } from "@/types/appointment/booking";
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE = /^[6-9]\d{9}$/;

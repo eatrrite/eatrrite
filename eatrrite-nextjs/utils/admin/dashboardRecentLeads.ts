@@ -1,24 +1,27 @@
 import { format, parseISO } from "date-fns";
-import type { Appointment, Patient } from "@/types/admin/admin";
-import type { RecentPatientRow } from "@/types/admin/dashboard";
+import type { ClinicAppointment } from "@/types/admin/appointment";
+import type { RecentLeadRow } from "@/types/admin/dashboard";
+import type { Lead } from "@/types/admin/lead";
 
-/** Most recently updated patients with their latest visit label. */
-export function buildRecentPatientRows(
-  patients: Patient[],
-  appointments: Appointment[],
+/** Most recently updated leads with their latest visit label. */
+export function buildRecentLeadRows(
+  leads: Lead[],
+  appointments: ClinicAppointment[],
   limit = 5,
-): RecentPatientRow[] {
-  return [...patients]
+): RecentLeadRow[] {
+  return [...leads]
     .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
     .slice(0, limit)
-    .map((patient) => {
+    .map((lead) => {
       const last = [...appointments]
-        .filter((item) => item.patientId === patient.id)
-        .sort((a, b) => b.date.localeCompare(a.date) || b.time.localeCompare(a.time))[0];
+        .filter((item) => item.leadId === lead.id)
+        .sort(
+          (a, b) => b.date.localeCompare(a.date) || b.time.localeCompare(a.time),
+        )[0];
 
       return {
-        id: patient.id,
-        name: patient.name,
+        id: lead.id,
+        name: lead.name,
         lastVisitLabel: last
           ? format(parseISO(last.date), "MMM d, yyyy")
           : "No visits yet",

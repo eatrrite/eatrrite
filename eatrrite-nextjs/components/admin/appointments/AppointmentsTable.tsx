@@ -10,11 +10,9 @@ import { ConfirmationModal } from "@/components/admin/ConfirmationModal";
 import { useAppointmentTableActions } from "@/hooks/admin/useAppointmentTableActions";
 import { useSelectedRow } from "@/hooks/admin/useSelectedRow";
 import { useClinicStore } from "@/stores/adminStore";
-import type { Appointment } from "@/types/admin/admin";
-import {
-  filterAppointments,
-  type AppointmentListFilters,
-} from "@/utils/admin/filterAppointments";
+import type { ClinicAppointment } from "@/types/admin/appointment";
+import type { AppointmentListFilters } from "@/types/admin/appointment";
+import { filterAppointments } from "@/utils/admin/filterAppointments";
 
 const INITIAL_FILTERS: AppointmentListFilters = {
   query: "",
@@ -24,21 +22,21 @@ const INITIAL_FILTERS: AppointmentListFilters = {
 
 export function AppointmentsTable() {
   const appointments = useClinicStore((s) => s.appointments);
-  const patients = useClinicStore((s) => s.patients);
+  const leads = useClinicStore((s) => s.leads);
   const actions = useAppointmentTableActions();
   const [filters, setFilters] = useState(INITIAL_FILTERS);
   const rows = useMemo(
-    () => filterAppointments(appointments, patients, filters),
-    [appointments, patients, filters],
+    () => filterAppointments(appointments, leads, filters),
+    [appointments, leads, filters],
   );
-  const getId = useCallback((item: Appointment) => item.id, []);
+  const getId = useCallback((item: ClinicAppointment) => item.id, []);
   const [selectedId, selectRow, selected] = useSelectedRow(rows, getId);
   const columns = useMemo(
     () =>
       getAppointmentListColumns(
-        (id) => actions.getPatient(id)?.name ?? "Unknown",
+        (id) => actions.getLead(id)?.name ?? "Unknown",
       ),
-    [actions.getPatient],
+    [actions.getLead],
   );
 
   return (
@@ -46,7 +44,7 @@ export function AppointmentsTable() {
       <AppointmentsToolbar
         filters={filters}
         onChange={setFilters}
-        canAdd={patients.length > 0}
+        canAdd={leads.length > 0}
         onAdd={actions.startCreate}
       />
       <div className="grid gap-4 lg:grid-cols-[3fr_2fr]">
@@ -60,9 +58,9 @@ export function AppointmentsTable() {
         />
         <AppointmentDetailsCard
           appointment={selected}
-          patientName={
+          leadName={
             selected
-              ? (actions.getPatient(selected.patientId)?.name ?? "Unknown")
+              ? (actions.getLead(selected.leadId)?.name ?? "Unknown")
               : ""
           }
           onEdit={() => selected && actions.startEdit(selected)}
@@ -72,7 +70,7 @@ export function AppointmentsTable() {
       <AppointmentFormDialog
         open={actions.open}
         appointment={actions.editing}
-        patients={patients}
+        leads={leads}
         onClose={() => actions.setOpen(false)}
         onSave={actions.save}
       />

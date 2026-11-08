@@ -1,31 +1,46 @@
-import type { Appointment, AppointmentInput, Patient } from "@/types/admin/admin";
+import type {
+  ClinicAppointment,
+  ClinicAppointmentInput,
+} from "@/types/admin/appointment";
+import type { Lead } from "@/types/admin/lead";
+import { applyLeadToQuestionnaire } from "@/utils/admin/leadQuestionnaire";
 
-const EMPTY: AppointmentInput = {
-  patientId: "",
+const EMPTY: ClinicAppointmentInput = {
+  leadId: "",
   date: "",
   time: "10:00",
-  reason: "",
+  service: "",
   status: "upcoming",
+  questionnaire: [],
 };
 
 export function appointmentToInput(
-  appointment: Appointment | null | undefined,
-  patients: Patient[],
-  defaults?: Partial<AppointmentInput>,
-): AppointmentInput {
+  appointment: ClinicAppointment | null | undefined,
+  leads: Lead[],
+  defaults?: Partial<ClinicAppointmentInput>,
+): ClinicAppointmentInput {
   if (appointment) {
+    const lead = leads.find((item) => item.id === appointment.leadId);
     return {
-      patientId: appointment.patientId,
+      leadId: appointment.leadId,
       date: appointment.date,
       time: appointment.time,
-      reason: appointment.reason,
+      service: appointment.service,
       status: appointment.status,
       notes: appointment.notes,
+      meetLink: appointment.meetLink,
+      questionnaire: applyLeadToQuestionnaire(appointment.questionnaire, lead),
     };
   }
+  const leadId = defaults?.leadId ?? leads[0]?.id ?? "";
+  const lead = leads.find((item) => item.id === leadId);
   return {
     ...EMPTY,
-    patientId: patients[0]?.id ?? "",
+    leadId,
     ...defaults,
+    questionnaire: applyLeadToQuestionnaire(
+      defaults?.questionnaire ?? [],
+      lead,
+    ),
   };
 }

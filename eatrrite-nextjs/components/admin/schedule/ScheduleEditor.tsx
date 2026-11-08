@@ -6,7 +6,7 @@ import { AdminMotion } from "@/components/admin/AdminPage";
 import { useConfirmDialog } from "@/hooks/admin/useConfirmDialog";
 import { useClinicStore } from "@/stores/adminStore";
 import { WEEKDAY_LABELS } from "@/constants/admin/schedule/weekdays";
-import type { Weekday } from "@/types/admin/admin";
+import type { Weekday } from "@/types/admin/schedule";
 
 export function ScheduleEditor() {
   const days = useClinicStore((s) => s.days);
@@ -33,7 +33,7 @@ export function ScheduleEditor() {
     ask({
       title: `Mark ${WEEKDAY_LABELS[day]} as closed?`,
       description:
-        "Patients will not be able to book consultations on this day while it stays closed.",
+        "Leads will not be able to book consultations on this day while it stays closed.",
       confirmLabel: "Close day",
       onConfirm: () => setDayOpen(day, false),
     });

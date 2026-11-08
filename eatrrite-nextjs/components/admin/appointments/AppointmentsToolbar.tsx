@@ -1,10 +1,7 @@
 "use client";
 
 import { Plus, Search } from "lucide-react";
-import {
-  APPOINTMENT_DATE_FILTER_OPTIONS,
-  type AppointmentDateFilter,
-} from "@/constants/admin/appointments/dateFilters";
+import { APPOINTMENT_DATE_FILTER_OPTIONS } from "@/constants/admin/appointments/dateFilters";
 import { APPOINTMENT_STATUS_FILTER_OPTIONS } from "@/constants/admin/appointments/statuses";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,8 +12,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useShowToast } from "@/hooks/admin/useShowToast";
+import type {
+  AppointmentDateFilter,
+  AppointmentListFilters,
+} from "@/types/admin/appointment";
 import { notifyFilterApplied } from "@/utils/admin/filterToast";
-import type { AppointmentListFilters } from "@/utils/admin/filterAppointments";
 
 type AppointmentsToolbarProps = {
   filters: AppointmentListFilters;
@@ -54,7 +54,7 @@ export function AppointmentsToolbar({
               if (q) notifyFilterApplied(showToast, "Search applied", q);
             }}
             placeholder="Search appointments..."
-            className="h-8 w-full rounded-[calc(var(--radius-lg)/2)] border border-input bg-background py-1.5 pr-3 pl-9 text-sm outline-none transition-colors placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
+            className="h-8 w-full rounded-lg border border-input bg-background py-1.5 pr-3 pl-9 text-sm outline-none transition-colors placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
           />
         </label>
         <Select

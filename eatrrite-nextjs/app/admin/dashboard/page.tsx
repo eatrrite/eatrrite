@@ -5,7 +5,7 @@ import { AdminMotion, AdminPage } from "@/components/admin/AdminPage";
 import { AppointmentsChart } from "@/components/admin/dashboard/AppointmentsChart";
 import { DashboardPageHeader } from "@/components/admin/dashboard/DashboardPageHeader";
 import { DashboardStats } from "@/components/admin/dashboard/DashboardStats";
-import { RecentPatients } from "@/components/admin/dashboard/RecentPatients";
+import { RecentLeads } from "@/components/admin/dashboard/RecentLeads";
 import { TodayAppointments } from "@/components/admin/dashboard/TodayAppointments";
 import { TodayTodo } from "@/components/admin/dashboard/TodayTodo";
 import type { DashboardFilters } from "@/types/admin/dashboard";
@@ -33,7 +33,7 @@ export default function AdminDashboardPage() {
           <AppointmentsChart />
           <TodayTodo />
           <TodayAppointments />
-          <RecentPatients />
+          <RecentLeads />
         </div>
       </AdminMotion>
     </AdminPage>

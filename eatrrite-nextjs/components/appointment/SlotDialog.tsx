@@ -3,10 +3,9 @@
 import { useState } from "react";
 import { Dialog, DialogClose, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { todayIst } from "@/utils/istTime";
+import type { BookingSlot } from "@/types/appointment/booking";
 import { CalendarGrid } from "./CalendarGrid";
 import { TimeGrid } from "./TimeGrid";
-
-export type Slot = { date: string; time: string };
 
 const iconButton =
   "size-9 cursor-pointer rounded-xs bg-slot-icon text-xl leading-none text-primary disabled:cursor-default disabled:opacity-35";
@@ -19,7 +18,7 @@ export function SlotDialog({
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onConfirm: (slot: Slot) => void;
+  onConfirm: (slot: BookingSlot) => void;
 }) {
   const [today] = useState(todayIst);
   const [month, setMonth] = useState({ year: Number(today.slice(0, 4)), month: Number(today.slice(5, 7)) - 1 });

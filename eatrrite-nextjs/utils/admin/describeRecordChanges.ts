@@ -1,12 +1,10 @@
 import { APPOINTMENT_STATUS_LABELS } from "@/constants/admin/appointments/statuses";
-import { PATIENT_STATUS_LABELS } from "@/constants/admin/patients/statuses";
 import type { ShowToastInput } from "@/hooks/admin/useShowToast";
 import type {
-  Appointment,
-  AppointmentInput,
-  Patient,
-  PatientInput,
-} from "@/types/admin/admin";
+  ClinicAppointment,
+  ClinicAppointmentInput,
+} from "@/types/admin/appointment";
+import type { Lead, LeadInput } from "@/types/admin/lead";
 
 type FieldChange = { label: string; to: string };
 
@@ -29,17 +27,17 @@ function pushIfChanged(
   if (before !== after) changes.push({ label, to: after });
 }
 
-export function patientSaveToast(
-  editing: Patient | null,
-  input: PatientInput,
+export function leadSaveToast(
+  editing: Lead | null,
+  input: LeadInput,
 ): ShowToastInput {
   if (!editing) {
     return {
-      title: "Patient added",
+      title: "Lead added",
       description: [
         `${input.name} (${input.age} years`,
         input.profession ? `, ${input.profession}` : "",
-        `) was added as ${PATIENT_STATUS_LABELS[input.status]}.`,
+        ") was added to the lead list.",
       ].join(""),
       type: "success",
     };
@@ -48,45 +46,40 @@ export function patientSaveToast(
   pushIfChanged(changes, "name", editing.name, input.name);
   pushIfChanged(changes, "phone", editing.phone, input.phone);
   pushIfChanged(changes, "age", String(editing.age), String(input.age));
+  pushIfChanged(changes, "gender", editing.gender, input.gender);
   pushIfChanged(
     changes,
     "profession",
     editing.profession ?? "",
     input.profession ?? "",
   );
-  pushIfChanged(
-    changes,
-    "status",
-    PATIENT_STATUS_LABELS[editing.status],
-    PATIENT_STATUS_LABELS[input.status],
-  );
   pushIfChanged(changes, "email", editing.email ?? "", input.email ?? "");
   pushIfChanged(changes, "address", editing.address ?? "", input.address ?? "");
   return {
-    title: "Patient updated",
+    title: "Lead updated",
     description: formatChanges(editing.name, changes),
     type: "success",
   };
 }
 
 export function appointmentSaveToast(
-  editing: Appointment | null,
-  input: AppointmentInput,
-  previousPatientName: string,
-  nextPatientName: string,
+  editing: ClinicAppointment | null,
+  input: ClinicAppointmentInput,
+  previousLeadName: string,
+  nextLeadName: string,
 ): ShowToastInput {
   if (!editing) {
     return {
       title: "Appointment added",
-      description: `Consultation for ${nextPatientName} on ${input.date} at ${input.time} was scheduled.`,
+      description: `Consultation for ${nextLeadName} on ${input.date} at ${input.time} was scheduled.`,
       type: "success",
     };
   }
   const changes: FieldChange[] = [];
-  pushIfChanged(changes, "patient", previousPatientName, nextPatientName);
+  pushIfChanged(changes, "lead", previousLeadName, nextLeadName);
   pushIfChanged(changes, "date", editing.date, input.date);
   pushIfChanged(changes, "time", editing.time, input.time);
-  pushIfChanged(changes, "reason", editing.reason, input.reason);
+  pushIfChanged(changes, "service", editing.service, input.service);
   pushIfChanged(
     changes,
     "status",
@@ -94,9 +87,16 @@ export function appointmentSaveToast(
     APPOINTMENT_STATUS_LABELS[input.status],
   );
   pushIfChanged(changes, "notes", editing.notes ?? "", input.notes ?? "");
+  pushIfChanged(changes, "Meet link", editing.meetLink ?? "", input.meetLink ?? "");
+  pushIfChanged(
+    changes,
+    "questionnaire answers",
+    String(editing.questionnaire.length),
+    String(input.questionnaire.length),
+  );
   return {
     title: "Appointment updated",
-    description: formatChanges(previousPatientName, changes),
+    description: formatChanges(previousLeadName, changes),
     type: "success",
   };
 }

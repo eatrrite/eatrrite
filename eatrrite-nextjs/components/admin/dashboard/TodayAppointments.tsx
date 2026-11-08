@@ -18,15 +18,15 @@ import { cn } from "cn";
 
 export function TodayAppointments() {
   const appointments = useClinicStore((s) => s.appointments);
-  const getPatient = useClinicStore((s) => s.getPatient);
+  const getLead = useClinicStore((s) => s.getLead);
   const rows = useMemo(
     () =>
       buildTodayVisits(
         appointments,
-        (id) => getPatient(id)?.name ?? "Unknown",
+        (id) => getLead(id)?.name ?? "Unknown",
         DASHBOARD_REFERENCE_DATE,
       ),
-    [appointments, getPatient],
+    [appointments, getLead],
   );
 
   return (
@@ -56,10 +56,10 @@ export function TodayAppointments() {
               <span className="w-20 shrink-0 text-sm text-muted-foreground tabular-nums">
                 {formatTimeLabel(visit.time)}
               </span>
-              <DashboardAvatar name={visit.patientName} />
+              <DashboardAvatar name={visit.leadName} />
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-semibold text-foreground">
-                  {visit.patientName}
+                  {visit.leadName}
                 </p>
                 <p className="truncate text-sm text-muted-foreground">
                   {visit.service}

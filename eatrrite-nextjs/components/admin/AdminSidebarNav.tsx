@@ -23,7 +23,7 @@ import { cn } from "cn";
 const ICONS: Record<string, LucideIcon> = {
   "/admin/dashboard": LayoutDashboard,
   "/admin/schedule": Clock3,
-  "/admin/patients": Users,
+  "/admin/leads": Users,
   "/admin/appointments": CalendarDays,
   "/admin/calendar": Calendar,
   "/admin/account": UserRound,

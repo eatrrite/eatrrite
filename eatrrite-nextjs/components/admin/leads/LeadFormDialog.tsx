@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { LeadFormFields } from "@/components/admin/leads/LeadFormFields";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -9,49 +10,48 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { PatientFormFields } from "@/components/admin/patients/PatientFormFields";
-import type { Patient, PatientInput } from "@/types/admin/admin";
+import type { Lead, LeadInput } from "@/types/admin/lead";
 
-const EMPTY: PatientInput = {
+const EMPTY: LeadInput = {
   name: "",
   phone: "",
   age: 30,
-  status: "new",
+  gender: "Female",
 };
 
-function toInput(patient?: Patient | null): PatientInput {
-  if (!patient) return EMPTY;
+function toInput(lead?: Lead | null): LeadInput {
+  if (!lead) return EMPTY;
   return {
-    name: patient.name,
-    phone: patient.phone,
-    age: patient.age,
-    profession: patient.profession,
-    status: patient.status,
-    email: patient.email,
-    address: patient.address,
+    name: lead.name,
+    phone: lead.phone,
+    age: lead.age,
+    gender: lead.gender,
+    profession: lead.profession,
+    email: lead.email,
+    address: lead.address,
   };
 }
 
-type PatientFormDialogProps = {
+type LeadFormDialogProps = {
   open: boolean;
-  patient?: Patient | null;
+  lead?: Lead | null;
   onClose: () => void;
-  onSave: (input: PatientInput) => void;
+  onSave: (input: LeadInput) => void;
 };
 
-export function PatientFormDialog({
+export function LeadFormDialog({
   open,
-  patient,
+  lead,
   onClose,
   onSave,
-}: PatientFormDialogProps) {
+}: LeadFormDialogProps) {
   return (
     <Dialog open={open} onOpenChange={(next) => (!next ? onClose() : null)}>
       <DialogContent className="sm:max-w-lg" showCloseButton>
         {open ? (
-          <PatientFormBody
-            key={patient?.id ?? "new"}
-            patient={patient}
+          <LeadFormBody
+            key={lead?.id ?? "new"}
+            lead={lead}
             onClose={onClose}
             onSave={onSave}
           />
@@ -61,18 +61,18 @@ export function PatientFormDialog({
   );
 }
 
-function PatientFormBody({
-  patient,
+function LeadFormBody({
+  lead,
   onClose,
   onSave,
-}: Omit<PatientFormDialogProps, "open">) {
-  const [value, setValue] = useState(() => toInput(patient));
+}: Omit<LeadFormDialogProps, "open">) {
+  const [value, setValue] = useState(() => toInput(lead));
 
   return (
     <>
       <DialogHeader>
         <DialogTitle className="font-heading text-xl font-bold">
-          {patient ? "Edit patient" : "Add patient"}
+          {lead ? "Edit lead" : "Add lead"}
         </DialogTitle>
       </DialogHeader>
       <form
@@ -83,12 +83,12 @@ function PatientFormBody({
           onClose();
         }}
       >
-        <PatientFormFields value={value} onChange={setValue} />
+        <LeadFormFields value={value} onChange={setValue} />
         <DialogFooter>
           <Button type="button" variant="outline" onClick={onClose}>
             Cancel
           </Button>
-          <Button type="submit">{patient ? "Save changes" : "Create"}</Button>
+          <Button type="submit">{lead ? "Save changes" : "Create"}</Button>
         </DialogFooter>
       </form>
     </>

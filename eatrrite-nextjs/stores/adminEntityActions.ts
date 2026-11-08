@@ -1,15 +1,14 @@
 import type {
-  Appointment,
-  AppointmentInput,
-  Patient,
-  PatientInput,
-} from "@/types/admin/admin";
+  ClinicAppointment,
+  ClinicAppointmentInput,
+} from "@/types/admin/appointment";
+import type { Lead, LeadInput } from "@/types/admin/lead";
 import type { ClinicTodo, TodoInput } from "@/types/admin/todo";
 import { createId } from "@/utils/admin/id";
 
 type EntitySlice = {
-  patients: Patient[];
-  appointments: Appointment[];
+  leads: Lead[];
+  appointments: ClinicAppointment[];
   todos: ClinicTodo[];
 };
 
@@ -23,34 +22,33 @@ type GetState = () => EntitySlice;
 
 export function createClinicEntityActions(set: SetState, get: GetState) {
   return {
-    getPatient: (id: string) =>
-      get().patients.find((patient) => patient.id === id),
-    addPatient: (input: PatientInput) => {
+    getLead: (id: string) => get().leads.find((lead) => lead.id === id),
+    addLead: (input: LeadInput) => {
       const now = new Date().toISOString();
-      const patient: Patient = {
+      const lead: Lead = {
         ...input,
         id: createId(),
         createdAt: now,
         updatedAt: now,
       };
-      set((s) => ({ patients: [patient, ...s.patients] }));
-      return patient;
+      set((s) => ({ leads: [lead, ...s.leads] }));
+      return lead;
     },
-    updatePatient: (id: string, input: PatientInput) => {
+    updateLead: (id: string, input: LeadInput) => {
       set((s) => ({
-        patients: s.patients.map((p) =>
-          p.id === id
-            ? { ...p, ...input, updatedAt: new Date().toISOString() }
-            : p,
+        leads: s.leads.map((item) =>
+          item.id === id
+            ? { ...item, ...input, updatedAt: new Date().toISOString() }
+            : item,
         ),
       }));
     },
-    deletePatient: (id: string) => {
-      set((s) => ({ patients: s.patients.filter((p) => p.id !== id) }));
+    deleteLead: (id: string) => {
+      set((s) => ({ leads: s.leads.filter((item) => item.id !== id) }));
     },
-    addAppointment: (input: AppointmentInput) => {
+    addAppointment: (input: ClinicAppointmentInput) => {
       const now = new Date().toISOString();
-      const appointment: Appointment = {
+      const appointment: ClinicAppointment = {
         ...input,
         id: createId(),
         createdAt: now,
@@ -59,7 +57,7 @@ export function createClinicEntityActions(set: SetState, get: GetState) {
       set((s) => ({ appointments: [appointment, ...s.appointments] }));
       return appointment;
     },
-    updateAppointment: (id: string, input: AppointmentInput) => {
+    updateAppointment: (id: string, input: ClinicAppointmentInput) => {
       set((s) => ({
         appointments: s.appointments.map((item) =>
           item.id === id

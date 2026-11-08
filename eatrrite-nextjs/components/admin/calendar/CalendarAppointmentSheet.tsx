@@ -10,11 +10,11 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import type { Appointment } from "@/types/admin/admin";
+import type { ClinicAppointment } from "@/types/admin/appointment";
 
 type CalendarAppointmentSheetProps = {
-  appointment: Appointment | null;
-  patientName: string;
+  appointment: ClinicAppointment | null;
+  leadName: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onEdit: () => void;
@@ -23,7 +23,7 @@ type CalendarAppointmentSheetProps = {
 
 export function CalendarAppointmentSheet({
   appointment,
-  patientName,
+  leadName,
   open,
   onOpenChange,
   onEdit,
@@ -37,7 +37,7 @@ export function CalendarAppointmentSheet({
       >
         <SheetHeader className="border-b border-border pr-12">
           <SheetTitle className="font-heading text-xl font-bold">
-            Appointment details
+            ClinicAppointment details
           </SheetTitle>
         </SheetHeader>
         {appointment ? (
@@ -45,7 +45,7 @@ export function CalendarAppointmentSheet({
             <div className="min-h-0 flex-1 overflow-y-auto p-4">
               <AppointmentDetailsBody
                 appointment={appointment}
-                patientName={patientName}
+                leadName={leadName}
               />
             </div>
             <SheetFooter className="flex-row justify-end gap-2 border-t border-border">

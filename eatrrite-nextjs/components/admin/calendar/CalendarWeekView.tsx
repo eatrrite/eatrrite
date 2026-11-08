@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import type { Appointment } from "@/types/admin/admin";
+import type { ClinicAppointment } from "@/types/admin/appointment";
 import { CalendarHourLines } from "@/components/admin/calendar/CalendarHourLines";
 import { CalendarTimeGutter } from "@/components/admin/calendar/CalendarTimeGutter";
 import { CalendarWeekDayColumn } from "@/components/admin/calendar/CalendarWeekDayColumn";
@@ -21,10 +21,10 @@ type CalendarWeekViewProps = {
   cursor: Date;
   selected: Date;
   today: Date;
-  appointments: Appointment[];
-  patientName: (patientId: string) => string;
+  appointments: ClinicAppointment[];
+  leadName: (leadId: string) => string;
   onSelectDate: (date: Date) => void;
-  onSelectAppointment: (appointment: Appointment) => void;
+  onSelectAppointment: (appointment: ClinicAppointment) => void;
   onEmptySlot: (date: Date, time: string) => void;
 };
 
@@ -33,7 +33,7 @@ export function CalendarWeekView({
   selected,
   today,
   appointments,
-  patientName,
+  leadName,
   onSelectDate,
   onSelectAppointment,
   onEmptySlot,
@@ -97,7 +97,7 @@ export function CalendarWeekView({
                 key={day.dateKey}
                 isSelected={day.isSelected}
                 appointments={appointmentsOnDate(byDate, day.dateKey)}
-                patientName={patientName}
+                leadName={leadName}
                 onSelectDate={() => onSelectDate(day.date)}
                 onSelectAppointment={onSelectAppointment}
                 onEmptySlot={(time) => onEmptySlot(day.date, time)}

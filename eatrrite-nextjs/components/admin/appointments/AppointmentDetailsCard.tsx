@@ -4,18 +4,18 @@ import { Pencil, Trash2 } from "lucide-react";
 import { AppointmentDetailsBody } from "@/components/admin/appointments/AppointmentDetailsBody";
 import { Button } from "@/components/ui/button";
 import { HeroMotion } from "@/components/motion/FadeIn";
-import type { Appointment } from "@/types/admin/admin";
+import type { ClinicAppointment } from "@/types/admin/appointment";
 
 type AppointmentDetailsCardProps = {
-  appointment: Appointment | null;
-  patientName: string;
+  appointment: ClinicAppointment | null;
+  leadName: string;
   onEdit: () => void;
   onDelete: () => void;
 };
 
 export function AppointmentDetailsCard({
   appointment,
-  patientName,
+  leadName,
   onEdit,
   onDelete,
 }: AppointmentDetailsCardProps) {
@@ -32,7 +32,7 @@ export function AppointmentDetailsCard({
       <HeroMotion key={`${appointment.id}-body`} delay={0.05}>
         <AppointmentDetailsBody
           appointment={appointment}
-          patientName={patientName}
+          leadName={leadName}
         />
       </HeroMotion>
       <HeroMotion key={`${appointment.id}-actions`} delay={0.28}>

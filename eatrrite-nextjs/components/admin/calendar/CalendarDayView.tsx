@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import type { Appointment } from "@/types/admin/admin";
+import type { ClinicAppointment } from "@/types/admin/appointment";
 import { CalendarDayBlock } from "@/components/admin/calendar/CalendarDayBlock";
 import { CalendarDayEmptySlots } from "@/components/admin/calendar/CalendarDayEmptySlots";
 import { CalendarHourLines } from "@/components/admin/calendar/CalendarHourLines";
@@ -20,16 +20,16 @@ import { toDateValue } from "@/utils/admin/date";
 
 type CalendarDayViewProps = {
   date: Date;
-  appointments: Appointment[];
-  patientName: (patientId: string) => string;
+  appointments: ClinicAppointment[];
+  leadName: (leadId: string) => string;
   onEmptySlot?: (time: string) => void;
-  onSelectAppointment?: (appointment: Appointment) => void;
+  onSelectAppointment?: (appointment: ClinicAppointment) => void;
 };
 
 export function CalendarDayView({
   date,
   appointments,
-  patientName,
+  leadName,
   onEmptySlot,
   onSelectAppointment,
 }: CalendarDayViewProps) {
@@ -64,7 +64,7 @@ export function CalendarDayView({
                 <CalendarDayBlock
                   key={item.id}
                   appointment={item}
-                  patientName={patientName(item.patientId)}
+                  leadName={leadName(item.leadId)}
                   topPx={layout.topPx}
                   heightPx={layout.heightPx}
                   onSelect={() => onSelectAppointment?.(item)}

@@ -2,10 +2,10 @@
 
 import { cn } from "cn";
 import { displayDate, displayTime } from "@/utils/istTime";
-import type { Slot } from "./SlotDialog";
+import type { BookingSlot } from "@/types/appointment/booking";
 
 // The "Appointment slot" button that opens the picker.
-export function SlotTrigger({ slot, onOpen }: { slot: Slot | null; onOpen: () => void }) {
+export function SlotTrigger({ slot, onOpen }: { slot: BookingSlot | null; onOpen: () => void }) {
   return (
     <button
       type="button"

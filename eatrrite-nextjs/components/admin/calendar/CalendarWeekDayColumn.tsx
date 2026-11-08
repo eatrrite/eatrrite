@@ -1,6 +1,6 @@
 "use client";
 
-import type { Appointment } from "@/types/admin/admin";
+import type { ClinicAppointment } from "@/types/admin/appointment";
 import { CalendarAppointmentBlock } from "@/components/admin/calendar/CalendarAppointmentBlock";
 import { CalendarDayEmptySlots } from "@/components/admin/calendar/CalendarDayEmptySlots";
 import { appointmentBlockLayout } from "@/utils/admin/calendarTime";
@@ -8,17 +8,17 @@ import { cn } from "cn";
 
 type CalendarWeekDayColumnProps = {
   isSelected: boolean;
-  appointments: Appointment[];
-  patientName: (patientId: string) => string;
+  appointments: ClinicAppointment[];
+  leadName: (leadId: string) => string;
   onSelectDate: () => void;
-  onSelectAppointment: (appointment: Appointment) => void;
+  onSelectAppointment: (appointment: ClinicAppointment) => void;
   onEmptySlot?: (time: string) => void;
 };
 
 export function CalendarWeekDayColumn({
   isSelected,
   appointments,
-  patientName,
+  leadName,
   onSelectDate,
   onSelectAppointment,
   onEmptySlot,
@@ -47,7 +47,7 @@ export function CalendarWeekDayColumn({
           <CalendarAppointmentBlock
             key={item.id}
             appointment={item}
-            patientName={patientName(item.patientId)}
+            leadName={leadName(item.leadId)}
             topPx={layout.topPx}
             heightPx={layout.heightPx}
             onSelect={() => onSelectAppointment(item)}

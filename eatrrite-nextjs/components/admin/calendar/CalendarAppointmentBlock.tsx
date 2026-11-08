@@ -1,13 +1,13 @@
 "use client";
 
-import type { Appointment } from "@/types/admin/admin";
+import type { ClinicAppointment } from "@/types/admin/appointment";
 import { APPOINTMENT_BLOCK_CLASS } from "@/constants/admin/calendar/blocks";
 import { formatTimeRange } from "@/utils/admin/calendarTime";
 import { cn } from "cn";
 
 type CalendarAppointmentBlockProps = {
-  appointment: Appointment;
-  patientName: string;
+  appointment: ClinicAppointment;
+  leadName: string;
   topPx: number;
   heightPx: number;
   compact?: boolean;
@@ -16,7 +16,7 @@ type CalendarAppointmentBlockProps = {
 
 export function CalendarAppointmentBlock({
   appointment,
-  patientName,
+  leadName,
   topPx,
   heightPx,
   compact = false,
@@ -36,7 +36,7 @@ export function CalendarAppointmentBlock({
       )}
     >
       <p className="truncate text-xs font-semibold leading-tight">
-        {patientName}
+        {leadName}
       </p>
       {!compact ? (
         <>
@@ -44,7 +44,7 @@ export function CalendarAppointmentBlock({
             {formatTimeRange(appointment.time)}
           </p>
           <p className="truncate text-[10px] leading-tight opacity-70">
-            {appointment.reason}
+            {appointment.service}
           </p>
         </>
       ) : null}

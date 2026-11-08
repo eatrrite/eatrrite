@@ -4,7 +4,7 @@ import { AdminStatCard } from "@/components/admin/AdminStatCard";
 import { useClinicStore } from "@/stores/adminStore";
 
 export function ProfileStats() {
-  const patients = useClinicStore((s) => s.patients);
+  const leads = useClinicStore((s) => s.leads);
   const appointments = useClinicStore((s) => s.appointments);
   const todos = useClinicStore((s) => s.todos);
   const openTodos = todos.filter((todo) => !todo.done).length;
@@ -12,9 +12,9 @@ export function ProfileStats() {
   return (
     <div className="grid gap-4 sm:grid-cols-3">
       <AdminStatCard
-        label="Patients"
-        value={patients.length}
-        hint="In your patient list"
+        label="Leads"
+        value={leads.length}
+        hint="In your lead list"
       />
       <AdminStatCard
         label="Appointments"

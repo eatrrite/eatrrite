@@ -8,7 +8,7 @@ import {
 } from "@/components/admin/dashboard/DashboardCard";
 
 const LINKS = [
-  { href: "/admin/patients", label: "Patients", icon: Users },
+  { href: "/admin/leads", label: "Leads", icon: Users },
   { href: "/admin/appointments", label: "Appointments", icon: CalendarDays },
   { href: "/admin/schedule", label: "Schedule", icon: Clock3 },
   { href: "/admin/settings", label: "Settings", icon: Settings },

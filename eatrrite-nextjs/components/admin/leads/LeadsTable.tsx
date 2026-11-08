@@ -2,69 +2,63 @@
 
 import { useCallback, useMemo, useState } from "react";
 import { DataTable } from "@/components/admin/DataTable";
-import { PatientDetailsCard } from "@/components/admin/patients/PatientDetailsCard";
-import { PatientFormDialog } from "@/components/admin/patients/PatientFormDialog";
-import { PATIENT_LIST_COLUMNS } from "@/components/admin/patients/patientColumns";
-import { PatientsToolbar } from "@/components/admin/patients/PatientsToolbar";
+import { LeadDetailsCard } from "@/components/admin/leads/LeadDetailsCard";
+import { LeadFormDialog } from "@/components/admin/leads/LeadFormDialog";
+import { LEAD_LIST_COLUMNS } from "@/components/admin/leads/leadColumns";
+import { LeadsToolbar } from "@/components/admin/leads/LeadsToolbar";
 import { ConfirmationModal } from "@/components/admin/ConfirmationModal";
 import { useConfirmDialog } from "@/hooks/admin/useConfirmDialog";
 import { useSelectedRow } from "@/hooks/admin/useSelectedRow";
 import { useShowToast } from "@/hooks/admin/useShowToast";
 import { useClinicStore } from "@/stores/adminStore";
-import type { Patient, PatientInput } from "@/types/admin/admin";
-import { patientSaveToast } from "@/utils/admin/describeRecordChanges";
-import {
-  filterPatients,
-  type PatientListFilters,
-} from "@/utils/admin/filterPatients";
+import type { Lead, LeadInput } from "@/types/admin/lead";
+import type { LeadListFilters } from "@/types/admin/lead";
+import { leadSaveToast } from "@/utils/admin/describeRecordChanges";
+import { filterLeads } from "@/utils/admin/filterLeads";
 
-const INITIAL_FILTERS: PatientListFilters = {
+const INITIAL_FILTERS: LeadListFilters = {
   query: "",
   age: "all",
-  status: "all",
 };
 
-export function PatientsTable() {
-  const patients = useClinicStore((s) => s.patients);
-  const addPatient = useClinicStore((s) => s.addPatient);
-  const updatePatient = useClinicStore((s) => s.updatePatient);
-  const deletePatient = useClinicStore((s) => s.deletePatient);
+export function LeadsTable() {
+  const leads = useClinicStore((s) => s.leads);
+  const addLead = useClinicStore((s) => s.addLead);
+  const updateLead = useClinicStore((s) => s.updateLead);
+  const deleteLead = useClinicStore((s) => s.deleteLead);
   const appointments = useClinicStore((s) => s.appointments);
   const deleteAppointment = useClinicStore((s) => s.deleteAppointment);
   const [filters, setFilters] = useState(INITIAL_FILTERS);
   const [open, setOpen] = useState(false);
-  const [editing, setEditing] = useState<Patient | null>(null);
+  const [editing, setEditing] = useState<Lead | null>(null);
   const { ask, props: confirmProps } = useConfirmDialog();
   const showToast = useShowToast();
 
-  const rows = useMemo(
-    () => filterPatients(patients, filters),
-    [patients, filters],
-  );
-  const getId = useCallback((patient: Patient) => patient.id, []);
+  const rows = useMemo(() => filterLeads(leads, filters), [leads, filters]);
+  const getId = useCallback((lead: Lead) => lead.id, []);
   const [selectedId, selectRow, selected] = useSelectedRow(rows, getId);
 
-  const save = (input: PatientInput) => {
-    const toast = patientSaveToast(editing, input);
-    if (editing) updatePatient(editing.id, input);
-    else addPatient(input);
+  const save = (input: LeadInput) => {
+    const toast = leadSaveToast(editing, input);
+    if (editing) updateLead(editing.id, input);
+    else addLead(input);
     showToast(toast);
   };
 
-  const remove = (patient: Patient) => {
+  const remove = (lead: Lead) => {
     ask({
-      title: `Delete ${patient.name}?`,
+      title: `Delete ${lead.name}?`,
       description:
-        "This removes the patient and any linked appointments from the patient list.",
-      confirmLabel: "Delete patient",
+        "This removes the lead and any linked appointments from the lead list.",
+      confirmLabel: "Delete lead",
       onConfirm: () => {
         appointments
-          .filter((item) => item.patientId === patient.id)
+          .filter((item) => item.leadId === lead.id)
           .forEach((item) => deleteAppointment(item.id));
-        deletePatient(patient.id);
+        deleteLead(lead.id);
         showToast({
-          title: "Patient deleted",
-          description: `${patient.name} was removed from the patient list.`,
+          title: "Lead deleted",
+          description: `${lead.name} was removed from the lead list.`,
           type: "success",
         });
       },
@@ -73,7 +67,7 @@ export function PatientsTable() {
 
   return (
     <div className="space-y-4">
-      <PatientsToolbar
+      <LeadsToolbar
         filters={filters}
         onChange={setFilters}
         onAdd={() => {
@@ -83,15 +77,15 @@ export function PatientsTable() {
       />
       <div className="grid gap-4 lg:grid-cols-[3fr_2fr]">
         <DataTable
-          columns={PATIENT_LIST_COLUMNS}
+          columns={LEAD_LIST_COLUMNS}
           rows={rows}
           getRowId={getId}
           selectedRowId={selectedId}
-          onRowSelect={(patient) => selectRow(patient.id)}
-          emptyMessage="No patients match these filters."
+          onRowSelect={(lead) => selectRow(lead.id)}
+          emptyMessage="No leads match these filters."
         />
-        <PatientDetailsCard
-          patient={selected}
+        <LeadDetailsCard
+          lead={selected}
           onEdit={() => {
             if (!selected) return;
             setEditing(selected);
@@ -102,9 +96,9 @@ export function PatientsTable() {
           }}
         />
       </div>
-      <PatientFormDialog
+      <LeadFormDialog
         open={open}
-        patient={editing}
+        lead={editing}
         onClose={() => setOpen(false)}
         onSave={save}
       />

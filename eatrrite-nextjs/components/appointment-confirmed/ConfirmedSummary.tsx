@@ -1,16 +1,16 @@
 import { BlurIn } from "@/components/motion/BlurIn";
-import type { Appointment } from "@/types/appointment";
+import type { BookingAppointment } from "@/types/appointment/booking";
 
 const IST = "Asia/Kolkata";
 
-function statusText(appointment: Appointment) {
+function statusText(appointment: BookingAppointment) {
   if (appointment.meetLink) return "Your questionnaire is in and your Google Meet link is ready.";
   if (appointment.questionnaire) return "Thank you. We have your responses and are generating your Google Meet link.";
   return "Please complete this questionnaire before we can generate your Google Meet link. Your slot is already reserved.";
 }
 
 // Left column of appointment-confirmed.php: status line and booking details.
-export function ConfirmedSummary({ appointment }: { appointment: Appointment }) {
+export function ConfirmedSummary({ appointment }: { appointment: BookingAppointment }) {
   const start = new Date(appointment.slotStart);
   const rows = [
     ["Name", appointment.name],

@@ -1,7 +1,7 @@
-export type PatientAgeFilter = "all" | "under18" | "18-30" | "31-45" | "46plus";
+import type { LeadAgeFilter } from "@/types/admin/lead";
 
-export const PATIENT_AGE_FILTER_OPTIONS: {
-  value: PatientAgeFilter;
+export const LEAD_AGE_FILTER_OPTIONS: {
+  value: LeadAgeFilter;
   label: string;
 }[] = [
   { value: "all", label: "All ages" },
@@ -11,10 +11,7 @@ export const PATIENT_AGE_FILTER_OPTIONS: {
   { value: "46plus", label: "46+" },
 ];
 
-export function matchesAgeFilter(
-  age: number,
-  filter: PatientAgeFilter,
-): boolean {
+export function matchesAgeFilter(age: number, filter: LeadAgeFilter): boolean {
   if (filter === "all") return true;
   if (filter === "under18") return age < 18;
   if (filter === "18-30") return age >= 18 && age <= 30;

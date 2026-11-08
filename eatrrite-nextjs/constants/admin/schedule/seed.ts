@@ -1,4 +1,4 @@
-import type { DaySchedule } from "@/types/admin/admin";
+import type { DaySchedule } from "@/types/admin/schedule";
 
 // Weekly consultation hours from constants/appointment/schedule.ts.
 export const SEED_SCHEDULE: DaySchedule[] = [

@@ -3,7 +3,7 @@
 import { Trash2 } from "lucide-react";
 import { TimeSelect } from "@/components/admin/forms/TimeSelect";
 import { Button } from "@/components/ui/button";
-import type { ScheduleTimeSlot, Weekday } from "@/types/admin/admin";
+import type { ScheduleTimeSlot, Weekday } from "@/types/admin/schedule";
 
 type ScheduleTimeSlotRowProps = {
   day: Weekday;

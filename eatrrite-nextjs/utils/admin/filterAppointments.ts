@@ -7,15 +7,15 @@ import {
   startOfMonth,
   startOfWeek,
 } from "date-fns";
-import type { AppointmentDateFilter } from "@/constants/admin/appointments/dateFilters";
+import type { AppointmentDateFilter } from "@/types/admin/appointment";
 import { DASHBOARD_REFERENCE_DATE } from "@/constants/admin/dashboard/reference";
-import type { Appointment, AppointmentStatus, Patient } from "@/types/admin/admin";
+import type {
+  AppointmentListFilters,
+  ClinicAppointment,
+} from "@/types/admin/appointment";
+import type { Lead } from "@/types/admin/lead";
 
-export type AppointmentListFilters = {
-  query: string;
-  status: "all" | AppointmentStatus;
-  date: AppointmentDateFilter;
-};
+export type { AppointmentListFilters };
 
 function matchesDateFilter(
   dateValue: string,
@@ -25,9 +25,7 @@ function matchesDateFilter(
   if (filter === "all") return true;
   const date = parseISO(dateValue);
   if (filter === "today") {
-    return (
-      date >= startOfDay(reference) && date <= endOfDay(reference)
-    );
+    return date >= startOfDay(reference) && date <= endOfDay(reference);
   }
   if (filter === "this-week") {
     return (
@@ -35,28 +33,26 @@ function matchesDateFilter(
       date <= endOfWeek(reference, { weekStartsOn: 1 })
     );
   }
-  return (
-    date >= startOfMonth(reference) && date <= endOfMonth(reference)
-  );
+  return date >= startOfMonth(reference) && date <= endOfMonth(reference);
 }
 
 export function filterAppointments(
-  appointments: Appointment[],
-  patients: Patient[],
+  appointments: ClinicAppointment[],
+  leads: Lead[],
   filters: AppointmentListFilters,
-): Appointment[] {
+): ClinicAppointment[] {
   const query = filters.query.trim().toLowerCase();
   const reference = parseISO(DASHBOARD_REFERENCE_DATE);
-  const names = new Map(patients.map((p) => [p.id, p.name.toLowerCase()]));
+  const names = new Map(leads.map((lead) => [lead.id, lead.name.toLowerCase()]));
 
   return appointments.filter((item) => {
     if (filters.status !== "all" && item.status !== filters.status) return false;
     if (!matchesDateFilter(item.date, filters.date, reference)) return false;
     if (!query) return true;
-    const patientName = names.get(item.patientId) ?? "";
+    const leadName = names.get(item.leadId) ?? "";
     return (
-      patientName.includes(query) ||
-      item.reason.toLowerCase().includes(query) ||
+      leadName.includes(query) ||
+      item.service.toLowerCase().includes(query) ||
       item.date.includes(query)
     );
   });

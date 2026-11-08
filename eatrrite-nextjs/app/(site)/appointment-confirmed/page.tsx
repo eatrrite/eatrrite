@@ -34,7 +34,7 @@ async function Confirmed({ searchParams }: Props) {
         {started ? (
           <MeetStatus appointmentId={appointment.id} initialLink={appointment.meetLink} />
         ) : (
-          <Questionnaire appointmentId={appointment.id} />
+          <Questionnaire appointmentId={appointment.id} prefillName={appointment.name} />
         )}
       </div>
     </div>

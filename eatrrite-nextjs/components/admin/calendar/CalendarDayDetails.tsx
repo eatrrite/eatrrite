@@ -3,20 +3,20 @@
 import { useMemo } from "react";
 import { CalendarDayDetailsPanel } from "@/components/admin/calendar/CalendarDayDetailsPanel";
 import { useClinicStore } from "@/stores/adminStore";
-import type { Appointment, AppointmentInput } from "@/types/admin/admin";
+import type { ClinicAppointment, ClinicAppointmentInput } from "@/types/admin/appointment";
 import { toDateValue } from "@/utils/admin/date";
 
 type CalendarDayDetailsProps = {
   selectedDate: Date;
-  patientName: (patientId: string) => string;
+  leadName: (leadId: string) => string;
   canAdd: boolean;
-  onAdd: (defaults?: Partial<AppointmentInput>) => void;
-  onOpenAppointment: (appointment: Appointment) => void;
+  onAdd: (defaults?: Partial<ClinicAppointmentInput>) => void;
+  onOpenAppointment: (appointment: ClinicAppointment) => void;
 };
 
 export function CalendarDayDetails({
   selectedDate,
-  patientName,
+  leadName,
   canAdd,
   onAdd,
   onOpenAppointment,
@@ -32,7 +32,7 @@ export function CalendarDayDetails({
     <CalendarDayDetailsPanel
       selectedDate={selectedDate}
       appointments={dayItems}
-      patientName={patientName}
+      leadName={leadName}
       canAdd={canAdd}
       onAdd={() => onAdd()}
       onOpenAppointment={onOpenAppointment}

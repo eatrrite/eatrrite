@@ -12,10 +12,10 @@ type DashboardStatsProps = {
 };
 
 export function DashboardStats({ filters }: DashboardStatsProps) {
-  const patients = useClinicStore((s) => s.patients);
+  const leads = useClinicStore((s) => s.leads);
   const appointments = useClinicStore((s) => s.appointments);
   const cards = buildDashboardStats(
-    patients,
+    leads,
     appointments,
     filters,
     parseISO(DASHBOARD_REFERENCE_DATE),

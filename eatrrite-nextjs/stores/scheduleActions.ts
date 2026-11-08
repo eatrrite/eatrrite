@@ -1,4 +1,4 @@
-import type { DaySchedule, ScheduleTimeSlot, Weekday } from "@/types/admin/admin";
+import type { DaySchedule, ScheduleTimeSlot, Weekday } from "@/types/admin/schedule";
 import { createId } from "@/utils/admin/id";
 
 type ScheduleSlice = {

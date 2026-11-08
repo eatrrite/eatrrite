@@ -1,17 +1,17 @@
 import { SEED_APPOINTMENT_IDS } from "@/constants/admin/appointments/seedIds";
-import {
-  SEED_PATIENT_IDS,
-  type SeedPatientKey,
-} from "@/constants/admin/patients/seedIds";
+import { SEED_LEAD_IDS, type SeedLeadKey } from "@/constants/admin/leads/seedIds";
 // Sample consultations for the admin preview. Names are made up, not real clients.
-import type { Appointment, AppointmentStatus } from "@/types/admin/admin";
+import type {
+  ClinicAppointment,
+  ClinicAppointmentStatus,
+} from "@/types/admin/appointment";
 
 type SeedRow = [
-  patientKey: SeedPatientKey,
+  leadKey: SeedLeadKey,
   date: string,
   time: string,
-  reason: string,
-  status: AppointmentStatus,
+  service: string,
+  status: ClinicAppointmentStatus,
   createdAt: string,
   updatedAt: string,
   notes?: string,
@@ -35,14 +35,15 @@ const ROWS: SeedRow[] = [
   ["vikram", "2026-04-09", "11:30", "Nutrition for Weight & Lifestyle Management", "cancelled", "2026-04-02T08:00:00.000Z", "2026-04-08T09:00:00.000Z"],
 ];
 
-export const SEED_APPOINTMENTS: Appointment[] = ROWS.map(
-  ([patientKey, date, time, reason, status, createdAt, updatedAt, notes], index) => ({
+export const SEED_APPOINTMENTS: ClinicAppointment[] = ROWS.map(
+  ([leadKey, date, time, service, status, createdAt, updatedAt, notes], index) => ({
     id: SEED_APPOINTMENT_IDS[index],
-    patientId: SEED_PATIENT_IDS[patientKey],
+    leadId: SEED_LEAD_IDS[leadKey],
     date,
     time,
-    reason,
+    service,
     status,
+    questionnaire: [],
     createdAt,
     updatedAt,
     ...(notes ? { notes } : {}),

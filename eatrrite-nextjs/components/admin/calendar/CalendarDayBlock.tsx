@@ -2,13 +2,13 @@
 
 import { AppointmentStatusBadge } from "@/components/admin/appointments/AppointmentStatusBadge";
 import { APPOINTMENT_BLOCK_CLASS } from "@/constants/admin/calendar/blocks";
-import type { Appointment } from "@/types/admin/admin";
+import type { ClinicAppointment } from "@/types/admin/appointment";
 import { formatTimeRange } from "@/utils/admin/calendarTime";
 import { cn } from "cn";
 
 type CalendarDayBlockProps = {
-  appointment: Appointment;
-  patientName: string;
+  appointment: ClinicAppointment;
+  leadName: string;
   topPx: number;
   heightPx: number;
   onSelect?: () => void;
@@ -16,7 +16,7 @@ type CalendarDayBlockProps = {
 
 export function CalendarDayBlock({
   appointment,
-  patientName,
+  leadName,
   topPx,
   heightPx,
   onSelect,
@@ -36,9 +36,9 @@ export function CalendarDayBlock({
     >
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-semibold leading-tight">
-          {patientName}
+          {leadName}
         </p>
-        <p className="mt-0.5 truncate text-xs opacity-80">{appointment.reason}</p>
+        <p className="mt-0.5 truncate text-xs opacity-80">{appointment.service}</p>
         <p className="mt-1 truncate text-xs opacity-70">
           {formatTimeRange(appointment.time)}
         </p>

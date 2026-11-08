@@ -3,7 +3,7 @@
 import { cn } from "cn";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import type { QuestionStep } from "./questionTypes";
+import type { QuestionnaireQuestion } from "@/types/appointment/questionnaire";
 
 type Value = string | string[];
 
@@ -34,7 +34,7 @@ function Options({ options, value, multi, onChange }: { options: string[]; value
 }
 
 // Renders one question in the style of the PHP .er-q-choice tap targets.
-export function QuestionField({ step, value, onChange }: { step: QuestionStep; value: Value; onChange: (v: Value) => void }) {
+export function QuestionField({ step, value, onChange }: { step: QuestionnaireQuestion; value: Value; onChange: (v: Value) => void }) {
   if (step.type === "text" || step.type === "number") {
     return <Input type={step.type} min={step.min} max={step.max} value={String(value ?? "")} onChange={(e) => onChange(e.target.value)} aria-label={step.label} />;
   }

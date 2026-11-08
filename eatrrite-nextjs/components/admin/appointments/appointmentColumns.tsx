@@ -1,19 +1,19 @@
 "use client";
 
 import { AppointmentStatusBadge } from "@/components/admin/appointments/AppointmentStatusBadge";
-import type { Appointment } from "@/types/admin/admin";
+import type { ClinicAppointment } from "@/types/admin/appointment";
 import type { DataTableColumn } from "@/types/admin/dataTable";
 
 export function getAppointmentListColumns(
-  patientName: (patientId: string) => string,
-): DataTableColumn<Appointment>[] {
+  leadName: (leadId: string) => string,
+): DataTableColumn<ClinicAppointment>[] {
   return [
     {
-      key: "patient",
-      header: "Patient",
+      key: "lead",
+      header: "Lead",
       width: 40,
       cell: (item) => (
-        <span className="font-medium">{patientName(item.patientId)}</span>
+        <span className="font-medium">{leadName(item.leadId)}</span>
       ),
     },
     { key: "date", header: "Date", width: 30, cell: (item) => item.date },

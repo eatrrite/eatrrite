@@ -18,8 +18,8 @@ export function CalendarAppointmentDialogs({
     <>
       <CalendarAppointmentSheet
         appointment={actions.detail}
-        patientName={
-          actions.detail ? actions.patientName(actions.detail.patientId) : ""
+        leadName={
+          actions.detail ? actions.leadName(actions.detail.leadId) : ""
         }
         open={Boolean(actions.detail)}
         onOpenChange={(open) => {
@@ -32,7 +32,7 @@ export function CalendarAppointmentDialogs({
         open={actions.formOpen}
         appointment={actions.editing}
         defaults={actions.editing ? undefined : actions.defaults}
-        patients={actions.patients}
+        leads={actions.leads}
         onClose={() => actions.setFormOpen(false)}
         onSave={actions.save}
       />

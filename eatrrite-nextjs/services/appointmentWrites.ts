@@ -1,5 +1,6 @@
 import { db } from "@/services/database";
-import type { BookingInput, QuestionnaireAnswers } from "@/types/appointment";
+import type { BookingInput } from "@/types/appointment/booking";
+import type { QuestionnaireAnswerMap } from "@/types/appointment/questionnaire";
 import { slotIso } from "@/utils/istTime";
 
 // Saves a booking that is waiting for payment. Returns the new id.
@@ -23,7 +24,7 @@ export async function confirmPayment(orderId: string, paymentId: string) {
 }
 
 // Stores answers once, only for a paid booking.
-export async function saveQuestionnaire(id: string, answers: QuestionnaireAnswers) {
+export async function saveQuestionnaire(id: string, answers: QuestionnaireAnswerMap) {
   const rows = await db()`
     update appointments
     set questionnaire = ${JSON.stringify(answers)}::jsonb

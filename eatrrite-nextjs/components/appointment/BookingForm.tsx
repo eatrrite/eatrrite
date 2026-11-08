@@ -7,7 +7,8 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { HOURS_NOTE, MEETING_MINUTES, SERVICES } from "@/constants/appointment/schedule";
 import { useBooking } from "@/hooks/useBooking";
-import { SlotDialog, type Slot } from "./SlotDialog";
+import type { BookingSlot } from "@/types/appointment/booking";
+import { SlotDialog } from "./SlotDialog";
 import { SlotTrigger } from "./SlotTrigger";
 
 const EMPTY = { service: "", name: "", email: "", phone: "" };
@@ -16,7 +17,7 @@ const EMPTY = { service: "", name: "", email: "", phone: "" };
 export function BookingForm({ feeRupees }: { feeRupees: number }) {
   const { book, busy, error, setError } = useBooking();
   const [fields, setFields] = useState(EMPTY);
-  const [slot, setSlot] = useState<Slot | null>(null);
+  const [slot, setSlot] = useState<BookingSlot | null>(null);
   const [slotOpen, setSlotOpen] = useState(false);
   // The calendar reads today's date, so it first renders on click, not during prerender.
   const [calendarUsed, setCalendarUsed] = useState(false);

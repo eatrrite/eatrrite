@@ -1,7 +1,7 @@
-import type { Appointment, AppointmentStatus } from "@/types/admin/admin";
+import type { ClinicAppointment, ClinicAppointmentStatus } from "@/types/admin/appointment";
 import type { DashboardVisit, VisitStatus } from "@/types/admin/dashboard";
 
-function toVisitStatus(status: AppointmentStatus): VisitStatus | null {
+function toVisitStatus(status: ClinicAppointmentStatus): VisitStatus | null {
   if (status === "completed") return "completed";
   if (status === "upcoming") return "upcoming";
   return null;
@@ -9,8 +9,8 @@ function toVisitStatus(status: AppointmentStatus): VisitStatus | null {
 
 /** Today's clinic visits for the dashboard list (real appointment ids). */
 export function buildTodayVisits(
-  appointments: Appointment[],
-  patientName: (patientId: string) => string,
+  appointments: ClinicAppointment[],
+  leadName: (leadId: string) => string,
   todayKey: string,
 ): DashboardVisit[] {
   return appointments
@@ -22,8 +22,8 @@ export function buildTodayVisits(
         {
           id: item.id,
           time: item.time,
-          patientName: patientName(item.patientId),
-          service: item.reason,
+          leadName: leadName(item.leadId),
+          service: item.service,
           status,
         },
       ];

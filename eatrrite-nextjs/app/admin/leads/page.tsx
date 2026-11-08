@@ -3,19 +3,19 @@
 import { Suspense } from "react";
 import { AdminMotion, AdminPage } from "@/components/admin/AdminPage";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
-import { PatientsTable } from "@/components/admin/patients/PatientsTable";
+import { LeadsTable } from "@/components/admin/leads/LeadsTable";
 
-export default function AdminPatientsPage() {
+export default function AdminLeadsPage() {
   return (
     <AdminPage>
       <AdminPageHeader
-        eyebrow="Patients"
-        title="Patient records"
-        description="Keep a lightweight patient list ready for appointments."
+        eyebrow="Leads"
+        title="Lead records"
+        description="Keep a lightweight lead list ready for appointments."
       />
       <AdminMotion>
         <Suspense fallback={null}>
-          <PatientsTable />
+          <LeadsTable />
         </Suspense>
       </AdminMotion>
     </AdminPage>

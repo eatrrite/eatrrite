@@ -1,9 +1,10 @@
-import type { Appointment, Patient } from "@/types/admin/admin";
+import type { ClinicAppointment } from "@/types/admin/appointment";
+import type { Lead } from "@/types/admin/lead";
 import type { DashboardFilters, DashboardStatusFilter } from "@/types/admin/dashboard";
 import { isInWindow, type DateWindow } from "@/utils/admin/dashboardRange";
 
 function matchStatus(
-  appointment: Appointment,
+  appointment: ClinicAppointment,
   status: DashboardStatusFilter,
 ): boolean {
   return status === "all" || appointment.status === status;
@@ -16,12 +17,12 @@ function inCreatedWindow(
   return isInWindow(item.createdAt, window);
 }
 
-export function countPatients(patients: Patient[], window: DateWindow) {
-  return patients.filter((p) => inCreatedWindow(p, window)).length;
+export function countLeads(leads: Lead[], window: DateWindow) {
+  return leads.filter((p) => inCreatedWindow(p, window)).length;
 }
 
 export function countAppointments(
-  appointments: Appointment[],
+  appointments: ClinicAppointment[],
   filters: DashboardFilters,
   window: DateWindow,
 ) {
@@ -31,7 +32,7 @@ export function countAppointments(
 }
 
 export function countCompleted(
-  appointments: Appointment[],
+  appointments: ClinicAppointment[],
   filters: DashboardFilters,
   window: DateWindow,
 ) {

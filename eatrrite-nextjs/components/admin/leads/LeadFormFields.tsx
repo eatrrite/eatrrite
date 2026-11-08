@@ -1,9 +1,5 @@
 "use client";
 
-import {
-  PATIENT_STATUSES,
-  PATIENT_STATUS_LABELS,
-} from "@/constants/admin/patients/statuses";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -13,41 +9,43 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { PatientInput, PatientStatus } from "@/types/admin/admin";
+import type { LeadGender, LeadInput } from "@/types/admin/lead";
 
-type PatientFormFieldsProps = {
-  value: PatientInput;
-  onChange: (next: PatientInput) => void;
+const GENDERS: LeadGender[] = ["Female", "Male"];
+
+type LeadFormFieldsProps = {
+  value: LeadInput;
+  onChange: (next: LeadInput) => void;
 };
 
-export function PatientFormFields({ value, onChange }: PatientFormFieldsProps) {
-  const set = <K extends keyof PatientInput>(key: K, next: PatientInput[K]) =>
+export function LeadFormFields({ value, onChange }: LeadFormFieldsProps) {
+  const set = <K extends keyof LeadInput>(key: K, next: LeadInput[K]) =>
     onChange({ ...value, [key]: next });
 
   return (
     <div className="grid gap-3 sm:grid-cols-2">
       <div className="space-y-2 sm:col-span-2">
-        <Label htmlFor="patient-name">Full name</Label>
+        <Label htmlFor="lead-name">Full name</Label>
         <Input
-          id="patient-name"
+          id="lead-name"
           value={value.name}
           onChange={(e) => set("name", e.target.value)}
           required
         />
       </div>
       <div className="space-y-2">
-        <Label htmlFor="patient-phone">Phone</Label>
+        <Label htmlFor="lead-phone">Phone</Label>
         <Input
-          id="patient-phone"
+          id="lead-phone"
           value={value.phone}
           onChange={(e) => set("phone", e.target.value)}
           required
         />
       </div>
       <div className="space-y-2">
-        <Label htmlFor="patient-age">Age</Label>
+        <Label htmlFor="lead-age">Age</Label>
         <Input
-          id="patient-age"
+          id="lead-age"
           type="number"
           min={1}
           max={120}
@@ -57,46 +55,46 @@ export function PatientFormFields({ value, onChange }: PatientFormFieldsProps) {
         />
       </div>
       <div className="space-y-2">
-        <Label htmlFor="patient-profession">Profession (optional)</Label>
-        <Input
-          id="patient-profession"
-          value={value.profession ?? ""}
-          onChange={(e) => set("profession", e.target.value || undefined)}
-        />
-      </div>
-      <div className="space-y-2">
-        <Label>Status</Label>
+        <Label>Gender</Label>
         <Select
-          value={value.status}
-          onValueChange={(status) => {
-            if (status) set("status", status as PatientStatus);
+          value={value.gender}
+          onValueChange={(gender) => {
+            if (gender) set("gender", gender as LeadGender);
           }}
         >
           <SelectTrigger className="w-full">
-            <SelectValue>{PATIENT_STATUS_LABELS[value.status]}</SelectValue>
+            <SelectValue>{value.gender}</SelectValue>
           </SelectTrigger>
           <SelectContent>
-            {PATIENT_STATUSES.map((status) => (
-              <SelectItem key={status} value={status}>
-                {PATIENT_STATUS_LABELS[status]}
+            {GENDERS.map((gender) => (
+              <SelectItem key={gender} value={gender}>
+                {gender}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
       </div>
       <div className="space-y-2">
-        <Label htmlFor="patient-email">Email (optional)</Label>
+        <Label htmlFor="lead-profession">Profession (optional)</Label>
         <Input
-          id="patient-email"
+          id="lead-profession"
+          value={value.profession ?? ""}
+          onChange={(e) => set("profession", e.target.value || undefined)}
+        />
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor="lead-email">Email (optional)</Label>
+        <Input
+          id="lead-email"
           type="email"
           value={value.email ?? ""}
           onChange={(e) => set("email", e.target.value || undefined)}
         />
       </div>
       <div className="space-y-2 sm:col-span-2">
-        <Label htmlFor="patient-address">Address (optional)</Label>
+        <Label htmlFor="lead-address">Address (optional)</Label>
         <Input
-          id="patient-address"
+          id="lead-address"
           value={value.address ?? ""}
           onChange={(e) => set("address", e.target.value || undefined)}
         />

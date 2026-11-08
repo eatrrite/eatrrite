@@ -1,6 +1,6 @@
 import { HOLD_MINUTES } from "@/constants/appointment/schedule";
 import { db } from "@/services/database";
-import type { Appointment } from "@/types/appointment";
+import type { BookingAppointment } from "@/types/appointment/booking";
 
 type AppointmentRow = {
   id: string;
@@ -9,13 +9,13 @@ type AppointmentRow = {
   phone: string;
   service: string;
   slot_start: string;
-  status: Appointment["status"];
+  status: BookingAppointment["status"];
   razorpay_payment_id: string | null;
-  questionnaire: Appointment["questionnaire"];
+  questionnaire: BookingAppointment["questionnaire"];
   meet_link: string | null;
 };
 
-function toAppointment(row: AppointmentRow): Appointment {
+function toAppointment(row: AppointmentRow): BookingAppointment {
   return {
     id: row.id,
     name: row.name,
@@ -44,7 +44,7 @@ export async function takenTimes(date: string): Promise<string[]> {
   return rows.map((row) => String(row.time));
 }
 
-export async function findAppointment(id: string): Promise<Appointment | null> {
+export async function findAppointment(id: string): Promise<BookingAppointment | null> {
   const rows = await db()`select * from appointments where id = ${id}`;
   return rows[0] ? toAppointment(rows[0] as AppointmentRow) : null;
 }

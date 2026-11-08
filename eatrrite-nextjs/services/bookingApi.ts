@@ -1,6 +1,7 @@
 import { API } from "@/constants/api";
 import type { CheckoutOrder } from "@/hooks/useRazorpayCheckout";
-import type { BookingInput, QuestionnaireAnswers } from "@/types/appointment";
+import type { BookingInput } from "@/types/appointment/booking";
+import type { QuestionnaireAnswerMap } from "@/types/appointment/questionnaire";
 import type { RazorpaySuccess } from "@/types/razorpay";
 
 type ApiResult<T> = ({ ok: true } & T) | { ok: false; error: string };
@@ -25,7 +26,7 @@ export const startBooking = (input: BookingInput) =>
 export const verifyPayment = (payment: RazorpaySuccess) =>
   post<{ appointmentId: string }>(API.verifyPayment, payment);
 
-export const submitQuestionnaire = (id: string, answers: QuestionnaireAnswers) =>
+export const submitQuestionnaire = (id: string, answers: QuestionnaireAnswerMap) =>
   post<{ saved: boolean }>(API.questionnaire(id), { answers });
 
 export const requestMeetLink = (id: string) =>

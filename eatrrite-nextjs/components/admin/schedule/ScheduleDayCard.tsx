@@ -5,7 +5,7 @@ import { ScheduleTimeSlotRow } from "@/components/admin/schedule/ScheduleTimeSlo
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { WEEKDAY_LABELS } from "@/constants/admin/schedule/weekdays";
-import type { DaySchedule, ScheduleTimeSlot } from "@/types/admin/admin";
+import type { DaySchedule, ScheduleTimeSlot } from "@/types/admin/schedule";
 import { cn } from "cn";
 
 type ScheduleDayCardProps = {

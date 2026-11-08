@@ -50,13 +50,13 @@ export function NavLinks({ mobile = false, onNavigate }: { mobile?: boolean; onN
                   {label}
                   <ChevronDown className="size-3.5 transition-transform duration-300 group-data-popup-open/nav:rotate-180" />
                 </DropdownMenuTrigger>
-                <DropdownMenuContent sideOffset={10} className="w-52 rounded-[calc(var(--radius-xl)/2)] p-1.5">
+                <DropdownMenuContent sideOffset={10} className="w-52 rounded-xl p-1.5">
                   {children.map((child) => (
                     <DropdownMenuItem
                       key={child.href}
                       render={<Link href={child.href} />}
                       className={cn(
-                        "cursor-pointer rounded-[calc(var(--radius-lg)/2)] px-3 py-2 text-[0.95rem] focus:bg-mint focus:text-primary not-data-[variant=destructive]:focus:**:text-primary",
+                        "cursor-pointer rounded-lg px-3 py-2 text-[0.95rem] focus:bg-mint focus:text-primary not-data-[variant=destructive]:focus:**:text-primary",
                         pathname === child.href ? "bg-mint text-primary" : "text-ink"
                       )}
                     >

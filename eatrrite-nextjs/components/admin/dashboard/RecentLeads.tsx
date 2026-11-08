@@ -10,25 +10,25 @@ import {
 } from "@/components/admin/dashboard/DashboardCard";
 import { buttonVariants } from "@/components/ui/button";
 import { useClinicStore } from "@/stores/adminStore";
-import { buildRecentPatientRows } from "@/utils/admin/dashboardRecentPatients";
+import { buildRecentLeadRows } from "@/utils/admin/dashboardRecentLeads";
 import { cn } from "cn";
 
-export function RecentPatients() {
-  const patients = useClinicStore((s) => s.patients);
+export function RecentLeads() {
+  const leads = useClinicStore((s) => s.leads);
   const appointments = useClinicStore((s) => s.appointments);
   const rows = useMemo(
-    () => buildRecentPatientRows(patients, appointments),
-    [patients, appointments],
+    () => buildRecentLeadRows(leads, appointments),
+    [leads, appointments],
   );
 
   return (
     <DashboardCard>
       <DashboardCardHeader
         icon={<Users className="size-4" />}
-        title="Recent Patients"
+        title="Recent leads"
         action={
           <Link
-            href="/admin/patients"
+            href="/admin/leads"
             className={cn(
               buttonVariants({ variant: "outline", size: "sm" }),
               "rounded-full",
@@ -39,19 +39,19 @@ export function RecentPatients() {
         }
       />
       <ul className="divide-y divide-border">
-        {rows.map((patient) => (
-          <li key={patient.id}>
+        {rows.map((lead) => (
+          <li key={lead.id}>
             <Link
-              href={`/admin/patients?id=${patient.id}`}
+              href={`/admin/leads?id=${lead.id}`}
               className="flex items-center gap-3 py-3.5 transition-colors hover:bg-muted/40"
             >
-              <DashboardAvatar name={patient.name} />
+              <DashboardAvatar name={lead.name} />
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-semibold text-foreground">
-                  {patient.name}
+                  {lead.name}
                 </p>
                 <p className="truncate text-sm text-muted-foreground">
-                  Last visit • {patient.lastVisitLabel}
+                  Last visit • {lead.lastVisitLabel}
                 </p>
               </div>
             </Link>

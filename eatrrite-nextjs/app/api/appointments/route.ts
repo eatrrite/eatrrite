@@ -3,7 +3,7 @@ import { env } from "@/config/env";
 import { takenTimes } from "@/services/appointmentReads";
 import { createPendingAppointment } from "@/services/appointmentWrites";
 import { createOrder } from "@/services/razorpay";
-import type { BookingInput } from "@/types/appointment";
+import type { BookingInput } from "@/types/appointment/booking";
 import { fail, ok } from "@/utils/apiResponse";
 import { availableTimes } from "@/utils/slots";
 import { validateBooking } from "@/utils/validateBooking";

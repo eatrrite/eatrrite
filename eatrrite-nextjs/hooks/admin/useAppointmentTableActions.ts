@@ -4,32 +4,35 @@ import { useState } from "react";
 import { useConfirmDialog } from "@/hooks/admin/useConfirmDialog";
 import { useShowToast } from "@/hooks/admin/useShowToast";
 import { useClinicStore } from "@/stores/adminStore";
-import type { Appointment, AppointmentInput } from "@/types/admin/admin";
+import type {
+  ClinicAppointment,
+  ClinicAppointmentInput,
+} from "@/types/admin/appointment";
 import { appointmentSaveToast } from "@/utils/admin/describeRecordChanges";
 
 /** Create/edit/delete handlers for the appointments table. */
 export function useAppointmentTableActions() {
-  const getPatient = useClinicStore((s) => s.getPatient);
+  const getLead = useClinicStore((s) => s.getLead);
   const addAppointment = useClinicStore((s) => s.addAppointment);
   const updateAppointment = useClinicStore((s) => s.updateAppointment);
   const deleteAppointment = useClinicStore((s) => s.deleteAppointment);
   const [open, setOpen] = useState(false);
-  const [editing, setEditing] = useState<Appointment | null>(null);
+  const [editing, setEditing] = useState<ClinicAppointment | null>(null);
   const { ask, props: confirmProps } = useConfirmDialog();
   const showToast = useShowToast();
 
-  const save = (input: AppointmentInput) => {
-    const nextName = getPatient(input.patientId)?.name ?? "Patient";
+  const save = (input: ClinicAppointmentInput) => {
+    const nextName = getLead(input.leadId)?.name ?? "Lead";
     const previousName = editing
-      ? (getPatient(editing.patientId)?.name ?? "Patient")
+      ? (getLead(editing.leadId)?.name ?? "Lead")
       : nextName;
     showToast(appointmentSaveToast(editing, input, previousName, nextName));
     if (editing) updateAppointment(editing.id, input);
     else addAppointment(input);
   };
 
-  const remove = (item: Appointment) => {
-    const name = getPatient(item.patientId)?.name ?? "this appointment";
+  const remove = (item: ClinicAppointment) => {
+    const name = getLead(item.leadId)?.name ?? "this appointment";
     ask({
       title: "Delete appointment?",
       description: `Removes the consultation for ${name} on ${item.date} at ${item.time}.`,
@@ -50,13 +53,13 @@ export function useAppointmentTableActions() {
     setOpen(true);
   };
 
-  const startEdit = (item: Appointment) => {
+  const startEdit = (item: ClinicAppointment) => {
     setEditing(item);
     setOpen(true);
   };
 
   return {
-    getPatient,
+    getLead,
     open,
     editing,
     confirmProps,

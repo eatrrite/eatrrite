@@ -1,8 +1,4 @@
-export type AppointmentDateFilter =
-  | "all"
-  | "today"
-  | "this-week"
-  | "this-month";
+import type { AppointmentDateFilter } from "@/types/admin/appointment";
 
 export const APPOINTMENT_DATE_FILTER_OPTIONS: {
   value: AppointmentDateFilter;

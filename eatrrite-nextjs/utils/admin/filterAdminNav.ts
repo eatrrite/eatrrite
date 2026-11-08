@@ -1,4 +1,5 @@
-import { ADMIN_NAV, type AdminNavItem } from "@/constants/admin/admin";
+import { ADMIN_NAV } from "@/constants/admin/admin";
+import type { AdminNavItem } from "@/types/admin/nav";
 
 /** Filter sidebar nav items by a free-text query (label or path). */
 export function filterAdminNav(query: string): AdminNavItem[] {

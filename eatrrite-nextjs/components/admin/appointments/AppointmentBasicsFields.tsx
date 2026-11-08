@@ -2,7 +2,6 @@
 
 import { DatePicker } from "@/components/admin/forms/DatePicker";
 import { TimeSelect } from "@/components/admin/forms/TimeSelect";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -16,46 +15,49 @@ import {
   APPOINTMENT_STATUSES,
   APPOINTMENT_STATUS_LABELS,
 } from "@/constants/admin/appointments/statuses";
-import type { AppointmentInput, Patient } from "@/types/admin/admin";
+import { SERVICES } from "@/constants/appointment/schedule";
+import type { ClinicAppointmentInput } from "@/types/admin/appointment";
+import type { Lead } from "@/types/admin/lead";
 
-type AppointmentFormFieldsProps = {
-  value: AppointmentInput;
-  patients: Patient[];
-  onChange: (next: AppointmentInput) => void;
+type AppointmentBasicsFieldsProps = {
+  value: ClinicAppointmentInput;
+  leads: Lead[];
+  onChange: (next: ClinicAppointmentInput) => void;
+  onLeadChange: (leadId: string) => void;
 };
 
-export function AppointmentFormFields({
+export function AppointmentBasicsFields({
   value,
-  patients,
+  leads,
   onChange,
-}: AppointmentFormFieldsProps) {
-  const set = <K extends keyof AppointmentInput>(
+  onLeadChange,
+}: AppointmentBasicsFieldsProps) {
+  const set = <K extends keyof ClinicAppointmentInput>(
     key: K,
-    next: AppointmentInput[K],
+    next: ClinicAppointmentInput[K],
   ) => onChange({ ...value, [key]: next });
-  const selectedPatientName =
-    patients.find((patient) => patient.id === value.patientId)?.name ??
-    "Select patient";
+  const selectedLeadName =
+    leads.find((lead) => lead.id === value.leadId)?.name ?? "Select lead";
 
   return (
     <div className="grid gap-3 sm:grid-cols-2">
       <div className="space-y-2 sm:col-span-2">
-        <Label>Patient</Label>
+        <Label>Lead</Label>
         <Select
-          value={value.patientId}
-          onValueChange={(patientId) => {
-            if (patientId) set("patientId", patientId);
+          value={value.leadId}
+          onValueChange={(leadId) => {
+            if (leadId) onLeadChange(leadId);
           }}
         >
           <SelectTrigger className="w-full">
-            <SelectValue placeholder="Select patient">
-              {selectedPatientName}
+            <SelectValue placeholder="Select lead">
+              {selectedLeadName}
             </SelectValue>
           </SelectTrigger>
           <SelectContent>
-            {patients.map((patient) => (
-              <SelectItem key={patient.id} value={patient.id}>
-                {patient.name}
+            {leads.map((lead) => (
+              <SelectItem key={lead.id} value={lead.id}>
+                {lead.name}
               </SelectItem>
             ))}
           </SelectContent>
@@ -78,19 +80,34 @@ export function AppointmentFormFields({
         />
       </div>
       <div className="space-y-2 sm:col-span-2">
-        <Label htmlFor="apt-reason">Service (optional)</Label>
-        <Input
-          id="apt-reason"
-          value={value.reason}
-          onChange={(e) => set("reason", e.target.value)}
-        />
+        <Label>Service</Label>
+        <Select
+          items={SERVICES.map((s) => ({ label: s, value: s }))}
+          value={value.service || null}
+          onValueChange={(service) => {
+            if (service) set("service", service);
+          }}
+        >
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="Select a service">
+              {value.service || "Select a service"}
+            </SelectValue>
+          </SelectTrigger>
+          <SelectContent>
+            {SERVICES.map((service) => (
+              <SelectItem key={service} value={service} className="whitespace-normal">
+                {service}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
       <div className="space-y-2 sm:col-span-2">
         <Label>Status</Label>
         <Select
           value={value.status}
           onValueChange={(status) => {
-            if (status) set("status", status as AppointmentInput["status"]);
+            if (status) set("status", status as ClinicAppointmentInput["status"]);
           }}
         >
           <SelectTrigger className="w-full">

@@ -37,7 +37,7 @@ export function DatePicker({
         disabled={disabled}
         id={id}
         className={cn(
-          "flex h-10 w-full cursor-pointer items-center justify-between gap-1.5 rounded-[calc(var(--radius-lg)/2)] border border-input bg-background px-3 py-2 text-sm outline-none transition-colors",
+          "flex h-10 w-full cursor-pointer items-center justify-between gap-1.5 rounded-lg border border-input bg-background px-3 py-2 text-sm outline-none transition-colors",
           "focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50",
           "disabled:cursor-not-allowed disabled:opacity-50",
           !value && "text-muted-foreground",

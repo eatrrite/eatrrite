@@ -52,11 +52,11 @@ export function Hero() {
           </HeroMotion>
           <HeroMotion delay={0.45}>
             <div className="mt-8 flex flex-wrap items-center gap-3">
-              <Button size="xl" variant="accent" nativeButton={false} render={<Link href={hero.primaryCta.href} />}>
+              <Button size="xl" variant="accent" className="!rounded-full" nativeButton={false} render={<Link href={hero.primaryCta.href} />}>
                 <CalendarDays />
                 {hero.primaryCta.label}
               </Button>
-              <Button size="xl" variant="outline" nativeButton={false} render={<Link href={hero.secondaryCta.href} />}>
+              <Button size="xl" variant="outline" className="!rounded-full" nativeButton={false} render={<Link href={hero.secondaryCta.href} />}>
                 <LayoutGrid />
                 {hero.secondaryCta.label}
               </Button>

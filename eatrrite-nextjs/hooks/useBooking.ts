@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { confirmedPath } from "@/constants/routes";
 import { useRazorpayCheckout } from "@/hooks/useRazorpayCheckout";
 import { startBooking, verifyPayment } from "@/services/bookingApi";
-import type { BookingInput } from "@/types/appointment";
+import type { BookingInput } from "@/types/appointment/booking";
 
 const DISMISSED =
   "Payment was cancelled. Your slot is held for a few minutes if you want to try again.";

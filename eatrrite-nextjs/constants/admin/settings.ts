@@ -17,7 +17,7 @@ export const SETTINGS_TOGGLES: {
   {
     key: "emailReminders",
     title: "Email reminders",
-    description: "Send appointment reminders to patients by email.",
+    description: "Send appointment reminders to leads by email.",
   },
   {
     key: "smsReminders",

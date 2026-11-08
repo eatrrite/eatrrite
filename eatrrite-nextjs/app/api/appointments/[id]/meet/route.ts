@@ -2,7 +2,7 @@ import { MEETING_MINUTES } from "@/constants/appointment/schedule";
 import { createMeetLink } from "@/services/appsScript";
 import { findAppointment } from "@/services/appointmentReads";
 import { claimForMeet, markMeetFailed, saveMeetLink } from "@/services/appointmentWrites";
-import type { Appointment } from "@/types/appointment";
+import type { BookingAppointment } from "@/types/appointment/booking";
 import { fail, ok } from "@/utils/apiResponse";
 
 type Context = { params: Promise<{ id: string }> };
@@ -13,7 +13,7 @@ const endOf = (start: string) => new Date(new Date(start).getTime() + MEETING_MI
 const istIso = (date: Date) =>
   `${new Date(date.getTime() + 330 * 60000).toISOString().slice(0, 19)}+05:30`;
 
-async function generate(appointment: Appointment) {
+async function generate(appointment: BookingAppointment) {
   return createMeetLink({
     name: appointment.name,
     service: appointment.service,

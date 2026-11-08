@@ -1,8 +1,8 @@
 /**
- * Fixed UUIDs for seed patients (generated via crypto.randomUUID once).
+ * Fixed UUIDs for seed leads (generated via crypto.randomUUID once).
  * Kept stable so appointments can reference them and SSR/persist stay consistent.
  */
-export const SEED_PATIENT_IDS = {
+export const SEED_LEAD_IDS = {
   sara: "852d2940-a715-44a2-8eee-b03ebd0893bb",
   rohan: "9437e1dc-ad49-4a1c-826c-fda105abeac6",
   neha: "0a57d89f-f952-4dfe-8029-832a88e74a57",
@@ -17,4 +17,4 @@ export const SEED_PATIENT_IDS = {
   leena: "fc003321-4c3f-480f-ae15-825542809ea8",
 } as const;
 
-export type SeedPatientKey = keyof typeof SEED_PATIENT_IDS;
+export type SeedLeadKey = keyof typeof SEED_LEAD_IDS;

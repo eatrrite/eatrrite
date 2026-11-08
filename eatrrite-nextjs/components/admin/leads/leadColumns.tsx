@@ -1,23 +1,14 @@
 "use client";
 
-import { PatientStatusBadge } from "@/components/admin/patients/PatientStatusBadge";
-import type { Patient } from "@/types/admin/admin";
+import type { Lead } from "@/types/admin/lead";
 import type { DataTableColumn } from "@/types/admin/dataTable";
 
-export const PATIENT_LIST_COLUMNS: DataTableColumn<Patient>[] = [
+export const LEAD_LIST_COLUMNS: DataTableColumn<Lead>[] = [
   {
     key: "name",
     header: "Name",
-    width: 40,
-    cell: (patient) => (
-      <span className="font-medium">{patient.name}</span>
-    ),
+    width: 50,
+    cell: (lead) => <span className="font-medium">{lead.name}</span>,
   },
-  { key: "phone", header: "Phone", width: 30, cell: (p) => p.phone },
-  {
-    key: "status",
-    header: "Status",
-    width: 30,
-    cell: (p) => <PatientStatusBadge status={p.status} />,
-  },
+  { key: "phone", header: "Phone", width: 50, cell: (lead) => lead.phone },
 ];
