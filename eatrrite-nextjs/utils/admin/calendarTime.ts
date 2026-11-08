@@ -1,3 +1,4 @@
+import { APPOINTMENT_SETTINGS } from "@/features/appointment/constants/appointment-settings";
 import {
   CALENDAR_DAY_END_HOUR,
   CALENDAR_DAY_START_HOUR,
@@ -55,16 +56,19 @@ export function calendarTimelineOuterHeightPx(): number {
 export type BlockLayout = {
   topPx: number;
   heightPx: number;
-  endTime: string;
 };
 
-/** Absolute position within the working-day timeline. */
+/**
+ * Absolute position within the working-day timeline. The block is the time the appointment
+ * reserves (the call plus the prep buffer, 45 minutes), the same span the booking rules block.
+ * The time shown on the block is still the call itself (`formatTimeRange`).
+ */
 export function appointmentBlockLayout(startTime: string): BlockLayout | null {
   const start = parseTimeToMinutes(startTime);
   if (start === null) return null;
   const dayStart = CALENDAR_DAY_START_HOUR * 60;
   const dayEnd = CALENDAR_DAY_END_HOUR * 60;
-  const end = Math.min(start + CALENDAR_DEFAULT_DURATION_MINUTES, dayEnd);
+  const end = Math.min(start + APPOINTMENT_SETTINGS.blockMinutes, dayEnd);
   if (end <= dayStart || start >= dayEnd) return null;
   const clampedStart = Math.max(start, dayStart);
   const topPx =
@@ -73,5 +77,5 @@ export function appointmentBlockLayout(startTime: string): BlockLayout | null {
     ((end - clampedStart) / 60) * CALENDAR_HOUR_HEIGHT_PX,
     CALENDAR_HOUR_HEIGHT_PX * 0.5,
   );
-  return { topPx, heightPx, endTime: minutesToTimeValue(end) };
+  return { topPx, heightPx };
 }

@@ -70,6 +70,7 @@ The booking API returns 409 for `taken` and 400 for the others. The server check
 - The appointment form offers only times the schedule allows on the chosen date, minus taken blocks. Closed days offer none.
 - The store's `saveAppointment` checks the same rules: the time must fall in the working hours, and no other appointment may overlap its 45 minutes. A cancelled appointment frees its slot. An edit that keeps its own date and time always saves.
 - The admin may record past appointments, so the past-time and 30-day rules apply to customers only.
+- The admin calendar draws each appointment as the 45 minutes it reserves (the 30-minute call plus the 15-minute prep), the same span the booking rules block. The time written on it is the call itself.
 - Editing an appointment saves with just the booking details (date, time, service, status, lead). Creating one needs all three steps. The top bar, footer and contact page read the working hours from the same store.
 
 ## Website booking flow (zustand)

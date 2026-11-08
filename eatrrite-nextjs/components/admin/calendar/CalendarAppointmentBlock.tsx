@@ -43,9 +43,6 @@ export function CalendarAppointmentBlock({
           <p className="mt-0.5 truncate text-[10px] leading-tight opacity-80">
             {formatTimeRange(appointment.time)}
           </p>
-          <p className="truncate text-[10px] leading-tight opacity-70">
-            {appointment.service}
-          </p>
         </>
       ) : null}
     </button>

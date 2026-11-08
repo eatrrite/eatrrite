@@ -30,7 +30,7 @@ export function CalendarDayBlock({
       }}
       style={{ top: topPx, height: heightPx }}
       className={cn(
-        "absolute inset-x-2 z-[1] flex items-start justify-between gap-3 overflow-hidden rounded-lg border-l-4 px-3 py-2 text-left shadow-xs transition-opacity hover:opacity-90 sm:inset-x-3",
+        "absolute inset-x-2 z-[1] flex items-center justify-between gap-3 overflow-hidden rounded-lg border-l-4 px-3 py-1.5 text-left shadow-xs transition-opacity hover:opacity-90 sm:inset-x-3",
         APPOINTMENT_BLOCK_CLASS[appointment.status],
       )}
     >
@@ -38,9 +38,8 @@ export function CalendarDayBlock({
         <p className="truncate text-sm font-semibold leading-tight">
           {leadName}
         </p>
-        <p className="mt-0.5 truncate text-xs opacity-80">{appointment.service}</p>
-        <p className="mt-1 truncate text-xs opacity-70">
-          {formatTimeRange(appointment.time)}
+        <p className="mt-0.5 truncate text-xs leading-tight opacity-80">
+          {formatTimeRange(appointment.time)} · {appointment.service}
         </p>
       </div>
       <span className="hidden shrink-0 min-[380px]:inline-flex">
