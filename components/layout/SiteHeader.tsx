@@ -58,10 +58,15 @@ export function SiteHeader() {
         transition={transition}
       >
         <div className="flex items-center justify-between gap-5">
-          <Link href="/" onClick={close} className="group/logo shrink-0">
-            <motion.div animate={{ height: scrolled ? 44 : 52 }} transition={transition}>
-              <Image src={BRAND.logo} alt={BRAND.name} width={1162} height={332} priority className="h-full w-auto transition-transform duration-300 group-hover/logo:scale-[1.03]" />
-            </motion.div>
+          <Link href="/" onClick={close} className="shrink-0">
+            <Image
+              src={BRAND.logo}
+              alt={BRAND.name}
+              width={1162}
+              height={332}
+              priority
+              className="h-11 w-auto"
+            />
           </Link>
           <div className="hidden lg:block">
             <NavLinks />
