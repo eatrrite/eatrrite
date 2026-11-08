@@ -3,7 +3,7 @@
 import { CalendarDays, Clock3, Link2, Salad } from "lucide-react";
 import { format, parseISO } from "date-fns";
 import { AppointmentStatusBadge } from "@/components/admin/appointments/AppointmentStatusBadge";
-import { QUESTIONNAIRE_QUESTIONS } from "@/features/appointment/constants/questionnaire-questions";
+import { useAdminStore } from "@/stores/useAdminStore";
 import type { Appointment } from "@/types/admin/appointment";
 import { answerForKey } from "@/utils/admin/questionnaireAnswers";
 
@@ -25,6 +25,7 @@ export function AppointmentDetailsBody({
   appointment,
   leadName,
 }: AppointmentDetailsBodyProps) {
+  const questions = useAdminStore((s) => s.questions);
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-start gap-3">
@@ -97,7 +98,7 @@ export function AppointmentDetailsBody({
           <p className="text-sm text-muted-foreground">No answers yet</p>
         ) : (
           <ul className="space-y-2">
-            {QUESTIONNAIRE_QUESTIONS.map((question) => {
+            {questions.map((question) => {
               const answer = answerForKey(appointment.questionnaire, question.key);
               if (!answer) return null;
               return (

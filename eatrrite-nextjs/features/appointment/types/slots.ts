@@ -23,7 +23,26 @@ export type SlotWindow = {
 
 export type IstNow = { date: string; minutes: number };
 
+/** Booking rules, from the er_settings row. */
+export type BookingSettings = {
+  /** Length of the customer's call. The last start of a window is this long before it closes. */
+  meetingMinutes: number;
+  /** Consultant buffer after each call. */
+  prepMinutes: number;
+  /** Time one booking occupies: the call plus the buffer. No two bookings may overlap it. */
+  blockMinutes: number;
+  /** Start times are offered on this grid inside each working window. */
+  startStepMinutes: number;
+  /** A payment in progress holds its slot for this long. */
+  holdMinutes: number;
+  /** Customers can book from today up to and including this many days ahead. */
+  bookingDaysAhead: number;
+  /** The booking fee, charged through Razorpay. */
+  feeRupees: number;
+};
+
 export type SlotContext = {
+  settings?: BookingSettings;
   weekly?: WeeklyHours;
   occupied?: OccupiedSlot[];
   /** Slots hidden by the admin. */

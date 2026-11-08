@@ -1,4 +1,5 @@
 import type { AppointmentInput } from "@/types/admin/appointment";
+import type { QuestionnaireQuestion } from "@/features/appointment/types/questionnaire";
 import type { Lead } from "@/types/admin/lead";
 import { isAdminQuestionnaireComplete } from "@/utils/admin/leadQuestionnaire";
 
@@ -20,10 +21,11 @@ export function hasMeetLink(input: AppointmentInput): boolean {
 export function canSaveAppointment(
   input: AppointmentInput,
   lead: Lead | undefined,
+  questions: QuestionnaireQuestion[],
 ): boolean {
   return (
     hasAppointmentBasics(input) &&
-    isAdminQuestionnaireComplete(input.questionnaire, lead) &&
+    isAdminQuestionnaireComplete(input.questionnaire, lead, questions) &&
     hasMeetLink(input)
   );
 }

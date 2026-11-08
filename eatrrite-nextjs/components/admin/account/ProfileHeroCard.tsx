@@ -1,12 +1,14 @@
+"use client";
+
 import { Mail, MapPin, Phone } from "lucide-react";
 import {
   DashboardCard,
   DashboardCardHeader,
 } from "@/components/admin/dashboard/DashboardCard";
-import { ADMIN_USER_PROFILE } from "@/constants/admin/admin";
+import { useAdminProfile } from "@/hooks/admin/useAdminProfile";
 
 export function ProfileHeroCard() {
-  const profile = ADMIN_USER_PROFILE;
+  const profile = useAdminProfile();
 
   return (
     <DashboardCard>
@@ -16,8 +18,8 @@ export function ProfileHeroCard() {
             {profile.initials}
           </span>
         }
-        title={profile.displayName}
-        subtitle={profile.role}
+        title={profile.name}
+        subtitle="Admin"
       />
       <div className="space-y-2.5 rounded-xl bg-muted/50 px-3.5 py-3">
         <p className="flex items-center gap-2.5 text-sm text-foreground">
@@ -26,11 +28,11 @@ export function ProfileHeroCard() {
         </p>
         <p className="flex items-center gap-2.5 text-sm text-foreground">
           <Phone className="size-3.5 shrink-0 text-muted-foreground" />
-          {profile.phone}
+          {profile.mobile ?? "Mobile not added"}
         </p>
         <p className="flex items-center gap-2.5 text-sm text-foreground">
           <MapPin className="size-3.5 shrink-0 text-muted-foreground" />
-          {profile.location}
+          {profile.address ?? "Address not added"}
         </p>
       </div>
     </DashboardCard>

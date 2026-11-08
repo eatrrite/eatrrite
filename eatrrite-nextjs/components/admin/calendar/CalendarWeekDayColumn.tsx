@@ -1,5 +1,6 @@
 "use client";
 
+import { useAdminStore } from "@/stores/useAdminStore";
 import type { Appointment } from "@/types/admin/appointment";
 import { CalendarAppointmentBlock } from "@/components/admin/calendar/CalendarAppointmentBlock";
 import { CalendarDayEmptySlots } from "@/components/admin/calendar/CalendarDayEmptySlots";
@@ -23,6 +24,7 @@ export function CalendarWeekDayColumn({
   onSelectAppointment,
   onEmptySlot,
 }: CalendarWeekDayColumnProps) {
+  const { blockMinutes } = useAdminStore((s) => s.settings);
   return (
     <div
       role="presentation"
@@ -41,7 +43,7 @@ export function CalendarWeekDayColumn({
         />
       ) : null}
       {appointments.map((item) => {
-        const layout = appointmentBlockLayout(item.time);
+        const layout = appointmentBlockLayout(item.time, blockMinutes);
         if (!layout) return null;
         return (
           <CalendarAppointmentBlock

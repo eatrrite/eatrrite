@@ -1,32 +1,26 @@
-import type { Appointment } from "@/types/admin/appointment";
-import type { DaySchedule } from "@/types/admin/schedule";
-import { APPOINTMENT_SETTINGS } from "@/features/appointment/constants/appointment-settings";
-import type { SlotHold } from "@/features/appointment/types/booking";
-import type { BookingError, OccupiedSlot } from "@/features/appointment/types/slots";
-import { occupiedFrom } from "@/features/appointment/utils/appointmentSlots";
+import type { BookingError, BookingSettings, OccupiedSlot, WeeklyHours } from "@/features/appointment/types/slots";
 import { bookingError, isBookableDate } from "@/features/appointment/utils/bookable";
-import { scheduleToWeekly } from "@/features/appointment/utils/scheduleWeekly";
+import { addDays, nowIst } from "@/features/appointment/utils/istTime";
 import { availableTimes } from "@/features/appointment/utils/slots";
 
-/** What the customer-side rules read from the store. */
-export type SlotSource = { days: DaySchedule[]; appointments: Appointment[]; holds: SlotHold[] };
+/** What the customer-side rules read: the database's hours, rules and taken slots. */
+export type SlotSource = { weekly: WeeklyHours; settings: BookingSettings; occupied: OccupiedSlot[] };
 
-export const activeHolds = (holds: SlotHold[], now = Date.now()) => holds.filter((hold) => hold.expiresAt > now);
-
-export const newHoldExpiry = (now = Date.now()) => now + APPOINTMENT_SETTINGS.holdMinutes * 60_000;
-
-// Booked appointments and live payment holds both take their slot.
-function occupiedSlots({ appointments, holds }: SlotSource, now: number): OccupiedSlot[] {
-  return [...occupiedFrom(appointments), ...activeHolds(holds, now)];
+// Times a customer can pick on a date: the working hours, minus booked and held blocks.
+export function customerTimes(date: string, { weekly, settings, occupied }: SlotSource, today = nowIst().date): string[] {
+  if (!isBookableDate(date, today, settings.bookingDaysAhead)) return [];
+  return availableTimes(date, { weekly, settings, occupied });
 }
 
-// Times a customer can pick on a date: the admin schedule, minus booked and held blocks.
-export function customerTimes(date: string, source: SlotSource, now = Date.now()): string[] {
-  if (!isBookableDate(date)) return [];
-  return availableTimes(date, { weekly: scheduleToWeekly(source.days), occupied: occupiedSlots(source, now) });
+// Open times for every bookable day, today included, keyed by date. Days with none are left out.
+export function customerAvailability(source: SlotSource, today = nowIst().date): Record<string, string[]> {
+  const days = Array.from({ length: source.settings.bookingDaysAhead + 1 }, (_, index) => addDays(today, index));
+  return Object.fromEntries(
+    days.map((date) => [date, customerTimes(date, source, today)] as const).filter(([, times]) => times.length > 0),
+  );
 }
 
 // Why a customer cannot book this slot, or null when they can.
-export function customerSlotError(date: string, time: string, source: SlotSource, now = Date.now()): BookingError | null {
-  return bookingError(date, time, { weekly: scheduleToWeekly(source.days), occupied: occupiedSlots(source, now) });
+export function customerSlotError(date: string, time: string, { weekly, settings, occupied }: SlotSource): BookingError | null {
+  return bookingError(date, time, { weekly, settings, occupied });
 }

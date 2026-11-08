@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "check:rules": "bun scripts/check-appointment-rules.ts",
-    "check:booking": "bun scripts/check-booking-flow.ts"
+    "check:booking": "bun scripts/check-booking-flow.ts",
+    "db:migrate": "bun --env-file=.env.local scripts/migrate.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
@@ -17,6 +18,7 @@
     "@fortawesome/free-regular-svg-icons": "6.5.2",
     "@fortawesome/free-solid-svg-icons": "6.5.2",
     "@gsap/react": "^2.1.2",
+    "@neon/auth": "0.8.2",
     "@neondatabase/serverless": "^1.2.0",
     "class-variance-authority": "^0.7.1",
     "cn": "^0.5.2",

@@ -13,7 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { Lead } from "@/types/admin/lead";
-import type { QuestionnaireAnswers } from "@/features/appointment/types/questionnaire";
+import type { QuestionnaireAnswers, QuestionnaireQuestion } from "@/features/appointment/types/questionnaire";
 import { adminQuestionnaireQuestions } from "@/utils/admin/leadQuestionnaire";
 import {
   answerForKey,
@@ -24,6 +24,8 @@ type AppointmentQuestionnaireFieldsProps = {
   lead: Lead | undefined;
   value: QuestionnaireAnswers;
   onChange: (next: QuestionnaireAnswers) => void;
+  /** The questionnaire, from er_questions. */
+  questions: QuestionnaireQuestion[];
   /** Number of the first question. The public form numbers its own questions before these. */
   firstNumber?: number;
 };
@@ -35,13 +37,14 @@ export function AppointmentQuestionnaireFields({
   lead,
   value,
   onChange,
+  questions,
   firstNumber = 1,
 }: AppointmentQuestionnaireFieldsProps) {
   return (
     <div className="space-y-5">
       <AppointmentLeadSummary lead={lead} />
 
-      {adminQuestionnaireQuestions().map((question, index) => {
+      {adminQuestionnaireQuestions(questions).map((question, index) => {
         const label = (htmlFor?: string) => (
           <QuestionLabel number={firstNumber + index} text={question.label} required={question.required} htmlFor={htmlFor} />
         );

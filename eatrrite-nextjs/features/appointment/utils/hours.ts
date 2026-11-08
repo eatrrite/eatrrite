@@ -1,11 +1,9 @@
-import { APPOINTMENT_SETTINGS } from "@/features/appointment/constants/appointment-settings";
+import { DEFAULT_BOOKING_SETTINGS } from "@/features/appointment/constants/appointment-settings";
 import { EATRRITE_AVAILABLE_TIMES } from "@/features/appointment/constants/eatrrite-available-times";
 import type { Weekday } from "@/types/admin/schedule";
-import type { SlotWindow, TimeWindow, WeeklyHours } from "@/features/appointment/types/slots";
+import type { BookingSettings, SlotWindow, TimeWindow, WeeklyHours } from "@/features/appointment/types/slots";
 import { parseClock, toMinutes } from "@/features/appointment/utils/clock";
 import { displayTime, weekdayOf } from "@/features/appointment/utils/istTime";
-
-const { meetingMinutes, prepMinutes } = APPOINTMENT_SETTINGS;
 
 // Monday first, as in the PHP site.
 export const WEEKDAYS: Weekday[] = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
@@ -22,7 +20,11 @@ export function isValidWindow(window: TimeWindow): boolean {
 }
 
 // The working windows of a date, in minutes, with the limits the rules put on them.
-export function windowsFor(date: string, weekly: WeeklyHours = EATRRITE_AVAILABLE_TIMES): SlotWindow[] {
+export function windowsFor(
+  date: string,
+  weekly: WeeklyHours = EATRRITE_AVAILABLE_TIMES,
+  { meetingMinutes, prepMinutes }: BookingSettings = DEFAULT_BOOKING_SETTINGS,
+): SlotWindow[] {
   return weekly[weekdayName(date)].filter(isValidWindow).map(({ start, end }) => {
     const startMinutes = toMinutes(parseClock(start)!);
     const endMinutes = toMinutes(parseClock(end)!);

@@ -22,7 +22,7 @@ Short, binding rules for the Eat Rrite Next.js site. Clarity beats cleverness.
 | `components/shared/` | Parts used by several pages |
 | `components/ui/` | shadcn components |
 | `components/admin/` | Admin panel, by page (`components/admin/calendar/`) |
-| `features/<feature>/` | Everything one feature needs, in one place: `components/`, `hooks/`, `services/`, `constants/`, `types/`, `utils/`, `stores/`. Today: `features/appointment/` |
+| `features/<feature>/` | Everything one feature needs, in one place: `components/`, `hooks/`, `services/`, `constants/`, `types/`, `utils/`, `stores/`. Today: `features/appointment/`, `features/auth/` (Neon Auth: sign-in, sign-up, session, profile), `features/admin/` (admin data load and save actions) |
 | `stores/` | Client state for the admin (zustand), until Neon is wired |
 | `constants/<page>/` | Copy for one page, such as `constants/about/` |
 | `constants/` | Brand manifest, routes, API paths, motion values |
@@ -63,12 +63,15 @@ No clinic, dental or other-brand wording in names, files, comments or text. The 
 ## Database
 
 - Keep it minimal: only the tables and columns the site uses today.
-- Every table has `id uuid primary key default gen_random_uuid()`, `created_at` and `updated_at`.
-- Every table gets the `set_updated_at` trigger.
+- Every table starts with `er_` (Eat Rrite).
+- Tables have a uuid `id` (`er_profiles.id` is the Neon Auth user id; `er_questions` uses its `key`), `created_at`, and `updated_at` when rows change.
+- Every table with `updated_at` gets the `er_set_updated_at` trigger.
 - Use foreign keys for real relationships. Choose `on delete` on purpose.
 - Use `check` constraints for fixed value lists, such as `status` and `role`.
 - No extra indexes, views or functions until a real need appears.
-- Change the schema only with a new numbered file in `db/migrations/`. Never edit a file that already ran.
+- Change the schema only with a new numbered file in `db/migrations/`. Never edit a file that already ran. `001_initial.sql` holds V1.
+- Settings, working hours, services and questions are read through cached functions tagged `booking-config`; anything that changes them calls `updateTag("booking-config")`.
+- Server actions return `ActionResult` (`utils/actionResult.ts`) instead of throwing, and start with `assertAdmin()` when they change admin data.
 - Queries live in `services/` (or a feature's `services/`). Always use the `db()` tagged template, never string-built SQL.
 
 ## Security
@@ -79,7 +82,7 @@ No clinic, dental or other-brand wording in names, files, comments or text. The 
 - Payment amounts come from the server, never from the browser.
 - Confirm a payment only after checking the Razorpay signature.
 - No health answers or personal data in URLs, logs or tracking events.
-- Authorize admins by `profiles.role`, never by email.
+- Admin access: a Neon Auth session whose email is in `ADMIN_EMAILS`. `proxy.ts` sends visitors without a session to `/admin/login`; the admin layout and every admin action check the email again.
 
 ## Client rules
 

@@ -29,17 +29,19 @@ export function useCalendarDayActions(selectedKey: string) {
 
   const leadName = (id: string) => getLead(id)?.name ?? "Unknown";
 
-  const save = (input: AppointmentInput) => {
+  // Resolves true when saved, so the form closes only then and keeps the entries otherwise.
+  const save = async (input: AppointmentInput): Promise<boolean> => {
     const nextName = getLead(input.leadId)?.name ?? "Lead";
     const previousName = editing
       ? (getLead(editing.leadId)?.name ?? "Lead")
       : nextName;
-    const result = saveAppointment(input, editing?.id);
+    const result = await saveAppointment(input, editing?.id);
     if (!result.ok) {
-      showToast({ title: "Time not available", description: result.error, type: "error" });
-      return;
+      showToast({ title: "Appointment not saved", description: result.error, type: "error" });
+      return false;
     }
     showToast(appointmentSaveToast(editing, input, previousName, nextName));
+    return true;
   };
 
   const remove = (item: Appointment) => {

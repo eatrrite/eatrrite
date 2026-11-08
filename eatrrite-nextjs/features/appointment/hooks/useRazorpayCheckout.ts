@@ -1,12 +1,12 @@
 "use client";
 
 import { BRAND } from "@/constants/brand";
-import { APPOINTMENT_SETTINGS } from "@/features/appointment/constants/appointment-settings";
 import type { RazorpayOptions, RazorpaySuccess } from "@/features/appointment/types/razorpay";
 
 const SCRIPT_URL = "https://checkout.razorpay.com/v1/checkout.js";
 
-export type CheckoutOrder = { orderId: string; amount: number; currency: string; keyId: string };
+/** The order from POST /api/appointments, with the held slot and how long it is held. */
+export type CheckoutOrder = { orderId: string; amount: number; currency: string; keyId: string; holdId: string; holdMinutes: number };
 export type CheckoutPrefill = { name: string; email: string; contact: string };
 export type CheckoutResult =
   | { status: "paid"; payment: RazorpaySuccess }
@@ -36,7 +36,7 @@ function checkoutOptions(order: CheckoutOrder, prefill: CheckoutPrefill, done: (
     name: BRAND.name,
     description: "Consultation booking",
     image: BRAND.logo,
-    timeout: (APPOINTMENT_SETTINGS.holdMinutes - 2) * 60,
+    timeout: (order.holdMinutes - 2) * 60,
     prefill,
     theme: { color: BRAND.themeColor },
     handler: (payment) => done({ status: "paid", payment }),

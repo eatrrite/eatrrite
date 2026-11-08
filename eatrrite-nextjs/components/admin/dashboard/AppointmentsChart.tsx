@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo, useState } from "react";
 import { CalendarDays } from "lucide-react";
 import {
   Area,
@@ -21,7 +22,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { SEED_APPOINTMENT_TREND } from "@/constants/admin/dashboard/chart";
+import { todayIst } from "@/features/appointment/utils/istTime";
+import { useAdminStore } from "@/stores/useAdminStore";
+import { appointmentTrend } from "@/utils/admin/appointmentTrend";
+
+const RANGES = { "7d": 7, "14d": 14, "30d": 30 } as const;
+type Range = keyof typeof RANGES;
 
 function ChartTooltip({
   active,
@@ -44,15 +50,18 @@ function ChartTooltip({
 }
 
 export function AppointmentsChart() {
+  const appointments = useAdminStore((s) => s.appointments);
+  const [range, setRange] = useState<Range>("7d");
+  const data = useMemo(() => appointmentTrend(appointments, todayIst(), RANGES[range]), [appointments, range]);
   return (
     <DashboardCard>
       <DashboardCardHeader
         icon={<CalendarDays className="size-4" />}
         tone="gold"
         title="Appointments"
-        subtitle="Daily appointments for the last 7 days"
+        subtitle={`Daily appointments for the last ${RANGES[range]} days`}
         action={
-          <Select defaultValue="7d">
+          <Select value={range} onValueChange={(next) => next && setRange(next as Range)}>
             <SelectTrigger size="sm" className="w-[8.5rem]">
               <SelectValue />
             </SelectTrigger>
@@ -67,7 +76,7 @@ export function AppointmentsChart() {
       <div className="min-h-0 flex-1 pt-2">
         <ResponsiveContainer width="100%" height={240}>
           <AreaChart
-            data={SEED_APPOINTMENT_TREND}
+            data={data}
             margin={{ top: 8, right: 8, left: -12, bottom: 0 }}
           >
             <defs>

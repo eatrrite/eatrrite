@@ -1,57 +1,72 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { AppointmentQuestionnaireFields } from "@/components/admin/appointments/AppointmentQuestionnaireFields";
 import { ChoiceChips } from "@/components/admin/forms/ChoiceChips";
 import { QuestionLabel } from "@/components/admin/forms/QuestionLabel";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import copy from "@/features/appointment/constants/questionnaire.json";
-import type { QuestionnaireAnswers } from "@/features/appointment/types/questionnaire";
+import { submitQuestionnaireAction } from "@/features/appointment/services/bookingActions";
+import type { ConfirmedBooking } from "@/features/appointment/services/questionnaireDb";
+import type { QuestionnaireAnswers, QuestionnaireQuestion } from "@/features/appointment/types/questionnaire";
 import { useProgressToast } from "@/hooks/useProgressToast";
 import { useShowToast } from "@/hooks/useShowToast";
-import { useAdminStore } from "@/stores/useAdminStore";
 import type { Lead, LeadGender } from "@/types/admin/lead";
 import { unansweredRequiredCount } from "@/utils/admin/leadQuestionnaire";
 
 const GENDERS: LeadGender[] = ["Female", "Male"];
 // Name, age and gender come first, then the questions the admin form shows in step 2.
 const PROFILE_QUESTIONS = 3;
-const REQUIRED_TOTAL = PROFILE_QUESTIONS + unansweredRequiredCount([]);
 
-// The questionnaire the customer fills in after paying. Same questions as the admin's step 2,
-// plus name, age and gender. The name starts as what they typed when booking. Submitting saves
-// the answers on the appointment and shows the Meet link.
-export function QuestionnaireForm({ appointmentId, lead }: { appointmentId: string; lead: Lead }) {
-  const submitQuestionnaire = useAdminStore((s) => s.submitQuestionnaire);
+// The questionnaire the customer fills in after paying. Same questions as the admin's step 2
+// (er_questions), plus name, age and gender. The name starts as what they typed when booking.
+// Submitting saves the answers on the appointment; the page then refreshes and shows the Meet link.
+export function QuestionnaireForm({ booking, questions }: { booking: ConfirmedBooking; questions: QuestionnaireQuestion[] }) {
+  const router = useRouter();
   const showToast = useShowToast();
   const showProgress = useProgressToast();
-  const [name, setName] = useState(lead.name);
-  const [age, setAge] = useState(lead.age ? String(lead.age) : "");
-  const [gender, setGender] = useState<LeadGender | "">(lead.gender ?? "");
+  const [name, setName] = useState(booking.name);
+  const [age, setAge] = useState(booking.age ? String(booking.age) : "");
+  const [gender, setGender] = useState<LeadGender | "">(booking.gender ?? "");
   const [answers, setAnswers] = useState<QuestionnaireAnswers>([]);
+  const [submitting, setSubmitting] = useState(false);
 
-  const profile = { ...lead, name: name.trim() || lead.name, age: age ? Number(age) : undefined, gender: gender || undefined };
-  const left = unansweredRequiredCount(answers) + (name.trim().length >= 2 ? 0 : 1) + (age ? 0 : 1) + (gender ? 0 : 1);
-  const done = REQUIRED_TOTAL - left;
+  // The lead summary at the top of the questions shows what is typed here.
+  const profile: Lead = {
+    id: booking.id,
+    name: name.trim() || booking.name,
+    phone: booking.phone,
+    age: age ? Number(age) : undefined,
+    gender: gender || undefined,
+    createdAt: "",
+    updatedAt: "",
+  };
+  const requiredTotal = PROFILE_QUESTIONS + unansweredRequiredCount([], questions);
+  const left = unansweredRequiredCount(answers, questions) + (name.trim().length >= 2 ? 0 : 1) + (age ? 0 : 1) + (gender ? 0 : 1);
+  const done = requiredTotal - left;
 
   // After each change that moves the count, tell the customer how far along they are.
   const lastDone = useRef(done);
   useEffect(() => {
     if (lastDone.current === done) return;
     lastDone.current = done;
-    showProgress(done, REQUIRED_TOTAL, "answered");
-  }, [done, showProgress]);
+    showProgress(done, requiredTotal, "answered");
+  }, [done, requiredTotal, showProgress]);
 
-  function submit(event: React.FormEvent) {
+  async function submit(event: React.FormEvent) {
     event.preventDefault();
-    if (left > 0 || !gender) return;
-    const result = submitQuestionnaire(appointmentId, { name, age: Number(age), gender, answers });
+    if (left > 0 || !gender || submitting) return;
+    setSubmitting(true);
+    const result = await submitQuestionnaireAction(booking.id, { name, age: Number(age), gender, answers });
     if (!result.ok) {
+      setSubmitting(false);
       showToast({ title: "Please check your answers", description: result.error, type: "error" });
       return;
     }
     showToast({ title: "Questionnaire submitted", description: "Your Google Meet link is ready.", type: "success" });
+    router.refresh();
   }
 
   return (
@@ -78,7 +93,7 @@ export function QuestionnaireForm({ appointmentId, lead }: { appointmentId: stri
         </div>
       </div>
 
-      <AppointmentQuestionnaireFields lead={profile} value={answers} onChange={setAnswers} firstNumber={PROFILE_QUESTIONS + 1} />
+      <AppointmentQuestionnaireFields lead={profile} value={answers} onChange={setAnswers} questions={questions} firstNumber={PROFILE_QUESTIONS + 1} />
 
       <div className="flex flex-wrap items-center justify-end gap-3">
         {left > 0 ? (
@@ -86,8 +101,8 @@ export function QuestionnaireForm({ appointmentId, lead }: { appointmentId: stri
             {left} required {left === 1 ? "answer" : "answers"} left
           </p>
         ) : null}
-        <Button type="submit" size="xl" disabled={left > 0}>
-          Submit questionnaire
+        <Button type="submit" size="xl" disabled={left > 0 || submitting}>
+          {submitting ? "Submitting…" : "Submit questionnaire"}
         </Button>
       </div>
     </form>

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { APPOINTMENT_STATUS_LABELS } from "@/constants/admin/appointments/statuses";
 import type { AppointmentInput } from "@/types/admin/appointment";
 import type { Lead } from "@/types/admin/lead";
+import type { QuestionnaireQuestion } from "@/features/appointment/types/questionnaire";
 import { hasAppointmentBasics } from "@/utils/admin/appointmentReady";
 import { formatDateLabel } from "@/utils/admin/date";
 import { generateAdminMeetLink } from "@/utils/admin/generateMeetLink";
@@ -17,6 +18,7 @@ type AppointmentMeetStepProps = {
   value: AppointmentInput;
   lead: Lead | undefined;
   onChange: (next: AppointmentInput) => void;
+  questions: QuestionnaireQuestion[];
 };
 
 function Ready({ done, children }: { done: boolean; children: string }) {
@@ -28,9 +30,9 @@ function Ready({ done, children }: { done: boolean; children: string }) {
   );
 }
 
-export function AppointmentMeetStep({ value, lead, onChange }: AppointmentMeetStepProps) {
+export function AppointmentMeetStep({ value, lead, onChange, questions }: AppointmentMeetStepProps) {
   const basicsReady = hasAppointmentBasics(value);
-  const questionnaireReady = isAdminQuestionnaireComplete(value.questionnaire, lead);
+  const questionnaireReady = isAdminQuestionnaireComplete(value.questionnaire, lead, questions);
   const canGenerate = basicsReady && questionnaireReady;
 
   function generate() {

@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
-import { AdminAuthDialog } from "@/components/admin/AdminAuthDialog";
 import { AdminHeader } from "@/components/admin/AdminHeader";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import {
@@ -12,11 +11,10 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { ADMIN_NAV } from "@/constants/admin/admin";
-import { useAdminAuth } from "@/hooks/admin/useAdminAuth";
+import { signOutAction } from "@/features/auth/services/authActions";
 
 export function AdminShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const { authorized, login, logout } = useAdminAuth();
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const toggleSidebar = () => setIsSidebarCollapsed((prev) => !prev);
@@ -34,8 +32,6 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="admin-shell flex h-dvh overflow-hidden bg-background">
-      <AdminAuthDialog open={!authorized} onLogin={login} />
-
       <AdminSidebar
         collapsed={isSidebarCollapsed}
         onToggleSidebar={toggleSidebar}
@@ -58,12 +54,10 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
         <AdminHeader
           title={title}
           onMobileMenuClick={() => setIsMobileNavOpen(true)}
-          onLogout={logout}
+          onLogout={() => void signOutAction()}
         />
         <main
           className="min-h-0 flex-1 overflow-y-auto px-4 py-6 text-left sm:px-6 lg:px-8"
-          inert={!authorized ? true : undefined}
-          aria-hidden={!authorized}
         >
           {children}
         </main>

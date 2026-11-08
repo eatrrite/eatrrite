@@ -10,7 +10,7 @@ import {
 } from "@/components/admin/dashboard/DashboardCard";
 import { DashboardStatusBadge } from "@/components/admin/dashboard/DashboardStatusBadge";
 import { buttonVariants } from "@/components/ui/button";
-import { DASHBOARD_REFERENCE_DATE } from "@/constants/admin/dashboard/reference";
+import { todayIst } from "@/features/appointment/utils/istTime";
 import { useAdminStore } from "@/stores/useAdminStore";
 import { buildTodayAppointments } from "@/utils/admin/dashboardTodayAppointments";
 import { formatTimeLabel } from "@/utils/admin/time";
@@ -24,7 +24,7 @@ export function TodayAppointments() {
       buildTodayAppointments(
         appointments,
         (id) => getLead(id)?.name ?? "Unknown",
-        DASHBOARD_REFERENCE_DATE,
+        todayIst(),
       ),
     [appointments, getLead],
   );

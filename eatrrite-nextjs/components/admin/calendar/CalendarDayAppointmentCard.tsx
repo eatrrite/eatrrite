@@ -5,6 +5,7 @@ import { AppointmentStatusBadge } from "@/components/admin/appointments/Appointm
 import { DashboardAvatar } from "@/components/admin/dashboard/DashboardAvatar";
 import type { Appointment } from "@/types/admin/appointment";
 import { appointmentEndTime } from "@/utils/admin/calendarTime";
+import { useAdminStore } from "@/stores/useAdminStore";
 import { formatTimeLabel } from "@/utils/admin/time";
 
 type CalendarDayAppointmentCardProps = {
@@ -18,6 +19,7 @@ export function CalendarDayAppointmentCard({
   leadName,
   onOpen,
 }: CalendarDayAppointmentCardProps) {
+  const { meetingMinutes } = useAdminStore((s) => s.settings);
   return (
     <button
       type="button"
@@ -28,7 +30,7 @@ export function CalendarDayAppointmentCard({
         <p className="font-medium text-foreground">
           {formatTimeLabel(appointment.time)}
         </p>
-        <p>{formatTimeLabel(appointmentEndTime(appointment.time))}</p>
+        <p>{formatTimeLabel(appointmentEndTime(appointment.time, meetingMinutes))}</p>
       </div>
 
       <div className="min-w-0 flex-1">

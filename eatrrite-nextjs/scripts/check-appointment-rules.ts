@@ -1,5 +1,6 @@
 // Checks the appointment rules against the PHP behaviour. Run: bun run check:rules
 import assert from "node:assert/strict";
+import { DEFAULT_BOOKING_SETTINGS as S } from "@/features/appointment/constants/appointment-settings";
 import { EATRRITE_AVAILABLE_TIMES } from "@/features/appointment/constants/eatrrite-available-times";
 import type { Appointment } from "@/types/admin/appointment";
 import { adminSlotError, adminSlotTimes, occupiedFrom } from "@/features/appointment/utils/appointmentSlots";
@@ -56,8 +57,8 @@ check("adjacent bookings merge and unreadable rows are ignored", () => {
 });
 
 check("timesOverlap matches the block rule", () => {
-  assert.ok(timesOverlap("12:00", "12:30"));
-  assert.ok(!timesOverlap("12:00", "12:45"));
+  assert.ok(timesOverlap("12:00", "12:30", S.blockMinutes));
+  assert.ok(!timesOverlap("12:00", "12:45", S.blockMinutes));
 });
 
 check("past times are hidden, past dates offer nothing", () => {
@@ -130,14 +131,14 @@ const input = (date: string, time: string) => ({ leadId: "l", date, time, servic
 check("admin: no overlap, cancelled frees the slot, own slot stays editable", () => {
   const taken = [appointment("a", MON, "12:00"), appointment("b", MON, "15:30", "cancelled")];
   assert.equal(occupiedFrom(taken).length, 1);
-  assert.ok(adminSlotError(input(MON, "12:30"), days, taken, null));
-  assert.equal(adminSlotError(input(MON, "12:45"), days, taken, null), null);
-  assert.equal(adminSlotError(input(MON, "15:30"), days, taken, null), null);
-  assert.equal(adminSlotError(input(MON, "12:00"), days, taken, taken[0]), null);
-  assert.ok(!adminSlotTimes(MON, days, taken).includes("12:30"));
-  assert.ok(adminSlotTimes(MON, days, taken, "a").includes("12:30"));
-  assert.ok(adminSlotError(input(MON, "10:00"), days, taken, null)?.includes("working hours"));
-  assert.ok(adminSlotError(input(FRI, "12:00"), days, taken, null));
+  assert.ok(adminSlotError(input(MON, "12:30"), days, taken, S, null));
+  assert.equal(adminSlotError(input(MON, "12:45"), days, taken, S, null), null);
+  assert.equal(adminSlotError(input(MON, "15:30"), days, taken, S, null), null);
+  assert.equal(adminSlotError(input(MON, "12:00"), days, taken, S, taken[0]), null);
+  assert.ok(!adminSlotTimes(MON, days, taken, S).includes("12:30"));
+  assert.ok(adminSlotTimes(MON, days, taken, S, "a").includes("12:30"));
+  assert.ok(adminSlotError(input(MON, "10:00"), days, taken, S, null)?.includes("working hours"));
+  assert.ok(adminSlotError(input(FRI, "12:00"), days, taken, S, null));
 });
 
 console.log(`\n${passed} checks passed`);

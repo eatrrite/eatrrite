@@ -1,5 +1,6 @@
 "use client";
 
+import { useAdminStore } from "@/stores/useAdminStore";
 import { useMemo } from "react";
 import type { Appointment } from "@/types/admin/appointment";
 import { CalendarDayBlock } from "@/components/admin/calendar/CalendarDayBlock";
@@ -33,6 +34,7 @@ export function CalendarDayView({
   onEmptySlot,
   onSelectAppointment,
 }: CalendarDayViewProps) {
+  const { blockMinutes } = useAdminStore((s) => s.settings);
   const dateKey = toDateValue(date);
   const byDate = useMemo(
     () => groupAppointmentsByDate(appointments),
@@ -58,7 +60,7 @@ export function CalendarDayView({
             <CalendarHourLines />
             <CalendarDayEmptySlots onEmptySlot={onEmptySlot} />
             {dayItems.map((item) => {
-              const layout = appointmentBlockLayout(item.time);
+              const layout = appointmentBlockLayout(item.time, blockMinutes);
               if (!layout) return null;
               return (
                 <CalendarDayBlock

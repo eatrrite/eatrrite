@@ -1,4 +1,3 @@
-import { SERVICES } from "@/features/appointment/constants/appointment-settings";
 import type { BookingInput } from "@/features/appointment/types/booking";
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -8,8 +7,8 @@ const TIME = /^\d{2}:\d{2}$/;
 
 const text = (value: unknown) => (typeof value === "string" ? value.trim() : "");
 
-// Returns a clean booking, or an error message for the customer.
-export function validateBooking(body: Record<string, unknown>): BookingInput | string {
+// Returns a clean booking, or an error message for the customer. `services` is er_services.
+export function validateBooking(body: Record<string, unknown>, services: string[]): BookingInput | string {
   const input: BookingInput = {
     name: text(body.name),
     email: text(body.email).toLowerCase(),
@@ -18,7 +17,7 @@ export function validateBooking(body: Record<string, unknown>): BookingInput | s
     date: text(body.date),
     time: text(body.time),
   };
-  if (!SERVICES.includes(input.service)) return "Please select a service.";
+  if (!services.includes(input.service)) return "Please select a service.";
   if (input.name.length < 2 || input.name.length > 80) return "Please enter your full name.";
   if (!EMAIL.test(input.email)) return "Please enter a valid email address.";
   if (!PHONE.test(input.phone)) return "Please enter a valid 10-digit mobile number.";

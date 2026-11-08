@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import { redirect } from "next/navigation";
+import { ROUTES } from "@/constants/routes";
 import { ConfirmedBooking } from "@/features/appointment/components/confirmed/ConfirmedBooking";
+import { getQuestions } from "@/features/appointment/services/bookingConfig";
+import { getConfirmedBooking } from "@/features/appointment/services/questionnaireDb";
 
 export const metadata: Metadata = {
   title: "Appointment Confirmed | Eat Rrite",
@@ -9,9 +13,15 @@ export const metadata: Metadata = {
 
 type Props = { searchParams: Promise<{ appointmentId?: string }> };
 
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+// Reads the paid booking from the database. An unknown id goes back to the booking form.
 async function Confirmed({ searchParams }: Props) {
   const { appointmentId = "" } = await searchParams;
-  return <ConfirmedBooking appointmentId={appointmentId} />;
+  const booking = UUID.test(appointmentId) ? await getConfirmedBooking(appointmentId) : null;
+  if (!booking) redirect(ROUTES.appointment);
+  const questions = booking.meetLink ? [] : await getQuestions();
+  return <ConfirmedBooking booking={booking} questions={questions} />;
 }
 
 // Copies appointment-confirmed.php: summary on the left, questionnaire then Meet link on the right.

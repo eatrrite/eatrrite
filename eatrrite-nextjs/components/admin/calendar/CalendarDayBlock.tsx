@@ -1,5 +1,6 @@
 "use client";
 
+import { useAdminStore } from "@/stores/useAdminStore";
 import { AppointmentStatusBadge } from "@/components/admin/appointments/AppointmentStatusBadge";
 import { APPOINTMENT_BLOCK_CLASS } from "@/constants/admin/calendar/blocks";
 import type { Appointment } from "@/types/admin/appointment";
@@ -21,6 +22,7 @@ export function CalendarDayBlock({
   heightPx,
   onSelect,
 }: CalendarDayBlockProps) {
+  const { meetingMinutes } = useAdminStore((s) => s.settings);
   return (
     <button
       type="button"
@@ -39,7 +41,7 @@ export function CalendarDayBlock({
           {leadName}
         </p>
         <p className="mt-0.5 truncate text-xs leading-tight opacity-80">
-          {formatTimeRange(appointment.time)} · {appointment.service}
+          {formatTimeRange(appointment.time, meetingMinutes)} · {appointment.service}
         </p>
       </div>
       <span className="hidden shrink-0 min-[380px]:inline-flex">

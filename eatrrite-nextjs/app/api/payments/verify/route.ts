@@ -1,23 +1,36 @@
 import { env } from "@/config/env";
+import { getServices } from "@/features/appointment/services/bookingConfig";
+import { confirmBooking } from "@/features/appointment/services/bookingDb";
 import { isValidPaymentSignature } from "@/features/appointment/utils/razorpaySignature";
+import { validateBooking } from "@/features/appointment/utils/validateBooking";
 import { fail, ok } from "@/utils/apiResponse";
 
 type VerifyBody = {
   razorpay_order_id?: string;
   razorpay_payment_id?: string;
   razorpay_signature?: string;
+  holdId?: string;
+  booking?: Record<string, unknown>;
 };
 
-// POST /api/payments/verify → checks the Razorpay checkout signature with the secret key.
-// The browser confirms the booking only after this succeeds.
+// POST /api/payments/verify → checks the Razorpay signature with the secret key, then saves the
+// lead and the appointment. Calling it twice for one payment returns the same appointment.
 export async function POST(request: Request) {
   const body: VerifyBody = await request.json().catch(() => ({}));
   const orderId = body.razorpay_order_id ?? "";
   const paymentId = body.razorpay_payment_id ?? "";
   const signature = body.razorpay_signature ?? "";
-  if (!orderId || !paymentId || !signature) return fail("Payment details are incomplete.");
+  if (!orderId || !paymentId || !signature || !body.holdId) return fail("Payment details are incomplete.");
   if (!isValidPaymentSignature(orderId, paymentId, signature, env.razorpayKeySecret())) {
     return fail("Payment could not be verified.", 400);
   }
-  return ok({ verified: true });
+  const input = validateBooking(body.booking ?? {}, await getServices());
+  if (typeof input === "string") return fail(input);
+  try {
+    const outcome = await confirmBooking(input, body.holdId, paymentId);
+    return outcome.ok ? ok({ appointmentId: outcome.appointmentId }) : fail(outcome.error, 409);
+  } catch (error) {
+    console.error("Confirm booking failed", error);
+    return fail(`Payment ${paymentId} was received, but we could not save the booking. Please contact us.`, 500);
+  }
 }

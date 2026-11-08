@@ -1,7 +1,6 @@
 "use client";
 
 import { cn } from "cn";
-import { useCustomerTimes } from "@/features/appointment/hooks/useCustomerTimes";
 import { todayIst } from "@/features/appointment/utils/istTime";
 
 const WEEKDAYS = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
@@ -12,17 +11,19 @@ export function CalendarGrid({
   year,
   month,
   selected,
+  open,
   onSelect,
 }: {
   year: number;
   month: number;
+  /** Open times by date, from the server. A day is enabled when it has at least one. */
+  open: Record<string, string[]>;
   selected: string | null;
   onSelect: (date: string) => void;
 }) {
   const blanks = new Date(Date.UTC(year, month, 1)).getUTCDay();
   const days = new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
   const today = todayIst();
-  const timesFor = useCustomerTimes();
   return (
     <>
       <div className="mt-3 mb-2 grid grid-cols-7 gap-1.5">
@@ -34,7 +35,7 @@ export function CalendarGrid({
         {Array.from({ length: blanks }, (_, i) => <span key={`blank-${i}`} />)}
         {Array.from({ length: days }, (_, i) => {
           const date = `${year}-${pad(month + 1)}-${pad(i + 1)}`;
-          const usable = timesFor(date).length > 0;
+          const usable = (open[date]?.length ?? 0) > 0;
           const isSelected = date === selected;
           return (
             <button

@@ -1,5 +1,6 @@
 "use client";
 
+import { useAdminStore } from "@/stores/useAdminStore";
 import type { Appointment } from "@/types/admin/appointment";
 import { APPOINTMENT_BLOCK_CLASS } from "@/constants/admin/calendar/blocks";
 import { formatTimeRange } from "@/utils/admin/calendarTime";
@@ -22,6 +23,7 @@ export function CalendarAppointmentBlock({
   compact = false,
   onSelect,
 }: CalendarAppointmentBlockProps) {
+  const { meetingMinutes } = useAdminStore((s) => s.settings);
   return (
     <button
       type="button"
@@ -41,7 +43,7 @@ export function CalendarAppointmentBlock({
       {!compact ? (
         <>
           <p className="mt-0.5 truncate text-[10px] leading-tight opacity-80">
-            {formatTimeRange(appointment.time)}
+            {formatTimeRange(appointment.time, meetingMinutes)}
           </p>
         </>
       ) : null}

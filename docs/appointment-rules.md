@@ -6,16 +6,19 @@ How booking times are worked out. These rules are copied from the PHP site (`app
 
 | What | File |
 |---|---|
-| Every number and setting | `features/appointment/constants/appointment-settings.ts` (`APPOINTMENT_SETTINGS`) |
-| Working hours for each weekday | `features/appointment/constants/eatrrite-available-times.ts` (`EATRRITE_AVAILABLE_TIMES`) |
+| Booking settings, working hours, services, questionnaire | Neon: `er_settings`, `er_schedule_slots`, `er_services`, `er_questions` (read by `features/appointment/services/bookingConfig.ts`, cached and refreshed when the admin changes them) |
+| Their starting values (the PHP site) | `features/appointment/constants/appointment-settings.ts` (`DEFAULT_BOOKING_SETTINGS`, `DEFAULT_SERVICES`), `eatrrite-available-times.ts`, `questionnaire-questions.ts`; seeded by `db/migrations/001_initial.sql` |
 | Logic, one job per function | `features/appointment/utils/` (`clock`, `blocks`, `hours`, `slots`, `bookable`) |
 | India date and time helpers | `features/appointment/utils/istTime.ts` |
-| Admin: schedule page data and appointment guard | `features/appointment/utils/scheduleWeekly.ts`, `features/appointment/utils/appointmentSlots.ts`, `features/appointment/stores/appointmentSlotActions.ts` |
-| Checks | `bun run check:rules` (`scripts/check-appointment-rules.ts`) |
+| Admin: schedule page data and appointment guard | `features/appointment/utils/scheduleWeekly.ts`, `features/appointment/utils/appointmentSlots.ts`, `features/appointment/stores/appointmentSlotActions.ts`, `features/admin/services/adminActions.ts` |
+| Website booking on the server | `features/appointment/services/bookingDb.ts` (slots, holds, confirm), `questionnaireDb.ts`, `app/api/slots`, `app/api/appointments`, `app/api/payments/verify` |
+| Checks | `bun run check:rules` (`scripts/check-appointment-rules.ts`), `bun run check:booking` (`scripts/check-booking-flow.ts`) |
 
 Change a setting in `appointment-settings.ts` and everything that depends on it follows. Do not copy these numbers anywhere else.
 
 ## Settings
+
+The values below are the starting row of `er_settings`. The app reads the database, so the admin can change them later.
 
 | Setting | Value | Meaning |
 |---|---|---|
@@ -26,7 +29,8 @@ Change a setting in `appointment-settings.ts` and everything that depends on it 
 | `startStepMinutes` | 15 | Start times are offered every 15 minutes |
 | `holdMinutes` | 15 | A payment in progress holds its slot this long |
 | `bookingDaysAhead` | 30 | Today up to and including 30 days ahead |
-| `currency` | INR | Fee amount comes from the server environment (₹800) |
+| `feeRupees` | 800 | Booking fee, charged through Razorpay; always read on the server |
+| `currency` | INR | Fixed in code |
 
 ## Working hours (India time)
 
@@ -64,29 +68,32 @@ The admin Schedule page starts from these same hours. The public note on the boo
 
 The booking API returns 409 for `taken` and 400 for the others. The server checks again when the customer pays, so a stale screen cannot double-book.
 
-## Admin panel (zustand)
+## Admin panel
+
+The admin pages keep zustand as an in-memory copy of the Neon data, filled on every page load. Each change shows at once and is saved through a server action; if saving fails it is undone with a toast. Appointments are saved server-first, because the server checks the slot rules again against the database.
+
 
 - The Schedule page edits the weekly hours in the store (`days`). They are converted to the plain weekly hours the rules read (`scheduleToWeekly`).
 - The appointment form offers only times the schedule allows on the chosen date, minus taken blocks. Closed days offer none.
 - The store's `saveAppointment` checks the same rules: the time must fall in the working hours, and no other appointment may overlap its 45 minutes. A cancelled appointment frees its slot. An edit that keeps its own date and time always saves.
 - The admin may record past appointments, so the past-time and 30-day rules apply to customers only.
 - The admin calendar draws each appointment as the 45 minutes it reserves (the 30-minute call plus the 15-minute prep), the same span the booking rules block. The time written on it is the call itself.
-- Editing an appointment saves with just the booking details (date, time, service, status, lead). Creating one needs all three steps. The top bar, footer and contact page read the working hours from the same store.
+- Editing an appointment saves with just the booking details (date, time, service, status, lead). Creating one needs all three steps. The top bar, footer and contact page read the working hours from Neon.
 
-## Website booking flow (zustand)
+## Website booking flow
 
-The booking page keeps its data in the same zustand store as the admin (`useAdminStore`, saved in the browser), so a website booking shows up in the admin at once. No database is used yet.
+The booking runs on the server against Neon. A website booking shows up in the admin on its next page load.
 
 1. **Details.** The form checks name, email, 10-digit mobile, service and slot (`validateBooking`).
-2. **Slots.** The picker reads the store (`useCustomerTimes`): the admin schedule, minus booked and held blocks. A booked slot disappears at once; a fully booked or closed day is disabled.
-3. **Hold.** On Pay, `holdSlot` re-checks the slot with `bookingError` and holds it for 15 minutes. Two people cannot hold overlapping blocks.
-4. **Order.** `POST /api/appointments` checks the details again and creates a Razorpay **test** order for the server-side fee (₹800).
+2. **Slots.** When the picker opens it loads `GET /api/slots`: the working hours from Neon, minus booked appointments and live holds. A fully booked or closed day is disabled.
+3. **Hold and order.** On Pay, `POST /api/appointments` checks the details and the slot again (`bookingError`), writes a hold to `er_slot_holds` for `hold_minutes`, and creates a Razorpay **test** order for the fee in `er_settings`. If the order fails the hold is removed.
+4. **Cancel.** Closing or failing the payment calls `POST /api/appointments/release`, which removes the hold.
 5. **Checkout.** Razorpay Standard Checkout opens. The customer can retry inside the window after a failed attempt. A late success is never lost.
 6. **Verify.** `POST /api/payments/verify` checks the Razorpay signature with the secret key.
-7. **Confirm.** `confirmBooking` saves the lead (an existing lead with the same phone is reused) and a separate appointment (status Upcoming, with the payment id, no questionnaire and no Meet link yet), frees the hold, and the page opens `/appointment-confirmed?appointmentId=…`.
+7. **Confirm.** The verify route then calls `confirmBooking` (server), which saves the lead (an existing lead with the same phone is reused) and a separate appointment (status Upcoming, with the payment id, no questionnaire and no Meet link yet), frees the hold, and the page opens `/appointment-confirmed?appointmentId=…`.
 8. **Questionnaire.** While the appointment has no questionnaire, the confirmation page shows it on the right. The left summary stays in view (sticky) while the right side scrolls. Questions are numbered with larger text: 1 Name (starts as what the customer typed when booking, editable), 2 Age, 3 Gender, then the same questions as step 2 of the admin form (`QuestionnaireForm` reuses `AppointmentQuestionnaireFields`). Submit stays off until every required answer is in, and says how many are left.
    After each answer a progress toast shows how far along they are, for example "3 of 9 answered" with a bar. It sits at the bottom right, beside the call and WhatsApp buttons, and updates in place. The Submit button is at the right end, with "n required answers left" on the left.
-9. **Submit.** `submitQuestionnaire` saves the answers on that appointment as `{ key, answer }` entries (the question id and the answer, plus name, age and gender), saves name, age and gender on the lead, and creates the placeholder Meet link. A toast says "Questionnaire submitted". The right side then shows "Your booking is confirmed." with the link. The form is much taller than that panel, so the page shrinks under the reader; before the next paint the panel is scrolled into view and given focus (`ConfirmedBooking`), so they never land at the footer. Answers are saved once and never overwritten.
+9. **Submit.** The `submitQuestionnaireAction` server action saves the answers on that appointment as `{ key, answer }` entries (the question id and the answer, plus name, age and gender), saves name, age and gender on the lead, and creates the placeholder Meet link. A toast says "Questionnaire submitted". The page refreshes from the server and the right side shows "Your booking is confirmed." with the link. The form is much taller than that panel, so the page shrinks under the reader; before the next paint the panel is scrolled into view and given focus (`ConfirmedBooking`), so they never land at the footer. Answers are saved once and never overwritten.
 
 | Situation | What happens |
 |---|---|
@@ -107,11 +114,11 @@ Every user action shows a toast through one hook, `hooks/useShowToast.ts` (sonne
 
 Questionnaire progress uses `hooks/useProgressToast.tsx`, which updates one toast in place.
 
-Checks: `bun run check:booking` (16 checks on the store logic).
+Checks: `bun run check:booking` (7 checks on the server-side booking rules; the database calls themselves need Neon).
 
-Limits while the store is the only data: bookings live in this browser only. A customer who pays and closes the tab before the page confirms is not recorded; the database phase adds the Razorpay webhook for that. The Google Meet link is a placeholder (`generateAdminMeetLink`). A website lead gets its name, age and gender from the questionnaire.
+Still to do: a customer who pays and closes the tab before the page confirms is not recorded until the Razorpay webhook is added. The Google Meet link is a placeholder (`generateAdminMeetLink`). A website lead gets its name, age and gender from the questionnaire.
 
 ## Not built yet
 
 - Hidden slots from the admin saved in the database (the rules already accept them).
-- The admin schedule feeding the public booking page (it reads the constant until the schedule is saved in the database).
+- Admin screens to change the booking settings, services and questions (they live in Neon and can be edited there for now).

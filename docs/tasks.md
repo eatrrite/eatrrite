@@ -125,7 +125,7 @@ Setup:
 - [x] `.env.local` with Razorpay test keys, fee and Apps Script values from the PHP site
 - [x] `DATABASE_URL` placeholder in `.env.local`
 - [x] Migration `db/migrations/001_initial.sql`: `profiles`, `appointments`, `set_updated_at` trigger
-- [ ] Turn on Neon Auth, paste `DATABASE_URL`, run the migration
+- [x] Neon Auth is on and `DATABASE_URL` is set (run the migration: see Phase 6)
 - [ ] Choose hosting and confirm it runs Next.js (open decision 5)
 
 Slots:
@@ -204,16 +204,16 @@ Admin UI (front end, sample data):
 - [x] All appointment code moved into `features/appointment/` (components, hooks, services, constants, types, utils, stores); behaviour unchanged
 - [x] Sidebar illustration replaced with an Eat Rrite nutritionist one
 
-Connect to Neon (next step):
+Connect to Neon (done in Phase 6):
 
-- [ ] Admin sign-in with Neon Auth; access by `profiles.role = admin`. Remove the front-end password.
-- [ ] Migration for a `patients` table, and link `appointments` to it with `patient_id`
-- [ ] Create or match a patient from each public booking (by phone)
-- [ ] Read and update real patients and appointments instead of sample data
-- [ ] Migration for a `disabled_slots` table and hide or show slots
-- [ ] Save the weekly schedule and use it for public booking slots
-- [ ] Save to-dos and settings (tables to be decided)
-- [ ] Test that logged-out visitors cannot reach any admin page or API
+- [x] Admin sign-in with Neon Auth; access by an admin email list (`ADMIN_EMAILS`), as profiles have no role in V1. Front-end password removed.
+- [x] `er_leads` table, and `er_appointments.lead_id` links each appointment to its lead
+- [x] Create or match a lead from each public booking (by phone)
+- [x] Read and update real leads and appointments instead of sample data
+- [ ] Hide or show single slots (needs a table; the slot rules already accept hidden slots)
+- [x] Save the weekly schedule and use it for public booking slots
+- [x] Save to-dos and settings (`er_todos`, `er_settings`)
+- [ ] Test that logged-out visitors cannot reach any admin page or action (needs `NEON_AUTH_BASE_URL` set)
 
 Emails (moved from Phase 4):
 
@@ -247,14 +247,30 @@ Emails (moved from Phase 4):
 - [ ] Swap the floating icons for real cut-out food images, if wanted
 - [ ] **Mukta approves the redesign** (the brief asked for no redesign)
 
+## Phase 6: Neon Database and Auth
+
+**Goal:** Everything the site and admin show and save lives in Neon. Admin sign-in with Neon Auth. Details in `database.md`.
+
+- [x] One migration, `db/migrations/001_initial.sql`: `er_profiles`, `er_settings`, `er_schedule_slots`, `er_services`, `er_questions`, `er_leads`, `er_appointments`, `er_slot_holds`, `er_todos`, one `er_set_updated_at` trigger, foreign keys, starting rows (PHP settings, hours, services, questionnaire)
+- [x] Neon Auth in `features/auth/`: server instance, sign-in, sign-up and sign-out actions, admin email check (`ADMIN_EMAILS`), profile row on first sign-in, `/admin/login` and `/admin/signup`, `proxy.ts` guard, `/api/auth/[...path]`
+- [x] Front-end admin password removed
+- [x] Admin data from Neon (`features/admin/`): leads, appointments, schedule, to-dos, preferences, booking settings, services and questions; every change saved through a server action, undone with a toast if it fails
+- [x] Dashboard and calendar use today's date in India and the fee from `er_settings`; the chart counts real appointments
+- [x] Public booking on Neon: slots, holds, order, payment verification, lead and appointment, questionnaire, placeholder Meet link
+- [x] Working hours in the top bar, footer and contact page, and the booking page's fee, hours and services, read from Neon
+- [x] Production build passes; `check:rules` (15) and `check:booking` (7) pass
+- [ ] Run the migration: `bun run db:migrate` (the Neon SQL Editor splits the file and fails on the questionnaire insert)
+- [ ] Set `NEON_AUTH_BASE_URL` in `.env.local` (Neon Console → Settings → Better Auth → Project Info)
+- [ ] Restart the dev server, open `/admin/signup` and create the admin account with the admin email
+- [ ] Test end to end: sign in, add a lead and appointment, change the schedule, book and pay on the website, fill the questionnaire
+
 ## Next: Real Services
 
 Today the booking runs on the browser store with a placeholder Meet link. These steps make it real, in this order:
 
 - [ ] **Google Meet link:** replace the placeholder (`generateAdminMeetLink`) with real generation through the existing Apps Script / Google Calendar, from a server route, with a loading state and an error state on the confirmation page
 - [ ] **Emails with the Resend API:** add `RESEND_API_KEY` and a verified sending domain; send the customer email with the Meet link after the questionnaire is submitted, the admin booking email, and the questionnaire reminders; keep the sending in server routes
-- [ ] **Neon database setup:** create the Neon project, paste the `DATABASE_URL` connection string into `.env.local`, run `db/migrations/001_initial.sql`, and add migrations for leads (with age and gender optional), appointments (with `payment_id`, questionnaire answers and Meet link), held slots and the weekly schedule
-- [ ] **Neon in the frontend by connection string:** move the store's reads and writes (slots, holds, leads, appointments, schedule, questionnaire) to server routes and services that use `DATABASE_URL`; keep the same rules in `features/appointment/`; keep zustand only as a client cache
+- [x] **Neon database and Neon in the app:** done in Phase 6 (run the migration to start)
 - [ ] **Razorpay webhook and live testing:** add the webhook so a payment is recorded even if the tab closes, switch to live keys, run one real ₹800 booking end to end (payment, questionnaire, Meet link, emails, admin view), then switch back or keep live with Mukta's agreement
 
 ## Launch

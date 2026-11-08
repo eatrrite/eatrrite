@@ -1,11 +1,8 @@
-import { APPOINTMENT_SETTINGS } from "@/features/appointment/constants/appointment-settings";
 import type { Block, OccupiedSlot } from "@/features/appointment/types/slots";
 import { parseClock, toMinutes } from "@/features/appointment/utils/clock";
 
-const { blockMinutes } = APPOINTMENT_SETTINGS;
-
 // The span one booking occupies: its start plus the call and prep time.
-export function blockOf(time: string): Block {
+export function blockOf(time: string, blockMinutes: number): Block {
   const start = toMinutes(time);
   return [start, start + blockMinutes];
 }
@@ -16,8 +13,8 @@ export function blocksOverlap(a: Block, b: Block): boolean {
 }
 
 // Two start times clash when their blocks overlap.
-export function timesOverlap(timeA: string, timeB: string): boolean {
-  return blocksOverlap(blockOf(timeA), blockOf(timeB));
+export function timesOverlap(timeA: string, timeB: string, blockMinutes: number): boolean {
+  return blocksOverlap(blockOf(timeA, blockMinutes), blockOf(timeB, blockMinutes));
 }
 
 export function overlapsAny(block: Block, blocks: Block[]): boolean {
@@ -37,11 +34,11 @@ export function mergeBlocks(blocks: Block[]): Block[] {
 }
 
 // The blocks already taken on one date. Rows with an unreadable time are ignored.
-export function occupiedBlocks(date: string, occupied: OccupiedSlot[]): Block[] {
+export function occupiedBlocks(date: string, occupied: OccupiedSlot[], blockMinutes: number): Block[] {
   const blocks: Block[] = [];
   for (const row of occupied) {
     const time = row.date === date ? parseClock(row.time) : null;
-    if (time) blocks.push(blockOf(time));
+    if (time) blocks.push(blockOf(time, blockMinutes));
   }
   return mergeBlocks(blocks);
 }

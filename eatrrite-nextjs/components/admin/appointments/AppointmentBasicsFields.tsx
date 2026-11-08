@@ -16,7 +16,7 @@ import {
   APPOINTMENT_STATUSES,
   APPOINTMENT_STATUS_LABELS,
 } from "@/constants/admin/appointments/statuses";
-import { SERVICES } from "@/features/appointment/constants/appointment-settings";
+import { useAdminStore } from "@/stores/useAdminStore";
 import type { AppointmentInput } from "@/types/admin/appointment";
 import type { Lead } from "@/types/admin/lead";
 
@@ -45,6 +45,7 @@ export function AppointmentBasicsFields({
     next: AppointmentInput[K],
   ) => onChange({ ...value, [key]: next });
   const lead = leads.find((item) => item.id === value.leadId);
+  const services = useAdminStore((s) => s.services);
 
   return (
     <div className="grid gap-5 sm:grid-cols-2">
@@ -94,7 +95,7 @@ export function AppointmentBasicsFields({
       <div className="space-y-2 sm:col-span-2">
         <Label>Service</Label>
         <Select
-          items={SERVICES.map((s) => ({ label: s, value: s }))}
+          items={services.map((s) => ({ label: s, value: s }))}
           value={value.service || null}
           onValueChange={(service) => {
             if (service) set("service", service);
@@ -106,7 +107,7 @@ export function AppointmentBasicsFields({
             </SelectValue>
           </SelectTrigger>
           <SelectContent>
-            {SERVICES.map((service) => (
+            {services.map((service) => (
               <SelectItem key={service} value={service} className="whitespace-normal">
                 {service}
               </SelectItem>

@@ -8,7 +8,7 @@ import {
   startOfWeek,
 } from "date-fns";
 import type { AppointmentDateFilter } from "@/types/admin/appointment";
-import { DASHBOARD_REFERENCE_DATE } from "@/constants/admin/dashboard/reference";
+import { adminNow } from "@/constants/admin/dashboard/reference";
 import type {
   AppointmentListFilters,
   Appointment,
@@ -42,7 +42,7 @@ export function filterAppointments(
   filters: AppointmentListFilters,
 ): Appointment[] {
   const query = filters.query.trim().toLowerCase();
-  const reference = parseISO(DASHBOARD_REFERENCE_DATE);
+  const reference = parseISO(adminNow());
   const names = new Map(leads.map((lead) => [lead.id, lead.name.toLowerCase()]));
 
   return appointments.filter((item) => {

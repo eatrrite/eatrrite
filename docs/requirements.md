@@ -148,6 +148,7 @@ Run `db/migrations/001_initial.sql` in the Neon SQL Editor, after turning on Neo
 | --- | --- |
 | `appointment-form/api/` | Create order, verify payment, slots, questionnaire, Meet link |
 | `appointment-form/src/` | Slot rules, holds, 45-minute blocking, Razorpay, checkout |
+| `docs/database.md` | Neon tables, Neon Auth, setup steps and how the code reads and writes |
 | `docs/appointment-rules.md` | Next.js booking rules, settings and the website booking flow, copied from the PHP slot rules |
 | `includes/db/` and `sql/` | MySQL tables and queries |
 | `email/` | Customer and admin emails, currently through PHPMailer |

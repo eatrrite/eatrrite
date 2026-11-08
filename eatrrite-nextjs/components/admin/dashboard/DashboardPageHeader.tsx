@@ -3,8 +3,8 @@
 import { parseISO } from "date-fns";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { DashboardFiltersBar } from "@/components/admin/dashboard/DashboardFiltersBar";
-import { ADMIN_USER_PROFILE } from "@/constants/admin/admin";
-import { DASHBOARD_REFERENCE_DATE } from "@/constants/admin/dashboard/reference";
+import { useAdminProfile } from "@/hooks/admin/useAdminProfile";
+import { adminNow } from "@/constants/admin/dashboard/reference";
 import type { DashboardFilters } from "@/types/admin/dashboard";
 
 type DashboardPageHeaderProps = {
@@ -22,8 +22,9 @@ export function DashboardPageHeader({
   filters,
   onChange,
 }: DashboardPageHeaderProps) {
+  const profile = useAdminProfile();
   const greeting = greetingForHour(
-    parseISO(DASHBOARD_REFERENCE_DATE).getHours(),
+    parseISO(adminNow()).getHours(),
   );
 
   return (
@@ -31,7 +32,7 @@ export function DashboardPageHeader({
       lead={greeting}
       title={
         <>
-          {ADMIN_USER_PROFILE.displayName}{" "}
+          {profile.name}{" "}
           <span aria-hidden="true">👋</span>
         </>
       }

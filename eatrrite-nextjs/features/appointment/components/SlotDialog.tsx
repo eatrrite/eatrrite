@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Dialog, DialogClose, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { todayIst } from "@/features/appointment/utils/istTime";
 import type { BookingSlot } from "@/features/appointment/types/booking";
+import { useAvailability } from "@/features/appointment/hooks/useAvailability";
 import { CalendarGrid } from "./CalendarGrid";
 import { TimeGrid } from "./TimeGrid";
 
@@ -21,6 +22,7 @@ export function SlotDialog({
   onConfirm: (slot: BookingSlot) => void;
 }) {
   const [today] = useState(todayIst);
+  const availability = useAvailability(open);
   const [month, setMonth] = useState({ year: Number(today.slice(0, 4)), month: Number(today.slice(5, 7)) - 1 });
   const [date, setDate] = useState<string | null>(null);
   const [time, setTime] = useState("");
@@ -53,8 +55,8 @@ export function SlotDialog({
           <h3 className="m-0 text-xl text-primary">{label}</h3>
           <button type="button" className={iconButton} aria-label="Next month" onClick={() => shift(1)}>›</button>
         </div>
-        <CalendarGrid year={month.year} month={month.month} selected={date} onSelect={pickDate} />
-        <TimeGrid date={date} selected={time} onSelect={setTime} />
+        <CalendarGrid year={month.year} month={month.month} selected={date} open={availability.days} onSelect={pickDate} />
+        <TimeGrid date={date} times={availability.days} loading={availability.loading} error={availability.error} selected={time} onSelect={setTime} />
         <footer className="mt-4 flex items-center justify-between gap-3">
           <DialogClose className="h-11 cursor-pointer rounded-xs px-4 font-semibold text-text">Cancel</DialogClose>
           <button

@@ -19,7 +19,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ADMIN_USER_PROFILE } from "@/constants/admin/admin";
+import { useAdminProfile } from "@/hooks/admin/useAdminProfile";
 
 type AdminUserMenuProps = {
   onLogout: () => void;
@@ -27,6 +27,7 @@ type AdminUserMenuProps = {
 
 export function AdminUserMenu({ onLogout }: AdminUserMenuProps) {
   const router = useRouter();
+  const profile = useAdminProfile();
   const [menuOpen, setMenuOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
 
@@ -40,7 +41,7 @@ export function AdminUserMenu({ onLogout }: AdminUserMenuProps) {
       <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
         <DropdownMenuTrigger
         className="p-1 border border-border"
-          aria-label={`${ADMIN_USER_PROFILE.name} account`}
+          aria-label={`${profile.name} account`}
           render={
             <button
               type="button"
@@ -49,10 +50,10 @@ export function AdminUserMenu({ onLogout }: AdminUserMenuProps) {
           }
         >
           <span className="flex size-7 items-center justify-center rounded-full bg-primary text-[10px] font-semibold text-primary-foreground">
-            {ADMIN_USER_PROFILE.initials}
+            {profile.initials}
           </span>
           <span className="hidden max-w-[7.5rem] truncate text-sm font-medium text-foreground sm:inline">
-            {ADMIN_USER_PROFILE.name}
+            {profile.name}
           </span>
           <ChevronDown className="hidden size-4 text-muted-foreground sm:block" />
         </DropdownMenuTrigger>
@@ -60,10 +61,10 @@ export function AdminUserMenu({ onLogout }: AdminUserMenuProps) {
           <DropdownMenuGroup>
             <DropdownMenuLabel className="px-2 py-1.5">
               <p className="text-sm font-medium text-foreground">
-                {ADMIN_USER_PROFILE.name}
+                {profile.name}
               </p>
               <p className="text-xs font-normal text-muted-foreground">
-                {ADMIN_USER_PROFILE.role}
+                {profile.email}
               </p>
             </DropdownMenuLabel>
           </DropdownMenuGroup>
@@ -102,7 +103,7 @@ export function AdminUserMenu({ onLogout }: AdminUserMenuProps) {
         open={confirmOpen}
         onOpenChange={setConfirmOpen}
         title="Log out?"
-        description="You will need the admin password again to open the admin dashboard."
+        description="You will need to sign in again to open the admin dashboard."
         cancelLabel="Cancel"
         confirmLabel="Log Out"
         confirmVariant="destructive"

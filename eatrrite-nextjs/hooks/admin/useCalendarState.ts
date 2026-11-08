@@ -9,13 +9,13 @@ import {
   startOfMonth,
   startOfWeek,
 } from "date-fns";
-import { DASHBOARD_REFERENCE_DATE } from "@/constants/admin/dashboard/reference";
+import { adminNow } from "@/constants/admin/dashboard/reference";
 import type { CalendarView } from "@/types/admin/calendar";
 import { toDateValue } from "@/utils/admin/date";
 
-/** The admin “today” — fixed to seed reference (no `new Date()` in render). */
+/** The admin “today”: the current date and time in India. */
 export function getCalendarToday(): Date {
-  return parseISO(DASHBOARD_REFERENCE_DATE);
+  return parseISO(adminNow());
 }
 
 function cursorForView(view: CalendarView, date: Date): Date {

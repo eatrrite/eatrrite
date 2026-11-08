@@ -9,8 +9,7 @@ export const env = {
   databaseUrl: () => readEnv("DATABASE_URL"),
   razorpayKeyId: () => readEnv("RAZORPAY_KEY_ID"),
   razorpayKeySecret: () => readEnv("RAZORPAY_KEY_SECRET"),
-  razorpayWebhookSecret: () => readEnv("RAZORPAY_WEBHOOK_SECRET"),
-  appsScriptUrl: () => readEnv("APPS_SCRIPT_URL"),
-  appsScriptSecret: () => readEnv("APPS_SCRIPT_SECRET"),
-  feeRupees: () => Number(process.env.APPOINTMENT_FEE_RUPEES ?? 800),
+  neonAuthBaseUrl: () => readEnv("NEON_AUTH_BASE_URL"),
+  neonAuthCookieSecret: () => readEnv("NEON_AUTH_COOKIE_SECRET"),
+  adminEmails: () => readEnv("ADMIN_EMAILS"),
 };

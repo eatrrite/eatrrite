@@ -1,29 +1,30 @@
-// The one place for every appointment rule. Copied from the PHP site
-// (appointment-form/config.php and constants/schedule.php).
-// Everything else derives from this object: never repeat these numbers.
-const meetingMinutes = 30;
-const prepMinutes = 15;
+import type { BookingSettings } from "@/features/appointment/types/slots";
 
+// Fixed facts about the business. These never change from the admin.
 export const APPOINTMENT_SETTINGS = {
   timezone: "Asia/Kolkata",
   utcOffset: "+05:30",
   utcOffsetMinutes: 330,
   currency: "INR",
-  /** Length of the customer's call. The last start of a window is this long before it closes. */
-  meetingMinutes,
-  /** Consultant buffer after each call. */
-  prepMinutes,
-  /** Time one booking occupies: the call plus the buffer. No two bookings may overlap it. */
-  blockMinutes: meetingMinutes + prepMinutes,
-  /** Start times are offered on this grid inside each working window. */
-  startStepMinutes: 15,
-  /** A payment in progress holds its slot for this long. */
-  holdMinutes: 15,
-  /** Customers can book from today up to and including this many days ahead. */
-  bookingDaysAhead: 30,
 } as const;
 
-export const SERVICES = [
+// The PHP site's booking rules. They are the starting row of er_settings, which the app reads at
+// run time (the admin may change them). These values are used only by the check scripts and as
+// the shape for a settings row.
+const meetingMinutes = 30;
+const prepMinutes = 15;
+export const DEFAULT_BOOKING_SETTINGS: BookingSettings = {
+  meetingMinutes,
+  prepMinutes,
+  blockMinutes: meetingMinutes + prepMinutes,
+  startStepMinutes: 15,
+  holdMinutes: 15,
+  bookingDaysAhead: 30,
+  feeRupees: 800,
+};
+
+// The starting services, seeded into er_services. The app reads er_services.
+export const DEFAULT_SERVICES = [
   "Nutrition for Weight & Lifestyle Management",
   "Nutrition for Diabetes Management & Reversal",
   "Nutrition for Gut Health",

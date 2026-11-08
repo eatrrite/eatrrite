@@ -46,7 +46,8 @@ type AppointmentFormDialogProps = {
   defaults?: Partial<AppointmentInput>;
   leads: Lead[];
   onClose: () => void;
-  onSave: (input: AppointmentInput) => void;
+  /** Resolves true once saved; the dialog stays open otherwise. */
+  onSave: (input: AppointmentInput) => Promise<boolean>;
 };
 
 export function AppointmentFormDialog({
@@ -83,6 +84,7 @@ function AppointmentFormBody({
   onSave,
 }: Omit<AppointmentFormDialogProps, "open">) {
   const [step, setStep] = useState(0);
+  const [saving, setSaving] = useState(false);
   const [value, setValue] = useState(() => {
     const input = appointmentToInput(appointment, leads, defaults);
     const lead = leads.find((item) => item.id === input.leadId);
@@ -95,20 +97,22 @@ function AppointmentFormBody({
   const days = useAdminStore((s) => s.days);
   const appointments = useAdminStore((s) => s.appointments);
   const slotsFor = useAdminStore((s) => s.slotsFor);
+  const settings = useAdminStore((s) => s.settings);
+  const questions = useAdminStore((s) => s.questions);
 
   const lead = leads.find((item) => item.id === value.leadId);
-  const slotError = value.date && value.time ? adminSlotError(value, days, appointments, appointment) : null;
+  const slotError = value.date && value.time ? adminSlotError(value, days, appointments, settings, appointment) : null;
   // Editing an appointment: the steps above are free tabs, and Save needs only the booking details.
   // A website booking may still have no questionnaire or Meet link, and the admin must still be
   // able to change its status. Creating one keeps all three steps.
   const isEdit = Boolean(appointment);
   const basicsDone = hasAppointmentBasics(value) && !slotError;
-  const canSave = isEdit ? basicsDone : canSaveAppointment(value, lead) && !slotError;
+  const canSave = isEdit ? basicsDone : canSaveAppointment(value, lead, questions) && !slotError;
   // An edit may keep its saved time even if the schedule has since changed.
   const keepsSavedTime = (date: string, time: string) => appointment?.date === date && appointment.time === time;
   const timeOptions = slotsFor(value.date, appointment?.id);
   const visibleTimes = value.time && keepsSavedTime(value.date, value.time) && !timeOptions.includes(value.time) ? [...timeOptions, value.time].sort() : timeOptions;
-  const questionnaireDone = isAdminQuestionnaireComplete(value.questionnaire, lead);
+  const questionnaireDone = isAdminQuestionnaireComplete(value.questionnaire, lead, questions);
   const stepDone = [basicsDone, questionnaireDone, canSave];
   const canGoNext = step === 0 ? basicsDone : step === 1 ? questionnaireDone : false;
 
@@ -117,7 +121,7 @@ function AppointmentFormBody({
 
   // Say what is missing instead of leaving "Continue" greyed out without a reason.
   const missing = missingBasics(value);
-  const unanswered = unansweredRequiredCount(value.questionnaire);
+  const unanswered = unansweredRequiredCount(value.questionnaire, questions);
   const bookingHint = slotError ?? `Still needed: ${missing.join(", ")}`;
   const createHint =
     step === 0 && !basicsDone
@@ -146,13 +150,13 @@ function AppointmentFormBody({
     setValue({ ...value, date, time: stillValid ? value.time : "" });
   }
 
-  function save() {
-    if (!canSave) return;
-    onSave({
-      ...value,
-      questionnaire: applyLeadToQuestionnaire(value.questionnaire, lead),
-    });
-    onClose();
+  // Waits for the database: the dialog closes only when the appointment is saved.
+  async function save() {
+    if (!canSave || saving) return;
+    setSaving(true);
+    const saved = await onSave({ ...value, questionnaire: applyLeadToQuestionnaire(value.questionnaire, lead) });
+    setSaving(false);
+    if (saved) onClose();
   }
 
   return (
@@ -196,6 +200,7 @@ function AppointmentFormBody({
       {step === 1 ? (
         <AppointmentQuestionnaireFields
           lead={lead}
+          questions={questions}
           value={value.questionnaire}
           onChange={(questionnaire) =>
             setValue({
@@ -205,7 +210,7 @@ function AppointmentFormBody({
           }
         />
       ) : null}
-      {step === 2 ? <AppointmentMeetStep value={value} lead={lead} onChange={setValue} /> : null}
+      {step === 2 ? <AppointmentMeetStep value={value} lead={lead} onChange={setValue} questions={questions} /> : null}
 
       <DialogFooter className="flex-row flex-wrap items-center justify-between gap-x-3 gap-y-2">
         {/* Phones: hint on its own line, then Back on the left and actions on the right. */}
@@ -234,8 +239,8 @@ function AppointmentFormBody({
               <ChevronRight className="size-4" />
             </Button>
           ) : (
-            <Button type="submit" disabled={!canSave}>
-              {isEdit ? "Save changes" : "Create appointment"}
+            <Button type="submit" disabled={!canSave || saving}>
+              {saving ? "Saving…" : isEdit ? "Save changes" : "Create appointment"}
             </Button>
           )}
         </div>

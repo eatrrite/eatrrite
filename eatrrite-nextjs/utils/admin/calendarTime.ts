@@ -1,8 +1,6 @@
-import { APPOINTMENT_SETTINGS } from "@/features/appointment/constants/appointment-settings";
 import {
   CALENDAR_DAY_END_HOUR,
   CALENDAR_DAY_START_HOUR,
-  CALENDAR_DEFAULT_DURATION_MINUTES,
 } from "@/constants/admin/calendar/views";
 import {
   CALENDAR_HOUR_HEIGHT_PX,
@@ -25,14 +23,15 @@ export function minutesToTimeValue(totalMinutes: number): string {
   return `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
 }
 
-export function appointmentEndTime(startTime: string): string {
+// When the call ends. `meetingMinutes` is the call length from the booking settings.
+export function appointmentEndTime(startTime: string, meetingMinutes: number): string {
   const start = parseTimeToMinutes(startTime);
   if (start === null) return startTime;
-  return minutesToTimeValue(start + CALENDAR_DEFAULT_DURATION_MINUTES);
+  return minutesToTimeValue(start + meetingMinutes);
 }
 
-export function formatTimeRange(startTime: string): string {
-  return `${formatTimeLabel(startTime)} - ${formatTimeLabel(appointmentEndTime(startTime))}`;
+export function formatTimeRange(startTime: string, meetingMinutes: number): string {
+  return `${formatTimeLabel(startTime)} - ${formatTimeLabel(appointmentEndTime(startTime, meetingMinutes))}`;
 }
 
 /** Hour marks for the gutter (inclusive start … end). */
@@ -63,12 +62,12 @@ export type BlockLayout = {
  * reserves (the call plus the prep buffer, 45 minutes), the same span the booking rules block.
  * The time shown on the block is still the call itself (`formatTimeRange`).
  */
-export function appointmentBlockLayout(startTime: string): BlockLayout | null {
+export function appointmentBlockLayout(startTime: string, blockMinutes: number): BlockLayout | null {
   const start = parseTimeToMinutes(startTime);
   if (start === null) return null;
   const dayStart = CALENDAR_DAY_START_HOUR * 60;
   const dayEnd = CALENDAR_DAY_END_HOUR * 60;
-  const end = Math.min(start + APPOINTMENT_SETTINGS.blockMinutes, dayEnd);
+  const end = Math.min(start + blockMinutes, dayEnd);
   if (end <= dayStart || start >= dayEnd) return null;
   const clampedStart = Math.max(start, dayStart);
   const topPx =
