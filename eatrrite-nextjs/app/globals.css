@@ -60,7 +60,7 @@
   --er-ease: cubic-bezier(0.25, 1, 0.5, 1);
 
   /* shadcn semantic tokens */
-  --background: var(--er-color-white);
+  --background: var(--er-color-mint);
   --foreground: var(--er-color-text);
   --card: var(--er-color-white);
   --card-foreground: var(--er-color-text);
@@ -191,77 +191,23 @@
   }
 }
 
-/*
- * Values the admin theme overrides, so they are real CSS variables (plain
- * @theme, not inline). Public site: PHP radius scale and 1.7 line height,
- * because PHP text inherits line-height 1.7 from body.
- */
+/* PHP radius scale and 1.7 line height (body inherits 1.7 on the PHP site). */
 @theme {
-  --radius-2xs: 8px;
-  --radius-xs: 12px;
-  --radius-sm: 16px;
-  --radius-md: 20px;
-  --radius-lg: 24px;
-  --radius-xl: 28px;
-  --radius-2xl: 36px;
-  --radius-3xl: 1.5rem;
-  --radius-4xl: 2rem;
+  --radius-2xs: 4px;
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-xl: 14px;
+  --radius-2xl: 18px;
+  --radius-3xl: 0.75rem;
+  --radius-4xl: 1rem;
 
   --text-xs--line-height: 1.7;
   --text-sm--line-height: 1.7;
   --text-base--line-height: 1.7;
   --text-lg--line-height: 1.7;
   --text-xl--line-height: 1.7;
-}
-
-/*
- * Admin theme. Active on any page that renders the admin shell, including its
- * dialogs and menus (they portal to <body>). Maps the Deccan Dentics admin
- * token roles onto Eat Rrite colours, with shadcn radius and line heights.
- */
-:root:has(.admin-shell) {
-  --background: var(--er-color-cream);
-  --foreground: var(--er-color-ink);
-  --card: var(--er-color-white);
-  --card-foreground: var(--er-color-ink);
-  --popover: var(--er-color-white);
-  --popover-foreground: var(--er-color-ink);
-  --primary: var(--er-color-primary);
-  --primary-foreground: var(--er-color-white);
-  --secondary: var(--er-color-soft);
-  --secondary-foreground: var(--er-color-primary);
-  --muted: var(--er-color-mint);
-  --muted-foreground: var(--er-color-text);
-  --accent: var(--er-color-soft);
-  --accent-foreground: var(--er-color-primary-dark);
-  --destructive: var(--er-color-alert-text);
-  --border: #dbe5e0;
-  --input: #dbe5e0;
-  --ring: var(--er-color-primary);
-  --sidebar: var(--er-color-mint);
-  --sidebar-foreground: var(--er-color-ink);
-  --sidebar-primary: var(--er-color-primary);
-  --sidebar-primary-foreground: var(--er-color-white);
-  --sidebar-accent: var(--er-color-soft);
-  --sidebar-accent-foreground: var(--er-color-primary);
-  --sidebar-border: #dbe5e0;
-  --sidebar-ring: var(--er-color-primary);
-
-  --radius: 0.875rem;
-  --radius-xs: 0.125rem;
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
-
-  --text-xs--line-height: calc(1 / 0.75);
-  --text-sm--line-height: calc(1.25 / 0.875);
-  --text-base--line-height: 1.5;
-  --text-lg--line-height: calc(1.75 / 1.125);
-  --text-xl--line-height: calc(1.75 / 1.25);
 }
 
 /* Admin base type, same as the Deccan Dentics base layer. */

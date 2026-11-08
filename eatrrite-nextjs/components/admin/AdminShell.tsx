@@ -33,7 +33,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
   }, [pathname]);
 
   return (
-    <div className="admin-shell flex h-dvh overflow-hidden bg-muted/30">
+    <div className="admin-shell flex h-dvh overflow-hidden bg-background">
       <AdminAuthDialog open={!authorized} onLogin={login} />
 
       <AdminSidebar
