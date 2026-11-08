@@ -14,7 +14,7 @@ import { LinkButton } from "@/components/shared/section/LinkButton";
 // Same order as 'icons' in constants/home/services.php.
 const ICONS = [faWheatAwn, faDroplet, faLeaf, faVenus];
 
-// Tabs plus a detail panel, as in the Deccan Dentics services section.
+// Tabs plus a detail panel, as in the reference design services section.
 export function ProgramTabs() {
   const [active, setActive] = useState(0);
   const program = programs[active];

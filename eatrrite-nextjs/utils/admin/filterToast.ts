@@ -1,4 +1,4 @@
-import type { ShowToastInput } from "@/hooks/admin/useShowToast";
+import type { ShowToastInput } from "@/hooks/useShowToast";
 
 /** Success toast for a discrete filter change. */
 export function notifyFilterApplied(

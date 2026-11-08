@@ -14,7 +14,6 @@ export const BRAND = {
   emailHref: "mailto:info@eatrrite.com",
   whatsapp:
     "https://api.whatsapp.com/send?phone=9639877483&text=Hi%20team.%20I%20would%20like%20to%20book%20a%20consultation.",
-  hours: "Mon – Sun : 10:00 am – 7:00 pm",
   address1: "Hyderabad, Telangana",
   address2: "Dehradun, Uttarakhand",
   locationsNote: "Consultations conducted online — join from anywhere",

@@ -1,4 +1,4 @@
-/** Stable runtime ids for clinic entities (leads, appointments, etc.). */
+/** Stable runtime ids for store entities (leads, appointments, etc.). */
 export function createId() {
   return crypto.randomUUID();
 }

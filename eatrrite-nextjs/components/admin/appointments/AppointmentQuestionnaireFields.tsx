@@ -2,8 +2,8 @@
 
 import { AppointmentLeadSummary } from "@/components/admin/appointments/AppointmentLeadSummary";
 import { ChoiceChips } from "@/components/admin/forms/ChoiceChips";
+import { QuestionLabel } from "@/components/admin/forms/QuestionLabel";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
@@ -13,10 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { Lead } from "@/types/admin/lead";
-import type {
-  QuestionnaireAnswers,
-  QuestionnaireQuestion,
-} from "@/features/appointment/types/questionnaire";
+import type { QuestionnaireAnswers } from "@/features/appointment/types/questionnaire";
 import { adminQuestionnaireQuestions } from "@/utils/admin/leadQuestionnaire";
 import {
   answerForKey,
@@ -27,30 +24,27 @@ type AppointmentQuestionnaireFieldsProps = {
   lead: Lead | undefined;
   value: QuestionnaireAnswers;
   onChange: (next: QuestionnaireAnswers) => void;
+  /** Number of the first question. The public form numbers its own questions before these. */
+  firstNumber?: number;
 };
 
 // Short radio lists read better as tap options; long ones stay in a dropdown.
 const MAX_CHIP_OPTIONS = 3;
 
-function QuestionLabel({ question, htmlFor }: { question: QuestionnaireQuestion; htmlFor?: string }) {
-  return (
-    <Label htmlFor={htmlFor} className="leading-snug">
-      {question.label}
-      {question.required ? <span aria-hidden className="ml-1 text-alert-text">*</span> : null}
-    </Label>
-  );
-}
-
 export function AppointmentQuestionnaireFields({
   lead,
   value,
   onChange,
+  firstNumber = 1,
 }: AppointmentQuestionnaireFieldsProps) {
   return (
     <div className="space-y-5">
       <AppointmentLeadSummary lead={lead} />
 
-      {adminQuestionnaireQuestions().map((question) => {
+      {adminQuestionnaireQuestions().map((question, index) => {
+        const label = (htmlFor?: string) => (
+          <QuestionLabel number={firstNumber + index} text={question.label} required={question.required} htmlFor={htmlFor} />
+        );
         const answer = answerForKey(value, question.key);
         const text = typeof answer === "string" ? answer : "";
         const list = Array.isArray(answer) ? answer : typeof answer === "string" && answer ? [answer] : [];
@@ -60,14 +54,14 @@ export function AppointmentQuestionnaireFields({
           if (question.options.length <= MAX_CHIP_OPTIONS) {
             return (
               <div key={question.key} className="space-y-2">
-                <QuestionLabel question={question} />
+                {label()}
                 <ChoiceChips options={question.options} value={list} onChange={([next]) => set(next)} />
               </div>
             );
           }
           return (
             <div key={question.key} className="space-y-2">
-              <QuestionLabel question={question} />
+              {label()}
               <Select
                 value={text || null}
                 onValueChange={(next) => {
@@ -92,7 +86,7 @@ export function AppointmentQuestionnaireFields({
         if (question.type === "checkbox" && question.options) {
           return (
             <div key={question.key} className="space-y-2">
-              <QuestionLabel question={question} />
+              {label()}
               <p className="m-0 text-xs text-muted-foreground">Select all that apply.</p>
               <ChoiceChips multiple options={question.options} value={list} onChange={set} />
             </div>
@@ -103,7 +97,7 @@ export function AppointmentQuestionnaireFields({
           return (
             <div key={question.key} className="space-y-3">
               <div className="space-y-1">
-                <QuestionLabel question={question} />
+                {label()}
                 <p className="m-0 text-xs text-muted-foreground">Select all that apply.</p>
               </div>
               {Object.entries(question.groups).map(([group, options]) => (
@@ -119,7 +113,7 @@ export function AppointmentQuestionnaireFields({
         if (question.type === "number") {
           return (
             <div key={question.key} className="space-y-2">
-              <QuestionLabel question={question} htmlFor={`q-${question.key}`} />
+              {label(`q-${question.key}`)}
               <Input id={`q-${question.key}`} type="number" min={question.min} max={question.max} value={text} onChange={(e) => set(e.target.value)} />
             </div>
           );
@@ -128,7 +122,7 @@ export function AppointmentQuestionnaireFields({
         if (question.type === "textarea") {
           return (
             <div key={question.key} className="space-y-2">
-              <QuestionLabel question={question} htmlFor={`q-${question.key}`} />
+              {label(`q-${question.key}`)}
               <Textarea id={`q-${question.key}`} rows={3} value={text} onChange={(e) => set(e.target.value)} />
             </div>
           );
@@ -136,7 +130,7 @@ export function AppointmentQuestionnaireFields({
 
         return (
           <div key={question.key} className="space-y-2">
-            <QuestionLabel question={question} htmlFor={`q-${question.key}`} />
+            {label(`q-${question.key}`)}
             <Input id={`q-${question.key}`} value={text} onChange={(e) => set(e.target.value)} />
           </div>
         );

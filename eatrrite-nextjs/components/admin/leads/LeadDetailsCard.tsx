@@ -42,7 +42,7 @@ export function LeadDetailsCard({
               {lead.name}
             </p>
             <p className="mt-0.5 text-sm text-muted-foreground">
-              {[`${lead.age} years`, lead.gender, lead.profession]
+              {[lead.age ? `${lead.age} years` : "", lead.gender, lead.profession]
                 .filter(Boolean)
                 .join(" · ")}
             </p>

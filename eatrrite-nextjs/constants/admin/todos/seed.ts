@@ -1,7 +1,7 @@
-import type { ClinicTodo } from "@/types/admin/todo";
+import type { Todo } from "@/types/admin/todo";
 
 // Sample to-dos for the admin preview.
-export const SEED_TODOS: ClinicTodo[] = [
+export const SEED_TODOS: Todo[] = [
   { id: "todo_1", label: "Review today's consultations", done: true },
   { id: "todo_2", label: "Check reports shared by Meera Iyer", done: true },
   { id: "todo_3", label: "Send Friday check-in to Vikram Singh", done: true },

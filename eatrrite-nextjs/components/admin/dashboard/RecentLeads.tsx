@@ -9,13 +9,13 @@ import {
   DashboardCardHeader,
 } from "@/components/admin/dashboard/DashboardCard";
 import { buttonVariants } from "@/components/ui/button";
-import { useClinicStore } from "@/stores/adminStore";
+import { useAdminStore } from "@/stores/useAdminStore";
 import { buildRecentLeadRows } from "@/utils/admin/dashboardRecentLeads";
 import { cn } from "cn";
 
 export function RecentLeads() {
-  const leads = useClinicStore((s) => s.leads);
-  const appointments = useClinicStore((s) => s.appointments);
+  const leads = useAdminStore((s) => s.leads);
+  const appointments = useAdminStore((s) => s.appointments);
   const rows = useMemo(
     () => buildRecentLeadRows(leads, appointments),
     [leads, appointments],
@@ -52,7 +52,7 @@ export function RecentLeads() {
                   {lead.name}
                 </p>
                 <p className="truncate text-sm text-muted-foreground">
-                  Last visit • {lead.lastVisitLabel}
+                  Last appointment • {lead.lastAppointmentLabel}
                 </p>
               </div>
             </Link>

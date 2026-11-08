@@ -12,7 +12,7 @@ export function AppointmentLeadSummary({ lead }: { lead: Lead | undefined }) {
       <div className="min-w-0">
         <p className="m-0 truncate text-sm font-semibold text-foreground">{lead.name}</p>
         <p className="m-0 truncate text-xs text-muted-foreground">
-          {lead.gender} · {lead.age} years · {lead.phone}
+          {[lead.gender, lead.age ? `${lead.age} years` : "", lead.phone].filter(Boolean).join(" · ")}
         </p>
       </div>
     </div>

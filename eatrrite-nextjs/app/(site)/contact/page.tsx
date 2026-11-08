@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   description: "Get in touch with Eat Rrite to book your nutrition consultation.",
 };
 
-// Copies contact.php in the Deccan Dentics contact section layout.
+// Copies contact.php in the reference design contact section layout.
 export default function ContactPage() {
   return (
     <>

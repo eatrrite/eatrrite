@@ -8,7 +8,7 @@ import { ROUTES } from "@/constants/routes";
 
 type Program = { name: string; short: string; about: string; image: string };
 
-// "About the Program": text with the main photo, Deccan about layout.
+// "About the Program": text with the main photo, reference about layout.
 export function ProgramAbout({ program, pill }: { program: Program; pill: string }) {
   return (
     <PageSection tone="white" food={pageFood(5)}>

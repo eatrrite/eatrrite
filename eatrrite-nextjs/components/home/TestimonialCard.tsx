@@ -11,7 +11,7 @@ const initials = (name: string) =>
     .map((part) => part[0])
     .join("");
 
-// Copies ReviewCard from Deccan Dentics, with the client photo as the avatar,
+// Copies ReviewCard from reference design, with the client photo as the avatar,
 // or their initials when there is no photo.
 export function TestimonialCard({ item, index, focused }: { item: Testimonial; index: number; focused: boolean }) {
   return (

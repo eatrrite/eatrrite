@@ -1,43 +1,42 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import questionnaire from "@/features/appointment/constants/questionnaire.json";
-import { requestMeetLink } from "@/features/appointment/services/bookingApi";
+import { Check, Copy, Video } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useShowToast } from "@/hooks/useShowToast";
 
-type MeetState = { link: string; error: string };
+// The confirmed panel: the Google Meet link, to open or copy. The link is a placeholder for now.
+export function MeetStatus({ link }: { link: string }) {
+  const showToast = useShowToast();
 
-// "We have received your response" panel. Asks the server for the Meet link
-// once, unless the page already has it.
-export function MeetStatus({ appointmentId, initialLink }: { appointmentId: string; initialLink: string | null }) {
-  const [state, setState] = useState<MeetState>({ link: initialLink ?? "", error: "" });
+  async function copy() {
+    try {
+      await navigator.clipboard.writeText(link);
+      showToast({ title: "Meet link copied", type: "success" });
+    } catch {
+      showToast({ title: "Could not copy the link", description: "Select it and copy it by hand.", type: "error" });
+    }
+  }
 
-  useEffect(() => {
-    if (initialLink) return;
-    requestMeetLink(appointmentId).then((result) => {
-      if (!result.ok) return setState({ link: "", error: result.error });
-      if (result.meetLink) return setState({ link: result.meetLink, error: "" });
-      setState({ link: "", error: "Your Meet link is still being created. Refresh this page in a minute." });
-    });
-  }, [appointmentId, initialLink]);
-
-  const pending = !state.link && !state.error;
   return (
     <div className="text-center">
-      <div aria-hidden className="mx-auto mb-3 grid size-14 place-items-center rounded-full bg-primary text-2xl text-white">✓</div>
-      <h2 className="mb-2 text-2xl text-primary">{questionnaire.received}</h2>
-      <p className="text-text">{questionnaire.closing[0]}</p>
-      {pending ? (
-        <p className="inline-flex items-center gap-3 rounded-xs bg-white px-4 py-2.5 text-sm text-text">
-          <span aria-hidden className="size-4 animate-spin rounded-full border-2 border-primary/18 border-t-primary" />
-          {questionnaire.generating}
-        </p>
-      ) : null}
-      {state.link ? (
-        <a href={state.link} target="_blank" rel="noopener noreferrer" className="inline-block rounded-xs bg-white px-4 py-2.5 font-semibold break-all text-primary">
-          {state.link}
-        </a>
-      ) : null}
-      {state.error ? <p role="alert" className="m-0 rounded-xs bg-alert-bg px-4 py-2.5 text-sm text-alert-text">{state.error}</p> : null}
+      <div aria-hidden className="mx-auto mb-3 grid size-14 place-items-center rounded-full bg-primary text-white">
+        <Check className="size-7" />
+      </div>
+      <h2 className="mb-2 text-2xl text-primary">Your booking is confirmed.</h2>
+      <p className="text-text">Join your consultation with this Google Meet link at your booked time. We will also be in touch on WhatsApp.</p>
+      <a href={link} target="_blank" rel="noopener noreferrer" className="mb-5 inline-block rounded-xs bg-mint px-4 py-2.5 font-semibold break-all text-primary">
+        {link}
+      </a>
+      <div className="flex flex-wrap justify-center gap-3">
+        <Button size="lg" nativeButton={false} render={<a href={link} target="_blank" rel="noopener noreferrer" />}>
+          <Video className="size-4" />
+          Open Google Meet
+        </Button>
+        <Button size="lg" variant="outline" onClick={copy}>
+          <Copy className="size-4" />
+          Copy link
+        </Button>
+      </div>
     </div>
   );
 }

@@ -3,12 +3,12 @@
 import { ChevronRight, FileText, Salad } from "lucide-react";
 import { AppointmentStatusBadge } from "@/components/admin/appointments/AppointmentStatusBadge";
 import { DashboardAvatar } from "@/components/admin/dashboard/DashboardAvatar";
-import type { ClinicAppointment } from "@/types/admin/appointment";
+import type { Appointment } from "@/types/admin/appointment";
 import { appointmentEndTime } from "@/utils/admin/calendarTime";
 import { formatTimeLabel } from "@/utils/admin/time";
 
 type CalendarDayAppointmentCardProps = {
-  appointment: ClinicAppointment;
+  appointment: Appointment;
   leadName: string;
   onOpen: () => void;
 };
@@ -48,7 +48,7 @@ export function CalendarDayAppointmentCard({
             </div>
             <p className="mt-2 flex items-center gap-1.5 text-xs text-muted-foreground">
               <Salad className="size-3.5 shrink-0" />
-              <span className="truncate">{appointment.service || "No treatment"}</span>
+              <span className="truncate">{appointment.service || "No service"}</span>
             </p>
             <p className="mt-1 flex items-center gap-1.5 text-xs text-muted-foreground">
               <FileText className="size-3.5 shrink-0" />

@@ -132,7 +132,7 @@ Slots:
 
 - [x] Weekly hours, 15-minute steps, 45-minute blocking, 30-day window (`features/appointment/utils/`, rules in `docs/appointment-rules.md`)
 - [x] A pending booking holds its slot for 15 minutes
-- [x] Slot picker loads open times from `/api/slots`
+- [x] Slot picker reads open times from the zustand store (the `/api/slots` route stays for the database phase)
 - [ ] Respect slots hidden by the admin (needs the Phase 5 admin)
 
 Payment (Razorpay Standard Checkout):
@@ -185,8 +185,22 @@ Admin UI (front end, sample data):
 - [x] Slot logic rebuilt as small single-purpose functions (`features/appointment/utils/`), checked with `bun run check:rules`
 - [x] Admin schedule page shows the real hours, from the same constant; the appointment form offers only working-hour times and blocks overlaps (zustand `saveAppointment`)
 - [x] `docs/appointment-rules.md` lists all booking rules and settings
+- [x] Website booking end to end on zustand: slots from the store, 15-minute hold, Razorpay test payment (₹800), signature check, lead and appointment saved, duplicate and failure handling (`bun run check:booking`)
+- [x] Questionnaire after payment (same questions as the admin step 2, plus age and gender), saved on the appointment as key and answer, then the placeholder Meet link
+- [x] Toast on every public action through the shared `useShowToast` hook, with `<Toaster />` on the public site
+- [ ] Pay with the Razorpay test card in the browser and confirm the booking appears in the admin (not yet done by hand)
+- [x] Questionnaire: name starts as typed at booking (editable, saved to the lead), every question numbered with larger text, and a progress toast ("3 of 8 answered" with a bar) after each answer
+- [x] Questionnaire polish: Submit at the right end, progress toast at the bottom right clear of the float buttons, and the confirmation panel scrolled into view and focused after submit (the page shrinks when the long form is replaced)
+- [x] Calendar month cells show one dot per appointment. Upcoming (gold) dots were missing because the dot list still held the old tones
+- [x] Calendar details sheet reads the live appointment by id, so an edit shows at once (it used to keep the copy it was opened with)
+- [x] Edit appointment form: "Save changes" replaces Continue, the steps above are free tabs, and saving needs only the booking details, so a website booking with no questionnaire yet can still be cancelled or updated. New appointments keep the three steps
+- [x] An untouched questionnaire stays empty when an appointment is saved (it no longer gets name, age and gender added, which made it look submitted)
+- [x] No clinic wording anywhere: `ClinicAppointment*` became `Appointment`, `AppointmentInput`, `AppointmentStatus`; `ClinicTodo` became `Todo`; the store is `useAdminStore` in `stores/useAdminStore.ts`; "visit", "branch" and "treatment" became appointment, location and service; code comments no longer name another brand
+- [x] Top bar, footer and contact page hours come from the store (`components/layout/WorkingHours.tsx`), so a change on the admin Schedule page shows on the website
+- [x] Pointer cursor on every button, chip and option from one rule in `app/globals.css`
+- [x] One eyebrow style everywhere: the handwritten `type-eyebrow` from the home page, now on every section heading in the public pages, the confirmation page and the admin page headers
 - [x] All appointment code moved into `features/appointment/` (components, hooks, services, constants, types, utils, stores); behaviour unchanged
-- [ ] Replace the Deccan sidebar illustration (it shows a tooth icon) with an Eat Rrite one
+- [x] Sidebar illustration replaced with an Eat Rrite nutritionist one
 
 Connect to Neon (next step):
 
@@ -230,6 +244,16 @@ Emails (moved from Phase 4):
 - [ ] Connect the contact form (backend and the consent box the brief asks for)
 - [ ] Swap the floating icons for real cut-out food images, if wanted
 - [ ] **Mukta approves the redesign** (the brief asked for no redesign)
+
+## Next: Real Services
+
+Today the booking runs on the browser store with a placeholder Meet link. These steps make it real, in this order:
+
+- [ ] **Google Meet link:** replace the placeholder (`generateAdminMeetLink`) with real generation through the existing Apps Script / Google Calendar, from a server route, with a loading state and an error state on the confirmation page
+- [ ] **Emails with the Resend API:** add `RESEND_API_KEY` and a verified sending domain; send the customer email with the Meet link after the questionnaire is submitted, the admin booking email, and the questionnaire reminders; keep the sending in server routes
+- [ ] **Neon database setup:** create the Neon project, paste the `DATABASE_URL` connection string into `.env.local`, run `db/migrations/001_initial.sql`, and add migrations for leads (with age and gender optional), appointments (with `payment_id`, questionnaire answers and Meet link), held slots and the weekly schedule
+- [ ] **Neon in the frontend by connection string:** move the store's reads and writes (slots, holds, leads, appointments, schedule, questionnaire) to server routes and services that use `DATABASE_URL`; keep the same rules in `features/appointment/`; keep zustand only as a client cache
+- [ ] **Razorpay webhook and live testing:** add the webhook so a payment is recorded even if the tab closes, switch to live keys, run one real ₹800 booking end to end (payment, questionnaire, Meet link, emails, admin view), then switch back or keep live with Mukta's agreement
 
 ## Launch
 

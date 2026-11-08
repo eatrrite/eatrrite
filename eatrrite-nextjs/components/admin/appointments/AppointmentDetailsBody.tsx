@@ -4,11 +4,11 @@ import { CalendarDays, Clock3, Link2, Salad } from "lucide-react";
 import { format, parseISO } from "date-fns";
 import { AppointmentStatusBadge } from "@/components/admin/appointments/AppointmentStatusBadge";
 import { QUESTIONNAIRE_QUESTIONS } from "@/features/appointment/constants/questionnaire-questions";
-import type { ClinicAppointment } from "@/types/admin/appointment";
+import type { Appointment } from "@/types/admin/appointment";
 import { answerForKey } from "@/utils/admin/questionnaireAnswers";
 
 type AppointmentDetailsBodyProps = {
-  appointment: ClinicAppointment;
+  appointment: Appointment;
   leadName: string;
 };
 

@@ -4,8 +4,8 @@ import {
   IndianRupee,
   Users,
 } from "lucide-react";
-import { COMPLETED_VISIT_FEE } from "@/constants/admin/dashboard/reference";
-import type { ClinicAppointment } from "@/types/admin/appointment";
+import { COMPLETED_APPOINTMENT_FEE } from "@/constants/admin/dashboard/reference";
+import type { Appointment } from "@/types/admin/appointment";
 import type { Lead } from "@/types/admin/lead";
 import type { DashboardFilters, StatsCardModel } from "@/types/admin/dashboard";
 import {
@@ -24,7 +24,7 @@ import {
 
 export function buildDashboardStats(
   leads: Lead[],
-  appointments: ClinicAppointment[],
+  appointments: Appointment[],
   filters: DashboardFilters,
   reference: Date,
 ): StatsCardModel[] {
@@ -44,7 +44,7 @@ export function buildDashboardStats(
   const leadNow = countLeads(leads, current);
   const aptNow = countAppointments(appointments, filters, current);
   const doneNow = countCompleted(appointments, filters, current);
-  const revenueNow = doneNow * COMPLETED_VISIT_FEE;
+  const revenueNow = doneNow * COMPLETED_APPOINTMENT_FEE;
 
   const leadPrev = previous ? countLeads(leads, previous) : null;
   const aptPrev = previous
@@ -53,7 +53,7 @@ export function buildDashboardStats(
   const donePrev = previous
     ? countCompleted(appointments, filters, previous)
     : null;
-  const revenuePrev = donePrev === null ? null : donePrev * COMPLETED_VISIT_FEE;
+  const revenuePrev = donePrev === null ? null : donePrev * COMPLETED_APPOINTMENT_FEE;
 
   return [
     {

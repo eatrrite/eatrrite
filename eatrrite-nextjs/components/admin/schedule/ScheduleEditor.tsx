@@ -4,16 +4,16 @@ import { ConfirmationModal } from "@/components/admin/ConfirmationModal";
 import { ScheduleDayCard } from "@/components/admin/schedule/ScheduleDayCard";
 import { AdminMotion } from "@/components/admin/AdminPage";
 import { useConfirmDialog } from "@/hooks/admin/useConfirmDialog";
-import { useClinicStore } from "@/stores/adminStore";
+import { useAdminStore } from "@/stores/useAdminStore";
 import { WEEKDAY_LABELS } from "@/constants/admin/schedule/weekdays";
 import type { Weekday } from "@/types/admin/schedule";
 
 export function ScheduleEditor() {
-  const days = useClinicStore((s) => s.days);
-  const setDayOpen = useClinicStore((s) => s.setDayOpen);
-  const addDaySlot = useClinicStore((s) => s.addDaySlot);
-  const updateDaySlot = useClinicStore((s) => s.updateDaySlot);
-  const removeDaySlot = useClinicStore((s) => s.removeDaySlot);
+  const days = useAdminStore((s) => s.days);
+  const setDayOpen = useAdminStore((s) => s.setDayOpen);
+  const addDaySlot = useAdminStore((s) => s.addDaySlot);
+  const updateDaySlot = useAdminStore((s) => s.updateDaySlot);
+  const removeDaySlot = useAdminStore((s) => s.removeDaySlot);
   const { ask, props: confirmProps } = useConfirmDialog();
 
   const requestRemoveSlot = (day: Weekday, slotId: string) => {

@@ -1,22 +1,22 @@
-import type { ClinicAppointment, ClinicAppointmentStatus } from "@/types/admin/appointment";
-import type { DashboardVisit, VisitStatus } from "@/types/admin/dashboard";
+import type { Appointment, AppointmentStatus } from "@/types/admin/appointment";
+import type { DashboardAppointment, DashboardAppointmentStatus } from "@/types/admin/dashboard";
 
-function toVisitStatus(status: ClinicAppointmentStatus): VisitStatus | null {
+function toDashboardStatus(status: AppointmentStatus): DashboardAppointmentStatus | null {
   if (status === "completed") return "completed";
   if (status === "upcoming") return "upcoming";
   return null;
 }
 
-/** Today's clinic visits for the dashboard list (real appointment ids). */
-export function buildTodayVisits(
-  appointments: ClinicAppointment[],
+/** Today's appointments for the dashboard list (real appointment ids). */
+export function buildTodayAppointments(
+  appointments: Appointment[],
   leadName: (leadId: string) => string,
   todayKey: string,
-): DashboardVisit[] {
+): DashboardAppointment[] {
   return appointments
     .filter((item) => item.date === todayKey)
     .flatMap((item) => {
-      const status = toVisitStatus(item.status);
+      const status = toDashboardStatus(item.status);
       if (!status) return [];
       return [
         {

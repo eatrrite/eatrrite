@@ -11,14 +11,14 @@ import { CalendarToolbar } from "@/components/admin/calendar/CalendarToolbar";
 import { CalendarWeekView } from "@/components/admin/calendar/CalendarWeekView";
 import { useCalendarDayActions } from "@/hooks/admin/useCalendarDayActions";
 import { useCalendarState } from "@/hooks/admin/useCalendarState";
-import { useClinicStore } from "@/stores/adminStore";
-import type { ClinicAppointment } from "@/types/admin/appointment";
+import { useAdminStore } from "@/stores/useAdminStore";
+import type { Appointment } from "@/types/admin/appointment";
 import { toDateValue } from "@/utils/admin/date";
 import { formatMonthTitle } from "@/utils/admin/calendarMonth";
 import { formatWeekTitle } from "@/utils/admin/calendarWeek";
 
 export function CalendarWorkspace() {
-  const appointments = useClinicStore((s) => s.appointments);
+  const appointments = useAdminStore((s) => s.appointments);
   const {
     view,
     setView,
@@ -38,7 +38,7 @@ export function CalendarWorkspace() {
     return format(cursorDate, "EEEE, d MMMM yyyy");
   }, [view, cursorDate]);
 
-  const openAppointment = (item: ClinicAppointment) => {
+  const openAppointment = (item: Appointment) => {
     selectDate(parseISO(item.date));
     actions.setDetail(item);
   };

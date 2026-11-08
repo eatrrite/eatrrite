@@ -6,7 +6,7 @@ import { pageFood } from "@/constants/home/floatingFood";
 
 type Program = { short: string; image_secondary: string; benefits: string[]; ideal: string };
 
-// Key benefits and ideal-for, round image left as in the Deccan why-choose layout.
+// Key benefits and ideal-for, round image left as in the reference why-choose layout.
 export function ProgramBenefits({ program, benefitsTitle, idealTitle }: { program: Program; benefitsTitle: string; idealTitle: string }) {
   return (
     <PageSection tone="mint" food={pageFood(6)}>
@@ -30,7 +30,7 @@ export function ProgramBenefits({ program, benefitsTitle, idealTitle }: { progra
             ))}
           </ul>
           <BlurIn delay={0.3} className="mt-8 rounded-lg border border-border bg-white p-5 sm:p-6">
-            <p className="m-0 font-script text-2xl text-primary sm:text-3xl">{idealTitle}</p>
+            <p className="m-0 type-eyebrow">{idealTitle}</p>
             <p className="mt-2 mb-0 text-text">{program.ideal}</p>
           </BlurIn>
         </div>

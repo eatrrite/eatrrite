@@ -9,8 +9,8 @@ import { AppointmentsToolbar } from "@/components/admin/appointments/Appointment
 import { ConfirmationModal } from "@/components/admin/ConfirmationModal";
 import { useAppointmentTableActions } from "@/hooks/admin/useAppointmentTableActions";
 import { useSelectedRow } from "@/hooks/admin/useSelectedRow";
-import { useClinicStore } from "@/stores/adminStore";
-import type { ClinicAppointment } from "@/types/admin/appointment";
+import { useAdminStore } from "@/stores/useAdminStore";
+import type { Appointment } from "@/types/admin/appointment";
 import type { AppointmentListFilters } from "@/types/admin/appointment";
 import { filterAppointments } from "@/utils/admin/filterAppointments";
 
@@ -21,15 +21,15 @@ const INITIAL_FILTERS: AppointmentListFilters = {
 };
 
 export function AppointmentsTable() {
-  const appointments = useClinicStore((s) => s.appointments);
-  const leads = useClinicStore((s) => s.leads);
+  const appointments = useAdminStore((s) => s.appointments);
+  const leads = useAdminStore((s) => s.leads);
   const actions = useAppointmentTableActions();
   const [filters, setFilters] = useState(INITIAL_FILTERS);
   const rows = useMemo(
     () => filterAppointments(appointments, leads, filters),
     [appointments, leads, filters],
   );
-  const getId = useCallback((item: ClinicAppointment) => item.id, []);
+  const getId = useCallback((item: Appointment) => item.id, []);
   const [selectedId, selectRow, selected] = useSelectedRow(rows, getId);
   const columns = useMemo(
     () =>

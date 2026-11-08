@@ -1,12 +1,12 @@
 import { format, parseISO } from "date-fns";
-import type { ClinicAppointment } from "@/types/admin/appointment";
+import type { Appointment } from "@/types/admin/appointment";
 import type { RecentLeadRow } from "@/types/admin/dashboard";
 import type { Lead } from "@/types/admin/lead";
 
-/** Most recently updated leads with their latest visit label. */
+/** Most recently updated leads with their latest appointment label. */
 export function buildRecentLeadRows(
   leads: Lead[],
-  appointments: ClinicAppointment[],
+  appointments: Appointment[],
   limit = 5,
 ): RecentLeadRow[] {
   return [...leads]
@@ -22,9 +22,9 @@ export function buildRecentLeadRows(
       return {
         id: lead.id,
         name: lead.name,
-        lastVisitLabel: last
+        lastAppointmentLabel: last
           ? format(parseISO(last.date), "MMM d, yyyy")
-          : "No visits yet",
+          : "No appointments yet",
       };
     });
 }

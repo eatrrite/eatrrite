@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import type { ClinicAppointment } from "@/types/admin/appointment";
+import type { Appointment } from "@/types/admin/appointment";
 import { CalendarDayBlock } from "@/components/admin/calendar/CalendarDayBlock";
 import { CalendarDayEmptySlots } from "@/components/admin/calendar/CalendarDayEmptySlots";
 import { CalendarHourLines } from "@/components/admin/calendar/CalendarHourLines";
@@ -20,10 +20,10 @@ import { toDateValue } from "@/utils/admin/date";
 
 type CalendarDayViewProps = {
   date: Date;
-  appointments: ClinicAppointment[];
+  appointments: Appointment[];
   leadName: (leadId: string) => string;
   onEmptySlot?: (time: string) => void;
-  onSelectAppointment?: (appointment: ClinicAppointment) => void;
+  onSelectAppointment?: (appointment: Appointment) => void;
 };
 
 export function CalendarDayView({

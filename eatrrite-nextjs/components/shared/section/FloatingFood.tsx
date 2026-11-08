@@ -18,7 +18,7 @@ const ICONS: Record<FoodIcon, typeof Apple> = {
   wheat: Wheat,
 };
 
-// Copies FloatingTools from Deccan Dentics: slow drift and tilt, desktop only.
+// Copies FloatingTools from reference design: slow drift and tilt, desktop only.
 export function FloatingFood({ items }: { items: FloatingFoodItem[] }) {
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 z-0 hidden overflow-hidden lg:block">

@@ -11,8 +11,10 @@ export const LEAD_AGE_FILTER_OPTIONS: {
   { value: "46plus", label: "46+" },
 ];
 
-export function matchesAgeFilter(age: number, filter: LeadAgeFilter): boolean {
+// A lead with no age (website bookings) only shows under "All ages".
+export function matchesAgeFilter(age: number | undefined, filter: LeadAgeFilter): boolean {
   if (filter === "all") return true;
+  if (age === undefined) return false;
   if (filter === "under18") return age < 18;
   if (filter === "18-30") return age >= 18 && age <= 30;
   if (filter === "31-45") return age >= 31 && age <= 45;

@@ -37,6 +37,8 @@ New feature code goes in `features/<feature>/`. Import it with `@/features/<feat
 
 ## Naming
 
+No clinic, dental or other-brand wording in names, files, comments or text. The business is Eat Rrite: it has leads, appointments and consultations. The store is `useAdminStore`.
+
 | Item | Style | Example |
 | --- | --- | --- |
 | Components and their files | PascalCase | `BookingForm.tsx` |
@@ -50,9 +52,12 @@ New feature code goes in `features/<feature>/`. Import it with `@/features/<feat
 
 - Colours, fonts, radius and shadows come only from `app/globals.css`.
 - Spacing uses the Tailwind scale (4px steps). No one-off pixel values for padding, margin or gap.
-- Public form fields are 48px high (`h-12`), 16px text. Admin fields keep the Deccan sizes.
+- Public form fields are 48px high (`h-12`), 16px text. Admin fields keep the admin sizes.
 - Public buttons use `PillButton`. The admin uses the shadcn `Button`.
 - Dropdowns use the shadcn `Select`, never a native `<select>`.
+- Every eyebrow (the line above a section heading) uses `type-eyebrow`, the handwritten Caveat style from the home page. Public pages and admin page headers alike. Never an uppercase small-caps line.
+- Anything you can press or pick shows the pointer cursor. One rule in `app/globals.css` covers buttons, chips, radios, checkboxes, tabs and options; do not add `cursor-pointer` by hand.
+- Every user action ends with a toast through `useShowToast` (long forms may also use `useProgressToast`).
 - Brand name, contact details and links come from `constants/brand.ts`.
 
 ## Database

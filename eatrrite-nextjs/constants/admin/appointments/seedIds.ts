@@ -1,6 +1,6 @@
 /**
  * Fixed UUIDs for seed appointments (generated via crypto.randomUUID once).
- * Kept stable for SSR and persisted clinic store consistency.
+ * Kept stable for SSR and persisted admin store consistency.
  */
 export const SEED_APPOINTMENT_IDS = [
   "a27a403e-577b-4117-8f91-82f9261e39b3",

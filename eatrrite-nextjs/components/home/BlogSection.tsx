@@ -8,7 +8,7 @@ import { ROUTES } from "@/constants/routes";
 import { PageSection } from "@/components/shared/section/PageSection";
 import { SectionIntro } from "@/components/shared/section/SectionIntro";
 
-// Blog posts as Deccan-style cards. Also used on the /blog page.
+// Blog posts as reference-style cards. Also used on the /blog page.
 export function BlogSection() {
   const { blog } = home;
   return (

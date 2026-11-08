@@ -6,7 +6,7 @@ import { FaqPicker } from "./FaqPicker";
 import { PageSection } from "@/components/shared/section/PageSection";
 import { SectionIntro } from "@/components/shared/section/SectionIntro";
 
-// FAQ in the Deccan Dentics layout: illustration, heading with count, then the picker.
+// FAQ in the reference design layout: illustration, heading with count, then the picker.
 export function FaqSection() {
   const { faq } = home;
   return (

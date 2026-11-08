@@ -4,16 +4,16 @@ import { Plus } from "lucide-react";
 import { format } from "date-fns";
 import { CalendarDayAppointmentCard } from "@/components/admin/calendar/CalendarDayAppointmentCard";
 import { Button } from "@/components/ui/button";
-import type { ClinicAppointment } from "@/types/admin/appointment";
+import type { Appointment } from "@/types/admin/appointment";
 import { parseTimeToMinutes } from "@/utils/admin/calendarTime";
 
 type CalendarDayDetailsPanelProps = {
   selectedDate: Date;
-  appointments: ClinicAppointment[];
+  appointments: Appointment[];
   leadName: (leadId: string) => string;
   canAdd: boolean;
   onAdd: () => void;
-  onOpenAppointment: (appointment: ClinicAppointment) => void;
+  onOpenAppointment: (appointment: Appointment) => void;
 };
 
 export function CalendarDayDetailsPanel({
@@ -53,7 +53,7 @@ export function CalendarDayDetailsPanel({
         >
           <Plus className="size-3.5" />
           <span className="sm:hidden">Add</span>
-          <span className="hidden sm:inline">Add ClinicAppointment</span>
+          <span className="hidden sm:inline">Add Appointment</span>
         </Button>
       </div>
 

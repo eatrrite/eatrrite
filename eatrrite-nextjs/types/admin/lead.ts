@@ -4,8 +4,9 @@ export type Lead = {
   id: string;
   name: string;
   phone: string;
-  age: number;
-  gender: LeadGender;
+  /** Website bookings do not ask for these. The admin can add them later. */
+  age?: number;
+  gender?: LeadGender;
   profession?: string;
   email?: string;
   address?: string;

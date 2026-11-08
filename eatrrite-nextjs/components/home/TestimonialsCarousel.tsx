@@ -11,7 +11,7 @@ import { TestimonialCard } from "./TestimonialCard";
 
 const ITEMS = home.testimonials.items;
 
-// Copies ReviewsCarousel from Deccan Dentics: looping, autoplay, focused centre card.
+// Copies ReviewsCarousel from reference design: looping, autoplay, focused centre card.
 export function TestimonialsCarousel() {
   const [selected, setSelected] = useState(0);
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "center" }, [Autoplay({ delay: 4500, stopOnInteraction: true })]);

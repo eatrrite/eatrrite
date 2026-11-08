@@ -11,7 +11,7 @@ export default function AdminAppointmentsPage() {
       <AdminPageHeader
         eyebrow="Appointments"
         title="Consultation schedule"
-        description="Appointments always link to a lead record via leadId."
+        description="Every appointment belongs to a lead. Bookings made on the website appear here after payment."
       />
       <AdminMotion>
         <Suspense fallback={null}>

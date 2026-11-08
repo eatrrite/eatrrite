@@ -1,15 +1,15 @@
 import type {
-  ClinicAppointment,
-  ClinicAppointmentInput,
+  Appointment,
+  AppointmentInput,
 } from "@/types/admin/appointment";
 import type { Lead, LeadInput } from "@/types/admin/lead";
-import type { ClinicTodo, TodoInput } from "@/types/admin/todo";
+import type { Todo, TodoInput } from "@/types/admin/todo";
 import { createId } from "@/utils/admin/id";
 
 type EntitySlice = {
   leads: Lead[];
-  appointments: ClinicAppointment[];
-  todos: ClinicTodo[];
+  appointments: Appointment[];
+  todos: Todo[];
 };
 
 type SetState = (
@@ -20,7 +20,7 @@ type SetState = (
 
 type GetState = () => EntitySlice;
 
-export function createClinicEntityActions(set: SetState, get: GetState) {
+export function createEntityActions(set: SetState, get: GetState) {
   return {
     getLead: (id: string) => get().leads.find((lead) => lead.id === id),
     addLead: (input: LeadInput) => {
@@ -46,9 +46,9 @@ export function createClinicEntityActions(set: SetState, get: GetState) {
     deleteLead: (id: string) => {
       set((s) => ({ leads: s.leads.filter((item) => item.id !== id) }));
     },
-    addAppointment: (input: ClinicAppointmentInput) => {
+    addAppointment: (input: AppointmentInput) => {
       const now = new Date().toISOString();
-      const appointment: ClinicAppointment = {
+      const appointment: Appointment = {
         ...input,
         id: createId(),
         createdAt: now,
@@ -57,7 +57,7 @@ export function createClinicEntityActions(set: SetState, get: GetState) {
       set((s) => ({ appointments: [appointment, ...s.appointments] }));
       return appointment;
     },
-    updateAppointment: (id: string, input: ClinicAppointmentInput) => {
+    updateAppointment: (id: string, input: AppointmentInput) => {
       set((s) => ({
         appointments: s.appointments.map((item) =>
           item.id === id
@@ -72,7 +72,7 @@ export function createClinicEntityActions(set: SetState, get: GetState) {
       }));
     },
     addTodo: (input: TodoInput) => {
-      const todo: ClinicTodo = {
+      const todo: Todo = {
         id: createId(),
         label: input.label.trim(),
         done: false,

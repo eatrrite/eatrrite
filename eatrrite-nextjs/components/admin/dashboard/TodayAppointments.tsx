@@ -8,20 +8,20 @@ import {
   DashboardCard,
   DashboardCardHeader,
 } from "@/components/admin/dashboard/DashboardCard";
-import { VisitStatusBadge } from "@/components/admin/dashboard/VisitStatusBadge";
+import { DashboardStatusBadge } from "@/components/admin/dashboard/DashboardStatusBadge";
 import { buttonVariants } from "@/components/ui/button";
 import { DASHBOARD_REFERENCE_DATE } from "@/constants/admin/dashboard/reference";
-import { useClinicStore } from "@/stores/adminStore";
-import { buildTodayVisits } from "@/utils/admin/dashboardTodayVisits";
+import { useAdminStore } from "@/stores/useAdminStore";
+import { buildTodayAppointments } from "@/utils/admin/dashboardTodayAppointments";
 import { formatTimeLabel } from "@/utils/admin/time";
 import { cn } from "cn";
 
 export function TodayAppointments() {
-  const appointments = useClinicStore((s) => s.appointments);
-  const getLead = useClinicStore((s) => s.getLead);
+  const appointments = useAdminStore((s) => s.appointments);
+  const getLead = useAdminStore((s) => s.getLead);
   const rows = useMemo(
     () =>
-      buildTodayVisits(
+      buildTodayAppointments(
         appointments,
         (id) => getLead(id)?.name ?? "Unknown",
         DASHBOARD_REFERENCE_DATE,
@@ -47,25 +47,25 @@ export function TodayAppointments() {
         }
       />
       <ul className="divide-y divide-border">
-        {rows.map((visit) => (
-          <li key={visit.id}>
+        {rows.map((appointment) => (
+          <li key={appointment.id}>
             <Link
-              href={`/admin/appointments?id=${visit.id}`}
+              href={`/admin/appointments?id=${appointment.id}`}
               className="flex flex-wrap items-center gap-3 py-3 transition-colors hover:bg-muted/40 sm:flex-nowrap"
             >
               <span className="w-20 shrink-0 text-sm text-muted-foreground tabular-nums">
-                {formatTimeLabel(visit.time)}
+                {formatTimeLabel(appointment.time)}
               </span>
-              <DashboardAvatar name={visit.leadName} />
+              <DashboardAvatar name={appointment.leadName} />
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-semibold text-foreground">
-                  {visit.leadName}
+                  {appointment.leadName}
                 </p>
                 <p className="truncate text-sm text-muted-foreground">
-                  {visit.service}
+                  {appointment.service}
                 </p>
               </div>
-              <VisitStatusBadge status={visit.status} />
+              <DashboardStatusBadge status={appointment.status} />
             </Link>
           </li>
         ))}

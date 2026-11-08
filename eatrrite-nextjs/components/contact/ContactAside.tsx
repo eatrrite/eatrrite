@@ -1,4 +1,5 @@
 import { Clock3, Mail, MapPin, Phone } from "lucide-react";
+import { WorkingHours } from "@/components/layout/WorkingHours";
 import { LinkButton } from "@/components/shared/section/LinkButton";
 import { Button } from "@/components/ui/button";
 import { BRAND } from "@/constants/brand";
@@ -9,15 +10,15 @@ const DETAILS = [
   { icon: Phone, label: "Phone / WhatsApp", body: BRAND.phone, href: BRAND.phoneHref },
   { icon: Mail, label: "Email", body: BRAND.email, href: BRAND.emailHref },
   { icon: MapPin, label: "Based in", body: `${BRAND.address1} & ${BRAND.address2}`, note: BRAND.locationsNote },
-  { icon: Clock3, label: "Hours", body: BRAND.hours },
+  { icon: Clock3, label: "Hours", body: <WorkingHours /> },
 ];
 
-// "Reach us" timeline, actions and programs, as in the Deccan ContactAside.
+// "Reach us" timeline, actions and programs, as in the reference ContactAside.
 export function ContactAside() {
   return (
     <div className="flex flex-col gap-6">
       <div className="rounded-xl border border-border bg-white p-6 md:p-7">
-        <p className="m-0 font-script text-2xl text-primary sm:text-3xl">Reach us</p>
+        <p className="m-0 type-eyebrow">Reach us</p>
         <ol className="mt-5 mb-0 grid gap-1 border-l border-border pl-5">
           {DETAILS.map((item) => (
             <li key={item.label} className="relative py-3">
@@ -39,7 +40,7 @@ export function ContactAside() {
         </div>
       </div>
       <div className="rounded-xl border border-border bg-white p-6 md:p-7">
-        <p className="m-0 text-xs font-semibold tracking-[0.12em] text-primary uppercase">Programs</p>
+        <p className="m-0 type-eyebrow">Programs</p>
         <ul className="mt-4 mb-0 grid gap-2 p-0 text-sm text-ink">
           {programs.map((p) => <li key={p.slug}>✓ {p.short}</li>)}
         </ul>

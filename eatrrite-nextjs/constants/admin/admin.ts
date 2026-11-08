@@ -13,7 +13,7 @@ export const ADMIN_USER_PROFILE = {
   role: "Founder & nutritionist",
   email: BRAND.email,
   phone: BRAND.phone,
-  branch: "Hyderabad & Dehradun",
+  location: "Hyderabad & Dehradun",
   initials: getInitials("Mukta Patil"),
 } as const;
 

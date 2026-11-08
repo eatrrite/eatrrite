@@ -1,4 +1,4 @@
-import type { ClinicAppointment, ClinicAppointmentStatus } from "@/types/admin/appointment";
+import type { Appointment, AppointmentStatus } from "@/types/admin/appointment";
 import {
   APPOINTMENT_STATUS_DOT_TONE,
   STATUS_DOT_CLASS,
@@ -7,9 +7,9 @@ import type { StatusTone } from "@/constants/admin/statusTones";
 
 /** Group appointments by `yyyy-MM-dd`. */
 export function groupAppointmentsByDate(
-  appointments: ClinicAppointment[],
-): Map<string, ClinicAppointment[]> {
-  const map = new Map<string, ClinicAppointment[]>();
+  appointments: Appointment[],
+): Map<string, Appointment[]> {
+  const map = new Map<string, Appointment[]>();
   for (const item of appointments) {
     const list = map.get(item.date) ?? [];
     list.push(item);
@@ -18,26 +18,24 @@ export function groupAppointmentsByDate(
   return map;
 }
 
-/** Unique status-dot classes for a day’s appointments (stable order). */
-export function dayStatusDotClasses(appointments: ClinicAppointment[]): string[] {
-  const order: StatusTone[] = ["success", "active", "muted", "danger"];
-  const present = new Set(
-    appointments.map((item) => APPOINTMENT_STATUS_DOT_TONE[item.status]),
-  );
-  return order
-    .filter((tone) => present.has(tone))
+/** One dot class per appointment on the day, ordered by status so the dots read the same every time. */
+export function dayDotClasses(appointments: Appointment[]): string[] {
+  const order = Object.keys(STATUS_DOT_CLASS) as StatusTone[];
+  return appointments
+    .map((item) => APPOINTMENT_STATUS_DOT_TONE[item.status])
+    .sort((a, b) => order.indexOf(a) - order.indexOf(b))
     .map((tone) => STATUS_DOT_CLASS[tone]);
 }
 
 export function appointmentsOnDate(
-  byDate: Map<string, ClinicAppointment[]>,
+  byDate: Map<string, Appointment[]>,
   dateKey: string,
-): ClinicAppointment[] {
+): Appointment[] {
   return byDate.get(dateKey) ?? [];
 }
 
 export function statusToneForAppointment(
-  status: ClinicAppointmentStatus,
+  status: AppointmentStatus,
 ): StatusTone {
   return APPOINTMENT_STATUS_DOT_TONE[status];
 }

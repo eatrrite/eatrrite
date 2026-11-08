@@ -7,7 +7,7 @@ import { PageSection } from "@/components/shared/section/PageSection";
 import { LinkButton } from "@/components/shared/section/LinkButton";
 import { SectionIntro } from "@/components/shared/section/SectionIntro";
 
-// Founder spotlight in the Deccan Dentics about layout (3fr text, 2fr side).
+// Founder spotlight in the reference design about layout (3fr text, 2fr side).
 export function AboutSection() {
   const { about } = home;
   return (

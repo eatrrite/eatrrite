@@ -8,14 +8,14 @@ import {
 } from "@/components/admin/dashboard/DashboardCard";
 import { TodoFormDialog } from "@/components/admin/dashboard/TodoFormDialog";
 import { Button } from "@/components/ui/button";
-import { useClinicStore } from "@/stores/adminStore";
+import { useAdminStore } from "@/stores/useAdminStore";
 import type { TodoInput } from "@/types/admin/todo";
 import { cn } from "cn";
 
 export function TodayTodo() {
-  const todos = useClinicStore((s) => s.todos);
-  const addTodo = useClinicStore((s) => s.addTodo);
-  const toggleTodo = useClinicStore((s) => s.toggleTodo);
+  const todos = useAdminStore((s) => s.todos);
+  const addTodo = useAdminStore((s) => s.addTodo);
+  const toggleTodo = useAdminStore((s) => s.toggleTodo);
   const [open, setOpen] = useState(false);
   const doneCount = todos.filter((todo) => todo.done).length;
 

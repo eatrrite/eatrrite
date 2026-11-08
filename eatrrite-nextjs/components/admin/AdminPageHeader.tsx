@@ -24,7 +24,7 @@ export function AdminPageHeader({
       <div className="min-w-0">
         {eyebrow ? (
           <HeroMotion delay={0.05}>
-            <p className="text-xs font-semibold uppercase tracking-wide text-primary">
+            <p className="type-eyebrow">
               {eyebrow}
             </p>
           </HeroMotion>

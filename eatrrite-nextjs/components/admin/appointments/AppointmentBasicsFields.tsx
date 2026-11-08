@@ -17,13 +17,13 @@ import {
   APPOINTMENT_STATUS_LABELS,
 } from "@/constants/admin/appointments/statuses";
 import { SERVICES } from "@/features/appointment/constants/appointment-settings";
-import type { ClinicAppointmentInput } from "@/types/admin/appointment";
+import type { AppointmentInput } from "@/types/admin/appointment";
 import type { Lead } from "@/types/admin/lead";
 
 type AppointmentBasicsFieldsProps = {
-  value: ClinicAppointmentInput;
+  value: AppointmentInput;
   leads: Lead[];
-  onChange: (next: ClinicAppointmentInput) => void;
+  onChange: (next: AppointmentInput) => void;
   onLeadChange: (leadId: string) => void;
   onDateChange: (date: string) => void;
   /** Start times the schedule allows on the chosen date. */
@@ -40,9 +40,9 @@ export function AppointmentBasicsFields({
   timeOptions,
   slotError,
 }: AppointmentBasicsFieldsProps) {
-  const set = <K extends keyof ClinicAppointmentInput>(
+  const set = <K extends keyof AppointmentInput>(
     key: K,
-    next: ClinicAppointmentInput[K],
+    next: AppointmentInput[K],
   ) => onChange({ ...value, [key]: next });
   const lead = leads.find((item) => item.id === value.leadId);
 
@@ -72,7 +72,7 @@ export function AppointmentBasicsFields({
         </Select>
         {lead ? (
           <p className="m-0 text-xs text-muted-foreground">
-            {lead.gender} · {lead.age} years · their details are reused in the questionnaire.
+            {[lead.gender, lead.age ? `${lead.age} years` : "age and gender not added yet"].filter(Boolean).join(" · ")} · their details are reused in the questionnaire.
           </p>
         ) : null}
       </div>
@@ -120,8 +120,8 @@ export function AppointmentBasicsFields({
         <ChoiceChips
           options={APPOINTMENT_STATUSES}
           value={[value.status]}
-          labelFor={(status) => APPOINTMENT_STATUS_LABELS[status as ClinicAppointmentInput["status"]]}
-          onChange={([status]) => set("status", status as ClinicAppointmentInput["status"])}
+          labelFor={(status) => APPOINTMENT_STATUS_LABELS[status as AppointmentInput["status"]]}
+          onChange={([status]) => set("status", status as AppointmentInput["status"])}
         />
       </div>
 

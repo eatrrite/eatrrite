@@ -93,7 +93,7 @@ export const QUESTIONNAIRE_QUESTIONS: QuestionnaireQuestion[] = [
     "key": "attempted_solutions",
     "label": "What have you already tried?",
     "type": "checkbox",
-    "required": false,
+    "required": true,
     "follow_key": "missing_piece",
     "follow_label": "What do you believe has been missing until now?",
     "follow_type": "textarea",

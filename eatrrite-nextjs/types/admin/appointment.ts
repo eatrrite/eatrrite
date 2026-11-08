@@ -1,27 +1,29 @@
 import type { QuestionnaireAnswers } from "@/features/appointment/types/questionnaire";
 
-export type ClinicAppointmentStatus =
+export type AppointmentStatus =
   | "upcoming"
   | "completed"
   | "not-attended"
   | "cancelled";
 
-export type ClinicAppointment = {
+export type Appointment = {
   id: string;
   leadId: string;
   date: string;
   time: string;
   service: string;
-  status: ClinicAppointmentStatus;
+  status: AppointmentStatus;
   notes?: string;
   meetLink?: string;
+  /** Razorpay payment id of a website booking. Stops one payment creating two appointments. */
+  paymentId?: string;
   questionnaire: QuestionnaireAnswers;
   createdAt: string;
   updatedAt: string;
 };
 
-export type ClinicAppointmentInput = Omit<
-  ClinicAppointment,
+export type AppointmentInput = Omit<
+  Appointment,
   "id" | "createdAt" | "updatedAt"
 >;
 
@@ -33,6 +35,6 @@ export type AppointmentDateFilter =
 
 export type AppointmentListFilters = {
   query: string;
-  status: "all" | ClinicAppointmentStatus;
+  status: "all" | AppointmentStatus;
   date: AppointmentDateFilter;
 };

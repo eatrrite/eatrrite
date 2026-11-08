@@ -43,7 +43,7 @@ export function SlotDialog({
       >
         <header className="flex items-center justify-between gap-3">
           <div>
-            <p className="m-0 text-xs tracking-[0.08em] text-muted-foreground uppercase">Choose a slot</p>
+            <p className="m-0 type-eyebrow">Choose a slot</p>
             <DialogTitle className="m-0 font-heading text-2xl font-bold text-primary">Date and time</DialogTitle>
           </div>
           <DialogClose className={iconButton} aria-label="Close">×</DialogClose>

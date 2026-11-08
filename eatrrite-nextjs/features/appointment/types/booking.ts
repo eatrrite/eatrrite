@@ -34,3 +34,10 @@ export type BookingSlot = {
   date: string;
   time: string;
 };
+
+/** A slot kept for a customer while their payment is in progress. */
+export type SlotHold = BookingSlot & {
+  id: string;
+  /** Epoch milliseconds. After this the slot is free again. */
+  expiresAt: number;
+};

@@ -58,7 +58,7 @@ export type BlockLayout = {
   endTime: string;
 };
 
-/** Absolute position within the clinic-day timeline. */
+/** Absolute position within the working-day timeline. */
 export function appointmentBlockLayout(startTime: string): BlockLayout | null {
   const start = parseTimeToMinutes(startTime);
   if (start === null) return null;

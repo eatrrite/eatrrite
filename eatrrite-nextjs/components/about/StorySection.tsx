@@ -5,7 +5,7 @@ import { SectionIntro } from "@/components/shared/section/SectionIntro";
 import about from "@/constants/about/content.json";
 import { pageFood } from "@/constants/home/floatingFood";
 
-// Our story in the Deccan Dentics about layout: text 3fr, photo 2fr.
+// Our story in the reference design about layout: text 3fr, photo 2fr.
 export function StorySection() {
   const { story } = about;
   return (

@@ -30,7 +30,7 @@ export function ProfileHeroCard() {
         </p>
         <p className="flex items-center gap-2.5 text-sm text-foreground">
           <MapPin className="size-3.5 shrink-0 text-muted-foreground" />
-          {profile.branch} branch
+          {profile.location}
         </p>
       </div>
     </DashboardCard>

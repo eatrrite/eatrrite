@@ -5,7 +5,7 @@ import home from "@/constants/home/content.json";
 import { PageSection } from "@/components/shared/section/PageSection";
 import { SectionIntro } from "@/components/shared/section/SectionIntro";
 
-// Why choose us in the Deccan Dentics layout: round image left, numbered reasons right.
+// Why choose us in the reference design layout: round image left, numbered reasons right.
 export function WhyChooseSection() {
   const { why } = home;
   return (

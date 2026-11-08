@@ -6,7 +6,7 @@ import { LinkButton } from "@/components/shared/section/LinkButton";
 import { SectionIntro } from "@/components/shared/section/SectionIntro";
 import { ProgramTabs } from "./ProgramTabs";
 
-// The "Built around your reports" programs section, in the Deccan services layout.
+// The "Built around your reports" programs section, in the reference services layout.
 export function ProgramsSection() {
   const { services } = home;
   return (

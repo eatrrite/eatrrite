@@ -51,10 +51,15 @@ async function openCheckout(order: CheckoutOrder, prefill: CheckoutPrefill): Pro
   }
   const Razorpay = window.Razorpay;
   return new Promise((resolve) => {
-    const checkout = new Razorpay(checkoutOptions(order, prefill, resolve));
-    checkout.on("payment.failed", (response) =>
-      resolve({ status: "failed", message: response.error.description ?? "Payment failed. Please try again." })
-    );
+    // A failed attempt is not the end: Razorpay lets the customer retry inside the
+    // window. Only a success or closing the window ends it, so a late success is never lost.
+    let lastFailure = "";
+    const finish = (result: CheckoutResult) =>
+      resolve(result.status === "dismissed" && lastFailure ? { status: "failed", message: lastFailure } : result);
+    const checkout = new Razorpay(checkoutOptions(order, prefill, finish));
+    checkout.on("payment.failed", (response) => {
+      lastFailure = response.error.description ?? "Payment failed. Please try again.";
+    });
     checkout.open();
   });
 }

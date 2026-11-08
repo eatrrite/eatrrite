@@ -1,10 +1,10 @@
 "use client";
 
 import { useMemo } from "react";
-import type { ClinicAppointment } from "@/types/admin/appointment";
+import type { Appointment } from "@/types/admin/appointment";
 import { CalendarMonthCell } from "@/components/admin/calendar/CalendarMonthCell";
 import {
-  dayStatusDotClasses,
+  dayDotClasses,
   groupAppointmentsByDate,
 } from "@/utils/admin/calendarAppointments";
 import {
@@ -16,7 +16,7 @@ type CalendarMonthViewProps = {
   month: Date;
   selected: Date;
   today: Date;
-  appointments: ClinicAppointment[];
+  appointments: Appointment[];
   onSelectDate: (date: Date) => void;
 };
 
@@ -53,7 +53,7 @@ export function CalendarMonthView({
           <CalendarMonthCell
             key={cell.dateKey}
             cell={cell}
-            dots={dayStatusDotClasses(byDate.get(cell.dateKey) ?? [])}
+            dots={dayDotClasses(byDate.get(cell.dateKey) ?? [])}
             onSelect={onSelectDate}
           />
         ))}

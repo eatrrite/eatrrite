@@ -2,7 +2,7 @@
 
 import { motion, type HTMLMotionProps } from "framer-motion";
 
-// Deccan Dentics reveal (same ease and trigger point), plus a blur that clears
+// reference design reveal (same ease and trigger point), plus a blur that clears
 // as the element slides up and fades in.
 const ease = [0.22, 1, 0.36, 1] as const;
 

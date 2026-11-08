@@ -37,9 +37,9 @@ export function CalendarMonthCell({
       </span>
       {dots.length > 0 ? (
         <span className="flex items-center justify-center gap-1">
-          {dots.slice(0, 4).map((dotClass) => (
+          {dots.slice(0, 4).map((dotClass, index) => (
             <span
-              key={dotClass}
+              key={`${dotClass}-${index}`}
               className={cn("size-1.5 rounded-full", dotClass)}
             />
           ))}

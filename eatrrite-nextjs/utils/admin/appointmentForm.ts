@@ -1,11 +1,11 @@
 import type {
-  ClinicAppointment,
-  ClinicAppointmentInput,
+  Appointment,
+  AppointmentInput,
 } from "@/types/admin/appointment";
 import type { Lead } from "@/types/admin/lead";
 import { applyLeadToQuestionnaire } from "@/utils/admin/leadQuestionnaire";
 
-const EMPTY: ClinicAppointmentInput = {
+const EMPTY: AppointmentInput = {
   leadId: "",
   date: "",
   time: "",
@@ -15,10 +15,10 @@ const EMPTY: ClinicAppointmentInput = {
 };
 
 export function appointmentToInput(
-  appointment: ClinicAppointment | null | undefined,
+  appointment: Appointment | null | undefined,
   leads: Lead[],
-  defaults?: Partial<ClinicAppointmentInput>,
-): ClinicAppointmentInput {
+  defaults?: Partial<AppointmentInput>,
+): AppointmentInput {
   if (appointment) {
     const lead = leads.find((item) => item.id === appointment.leadId);
     return {

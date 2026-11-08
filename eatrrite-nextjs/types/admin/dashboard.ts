@@ -1,4 +1,4 @@
-import type { ClinicAppointmentStatus } from "@/types/admin/appointment";
+import type { AppointmentStatus } from "@/types/admin/appointment";
 import type { LucideIcon } from "lucide-react";
 import type { IconTone } from "@/constants/admin/tones";
 import type { DateRange } from "react-day-picker";
@@ -9,24 +9,24 @@ export type AppointmentTrendPoint = {
   count: number;
 };
 
-export type VisitStatus = "completed" | "in_progress" | "upcoming";
+export type DashboardAppointmentStatus = "completed" | "in_progress" | "upcoming";
 
-export type DashboardVisit = {
+export type DashboardAppointment = {
   id: string;
   time: string;
   leadName: string;
   service: string;
-  status: VisitStatus;
+  status: DashboardAppointmentStatus;
 };
 
 export type RecentLeadRow = {
   id: string;
   name: string;
-  lastVisitLabel: string;
+  lastAppointmentLabel: string;
 };
 
 export type DashboardRange = "all" | "7d" | "month" | "3m" | "6m";
-export type DashboardStatusFilter = "all" | ClinicAppointmentStatus;
+export type DashboardStatusFilter = "all" | AppointmentStatus;
 
 export type DashboardFilters = {
   range: DashboardRange;

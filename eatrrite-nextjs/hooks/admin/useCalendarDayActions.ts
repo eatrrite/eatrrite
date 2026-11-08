@@ -2,30 +2,34 @@
 
 import { useState } from "react";
 import { useConfirmDialog } from "@/hooks/admin/useConfirmDialog";
-import { useShowToast } from "@/hooks/admin/useShowToast";
-import { useClinicStore } from "@/stores/adminStore";
+import { useShowToast } from "@/hooks/useShowToast";
+import { useAdminStore } from "@/stores/useAdminStore";
 import type {
-  ClinicAppointment,
-  ClinicAppointmentInput,
+  Appointment,
+  AppointmentInput,
 } from "@/types/admin/appointment";
 import { appointmentSaveToast } from "@/utils/admin/describeRecordChanges";
 
 export function useCalendarDayActions(selectedKey: string) {
-  const leads = useClinicStore((s) => s.leads);
-  const getLead = useClinicStore((s) => s.getLead);
-  const saveAppointment = useClinicStore((s) => s.saveAppointment);
-  const deleteAppointment = useClinicStore((s) => s.deleteAppointment);
+  const leads = useAdminStore((s) => s.leads);
+  const getLead = useAdminStore((s) => s.getLead);
+  const saveAppointment = useAdminStore((s) => s.saveAppointment);
+  const deleteAppointment = useAdminStore((s) => s.deleteAppointment);
   const showToast = useShowToast();
   const { ask, props: confirmProps } = useConfirmDialog();
 
   const [formOpen, setFormOpen] = useState(false);
-  const [editing, setEditing] = useState<ClinicAppointment | null>(null);
-  const [detail, setDetail] = useState<ClinicAppointment | null>(null);
-  const [defaults, setDefaults] = useState<Partial<ClinicAppointmentInput>>({});
+  const [editing, setEditing] = useState<Appointment | null>(null);
+  // Keep only the id and read the appointment from the store, so the sheet shows the saved
+  // changes straight away instead of the copy it had when it was opened.
+  const [detailId, setDetailId] = useState<string | null>(null);
+  const detail = useAdminStore((s) => s.appointments.find((item) => item.id === detailId) ?? null);
+  const setDetail = (item: Appointment | null) => setDetailId(item?.id ?? null);
+  const [defaults, setDefaults] = useState<Partial<AppointmentInput>>({});
 
   const leadName = (id: string) => getLead(id)?.name ?? "Unknown";
 
-  const save = (input: ClinicAppointmentInput) => {
+  const save = (input: AppointmentInput) => {
     const nextName = getLead(input.leadId)?.name ?? "Lead";
     const previousName = editing
       ? (getLead(editing.leadId)?.name ?? "Lead")
@@ -38,7 +42,7 @@ export function useCalendarDayActions(selectedKey: string) {
     showToast(appointmentSaveToast(editing, input, previousName, nextName));
   };
 
-  const remove = (item: ClinicAppointment) => {
+  const remove = (item: Appointment) => {
     const name = leadName(item.leadId);
     ask({
       title: "Delete appointment?",
@@ -56,13 +60,13 @@ export function useCalendarDayActions(selectedKey: string) {
     });
   };
 
-  const openCreate = (extra?: Partial<ClinicAppointmentInput>) => {
+  const openCreate = (extra?: Partial<AppointmentInput>) => {
     setEditing(null);
     setDefaults({ date: selectedKey, ...extra });
     setFormOpen(true);
   };
 
-  const openEdit = (item: ClinicAppointment) => {
+  const openEdit = (item: Appointment) => {
     setEditing(item);
     setDefaults({});
     setFormOpen(true);

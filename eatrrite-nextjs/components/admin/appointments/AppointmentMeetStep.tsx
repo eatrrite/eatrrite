@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { AppointmentLeadSummary } from "@/components/admin/appointments/AppointmentLeadSummary";
 import { Button } from "@/components/ui/button";
 import { APPOINTMENT_STATUS_LABELS } from "@/constants/admin/appointments/statuses";
-import type { ClinicAppointmentInput } from "@/types/admin/appointment";
+import type { AppointmentInput } from "@/types/admin/appointment";
 import type { Lead } from "@/types/admin/lead";
 import { hasAppointmentBasics } from "@/utils/admin/appointmentReady";
 import { formatDateLabel } from "@/utils/admin/date";
@@ -14,9 +14,9 @@ import { isAdminQuestionnaireComplete } from "@/utils/admin/leadQuestionnaire";
 import { formatTimeLabel } from "@/utils/admin/time";
 
 type AppointmentMeetStepProps = {
-  value: ClinicAppointmentInput;
+  value: AppointmentInput;
   lead: Lead | undefined;
-  onChange: (next: ClinicAppointmentInput) => void;
+  onChange: (next: AppointmentInput) => void;
 };
 
 function Ready({ done, children }: { done: boolean; children: string }) {

@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return program ? { title: program.name, description: program.summary } : {};
 }
 
-// Copies program.php in the Deccan section style. An unknown slug goes to /programs, as in PHP.
+// Copies program.php in the reference section style. An unknown slug goes to /programs, as in PHP.
 export default async function ProgramPage({ params }: Props) {
   const program = find((await params).slug);
   if (!program) redirect("/programs");

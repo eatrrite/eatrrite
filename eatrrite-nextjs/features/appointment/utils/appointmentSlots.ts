@@ -1,5 +1,5 @@
 import { APPOINTMENT_SETTINGS } from "@/features/appointment/constants/appointment-settings";
-import type { ClinicAppointment, ClinicAppointmentInput } from "@/types/admin/appointment";
+import type { Appointment, AppointmentInput } from "@/types/admin/appointment";
 import type { DaySchedule } from "@/types/admin/schedule";
 import type { OccupiedSlot } from "@/features/appointment/types/slots";
 import { scheduleToWeekly } from "@/features/appointment/utils/scheduleWeekly";
@@ -7,7 +7,7 @@ import { timesOverlap } from "@/features/appointment/utils/blocks";
 import { availableTimes, offeredTimes } from "@/features/appointment/utils/slots";
 
 // A cancelled appointment frees its slot. Every other status keeps it taken.
-export function occupiedFrom(appointments: ClinicAppointment[], ignoreId?: string): OccupiedSlot[] {
+export function occupiedFrom(appointments: Appointment[], ignoreId?: string): OccupiedSlot[] {
   return appointments
     .filter((item) => item.id !== ignoreId && item.status !== "cancelled")
     .map(({ date, time }) => ({ date, time }));
@@ -18,7 +18,7 @@ export function occupiedFrom(appointments: ClinicAppointment[], ignoreId?: strin
 export function adminSlotTimes(
   date: string,
   days: DaySchedule[],
-  appointments: ClinicAppointment[],
+  appointments: Appointment[],
   ignoreId?: string,
 ): string[] {
   if (!date) return [];
@@ -32,7 +32,7 @@ export function adminSlotTimes(
 export function hasSlotConflict(
   date: string,
   time: string,
-  appointments: ClinicAppointment[],
+  appointments: Appointment[],
   ignoreId?: string,
 ): boolean {
   return occupiedFrom(appointments, ignoreId).some((item) => item.date === date && timesOverlap(item.time, time));
@@ -41,10 +41,10 @@ export function hasSlotConflict(
 // Why an appointment cannot be saved at this time, or null. An edit that keeps
 // its date and time is always fine, so older records can still be changed.
 export function adminSlotError(
-  input: ClinicAppointmentInput,
+  input: AppointmentInput,
   days: DaySchedule[],
-  appointments: ClinicAppointment[],
-  original?: Pick<ClinicAppointment, "id" | "date" | "time"> | null,
+  appointments: Appointment[],
+  original?: Pick<Appointment, "id" | "date" | "time"> | null,
 ): string | null {
   if (input.status === "cancelled") return null;
   if (original && original.date === input.date && original.time === input.time) {

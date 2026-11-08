@@ -78,7 +78,7 @@
   --border: var(--er-color-border);
   --input: var(--er-color-input-border);
   --ring: var(--er-color-primary);
-  --radius: 0.875rem; /* Deccan Dentics control radius (buttons, fields) */
+  --radius: 0.875rem; /* reference design control radius (buttons, fields) */
 
   --chart-1: var(--er-color-primary);
   --chart-2: var(--er-color-accent);
@@ -210,7 +210,7 @@
   --text-xl--line-height: 1.7;
 }
 
-/* Admin base type, same as the Deccan Dentics base layer. */
+/* Admin base type, same as the reference design base layer. */
 @layer base {
   :root:has(.admin-shell) body {
     font-family: var(--font-body);
@@ -244,6 +244,21 @@
   :root:has(.admin-shell) :where(p) {
     margin: 0;
     line-height: 1.75;
+  }
+}
+
+/* Tailwind 4 leaves buttons with the arrow cursor. Anything you can press or pick shows the hand. */
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  [role="radio"],
+  [role="checkbox"],
+  [role="tab"],
+  [role="switch"],
+  [role="combobox"],
+  [role="option"],
+  summary {
+    cursor: pointer;
   }
 }
 
@@ -332,6 +347,7 @@
 @utility type-lead {
   font-size: 18px;
 }
+/* The handwritten line above a section heading, as on the home page. Use it for every eyebrow. */
 @utility type-eyebrow {
   font-family: var(--font-script);
   font-size: 1.5rem;
@@ -339,6 +355,10 @@
   letter-spacing: 0;
   text-transform: none;
   line-height: 1;
+  color: var(--primary);
+  @media (width >= 40rem) {
+    font-size: 1.875rem;
+  }
 }
 @utility type-field-label {
   font-size: 12px;
@@ -358,7 +378,7 @@
   text-transform: uppercase;
 }
 
-/* ---- Admin surfaces and buttons, ported from Deccan Dentics globals.css ---- */
+/* ---- Admin surfaces and buttons, ported from reference design globals.css ---- */
 /* Shared 3D elevated button shell — color comes from each variant utility */
 @utility btn-elevated {
   border-radius: var(--radius);

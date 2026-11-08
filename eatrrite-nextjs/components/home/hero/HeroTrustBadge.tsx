@@ -6,7 +6,7 @@ import home from "@/constants/home/content.json";
 const PHOTOS = home.testimonials.items.flatMap((item) => (item.image ? [{ src: item.image, name: item.name }] : []));
 const LIVES = home.about.stats.find((stat) => stat.label === "Lives Transformed")?.value ?? "500+";
 
-// Deccan Dentics "Trusted by" badge, using the testimonial photos and the
+// reference design "Trusted by" badge, using the testimonial photos and the
 // "Lives Transformed" stat already on the site.
 export function HeroTrustBadge({ className }: { className?: string }) {
   return (

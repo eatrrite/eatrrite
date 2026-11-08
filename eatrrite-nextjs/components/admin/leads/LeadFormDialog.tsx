@@ -24,8 +24,8 @@ function toInput(lead?: Lead | null): LeadInput {
   return {
     name: lead.name,
     phone: lead.phone,
-    age: lead.age,
-    gender: lead.gender,
+    age: lead.age ?? 30,
+    gender: lead.gender ?? "Female",
     profession: lead.profession,
     email: lead.email,
     address: lead.address,

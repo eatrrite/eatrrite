@@ -5,7 +5,7 @@ import { PageSection } from "@/components/shared/section/PageSection";
 import { SectionIntro } from "@/components/shared/section/SectionIntro";
 import { TestimonialsCarousel } from "./TestimonialsCarousel";
 
-// Client stories in the Deccan Dentics reviews layout.
+// Client stories in the reference design reviews layout.
 export function TestimonialsSection() {
   const stories = home.testimonials;
   return (

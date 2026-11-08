@@ -14,21 +14,22 @@ export function adminQuestionnaireQuestions(): QuestionnaireQuestion[] {
 
 /** Build name/age/gender answers from the selected lead. */
 export function answersFromLead(lead: Lead): QuestionnaireAnswers {
-  const answers: QuestionnaireAnswers = [
-    { key: "name", answer: lead.name },
-    { key: "age", answer: String(lead.age) },
-  ];
+  const answers: QuestionnaireAnswers = [{ key: "name", answer: lead.name }];
+  if (lead.age) answers.push({ key: "age", answer: String(lead.age) });
   if (lead.gender) answers.push({ key: "gender", answer: lead.gender });
   return answers;
 }
 
-/** Replace name/age/gender on the questionnaire with the lead's values. */
+/** Replace name/age/gender on the questionnaire with the lead's values.
+ *  A questionnaire with no real answers stays empty, so saving an appointment never
+ *  makes an untouched questionnaire look filled in. */
 export function applyLeadToQuestionnaire(
   answers: QuestionnaireAnswers,
   lead: Lead | undefined,
 ): QuestionnaireAnswers {
   if (!lead) return answers;
   let next = answers.filter((item) => !isProfileQuestionKey(item.key));
+  if (next.length === 0) return [];
   for (const item of answersFromLead(lead)) {
     next = setAnswerForKey(next, item.key, item.answer);
   }

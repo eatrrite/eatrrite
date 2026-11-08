@@ -11,13 +11,13 @@ import { HeroTrustBadge } from "./hero/HeroTrustBadge";
 import { HeroSlides } from "./HeroSlides";
 
 // Last two words of the title get the accent colour and brush mark, as in the
-// Deccan Dentics hero ("Healthier You").
+// reference design hero ("Healthier You").
 function splitTitle(title: string) {
   const words = title.split(" ");
   return [words.slice(0, -2).join(" "), words.slice(-2).join(" ")];
 }
 
-// Background slides and overlay are unchanged. The left side copies the Deccan
+// Background slides and overlay are unchanged. The left side copies the reference
 // Dentics hero: eyebrow, headline, lead, buttons, features and trust badge.
 export function Hero() {
   const { hero } = home;
@@ -70,8 +70,9 @@ export function Hero() {
           </HeroMotion>
         </div>
       </div>
-      <HeroMotion delay={0.7} className="absolute right-[max(1.25rem,calc((100vw-1200px)/2))] bottom-10 z-3 hidden lg:block">
-        <HeroTrustBadge />
+      {/* Desktop: pinned to the right edge, centred vertically, tilted 45 degrees about its centre. translate-x-4 puts its corner on the edge. */}
+      <HeroMotion delay={0.7} className="absolute top-10 right-20 z-3 hidden lg:block">
+        <HeroTrustBadge className="translate-x-4" />
       </HeroMotion>
     </section>
   );

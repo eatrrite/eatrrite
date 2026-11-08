@@ -1,13 +1,13 @@
-import type { ClinicAppointmentStatus } from "@/types/admin/appointment";
+import type { AppointmentStatus } from "@/types/admin/appointment";
 
 export const APPOINTMENT_STATUSES = [
   "upcoming",
   "completed",
   "not-attended",
   "cancelled",
-] as const satisfies readonly ClinicAppointmentStatus[];
+] as const satisfies readonly AppointmentStatus[];
 
-export const APPOINTMENT_STATUS_LABELS: Record<ClinicAppointmentStatus, string> =
+export const APPOINTMENT_STATUS_LABELS: Record<AppointmentStatus, string> =
   {
     upcoming: "Upcoming",
     completed: "Completed",

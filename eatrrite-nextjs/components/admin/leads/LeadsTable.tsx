@@ -9,8 +9,8 @@ import { LeadsToolbar } from "@/components/admin/leads/LeadsToolbar";
 import { ConfirmationModal } from "@/components/admin/ConfirmationModal";
 import { useConfirmDialog } from "@/hooks/admin/useConfirmDialog";
 import { useSelectedRow } from "@/hooks/admin/useSelectedRow";
-import { useShowToast } from "@/hooks/admin/useShowToast";
-import { useClinicStore } from "@/stores/adminStore";
+import { useShowToast } from "@/hooks/useShowToast";
+import { useAdminStore } from "@/stores/useAdminStore";
 import type { Lead, LeadInput } from "@/types/admin/lead";
 import type { LeadListFilters } from "@/types/admin/lead";
 import { leadSaveToast } from "@/utils/admin/describeRecordChanges";
@@ -22,12 +22,12 @@ const INITIAL_FILTERS: LeadListFilters = {
 };
 
 export function LeadsTable() {
-  const leads = useClinicStore((s) => s.leads);
-  const addLead = useClinicStore((s) => s.addLead);
-  const updateLead = useClinicStore((s) => s.updateLead);
-  const deleteLead = useClinicStore((s) => s.deleteLead);
-  const appointments = useClinicStore((s) => s.appointments);
-  const deleteAppointment = useClinicStore((s) => s.deleteAppointment);
+  const leads = useAdminStore((s) => s.leads);
+  const addLead = useAdminStore((s) => s.addLead);
+  const updateLead = useAdminStore((s) => s.updateLead);
+  const deleteLead = useAdminStore((s) => s.deleteLead);
+  const appointments = useAdminStore((s) => s.appointments);
+  const deleteAppointment = useAdminStore((s) => s.deleteAppointment);
   const [filters, setFilters] = useState(INITIAL_FILTERS);
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<Lead | null>(null);

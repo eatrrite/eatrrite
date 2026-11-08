@@ -1,12 +1,12 @@
 "use client";
 
 import { AdminStatCard } from "@/components/admin/AdminStatCard";
-import { useClinicStore } from "@/stores/adminStore";
+import { useAdminStore } from "@/stores/useAdminStore";
 
 export function ProfileStats() {
-  const leads = useClinicStore((s) => s.leads);
-  const appointments = useClinicStore((s) => s.appointments);
-  const todos = useClinicStore((s) => s.todos);
+  const leads = useAdminStore((s) => s.leads);
+  const appointments = useAdminStore((s) => s.appointments);
+  const todos = useAdminStore((s) => s.todos);
   const openTodos = todos.filter((todo) => !todo.done).length;
 
   return (

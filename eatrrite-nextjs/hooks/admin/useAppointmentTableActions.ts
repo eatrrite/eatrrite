@@ -2,25 +2,25 @@
 
 import { useState } from "react";
 import { useConfirmDialog } from "@/hooks/admin/useConfirmDialog";
-import { useShowToast } from "@/hooks/admin/useShowToast";
-import { useClinicStore } from "@/stores/adminStore";
+import { useShowToast } from "@/hooks/useShowToast";
+import { useAdminStore } from "@/stores/useAdminStore";
 import type {
-  ClinicAppointment,
-  ClinicAppointmentInput,
+  Appointment,
+  AppointmentInput,
 } from "@/types/admin/appointment";
 import { appointmentSaveToast } from "@/utils/admin/describeRecordChanges";
 
 /** Create/edit/delete handlers for the appointments table. */
 export function useAppointmentTableActions() {
-  const getLead = useClinicStore((s) => s.getLead);
-  const saveAppointment = useClinicStore((s) => s.saveAppointment);
-  const deleteAppointment = useClinicStore((s) => s.deleteAppointment);
+  const getLead = useAdminStore((s) => s.getLead);
+  const saveAppointment = useAdminStore((s) => s.saveAppointment);
+  const deleteAppointment = useAdminStore((s) => s.deleteAppointment);
   const [open, setOpen] = useState(false);
-  const [editing, setEditing] = useState<ClinicAppointment | null>(null);
+  const [editing, setEditing] = useState<Appointment | null>(null);
   const { ask, props: confirmProps } = useConfirmDialog();
   const showToast = useShowToast();
 
-  const save = (input: ClinicAppointmentInput) => {
+  const save = (input: AppointmentInput) => {
     const nextName = getLead(input.leadId)?.name ?? "Lead";
     const previousName = editing
       ? (getLead(editing.leadId)?.name ?? "Lead")
@@ -33,7 +33,7 @@ export function useAppointmentTableActions() {
     showToast(appointmentSaveToast(editing, input, previousName, nextName));
   };
 
-  const remove = (item: ClinicAppointment) => {
+  const remove = (item: Appointment) => {
     const name = getLead(item.leadId)?.name ?? "this appointment";
     ask({
       title: "Delete appointment?",
@@ -55,7 +55,7 @@ export function useAppointmentTableActions() {
     setOpen(true);
   };
 
-  const startEdit = (item: ClinicAppointment) => {
+  const startEdit = (item: Appointment) => {
     setEditing(item);
     setOpen(true);
   };

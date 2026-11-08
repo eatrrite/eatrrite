@@ -3,7 +3,7 @@ import home from "@/constants/home/content.json";
 
 type Stat = { value: string; label: string; href?: string };
 
-// Timeline of stats with numbered rows, as in the Deccan Dentics AboutStats.
+// Timeline of stats with numbered rows, as in the reference design AboutStats.
 export function FounderStats() {
   return (
     <ol className="mt-8 mb-0 grid gap-1 border-l border-border pl-5">

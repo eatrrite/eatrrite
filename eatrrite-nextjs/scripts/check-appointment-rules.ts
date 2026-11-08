@@ -1,7 +1,7 @@
 // Checks the appointment rules against the PHP behaviour. Run: bun run check:rules
 import assert from "node:assert/strict";
 import { EATRRITE_AVAILABLE_TIMES } from "@/features/appointment/constants/eatrrite-available-times";
-import type { ClinicAppointment } from "@/types/admin/appointment";
+import type { Appointment } from "@/types/admin/appointment";
 import { adminSlotError, adminSlotTimes, occupiedFrom } from "@/features/appointment/utils/appointmentSlots";
 import { scheduleToWeekly, weeklyToSchedule } from "@/features/appointment/utils/scheduleWeekly";
 import { mergeBlocks, timesOverlap } from "@/features/appointment/utils/blocks";
@@ -121,7 +121,7 @@ check("admin schedule round-trips the real working hours", () => {
   assert.equal(scheduleToWeekly(broken).monday.length, 2);
 });
 
-const appointment = (id: string, date: string, time: string, status: ClinicAppointment["status"] = "upcoming"): ClinicAppointment => ({
+const appointment = (id: string, date: string, time: string, status: Appointment["status"] = "upcoming"): Appointment => ({
   id, leadId: "l", date, time, service: "s", status, questionnaire: [], createdAt: "", updatedAt: "",
 });
 const days = weeklyToSchedule(EATRRITE_AVAILABLE_TIMES);

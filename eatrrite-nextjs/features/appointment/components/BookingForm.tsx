@@ -7,16 +7,19 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { APPOINTMENT_SETTINGS, SERVICES } from "@/features/appointment/constants/appointment-settings";
 import { hoursNote } from "@/features/appointment/utils/hours";
+import { validateBooking } from "@/features/appointment/utils/validateBooking";
 import { useBooking } from "@/features/appointment/hooks/useBooking";
+import { useShowToast } from "@/hooks/useShowToast";
 import type { BookingSlot } from "@/features/appointment/types/booking";
 import { SlotDialog } from "./SlotDialog";
 import { SlotTrigger } from "./SlotTrigger";
 
 const EMPTY = { service: "", name: "", email: "", phone: "" };
 
-// Copies appointment-form/views/form.php. Payment runs through useBooking.
+// Copies appointment-form/views/form.php. The details are checked here, then useBooking runs the payment.
 export function BookingForm({ feeRupees }: { feeRupees: number }) {
-  const { book, busy, error, setError } = useBooking();
+  const { book, busy, error } = useBooking();
+  const showToast = useShowToast();
   const [fields, setFields] = useState(EMPTY);
   const [slot, setSlot] = useState<BookingSlot | null>(null);
   const [slotOpen, setSlotOpen] = useState(false);
@@ -26,8 +29,13 @@ export function BookingForm({ feeRupees }: { feeRupees: number }) {
 
   function submit(event: React.FormEvent) {
     event.preventDefault();
-    if (!slot) return setError("Select an available date and time to continue.");
-    book({ ...fields, ...slot });
+    if (busy) return;
+    const checked = validateBooking({ ...fields, ...slot });
+    if (typeof checked === "string") {
+      showToast({ title: "Please check your details", description: checked, type: "error" });
+      return;
+    }
+    book(checked);
   }
 
   return (

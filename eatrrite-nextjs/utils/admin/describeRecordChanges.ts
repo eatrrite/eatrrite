@@ -1,8 +1,8 @@
 import { APPOINTMENT_STATUS_LABELS } from "@/constants/admin/appointments/statuses";
-import type { ShowToastInput } from "@/hooks/admin/useShowToast";
+import type { ShowToastInput } from "@/hooks/useShowToast";
 import type {
-  ClinicAppointment,
-  ClinicAppointmentInput,
+  Appointment,
+  AppointmentInput,
 } from "@/types/admin/appointment";
 import type { Lead, LeadInput } from "@/types/admin/lead";
 
@@ -35,7 +35,7 @@ export function leadSaveToast(
     return {
       title: "Lead added",
       description: [
-        `${input.name} (${input.age} years`,
+        `${input.name} (${input.age ?? "age not set"}${input.age ? " years" : ""}`,
         input.profession ? `, ${input.profession}` : "",
         ") was added to the lead list.",
       ].join(""),
@@ -45,8 +45,8 @@ export function leadSaveToast(
   const changes: FieldChange[] = [];
   pushIfChanged(changes, "name", editing.name, input.name);
   pushIfChanged(changes, "phone", editing.phone, input.phone);
-  pushIfChanged(changes, "age", String(editing.age), String(input.age));
-  pushIfChanged(changes, "gender", editing.gender, input.gender);
+  pushIfChanged(changes, "age", String(editing.age ?? "not set"), String(input.age ?? "not set"));
+  pushIfChanged(changes, "gender", editing.gender ?? "not set", input.gender ?? "not set");
   pushIfChanged(
     changes,
     "profession",
@@ -63,8 +63,8 @@ export function leadSaveToast(
 }
 
 export function appointmentSaveToast(
-  editing: ClinicAppointment | null,
-  input: ClinicAppointmentInput,
+  editing: Appointment | null,
+  input: AppointmentInput,
   previousLeadName: string,
   nextLeadName: string,
 ): ShowToastInput {

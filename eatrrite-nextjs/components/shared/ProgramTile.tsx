@@ -5,7 +5,7 @@ import { programPath } from "@/constants/routes";
 
 type Program = { slug: string; short: string; image: string; summary: string };
 
-// One program card in the Deccan Dentics card style.
+// One program card in the reference design card style.
 export function ProgramTile({ program, index, linkLabel = "Learn More" }: { program: Program; index: number; linkLabel?: string }) {
   return (
     <Link href={programPath(program.slug)} className="group flex h-full flex-col overflow-hidden rounded-lg border border-border bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-card">

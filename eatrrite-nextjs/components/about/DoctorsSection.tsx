@@ -5,7 +5,7 @@ import { SectionIntro } from "@/components/shared/section/SectionIntro";
 import about from "@/constants/about/content.json";
 import { pageFood } from "@/constants/home/floatingFood";
 
-// Doctors on board: a Deccan-style card with a details timeline.
+// Doctors on board: a reference-style card with a details timeline.
 export function DoctorsSection() {
   const { doctors } = about;
   return (
@@ -25,7 +25,7 @@ export function DoctorsSection() {
                 <Image src={doctor.image} alt={doctor.name} fill sizes="220px" className="object-cover object-[center_22%]" />
               </div>
               <div className="min-w-0">
-                <p className="m-0 font-script text-2xl text-primary sm:text-3xl">{doctor.designation}</p>
+                <p className="m-0 type-eyebrow">{doctor.designation}</p>
                 <h3 className="mt-1 mb-0 font-heading text-2xl font-bold text-ink">{doctor.name}</h3>
                 <dl className="mt-5 mb-0 grid gap-1 border-l border-border pl-5 sm:grid-cols-2 sm:gap-x-6">
                   {rows.map(([label, value]) => (

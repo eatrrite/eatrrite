@@ -1,10 +1,10 @@
-import type { ClinicAppointment } from "@/types/admin/appointment";
+import type { Appointment } from "@/types/admin/appointment";
 import type { Lead } from "@/types/admin/lead";
 import type { DashboardFilters, DashboardStatusFilter } from "@/types/admin/dashboard";
 import { isInWindow, type DateWindow } from "@/utils/admin/dashboardRange";
 
 function matchStatus(
-  appointment: ClinicAppointment,
+  appointment: Appointment,
   status: DashboardStatusFilter,
 ): boolean {
   return status === "all" || appointment.status === status;
@@ -22,7 +22,7 @@ export function countLeads(leads: Lead[], window: DateWindow) {
 }
 
 export function countAppointments(
-  appointments: ClinicAppointment[],
+  appointments: Appointment[],
   filters: DashboardFilters,
   window: DateWindow,
 ) {
@@ -32,7 +32,7 @@ export function countAppointments(
 }
 
 export function countCompleted(
-  appointments: ClinicAppointment[],
+  appointments: Appointment[],
   filters: DashboardFilters,
   window: DateWindow,
 ) {

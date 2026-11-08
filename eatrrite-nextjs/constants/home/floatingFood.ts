@@ -1,5 +1,5 @@
 // Faint food icons that drift behind each home section (desktop only), in the
-// same spots and opacity as the floating tools on the Deccan Dentics home page.
+// same spots and opacity as the floating tools on the reference design home page.
 export type FoodIcon = "apple" | "carrot" | "salad" | "leaf" | "wheat" | "citrus" | "cherry" | "grape" | "banana" | "sprout";
 
 export type FloatingFoodItem = {

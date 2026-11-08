@@ -1,12 +1,12 @@
 "use client";
 
 import { AppointmentStatusBadge } from "@/components/admin/appointments/AppointmentStatusBadge";
-import type { ClinicAppointment } from "@/types/admin/appointment";
+import type { Appointment } from "@/types/admin/appointment";
 import type { DataTableColumn } from "@/types/admin/dataTable";
 
 export function getAppointmentListColumns(
   leadName: (leadId: string) => string,
-): DataTableColumn<ClinicAppointment>[] {
+): DataTableColumn<Appointment>[] {
   return [
     {
       key: "lead",

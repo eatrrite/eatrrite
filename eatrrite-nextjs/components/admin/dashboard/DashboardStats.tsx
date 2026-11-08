@@ -3,7 +3,7 @@
 import { parseISO } from "date-fns";
 import { StatsCard } from "@/components/admin/dashboard/StatsCard";
 import { DASHBOARD_REFERENCE_DATE } from "@/constants/admin/dashboard/reference";
-import { useClinicStore } from "@/stores/adminStore";
+import { useAdminStore } from "@/stores/useAdminStore";
 import type { DashboardFilters } from "@/types/admin/dashboard";
 import { buildDashboardStats } from "@/utils/admin/dashboardStats";
 
@@ -12,8 +12,8 @@ type DashboardStatsProps = {
 };
 
 export function DashboardStats({ filters }: DashboardStatsProps) {
-  const leads = useClinicStore((s) => s.leads);
-  const appointments = useClinicStore((s) => s.appointments);
+  const leads = useAdminStore((s) => s.leads);
+  const appointments = useAdminStore((s) => s.appointments);
   const cards = buildDashboardStats(
     leads,
     appointments,

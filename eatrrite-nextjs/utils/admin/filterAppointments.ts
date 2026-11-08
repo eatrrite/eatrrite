@@ -11,7 +11,7 @@ import type { AppointmentDateFilter } from "@/types/admin/appointment";
 import { DASHBOARD_REFERENCE_DATE } from "@/constants/admin/dashboard/reference";
 import type {
   AppointmentListFilters,
-  ClinicAppointment,
+  Appointment,
 } from "@/types/admin/appointment";
 import type { Lead } from "@/types/admin/lead";
 
@@ -37,10 +37,10 @@ function matchesDateFilter(
 }
 
 export function filterAppointments(
-  appointments: ClinicAppointment[],
+  appointments: Appointment[],
   leads: Lead[],
   filters: AppointmentListFilters,
-): ClinicAppointment[] {
+): Appointment[] {
   const query = filters.query.trim().toLowerCase();
   const reference = parseISO(DASHBOARD_REFERENCE_DATE);
   const names = new Map(leads.map((lead) => [lead.id, lead.name.toLowerCase()]));

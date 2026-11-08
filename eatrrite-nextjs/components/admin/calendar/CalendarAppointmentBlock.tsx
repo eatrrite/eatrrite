@@ -1,12 +1,12 @@
 "use client";
 
-import type { ClinicAppointment } from "@/types/admin/appointment";
+import type { Appointment } from "@/types/admin/appointment";
 import { APPOINTMENT_BLOCK_CLASS } from "@/constants/admin/calendar/blocks";
 import { formatTimeRange } from "@/utils/admin/calendarTime";
 import { cn } from "cn";
 
 type CalendarAppointmentBlockProps = {
-  appointment: ClinicAppointment;
+  appointment: Appointment;
   leadName: string;
   topPx: number;
   heightPx: number;

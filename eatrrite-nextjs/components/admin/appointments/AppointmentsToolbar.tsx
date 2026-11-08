@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useShowToast } from "@/hooks/admin/useShowToast";
+import { useShowToast } from "@/hooks/useShowToast";
 import type {
   AppointmentDateFilter,
   AppointmentListFilters,

@@ -3,7 +3,7 @@ import { Caveat, Libre_Baskerville, Merriweather } from "next/font/google";
 import { BRAND } from "@/constants/brand";
 import "./globals.css";
 
-// Same three families as the Deccan Dentics site: Libre Baskerville for
+// Same three families as the reference design site: Libre Baskerville for
 // headings, Merriweather for body text, Caveat for handwritten accents.
 const libreBaskerville = Libre_Baskerville({
   variable: "--font-libre-baskerville",

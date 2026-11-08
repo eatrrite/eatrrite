@@ -2,6 +2,7 @@ import { cacheLife } from "next/cache";
 import Image from "next/image";
 import Link from "next/link";
 import { Clock3, Mail, MapPin, Phone } from "lucide-react";
+import { WorkingHours } from "@/components/layout/WorkingHours";
 import { BlurIn } from "@/components/motion/BlurIn";
 import { BRAND } from "@/constants/brand";
 import programs from "@/constants/programs/programs.json";
@@ -20,7 +21,7 @@ function FooterTitle({ children }: { children: React.ReactNode }) {
   return <h3 className="m-0 font-heading text-base font-bold text-ink">{children}</h3>;
 }
 
-// Light footer in the Deccan Dentics layout. Copy and links match the PHP footer.
+// Light footer in the reference design layout. Copy and links match the PHP footer.
 export async function SiteFooter() {
   const year = await currentYear();
   return (
@@ -53,7 +54,7 @@ export async function SiteFooter() {
           <ul className="mt-4 mb-0 grid gap-3 p-0 text-sm text-text">
             <li className="flex items-center gap-2.5"><Mail className="size-4 shrink-0 text-primary" /><a className={link} href={BRAND.emailHref}>{BRAND.email}</a></li>
             <li className="flex items-center gap-2.5"><Phone className="size-4 shrink-0 text-primary" /><a className={link} href={BRAND.phoneHref}>{BRAND.phone}</a></li>
-            <li className="flex items-center gap-2.5"><Clock3 className="size-4 shrink-0 text-primary" />{BRAND.hours}</li>
+            <li className="flex items-center gap-2.5"><Clock3 className="size-4 shrink-0 text-primary" /><WorkingHours /></li>
             <li className="flex gap-2.5">
               <MapPin className="mt-0.5 size-4 shrink-0 text-primary" />
               <span>{BRAND.address1} &amp; {BRAND.address2}<br /><span className="text-xs text-muted-foreground">{BRAND.locationsNote}</span></span>

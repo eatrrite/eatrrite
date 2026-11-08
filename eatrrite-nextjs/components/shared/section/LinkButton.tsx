@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { VariantProps } from "class-variance-authority";
 import { Button, buttonVariants } from "@/components/ui/button";
 
-// The shadcn (Deccan style) Button rendered as a Next.js link.
+// The shadcn (reference style) Button rendered as a Next.js link.
 export function LinkButton({
   href,
   variant,

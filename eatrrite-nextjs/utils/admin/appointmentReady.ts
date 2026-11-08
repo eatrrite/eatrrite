@@ -1,8 +1,8 @@
-import type { ClinicAppointmentInput } from "@/types/admin/appointment";
+import type { AppointmentInput } from "@/types/admin/appointment";
 import type { Lead } from "@/types/admin/lead";
 import { isAdminQuestionnaireComplete } from "@/utils/admin/leadQuestionnaire";
 
-export function hasAppointmentBasics(input: ClinicAppointmentInput): boolean {
+export function hasAppointmentBasics(input: AppointmentInput): boolean {
   return Boolean(
     input.leadId &&
       input.date &&
@@ -12,13 +12,13 @@ export function hasAppointmentBasics(input: ClinicAppointmentInput): boolean {
   );
 }
 
-export function hasMeetLink(input: ClinicAppointmentInput): boolean {
+export function hasMeetLink(input: AppointmentInput): boolean {
   return Boolean(input.meetLink?.trim());
 }
 
 /** Save is allowed only when basics, questionnaire, and Meet link are ready. */
 export function canSaveAppointment(
-  input: ClinicAppointmentInput,
+  input: AppointmentInput,
   lead: Lead | undefined,
 ): boolean {
   return (
@@ -29,7 +29,7 @@ export function canSaveAppointment(
 }
 
 /** Names of the booking fields still empty, for the "what's missing" hint. */
-export function missingBasics(input: ClinicAppointmentInput): string[] {
+export function missingBasics(input: AppointmentInput): string[] {
   const missing: string[] = [];
   if (!input.leadId) missing.push("lead");
   if (!input.date) missing.push("date");

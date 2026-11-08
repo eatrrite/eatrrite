@@ -1,10 +1,10 @@
 "use client";
 
 import { cn } from "cn";
-import { useSlotTimes } from "@/features/appointment/hooks/useSlotTimes";
+import { useCustomerTimes } from "@/features/appointment/hooks/useCustomerTimes";
 import { displayDate, displayTime } from "@/features/appointment/utils/istTime";
 
-// Open times for one day, loaded from the server so taken slots are hidden.
+// Open times for one day, from the store so booked and held slots are hidden.
 export function TimeGrid({
   date,
   selected,
@@ -14,22 +14,19 @@ export function TimeGrid({
   selected: string;
   onSelect: (time: string) => void;
 }) {
-  const { loading, times } = useSlotTimes(date);
-  const meta = loading ? "Loading…" : times === null ? "" : `${times.length} slots open`;
+  const timesFor = useCustomerTimes();
+  const times = date ? timesFor(date) : [];
   return (
     <div className="mt-4 border-t border-slot-line pt-4">
       <div className="flex items-center justify-between gap-3">
         <strong className="text-primary">{date ? displayDate(date) : "Select a date"}</strong>
-        {date ? <span className="text-sm text-muted-foreground">{meta}</span> : null}
+        {date ? <span className="text-sm text-muted-foreground">{times.length} slots open</span> : null}
       </div>
-      {times === null ? (
-        <p className="mt-3 mb-0 text-sm text-muted-foreground">Unable to load available slots.</p>
-      ) : null}
-      {date && !loading && times?.length === 0 ? (
+      {date && times.length === 0 ? (
         <p className="mt-3 mb-0 text-sm text-muted-foreground">No consultation slots on this date.</p>
       ) : null}
       <div className="mt-3 grid grid-cols-3 gap-2 min-[576px]:grid-cols-4">
-        {(times ?? []).map((time) => (
+        {times.map((time) => (
           <button
             key={time}
             type="button"

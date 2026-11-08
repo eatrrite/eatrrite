@@ -6,7 +6,7 @@ import { ROUTES } from "@/constants/routes";
 
 type Package = { name: string; blurb: string; featured?: boolean };
 
-// Program lengths as Deccan-style cards. No fees: Mukta keeps them unpublished.
+// Program lengths as reference-style cards. No fees: Mukta keeps them unpublished.
 export function PackageCards({ badge = false }: { badge?: boolean }) {
   return (
     <div className="mt-10 grid gap-5 md:grid-cols-3">

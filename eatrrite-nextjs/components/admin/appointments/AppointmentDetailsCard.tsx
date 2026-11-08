@@ -4,10 +4,10 @@ import { Pencil, Trash2 } from "lucide-react";
 import { AppointmentDetailsBody } from "@/components/admin/appointments/AppointmentDetailsBody";
 import { Button } from "@/components/ui/button";
 import { HeroMotion } from "@/components/motion/FadeIn";
-import type { ClinicAppointment } from "@/types/admin/appointment";
+import type { Appointment } from "@/types/admin/appointment";
 
 type AppointmentDetailsCardProps = {
-  appointment: ClinicAppointment | null;
+  appointment: Appointment | null;
   leadName: string;
   onEdit: () => void;
   onDelete: () => void;

@@ -13,7 +13,7 @@ const ICONS = {
   "fa-handshake": faHandshake,
 };
 
-// Four steps on a connected rail, in the Deccan Dentics card style.
+// Four steps on a connected rail, in the reference design card style.
 export function ProcessSection() {
   const { process } = home;
   return (

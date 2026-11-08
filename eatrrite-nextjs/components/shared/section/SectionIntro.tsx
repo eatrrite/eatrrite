@@ -2,7 +2,7 @@ import { cn } from "cn";
 import { BlurIn } from "@/components/motion/BlurIn";
 
 // Eyebrow, optional italic accent, title, lead and a large faded count, each
-// revealed one after another. Copies the Deccan Dentics section headings.
+// revealed one after another. Copies the reference design section headings.
 export function SectionIntro({
   eyebrow,
   accent,
@@ -23,11 +23,11 @@ export function SectionIntro({
   return (
     <div className={cn("max-w-3xl", center && "mx-auto text-center", className)}>
       <BlurIn>
-        <p className="mb-0 font-script text-2xl leading-none text-primary sm:text-3xl">{eyebrow}</p>
+        <p className="mb-0 type-eyebrow">{eyebrow}</p>
       </BlurIn>
       {accent ? (
         <BlurIn delay={0.05}>
-          <p className="mt-3 mb-0 font-script text-2xl text-primary sm:text-3xl">{accent}</p>
+          <p className="mt-3 mb-0 type-eyebrow">{accent}</p>
         </BlurIn>
       ) : null}
       <BlurIn delay={0.1}>

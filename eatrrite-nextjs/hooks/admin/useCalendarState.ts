@@ -13,7 +13,7 @@ import { DASHBOARD_REFERENCE_DATE } from "@/constants/admin/dashboard/reference"
 import type { CalendarView } from "@/types/admin/calendar";
 import { toDateValue } from "@/utils/admin/date";
 
-/** Clinic “today” — fixed to seed reference (no `new Date()` in render). */
+/** The admin “today” — fixed to seed reference (no `new Date()` in render). */
 export function getCalendarToday(): Date {
   return parseISO(DASHBOARD_REFERENCE_DATE);
 }

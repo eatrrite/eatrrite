@@ -7,12 +7,12 @@ import {
 } from "@/components/admin/dashboard/DashboardCard";
 import { SettingsToggleRow } from "@/components/admin/settings/SettingsToggleRow";
 import { SETTINGS_TOGGLES } from "@/constants/admin/settings";
-import { useShowToast } from "@/hooks/admin/useShowToast";
-import { useClinicStore } from "@/stores/adminStore";
+import { useShowToast } from "@/hooks/useShowToast";
+import { useAdminStore } from "@/stores/useAdminStore";
 
 export function SettingsPanel() {
   const showToast = useShowToast();
-  const settings = useClinicStore();
+  const settings = useAdminStore();
 
   return (
     <DashboardCard>

@@ -69,7 +69,46 @@ The booking API returns 409 for `taken` and 400 for the others. The server check
 - The Schedule page edits the weekly hours in the store (`days`). They are converted to the plain weekly hours the rules read (`scheduleToWeekly`).
 - The appointment form offers only times the schedule allows on the chosen date, minus taken blocks. Closed days offer none.
 - The store's `saveAppointment` checks the same rules: the time must fall in the working hours, and no other appointment may overlap its 45 minutes. A cancelled appointment frees its slot. An edit that keeps its own date and time always saves.
-- The admin may record past visits, so the past-time and 30-day rules apply to customers only.
+- The admin may record past appointments, so the past-time and 30-day rules apply to customers only.
+- Editing an appointment saves with just the booking details (date, time, service, status, lead). Creating one needs all three steps. The top bar, footer and contact page read the working hours from the same store.
+
+## Website booking flow (zustand)
+
+The booking page keeps its data in the same zustand store as the admin (`useAdminStore`, saved in the browser), so a website booking shows up in the admin at once. No database is used yet.
+
+1. **Details.** The form checks name, email, 10-digit mobile, service and slot (`validateBooking`).
+2. **Slots.** The picker reads the store (`useCustomerTimes`): the admin schedule, minus booked and held blocks. A booked slot disappears at once; a fully booked or closed day is disabled.
+3. **Hold.** On Pay, `holdSlot` re-checks the slot with `bookingError` and holds it for 15 minutes. Two people cannot hold overlapping blocks.
+4. **Order.** `POST /api/appointments` checks the details again and creates a Razorpay **test** order for the server-side fee (₹800).
+5. **Checkout.** Razorpay Standard Checkout opens. The customer can retry inside the window after a failed attempt. A late success is never lost.
+6. **Verify.** `POST /api/payments/verify` checks the Razorpay signature with the secret key.
+7. **Confirm.** `confirmBooking` saves the lead (an existing lead with the same phone is reused) and a separate appointment (status Upcoming, with the payment id, no questionnaire and no Meet link yet), frees the hold, and the page opens `/appointment-confirmed?appointmentId=…`.
+8. **Questionnaire.** While the appointment has no questionnaire, the confirmation page shows it on the right. The left summary stays in view (sticky) while the right side scrolls. Questions are numbered with larger text: 1 Name (starts as what the customer typed when booking, editable), 2 Age, 3 Gender, then the same questions as step 2 of the admin form (`QuestionnaireForm` reuses `AppointmentQuestionnaireFields`). Submit stays off until every required answer is in, and says how many are left.
+   After each answer a progress toast shows how far along they are, for example "3 of 9 answered" with a bar. It sits at the bottom right, beside the call and WhatsApp buttons, and updates in place. The Submit button is at the right end, with "n required answers left" on the left.
+9. **Submit.** `submitQuestionnaire` saves the answers on that appointment as `{ key, answer }` entries (the question id and the answer, plus name, age and gender), saves name, age and gender on the lead, and creates the placeholder Meet link. A toast says "Questionnaire submitted". The right side then shows "Your booking is confirmed." with the link. The form is much taller than that panel, so the page shrinks under the reader; before the next paint the panel is scrolled into view and given focus (`ConfirmedBooking`), so they never land at the footer. Answers are saved once and never overwritten.
+
+| Situation | What happens |
+|---|---|
+| Payment window closed or payment failed | Hold released, nothing saved, message shown, slot free again |
+| Order could not be created | Hold released, message shown |
+| Payment taken but signature check failed | Hold kept, message with the payment id, no appointment |
+| Same payment confirmed twice | One appointment (matched by payment id) |
+| Slot taken by someone else before confirming | No appointment, message with the payment id |
+| Double click on Pay | Ignored while a booking is running |
+| Hold older than 15 minutes | Ignored, slot free again |
+| Confirmation page with an unknown id | Goes back to the booking form (after the page has finished loading, so a saved booking is never missed) |
+| Questionnaire submitted twice | The first answers stay; nothing is overwritten |
+| Questionnaire missing answers, name under 2 letters, or age outside 13–90 | Nothing saved, error toast |
+
+## Toasts
+
+Every user action shows a toast through one hook, `hooks/useShowToast.ts` (sonner, `<Toaster />` mounted in the site and admin layouts). It takes `{ title, description, type }` with type `success`, `info`, `error` or `pending`. Public actions that toast: booking problems (slot taken, order failed, payment cancelled or failed, payment not verified), payment success, form validation, questionnaire submitted or rejected, Meet link copied, and the contact form notice. The one message that also stays on screen is "payment taken but booking not completed", because it must not disappear.
+
+Questionnaire progress uses `hooks/useProgressToast.tsx`, which updates one toast in place.
+
+Checks: `bun run check:booking` (16 checks on the store logic).
+
+Limits while the store is the only data: bookings live in this browser only. A customer who pays and closes the tab before the page confirms is not recorded; the database phase adds the Razorpay webhook for that. The Google Meet link is a placeholder (`generateAdminMeetLink`). A website lead gets its name, age and gender from the questionnaire.
 
 ## Not built yet
 

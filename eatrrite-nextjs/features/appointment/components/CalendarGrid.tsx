@@ -1,14 +1,13 @@
 "use client";
 
 import { cn } from "cn";
-import { isBookableDate } from "@/features/appointment/utils/bookable";
-import { offeredTimes } from "@/features/appointment/utils/slots";
+import { useCustomerTimes } from "@/features/appointment/hooks/useCustomerTimes";
 import { todayIst } from "@/features/appointment/utils/istTime";
 
 const WEEKDAYS = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 const pad = (n: number) => String(n).padStart(2, "0");
 
-// One month of days. A day is enabled when it is in the booking window and open.
+// One month of days. A day is enabled when it has at least one open slot.
 export function CalendarGrid({
   year,
   month,
@@ -23,6 +22,7 @@ export function CalendarGrid({
   const blanks = new Date(Date.UTC(year, month, 1)).getUTCDay();
   const days = new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
   const today = todayIst();
+  const timesFor = useCustomerTimes();
   return (
     <>
       <div className="mt-3 mb-2 grid grid-cols-7 gap-1.5">
@@ -34,7 +34,7 @@ export function CalendarGrid({
         {Array.from({ length: blanks }, (_, i) => <span key={`blank-${i}`} />)}
         {Array.from({ length: days }, (_, i) => {
           const date = `${year}-${pad(month + 1)}-${pad(i + 1)}`;
-          const usable = isBookableDate(date) && offeredTimes(date).length > 0;
+          const usable = timesFor(date).length > 0;
           const isSelected = date === selected;
           return (
             <button

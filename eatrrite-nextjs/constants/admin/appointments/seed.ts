@@ -2,8 +2,8 @@ import { SEED_APPOINTMENT_IDS } from "@/constants/admin/appointments/seedIds";
 import { SEED_LEAD_IDS, type SeedLeadKey } from "@/constants/admin/leads/seedIds";
 // Sample consultations for the admin preview. Names are made up, not real clients.
 import type {
-  ClinicAppointment,
-  ClinicAppointmentStatus,
+  Appointment,
+  AppointmentStatus,
 } from "@/types/admin/appointment";
 
 type SeedRow = [
@@ -11,7 +11,7 @@ type SeedRow = [
   date: string,
   time: string,
   service: string,
-  status: ClinicAppointmentStatus,
+  status: AppointmentStatus,
   createdAt: string,
   updatedAt: string,
   notes?: string,
@@ -35,7 +35,7 @@ const ROWS: SeedRow[] = [
   ["vikram", "2026-04-09", "11:30", "Nutrition for Weight & Lifestyle Management", "cancelled", "2026-04-02T08:00:00.000Z", "2026-04-08T09:00:00.000Z"],
 ];
 
-export const SEED_APPOINTMENTS: ClinicAppointment[] = ROWS.map(
+export const SEED_APPOINTMENTS: Appointment[] = ROWS.map(
   ([leadKey, date, time, service, status, createdAt, updatedAt, notes], index) => ({
     id: SEED_APPOINTMENT_IDS[index],
     leadId: SEED_LEAD_IDS[leadKey],

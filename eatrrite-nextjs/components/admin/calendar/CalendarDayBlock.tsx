@@ -2,12 +2,12 @@
 
 import { AppointmentStatusBadge } from "@/components/admin/appointments/AppointmentStatusBadge";
 import { APPOINTMENT_BLOCK_CLASS } from "@/constants/admin/calendar/blocks";
-import type { ClinicAppointment } from "@/types/admin/appointment";
+import type { Appointment } from "@/types/admin/appointment";
 import { formatTimeRange } from "@/utils/admin/calendarTime";
 import { cn } from "cn";
 
 type CalendarDayBlockProps = {
-  appointment: ClinicAppointment;
+  appointment: Appointment;
   leadName: string;
   topPx: number;
   heightPx: number;
