@@ -26,7 +26,12 @@ export function LeadDetailsCard({
   if (!lead) {
     return (
       <aside className="flex h-fit min-h-48 items-center justify-center self-start rounded-2xl border border-dashed border-border bg-card p-6">
-        <EmptyState size="sm" image="leads" title="No lead selected" description="Pick one from the list to see their details." />
+        <EmptyState
+          size="sm"
+          image="leads"
+          title="No lead selected"
+          description="Pick one from the list to see their details."
+        />
       </aside>
     );
   }
@@ -43,7 +48,11 @@ export function LeadDetailsCard({
               {lead.name}
             </p>
             <p className="mt-0.5 text-sm text-muted-foreground">
-              {[lead.age ? `${lead.age} years` : "", lead.gender, lead.profession]
+              {[
+                lead.age ? `${lead.age} years` : "",
+                lead.gender,
+                lead.profession,
+              ]
                 .filter(Boolean)
                 .join(" · ")}
             </p>
@@ -52,7 +61,7 @@ export function LeadDetailsCard({
       </HeroMotion>
 
       <HeroMotion key={`${lead.id}-contact`} delay={0.18}>
-        <div className="space-y-2.5 rounded-xl bg-muted/50 px-3.5 py-3">
+        <div className="space-y-2.5 rounded-xl bg-mint px-3.5 py-3">
           <p className="flex items-start gap-2.5 text-sm text-foreground">
             <Phone className="mt-0.5 size-3.5 shrink-0 text-muted-foreground" />
             <span>{lead.phone}</span>
@@ -65,7 +74,9 @@ export function LeadDetailsCard({
           </p>
           <p className="flex items-start gap-2.5 text-sm text-foreground">
             <MapPin className="mt-0.5 size-3.5 shrink-0 text-muted-foreground" />
-            <span className={lead.address ? undefined : "text-muted-foreground"}>
+            <span
+              className={lead.address ? undefined : "text-muted-foreground"}
+            >
               {lead.address ?? "Address not provided"}
             </span>
           </p>

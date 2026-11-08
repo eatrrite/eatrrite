@@ -291,6 +291,8 @@ Details in `requirements.md` (What the PHP Site Has That Next.js Still Needs).
 - [x] Admin cancels a booking and the slot is freed (status Cancelled, or Delete)
 - [x] Razorpay webhook records a paid booking even if the tab was closed (`POST /api/payments/webhook`; the hold keeps the order and details)
 - [x] Migration `002_php_parity.sql` run on Neon
+- [x] New Apps Script `apps-script/Code.gs` (Meet only, one event per appointment); the admin Meet button uses it too
+- [ ] Deploy `apps-script/Code.gs` and put its URL and secret in `.env.local`
 - [ ] Schedule the reminder route every 15 minutes on the host (cron-job.org or the host's cron)
 - [ ] Add the webhook in the Razorpay dashboard (events `payment.captured`, `order.paid`) and set `RAZORPAY_WEBHOOK_SECRET`
 - [ ] Send one test booking and check the three emails arrive

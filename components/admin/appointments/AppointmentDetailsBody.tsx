@@ -53,13 +53,17 @@ export function AppointmentDetailsBody({
         </div>
       </div>
 
-      <div className="space-y-3 rounded-xl bg-muted/50 px-3.5 py-3">
+      <div className="space-y-3 rounded-xl bg-mint px-3.5 py-3">
         <div>
           <p className="mb-1 flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
             <Salad className="size-3.5" />
             Service
           </p>
-          <p className={`text-sm leading-snug ${appointment.service ? "text-foreground" : "text-muted-foreground"}`}>{appointment.service || "No service added"}</p>
+          <p
+            className={`text-sm leading-snug ${appointment.service ? "text-foreground" : "text-muted-foreground"}`}
+          >
+            {appointment.service || "No service added"}
+          </p>
         </div>
         <div className="border-t border-border/70 pt-3">
           <p className="mb-1 flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
@@ -80,19 +84,35 @@ export function AppointmentDetailsBody({
           )}
         </div>
         <div className="border-t border-border/70 pt-3">
-          <p className="mb-1 text-xs font-medium text-muted-foreground">Notes</p>
-          <p className={`text-sm leading-snug ${appointment.notes ? "text-foreground" : "text-muted-foreground"}`}>{appointment.notes ?? "No notes added"}</p>
+          <p className="mb-1 text-xs font-medium text-muted-foreground">
+            Notes
+          </p>
+          <p
+            className={`text-sm leading-snug ${appointment.notes ? "text-foreground" : "text-muted-foreground"}`}
+          >
+            {appointment.notes ?? "No notes added"}
+          </p>
         </div>
       </div>
 
       <div className="space-y-2 rounded-xl border border-border px-3.5 py-3">
-        <p className="text-xs font-medium text-muted-foreground">Questionnaire</p>
+        <p className="text-xs font-medium text-muted-foreground">
+          Questionnaire
+        </p>
         {appointment.questionnaire.length === 0 ? (
-          <EmptyState size="sm" image="questionnaire" title="No answers yet" description="The customer fills this in after paying, or you can add it when editing." />
+          <EmptyState
+            size="sm"
+            image="questionnaire"
+            title="No answers yet"
+            description="The customer fills this in after paying, or you can add it when editing."
+          />
         ) : (
           <ul className="space-y-2">
             {questions.map((question) => {
-              const answer = answerForKey(appointment.questionnaire, question.key);
+              const answer = answerForKey(
+                appointment.questionnaire,
+                question.key,
+              );
               if (!answer) return null;
               return (
                 <li key={question.key} className="text-sm">
@@ -105,7 +125,10 @@ export function AppointmentDetailsBody({
         )}
       </div>
 
-      <p className="text-xs text-muted-foreground">Added {formatStamp(appointment.createdAt)} · Updated {formatStamp(appointment.updatedAt)}</p>
+      <p className="text-xs text-muted-foreground">
+        Added {formatStamp(appointment.createdAt)} · Updated{" "}
+        {formatStamp(appointment.updatedAt)}
+      </p>
     </div>
   );
 }

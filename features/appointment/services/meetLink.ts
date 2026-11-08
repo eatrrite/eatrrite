@@ -2,15 +2,16 @@ import "server-only";
 import { env } from "@/config/env";
 import { generateAdminMeetLink } from "@/utils/admin/generateMeetLink";
 
-type MeetRequest = { name: string; service: string; phone: string; paymentId: string; date: string; time: string; minutes: number };
+/** `appointmentId` makes the calendar event id, so one appointment never gets two events. */
+export type MeetRequest = { appointmentId: string; name: string; service: string; date: string; time: string; minutes: number };
 
 const istIso = (date: string, time: string) => `${date}T${time}:00+05:30`;
 const endTime = (date: string, time: string, minutes: number) =>
   new Date(new Date(istIso(date, time)).getTime() + minutes * 60_000).toISOString();
 
-// Creates the Google Meet link through the same Apps Script as the PHP site
-// (GoogleAppsScriptClient.php, action create_meet). Without APPS_SCRIPT_URL and
-// APPS_SCRIPT_SECRET (local development) it returns a placeholder link.
+// Creates the Google Meet link through the Apps Script in apps-script/Code.gs (action
+// create_meet). The caller saves the link on the same appointment row. Without APPS_SCRIPT_URL
+// and APPS_SCRIPT_SECRET (local development) it returns a placeholder link.
 export async function createMeetLink(request: MeetRequest): Promise<string> {
   const url = env.appsScriptUrl();
   const secret = env.appsScriptSecret();
@@ -20,14 +21,13 @@ export async function createMeetLink(request: MeetRequest): Promise<string> {
     method: "POST",
     headers: { "Content-Type": "text/plain;charset=utf-8" },
     redirect: "follow",
-    signal: AbortSignal.timeout(60_000),
+    signal: AbortSignal.timeout(30_000),
     body: JSON.stringify({
       action: "create_meet",
       secret,
+      appointment_id: request.appointmentId,
       name: request.name,
       service: request.service,
-      phone: request.phone,
-      payment_id: request.paymentId,
       start_iso: istIso(request.date, request.time),
       end_iso: endTime(request.date, request.time, request.minutes),
     }),

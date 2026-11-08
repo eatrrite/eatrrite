@@ -210,7 +210,7 @@ function AppointmentFormBody({
           }
         />
       ) : null}
-      {step === 2 ? <AppointmentMeetStep value={value} lead={lead} onChange={setValue} questions={questions} /> : null}
+      {step === 2 ? <AppointmentMeetStep value={value} lead={lead} onChange={setValue} questions={questions} appointmentId={appointment?.id} /> : null}
 
       <DialogFooter className="flex-row flex-wrap items-center justify-between gap-x-3 gap-y-2">
         {/* Phones: hint on its own line, then Back on the left and actions on the right. */}

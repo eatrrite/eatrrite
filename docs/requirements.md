@@ -144,7 +144,7 @@ Run `db/migrations/001_initial.sql` in the Neon SQL Editor, after turning on Neo
 | `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET` | Razorpay test keys, from the PHP site |
 | `RAZORPAY_WEBHOOK_SECRET` | Set when the webhook is added in the Razorpay dashboard |
 | `APPOINTMENT_FEE_RUPEES` | `800` |
-| `APPS_SCRIPT_URL`, `APPS_SCRIPT_SECRET` | The Apps Script that creates Meet links, same as PHP |
+| `APPS_SCRIPT_URL`, `APPS_SCRIPT_SECRET` | The Apps Script in `apps-script/Code.gs` that creates Meet links (web app URL, and the same value as its `SECRET` script property) |
 | `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `MAIL_FROM`, `ADMIN_NOTIFY_EMAIL` | The mail account the PHP site sends from |
 | `CRON_SECRET` | Protects the questionnaire reminder route |
 

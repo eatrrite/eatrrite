@@ -24,25 +24,34 @@ type DataTableProps<T> = {
   resetKey?: string;
 };
 
-
 export function DataTable<T>({
   columns,
   rows,
   getRowId,
-  empty = <EmptyState image="search" title="Nothing found" description="Try a different search or filter." />,
+  empty = (
+    <EmptyState
+      image="search"
+      title="Nothing found"
+      description="Try a different search or filter."
+    />
+  ),
   className,
   selectedRowId,
   onRowSelect,
   pageSize = 10,
   resetKey,
 }: DataTableProps<T>) {
-  const { page, pageCount, pageItems, setPage } = usePagination(rows, pageSize, resetKey);
+  const { page, pageCount, pageItems, setPage } = usePagination(
+    rows,
+    pageSize,
+    resetKey,
+  );
   const widths = normalizeColumnWidths(columns.map((column) => column.width));
 
   return (
     <div
       className={cn(
-        "h-fit self-start rounded-xl border border-border bg-card",
+        "h-fit self-start rounded-xl border border-border bg-card overflow-hidden",
         className,
       )}
     >
@@ -100,7 +109,11 @@ export function DataTable<T>({
       </Table>
       {pageCount > 1 ? (
         <div className="border-t border-border px-4 py-3">
-          <ListPagination page={page} pageCount={pageCount} onPageChange={setPage} />
+          <ListPagination
+            page={page}
+            pageCount={pageCount}
+            onPageChange={setPage}
+          />
         </div>
       ) : null}
     </div>

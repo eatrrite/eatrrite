@@ -49,9 +49,9 @@ export async function getConfirmedBooking(id: string): Promise<ConfirmedBooking 
 export async function saveQuestionnaire(appointmentId: string, input: QuestionnaireInput): Promise<{ meetLink: string }> {
   const sql = db();
   const [row] = await sql`
-    select a.lead_id, a.meet_link, jsonb_array_length(a.questionnaire) as answered, a.service, a.payment_id,
-      to_char(a.date, 'YYYY-MM-DD') as date, to_char(a.time, 'HH24:MI') as time, l.phone
-    from er_appointments a join er_leads l on l.id = a.lead_id
+    select a.lead_id, a.meet_link, jsonb_array_length(a.questionnaire) as answered, a.service,
+      to_char(a.date, 'YYYY-MM-DD') as date, to_char(a.time, 'HH24:MI') as time
+    from er_appointments a
     where a.id = ${appointmentId} and a.payment_id is not null`;
   if (!row) throw new Error("We could not find this booking.");
   if (row.answered > 0 && row.meet_link) return { meetLink: row.meet_link };
@@ -69,7 +69,7 @@ export async function saveQuestionnaire(appointmentId: string, input: Questionna
 
   const { meetingMinutes } = await getBookingSettings();
   const meetLink = await createMeetLink({
-    name, service: row.service, phone: row.phone, paymentId: row.payment_id, date: row.date, time: row.time, minutes: meetingMinutes,
+    appointmentId, name, service: row.service, date: row.date, time: row.time, minutes: meetingMinutes,
   }).catch((error) => {
     console.error("Meet link failed", error);
     throw new Error("We could not create your Google Meet link. Please submit again in a moment.");

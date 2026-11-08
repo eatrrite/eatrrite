@@ -21,7 +21,7 @@ export function ProfileHeroCard() {
         title={profile.name}
         subtitle="Admin"
       />
-      <div className="space-y-2.5 rounded-xl bg-muted/50 px-3.5 py-3">
+      <div className="space-y-2.5 rounded-xl bg-mint px-3.5 py-3">
         <p className="flex items-center gap-2.5 text-sm text-foreground">
           <Mail className="size-3.5 shrink-0 text-muted-foreground" />
           {profile.email}

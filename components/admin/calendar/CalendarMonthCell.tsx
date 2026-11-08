@@ -21,7 +21,7 @@ export function CalendarMonthCell({
       className={cn(
         "flex h-full min-h-0 flex-col items-center gap-1 rounded-xl border border-transparent p-1 transition-colors sm:gap-1.5 sm:p-1.5",
         cell.isSelected && "bg-primary/5",
-        !cell.isSelected && "hover:bg-muted/50",
+        !cell.isSelected && "hover:bg-mint",
       )}
     >
       <span
