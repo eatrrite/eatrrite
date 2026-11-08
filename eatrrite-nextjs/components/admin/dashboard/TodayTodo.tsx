@@ -27,6 +27,7 @@ export function TodayTodo() {
     <DashboardCard>
       <DashboardCardHeader
         icon={<ListTodo className="size-4" />}
+        tone="leaf"
         title="Today's To-Do"
         action={
           <div className="flex items-center gap-2">

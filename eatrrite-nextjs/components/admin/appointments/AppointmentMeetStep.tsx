@@ -1,12 +1,17 @@
 "use client";
 
-import { Link2 } from "lucide-react";
+import { Check, CircleDashed, Copy, Link2, RefreshCw } from "lucide-react";
+import { toast } from "sonner";
+import { AppointmentLeadSummary } from "@/components/admin/appointments/AppointmentLeadSummary";
 import { Button } from "@/components/ui/button";
+import { APPOINTMENT_STATUS_LABELS } from "@/constants/admin/appointments/statuses";
 import type { ClinicAppointmentInput } from "@/types/admin/appointment";
+import type { Lead } from "@/types/admin/lead";
 import { hasAppointmentBasics } from "@/utils/admin/appointmentReady";
+import { formatDateLabel } from "@/utils/admin/date";
 import { generateAdminMeetLink } from "@/utils/admin/generateMeetLink";
 import { isAdminQuestionnaireComplete } from "@/utils/admin/leadQuestionnaire";
-import type { Lead } from "@/types/admin/lead";
+import { formatTimeLabel } from "@/utils/admin/time";
 
 type AppointmentMeetStepProps = {
   value: ClinicAppointmentInput;
@@ -14,59 +19,83 @@ type AppointmentMeetStepProps = {
   onChange: (next: ClinicAppointmentInput) => void;
 };
 
-export function AppointmentMeetStep({
-  value,
-  lead,
-  onChange,
-}: AppointmentMeetStepProps) {
-  const basicsReady = hasAppointmentBasics(value);
-  const questionnaireReady = isAdminQuestionnaireComplete(
-    value.questionnaire,
-    lead,
+function Ready({ done, children }: { done: boolean; children: string }) {
+  return (
+    <li className="flex items-center gap-2 text-sm">
+      {done ? <Check className="size-4 text-primary" /> : <CircleDashed className="size-4 text-muted-foreground" />}
+      <span className={done ? "text-foreground" : "text-muted-foreground"}>{children}</span>
+    </li>
   );
+}
+
+export function AppointmentMeetStep({ value, lead, onChange }: AppointmentMeetStepProps) {
+  const basicsReady = hasAppointmentBasics(value);
+  const questionnaireReady = isAdminQuestionnaireComplete(value.questionnaire, lead);
   const canGenerate = basicsReady && questionnaireReady;
 
   function generate() {
-    if (!canGenerate) return;
-    onChange({ ...value, meetLink: generateAdminMeetLink() });
+    if (canGenerate) onChange({ ...value, meetLink: generateAdminMeetLink() });
+  }
+
+  async function copy() {
+    if (!value.meetLink) return;
+    try {
+      await navigator.clipboard.writeText(value.meetLink);
+      toast.success("Meet link copied");
+    } catch {
+      toast.error("Could not copy the link");
+    }
   }
 
   return (
-    <div className="space-y-4">
-      <div className="rounded-xl border border-border px-3.5 py-4">
-        <p className="mb-1 flex items-center gap-1.5 text-sm font-medium text-foreground">
-          <Link2 className="size-4" />
+    <div className="flex flex-col gap-4">
+      <AppointmentLeadSummary lead={lead} />
+
+      <dl className="m-0 grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 rounded-xl border border-border px-3.5 py-3 text-sm">
+        <dt className="text-muted-foreground">When</dt>
+        <dd className="m-0 text-foreground">
+          {value.date ? formatDateLabel(value.date) : "—"}
+          {value.time ? ` · ${formatTimeLabel(value.time)}` : ""}
+        </dd>
+        <dt className="text-muted-foreground">Service</dt>
+        <dd className="m-0 text-foreground">{value.service || "—"}</dd>
+        <dt className="text-muted-foreground">Status</dt>
+        <dd className="m-0 text-foreground">{APPOINTMENT_STATUS_LABELS[value.status]}</dd>
+      </dl>
+
+      <div className="flex flex-col items-start gap-3 rounded-xl border border-border bg-mint px-3.5 py-4">
+        <p className="m-0 flex items-center gap-2 text-sm font-semibold text-foreground">
+          <Link2 className="size-4 text-primary" />
           Google Meet link
         </p>
-        <p className="mb-3 text-sm text-muted-foreground">
-          Generate the Meet link after the booking details and questionnaire are
-          complete. Save stays disabled until the link exists.
-        </p>
-
-        {!canGenerate ? (
-          <p className="text-sm text-alert-text">
-            Finish step 1 and step 2 before generating a Meet link.
-          </p>
-        ) : null}
 
         {value.meetLink ? (
-          <div className="space-y-3">
-            <a
-              href={value.meetLink}
-              target="_blank"
-              rel="noreferrer"
-              className="block break-all text-sm font-semibold text-primary underline-offset-2 hover:underline"
-            >
+          <>
+            <a href={value.meetLink} target="_blank" rel="noreferrer" className="block text-sm font-semibold break-all text-primary underline-offset-2 hover:underline">
               {value.meetLink}
             </a>
-            <Button type="button" variant="outline" onClick={generate}>
-              Generate new link
-            </Button>
-          </div>
+            <div className="flex flex-wrap gap-2">
+              <Button type="button" variant="outline" onClick={copy}>
+                <Copy className="size-4" />
+                Copy link
+              </Button>
+              <Button type="button" variant="secondary" onClick={generate}>
+                <RefreshCw className="size-4" />
+                Generate a new link
+              </Button>
+            </div>
+          </>
         ) : (
-          <Button type="button" disabled={!canGenerate} onClick={generate}>
-            Generate Meet link
-          </Button>
+          <>
+            <ul className="m-0 flex list-none flex-col gap-1.5 p-0">
+              <Ready done={basicsReady}>Booking details filled in</Ready>
+              <Ready done={questionnaireReady}>Questionnaire answered</Ready>
+            </ul>
+            <Button type="button" disabled={!canGenerate} onClick={generate}>
+              Generate Meet link
+            </Button>
+            <p className="m-0 text-xs text-muted-foreground">The appointment can be saved once the link exists.</p>
+          </>
         )}
       </div>
     </div>

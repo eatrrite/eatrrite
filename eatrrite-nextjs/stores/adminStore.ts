@@ -8,6 +8,7 @@ import { SEED_SCHEDULE } from "@/constants/admin/schedule/seed";
 import { DEFAULT_ADMIN_SETTINGS } from "@/constants/admin/settings";
 import { SEED_TODOS } from "@/constants/admin/todos/seed";
 import { createClinicEntityActions } from "@/stores/adminEntityActions";
+import { createAppointmentSlotActions, type SaveAppointmentResult } from "@/features/appointment/stores/appointmentSlotActions";
 import { createScheduleActions } from "@/stores/scheduleActions";
 import type {
   ClinicAppointment,
@@ -30,6 +31,8 @@ type ClinicState = AdminSettings & {
   addAppointment: (input: ClinicAppointmentInput) => ClinicAppointment;
   updateAppointment: (id: string, input: ClinicAppointmentInput) => void;
   deleteAppointment: (id: string) => void;
+  slotsFor: (date: string, ignoreId?: string) => string[];
+  saveAppointment: (input: ClinicAppointmentInput, id?: string) => SaveAppointmentResult;
   setDayOpen: (day: Weekday, isOpen: boolean) => void;
   addDaySlot: (day: Weekday) => void;
   updateDaySlot: (
@@ -53,6 +56,7 @@ export const useClinicStore = create<ClinicState>()(
       days: SEED_SCHEDULE,
       todos: SEED_TODOS,
       ...createClinicEntityActions(set, get),
+      ...createAppointmentSlotActions(get),
       ...createScheduleActions(set),
       setSetting: (key, value) => set({ [key]: value }),
     }),

@@ -3,7 +3,7 @@
 import { CalendarDays, Clock3, Link2, Salad } from "lucide-react";
 import { format, parseISO } from "date-fns";
 import { AppointmentStatusBadge } from "@/components/admin/appointments/AppointmentStatusBadge";
-import { QUESTIONNAIRE_QUESTIONS } from "@/constants/appointment/questionnaire-questions";
+import { QUESTIONNAIRE_QUESTIONS } from "@/features/appointment/constants/questionnaire-questions";
 import type { ClinicAppointment } from "@/types/admin/appointment";
 import { answerForKey } from "@/utils/admin/questionnaireAnswers";
 
@@ -28,7 +28,7 @@ export function AppointmentDetailsBody({
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-start gap-3">
-        <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+        <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-full bg-accent/25 text-ink">
           <CalendarDays className="size-5" />
         </span>
         <div className="min-w-0 flex-1">

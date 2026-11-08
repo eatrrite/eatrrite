@@ -1,4 +1,4 @@
-import type { QuestionnaireAnswers } from "@/types/appointment/questionnaire";
+import type { QuestionnaireAnswers } from "@/features/appointment/types/questionnaire";
 
 export type ClinicAppointmentStatus =
   | "upcoming"

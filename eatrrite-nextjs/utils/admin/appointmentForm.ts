@@ -8,7 +8,7 @@ import { applyLeadToQuestionnaire } from "@/utils/admin/leadQuestionnaire";
 const EMPTY: ClinicAppointmentInput = {
   leadId: "",
   date: "",
-  time: "10:00",
+  time: "",
   service: "",
   status: "upcoming",
   questionnaire: [],

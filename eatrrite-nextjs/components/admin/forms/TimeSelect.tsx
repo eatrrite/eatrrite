@@ -16,6 +16,8 @@ type TimeSelectProps = {
   disabled?: boolean;
   id?: string;
   placeholder?: string;
+  /** Times to offer. Defaults to every half hour. */
+  options?: readonly string[];
 };
 
 export function TimeSelect({
@@ -24,6 +26,7 @@ export function TimeSelect({
   disabled,
   id,
   placeholder = "Select time",
+  options = HALF_HOUR_SLOTS,
 }: TimeSelectProps) {
   return (
     <Select
@@ -40,7 +43,7 @@ export function TimeSelect({
         </SelectValue>
       </SelectTrigger>
       <SelectContent alignItemWithTrigger={false} align="start">
-        {HALF_HOUR_SLOTS.map((slot) => (
+        {options.map((slot) => (
           <SelectItem key={slot} value={slot}>
             {formatTimeLabel(slot)}
           </SelectItem>

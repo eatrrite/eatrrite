@@ -27,3 +27,13 @@ export function canSaveAppointment(
     hasMeetLink(input)
   );
 }
+
+/** Names of the booking fields still empty, for the "what's missing" hint. */
+export function missingBasics(input: ClinicAppointmentInput): string[] {
+  const missing: string[] = [];
+  if (!input.leadId) missing.push("lead");
+  if (!input.date) missing.push("date");
+  if (!input.time) missing.push("time");
+  if (!input.service.trim()) missing.push("service");
+  return missing;
+}

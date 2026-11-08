@@ -1,13 +1,13 @@
-import { MEETING_MINUTES } from "@/constants/appointment/schedule";
-import { createMeetLink } from "@/services/appsScript";
-import { findAppointment } from "@/services/appointmentReads";
-import { claimForMeet, markMeetFailed, saveMeetLink } from "@/services/appointmentWrites";
-import type { BookingAppointment } from "@/types/appointment/booking";
+import { APPOINTMENT_SETTINGS } from "@/features/appointment/constants/appointment-settings";
+import { createMeetLink } from "@/features/appointment/services/appsScript";
+import { findAppointment } from "@/features/appointment/services/appointmentReads";
+import { claimForMeet, markMeetFailed, saveMeetLink } from "@/features/appointment/services/appointmentWrites";
+import type { BookingAppointment } from "@/features/appointment/types/booking";
 import { fail, ok } from "@/utils/apiResponse";
 
 type Context = { params: Promise<{ id: string }> };
 
-const endOf = (start: string) => new Date(new Date(start).getTime() + MEETING_MINUTES * 60000);
+const endOf = (start: string) => new Date(new Date(start).getTime() + APPOINTMENT_SETTINGS.meetingMinutes * 60000);
 
 // Apps Script expects times with the India offset, as PHP sent them.
 const istIso = (date: Date) =>

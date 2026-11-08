@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
-import { ConfirmedSummary } from "@/components/appointment-confirmed/ConfirmedSummary";
-import { MeetStatus } from "@/components/appointment-confirmed/MeetStatus";
-import { Questionnaire } from "@/components/appointment-confirmed/Questionnaire";
+import { ConfirmedSummary } from "@/features/appointment/components/confirmed/ConfirmedSummary";
+import { MeetStatus } from "@/features/appointment/components/confirmed/MeetStatus";
+import { Questionnaire } from "@/features/appointment/components/confirmed/Questionnaire";
 import { ROUTES } from "@/constants/routes";
-import { findAppointment } from "@/services/appointmentReads";
+import { findAppointment } from "@/features/appointment/services/appointmentReads";
 
 export const metadata: Metadata = {
   title: "Appointment Confirmed | Eat Rrite",

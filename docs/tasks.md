@@ -130,7 +130,7 @@ Setup:
 
 Slots:
 
-- [x] Weekly hours, 15-minute steps, 45-minute blocking, 30-day window (`utils/slots.ts`)
+- [x] Weekly hours, 15-minute steps, 45-minute blocking, 30-day window (`features/appointment/utils/`, rules in `docs/appointment-rules.md`)
 - [x] A pending booking holds its slot for 15 minutes
 - [x] Slot picker loads open times from `/api/slots`
 - [ ] Respect slots hidden by the admin (needs the Phase 5 admin)
@@ -178,6 +178,14 @@ Admin UI (front end, sample data):
 - [x] Deccan button styles for every shadcn Button variant, in Eat Rrite colours
 - [x] Admin theme scoped to admin pages, so the public site keeps its approved look
 - [x] Replace dental sample data and wording with consultation data
+- [x] Admin colours from the sidebar illustration (teal, gold, leaf green, coral) on card icons, avatars, status badges, calendar blocks and chart dots, using existing theme tokens (`constants/admin/tones.ts`, `statusTones.ts`)
+- [x] Dialog footer fixed at the bottom in every dialog (root fix in `components/ui/dialog.tsx`); the dialog scrolls, header and footer stay in view
+- [x] Appointment form redesigned: three-step stepper, tap-to-select answers, review and Meet link step, "what's missing" hint, compact on phones
+- [x] Appointment settings in one file (`features/appointment/constants/appointment-settings.ts`) and the real Eat Rrite hours per weekday (`eatrrite-available-times.ts`), as in the PHP site
+- [x] Slot logic rebuilt as small single-purpose functions (`features/appointment/utils/`), checked with `bun run check:rules`
+- [x] Admin schedule page shows the real hours, from the same constant; the appointment form offers only working-hour times and blocks overlaps (zustand `saveAppointment`)
+- [x] `docs/appointment-rules.md` lists all booking rules and settings
+- [x] All appointment code moved into `features/appointment/` (components, hooks, services, constants, types, utils, stores); behaviour unchanged
 - [ ] Replace the Deccan sidebar illustration (it shows a tooth icon) with an Eat Rrite one
 
 Connect to Neon (next step):

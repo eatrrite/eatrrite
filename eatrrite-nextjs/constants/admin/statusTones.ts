@@ -1,9 +1,10 @@
 /** Shared badge looks — map every status onto one of these. */
 export const STATUS_TONES = {
-  success: "bg-emerald-50 text-emerald-700",
-  active: "bg-sky-100 text-sky-700",
-  muted: "bg-zinc-100 text-zinc-800",
-  danger: "bg-red-50 text-red-700",
+  success: "bg-accent-green/15 text-primary",
+  active: "bg-primary/10 text-primary",
+  pending: "bg-accent/25 text-ink",
+  muted: "bg-pill text-muted-foreground",
+  danger: "bg-alert-bg text-alert-text",
 } as const;
 
 export type StatusTone = keyof typeof STATUS_TONES;

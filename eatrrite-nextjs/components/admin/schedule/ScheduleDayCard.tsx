@@ -39,7 +39,7 @@ export function ScheduleDayCard({
             className={cn(
               "inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium",
               day.isOpen
-                ? "bg-primary/10 text-primary"
+                ? "bg-accent-green/15 text-primary"
                 : "bg-muted text-muted-foreground",
             )}
           >

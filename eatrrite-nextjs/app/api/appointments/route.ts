@@ -1,15 +1,15 @@
 import { randomUUID } from "node:crypto";
 import { env } from "@/config/env";
-import { takenTimes } from "@/services/appointmentReads";
-import { createPendingAppointment } from "@/services/appointmentWrites";
-import { createOrder } from "@/services/razorpay";
-import type { BookingInput } from "@/types/appointment/booking";
+import { takenSlots } from "@/features/appointment/services/appointmentReads";
+import { createPendingAppointment } from "@/features/appointment/services/appointmentWrites";
+import { createOrder } from "@/features/appointment/services/razorpay";
+import type { BookingInput } from "@/features/appointment/types/booking";
 import { fail, ok } from "@/utils/apiResponse";
-import { availableTimes } from "@/utils/slots";
-import { validateBooking } from "@/utils/validateBooking";
+import { bookingError } from "@/features/appointment/utils/bookable";
+import { validateBooking } from "@/features/appointment/utils/validateBooking";
 
-async function isSlotOpen(input: BookingInput) {
-  return availableTimes(input.date, await takenTimes(input.date)).includes(input.time);
+async function slotError(input: BookingInput) {
+  return bookingError(input.date, input.time, { occupied: await takenSlots(input.date) });
 }
 
 // POST /api/appointments → holds the slot and creates a Razorpay order.
@@ -18,7 +18,8 @@ export async function POST(request: Request) {
   const input = validateBooking(await request.json().catch(() => ({})));
   if (typeof input === "string") return fail(input);
   try {
-    if (!(await isSlotOpen(input))) return fail("That slot was just booked. Please pick another time.", 409);
+    const problem = await slotError(input);
+    if (problem) return fail(problem.message, problem.code === "taken" ? 409 : 400);
     const order = await createOrder(`er_${randomUUID().slice(0, 12)}`, { purpose: "consultation" });
     const appointmentId = await createPendingAppointment(input, order.id);
     return ok({

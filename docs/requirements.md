@@ -93,7 +93,8 @@ Each phase waits for approval before the next one starts. Phases 1 to 3 are fron
 | `app/foundation/` | Foundation UI reference page, not indexed |
 | `components/site/` | Top bar, header, footer, floating buttons and shared parts |
 | `components/home/` | One file per home page section |
-| `components/about/`, `components/programs/`, `components/appointment/` | Parts of the other pages |
+| `components/about/`, `components/programs/` | Parts of the other pages |
+| `features/appointment/` | All appointment code: booking and confirmation components, hooks, services, constants (rules, hours, questionnaire), types, utils and the admin slot guard |
 | `lib/data/` | Page copy, exported from the PHP `constants/` files |
 
 ## Pages
@@ -147,6 +148,7 @@ Run `db/migrations/001_initial.sql` in the Neon SQL Editor, after turning on Neo
 | --- | --- |
 | `appointment-form/api/` | Create order, verify payment, slots, questionnaire, Meet link |
 | `appointment-form/src/` | Slot rules, holds, 45-minute blocking, Razorpay, checkout |
+| `docs/appointment-rules.md` | Next.js booking rules and settings, copied from the PHP slot rules |
 | `includes/db/` and `sql/` | MySQL tables and queries |
 | `email/` | Customer and admin emails, currently through PHPMailer |
 | `appointment-form/cron/` | Questionnaire reminder emails at 1, 3, 6, 12, 24, 30 and 36 hours |

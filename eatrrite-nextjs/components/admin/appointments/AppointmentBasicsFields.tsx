@@ -1,6 +1,7 @@
 "use client";
 
 import { DatePicker } from "@/components/admin/forms/DatePicker";
+import { ChoiceChips } from "@/components/admin/forms/ChoiceChips";
 import { TimeSelect } from "@/components/admin/forms/TimeSelect";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -15,7 +16,7 @@ import {
   APPOINTMENT_STATUSES,
   APPOINTMENT_STATUS_LABELS,
 } from "@/constants/admin/appointments/statuses";
-import { SERVICES } from "@/constants/appointment/schedule";
+import { SERVICES } from "@/features/appointment/constants/appointment-settings";
 import type { ClinicAppointmentInput } from "@/types/admin/appointment";
 import type { Lead } from "@/types/admin/lead";
 
@@ -24,6 +25,10 @@ type AppointmentBasicsFieldsProps = {
   leads: Lead[];
   onChange: (next: ClinicAppointmentInput) => void;
   onLeadChange: (leadId: string) => void;
+  onDateChange: (date: string) => void;
+  /** Start times the schedule allows on the chosen date. */
+  timeOptions: string[];
+  slotError: string | null;
 };
 
 export function AppointmentBasicsFields({
@@ -31,54 +36,61 @@ export function AppointmentBasicsFields({
   leads,
   onChange,
   onLeadChange,
+  onDateChange,
+  timeOptions,
+  slotError,
 }: AppointmentBasicsFieldsProps) {
   const set = <K extends keyof ClinicAppointmentInput>(
     key: K,
     next: ClinicAppointmentInput[K],
   ) => onChange({ ...value, [key]: next });
-  const selectedLeadName =
-    leads.find((lead) => lead.id === value.leadId)?.name ?? "Select lead";
+  const lead = leads.find((item) => item.id === value.leadId);
 
   return (
-    <div className="grid gap-3 sm:grid-cols-2">
+    <div className="grid gap-5 sm:grid-cols-2">
       <div className="space-y-2 sm:col-span-2">
         <Label>Lead</Label>
         <Select
-          value={value.leadId}
+          value={value.leadId || null}
           onValueChange={(leadId) => {
             if (leadId) onLeadChange(leadId);
           }}
         >
           <SelectTrigger className="w-full">
-            <SelectValue placeholder="Select lead">
-              {selectedLeadName}
+            <SelectValue placeholder="Choose who this is for">
+              {lead?.name ?? "Choose who this is for"}
             </SelectValue>
           </SelectTrigger>
           <SelectContent>
-            {leads.map((lead) => (
-              <SelectItem key={lead.id} value={lead.id}>
-                {lead.name}
+            {leads.map((item) => (
+              <SelectItem key={item.id} value={item.id}>
+                {item.name}
+                <span className="ml-2 text-xs text-muted-foreground">{item.phone}</span>
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
+        {lead ? (
+          <p className="m-0 text-xs text-muted-foreground">
+            {lead.gender} · {lead.age} years · their details are reused in the questionnaire.
+          </p>
+        ) : null}
       </div>
+
       <div className="space-y-2">
         <Label htmlFor="apt-date">Date</Label>
-        <DatePicker
-          id="apt-date"
-          value={value.date}
-          onChange={(date) => set("date", date)}
-        />
+        <DatePicker id="apt-date" value={value.date} onChange={onDateChange} />
       </div>
       <div className="space-y-2">
         <Label htmlFor="apt-time">Time</Label>
-        <TimeSelect
-          id="apt-time"
-          value={value.time}
-          onChange={(time) => set("time", time)}
-        />
+        <TimeSelect id="apt-time" value={value.time} options={timeOptions} disabled={!value.date || timeOptions.length === 0} onChange={(time) => set("time", time)} />
+        {value.date && timeOptions.length === 0 ? (
+          <p className="m-0 text-xs text-muted-foreground">Closed or fully booked on this day.</p>
+        ) : slotError ? (
+          <p className="m-0 text-xs text-alert-text">{slotError}</p>
+        ) : null}
       </div>
+
       <div className="space-y-2 sm:col-span-2">
         <Label>Service</Label>
         <Select
@@ -102,32 +114,25 @@ export function AppointmentBasicsFields({
           </SelectContent>
         </Select>
       </div>
+
       <div className="space-y-2 sm:col-span-2">
         <Label>Status</Label>
-        <Select
-          value={value.status}
-          onValueChange={(status) => {
-            if (status) set("status", status as ClinicAppointmentInput["status"]);
-          }}
-        >
-          <SelectTrigger className="w-full">
-            <SelectValue>
-              {APPOINTMENT_STATUS_LABELS[value.status]}
-            </SelectValue>
-          </SelectTrigger>
-          <SelectContent>
-            {APPOINTMENT_STATUSES.map((status) => (
-              <SelectItem key={status} value={status}>
-                {APPOINTMENT_STATUS_LABELS[status]}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <ChoiceChips
+          options={APPOINTMENT_STATUSES}
+          value={[value.status]}
+          labelFor={(status) => APPOINTMENT_STATUS_LABELS[status as ClinicAppointmentInput["status"]]}
+          onChange={([status]) => set("status", status as ClinicAppointmentInput["status"])}
+        />
       </div>
+
       <div className="space-y-2 sm:col-span-2">
-        <Label htmlFor="apt-notes">Notes (optional)</Label>
+        <Label htmlFor="apt-notes">
+          Notes <span className="font-normal text-muted-foreground">(optional)</span>
+        </Label>
         <Textarea
           id="apt-notes"
+          rows={3}
+          placeholder="Anything to remember for this consultation"
           value={value.notes ?? ""}
           onChange={(e) => set("notes", e.target.value || undefined)}
         />

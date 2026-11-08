@@ -1,5 +1,6 @@
 import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 import type { StatsCardModel } from "@/types/admin/dashboard";
+import { ICON_TONES } from "@/constants/admin/tones";
 import { cn } from "cn";
 
 type StatsCardProps = {
@@ -17,7 +18,7 @@ export function StatsCard({ card }: StatsCardProps) {
   return (
     <article className="rounded-2xl border border-border bg-card p-5 shadow-xs">
       <div className="flex items-center gap-3">
-        <div className="inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+        <div className={cn("inline-flex size-10 shrink-0 items-center justify-center rounded-full", ICON_TONES[card.tone])}>
           <Icon className="size-4" />
         </div>
         <div className="min-w-0">

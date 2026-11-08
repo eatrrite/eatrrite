@@ -2,7 +2,7 @@ import type {
   QuestionnaireAnswerMap,
   QuestionnaireAnswerValue,
   QuestionnaireAnswers,
-} from "@/types/appointment/questionnaire";
+} from "@/features/appointment/types/questionnaire";
 
 export function answerForKey(
   answers: QuestionnaireAnswers,

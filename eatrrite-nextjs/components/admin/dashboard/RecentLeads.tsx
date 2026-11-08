@@ -25,6 +25,7 @@ export function RecentLeads() {
     <DashboardCard>
       <DashboardCardHeader
         icon={<Users className="size-4" />}
+        tone="coral"
         title="Recent leads"
         action={
           <Link

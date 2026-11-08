@@ -34,7 +34,7 @@ export function LeadDetailsCard({
     <aside className="flex h-fit flex-col gap-4 self-start rounded-2xl border border-border bg-card p-5 shadow-xs">
       <HeroMotion key={`${lead.id}-head`} delay={0.05}>
         <div className="flex items-start gap-3">
-          <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-full bg-primary/10 font-heading text-sm font-bold text-primary">
+          <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-full bg-accent/25 font-heading text-sm font-bold text-ink">
             {getInitials(lead.name)}
           </span>
           <div className="min-w-0 flex-1">

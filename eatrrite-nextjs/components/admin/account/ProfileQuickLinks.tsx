@@ -7,11 +7,14 @@ import {
   DashboardCardHeader,
 } from "@/components/admin/dashboard/DashboardCard";
 
+import { ICON_TONES } from "@/constants/admin/tones";
+import { cn } from "cn";
+
 const LINKS = [
-  { href: "/admin/leads", label: "Leads", icon: Users },
-  { href: "/admin/appointments", label: "Appointments", icon: CalendarDays },
-  { href: "/admin/schedule", label: "Schedule", icon: Clock3 },
-  { href: "/admin/settings", label: "Settings", icon: Settings },
+  { href: "/admin/leads", label: "Leads", icon: Users, tone: "coral" },
+  { href: "/admin/appointments", label: "Appointments", icon: CalendarDays, tone: "gold" },
+  { href: "/admin/schedule", label: "Schedule", icon: Clock3, tone: "teal" },
+  { href: "/admin/settings", label: "Settings", icon: Settings, tone: "leaf" },
 ] as const;
 
 export function ProfileQuickLinks() {
@@ -19,6 +22,7 @@ export function ProfileQuickLinks() {
     <DashboardCard>
       <DashboardCardHeader
         icon={<Settings className="size-4" />}
+        tone="leaf"
         title="Quick links"
         subtitle="Jump back into admin work"
       />
@@ -31,7 +35,7 @@ export function ProfileQuickLinks() {
               href={item.href}
               className="flex items-center gap-3 rounded-xl border border-border px-3 py-3 text-sm font-medium text-foreground transition-colors hover:bg-muted/60"
             >
-              <span className="inline-flex size-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <span className={cn("inline-flex size-8 items-center justify-center rounded-lg", ICON_TONES[item.tone])}>
                 <Icon className="size-4" />
               </span>
               {item.label}

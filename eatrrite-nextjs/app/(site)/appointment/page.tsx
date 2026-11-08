@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { BookingForm } from "@/components/appointment/BookingForm";
+import { BookingForm } from "@/features/appointment/components/BookingForm";
 import { PageBanner } from "@/components/layout/PageBanner";
 import { BlurIn } from "@/components/motion/BlurIn";
 import { PageSection } from "@/components/shared/section/PageSection";
 import { SectionIntro } from "@/components/shared/section/SectionIntro";
 import { env } from "@/config/env";
-import copy from "@/constants/appointment/content.json";
+import copy from "@/features/appointment/constants/content.json";
 import { pageFood } from "@/constants/home/floatingFood";
 
 export const metadata: Metadata = {

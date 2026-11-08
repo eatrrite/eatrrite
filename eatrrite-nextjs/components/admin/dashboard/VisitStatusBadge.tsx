@@ -9,7 +9,7 @@ import { cn } from "cn";
 const VISIT_STATUS_TONES: Record<VisitStatus, StatusTone> = {
   completed: "success",
   in_progress: "active",
-  upcoming: "muted",
+  upcoming: "pending",
 };
 
 const STATUS_LABELS: Record<VisitStatus, string> = {

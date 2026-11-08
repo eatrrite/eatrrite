@@ -1,5 +1,6 @@
 import type { ClinicAppointmentStatus } from "@/types/admin/appointment";
 import type { LucideIcon } from "lucide-react";
+import type { IconTone } from "@/constants/admin/tones";
 import type { DateRange } from "react-day-picker";
 
 export type AppointmentTrendPoint = {
@@ -38,6 +39,7 @@ export type StatsCardModel = {
   label: string;
   value: string;
   icon: LucideIcon;
+  tone: IconTone;
   trendPercent: number | null;
   trendLabel: string;
 };

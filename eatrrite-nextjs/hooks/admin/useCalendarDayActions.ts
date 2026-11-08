@@ -13,8 +13,7 @@ import { appointmentSaveToast } from "@/utils/admin/describeRecordChanges";
 export function useCalendarDayActions(selectedKey: string) {
   const leads = useClinicStore((s) => s.leads);
   const getLead = useClinicStore((s) => s.getLead);
-  const addAppointment = useClinicStore((s) => s.addAppointment);
-  const updateAppointment = useClinicStore((s) => s.updateAppointment);
+  const saveAppointment = useClinicStore((s) => s.saveAppointment);
   const deleteAppointment = useClinicStore((s) => s.deleteAppointment);
   const showToast = useShowToast();
   const { ask, props: confirmProps } = useConfirmDialog();
@@ -31,9 +30,12 @@ export function useCalendarDayActions(selectedKey: string) {
     const previousName = editing
       ? (getLead(editing.leadId)?.name ?? "Lead")
       : nextName;
+    const result = saveAppointment(input, editing?.id);
+    if (!result.ok) {
+      showToast({ title: "Time not available", description: result.error, type: "error" });
+      return;
+    }
     showToast(appointmentSaveToast(editing, input, previousName, nextName));
-    if (editing) updateAppointment(editing.id, input);
-    else addAppointment(input);
   };
 
   const remove = (item: ClinicAppointment) => {
@@ -56,7 +58,7 @@ export function useCalendarDayActions(selectedKey: string) {
 
   const openCreate = (extra?: Partial<ClinicAppointmentInput>) => {
     setEditing(null);
-    setDefaults({ date: selectedKey, time: "10:00", ...extra });
+    setDefaults({ date: selectedKey, ...extra });
     setFormOpen(true);
   };
 

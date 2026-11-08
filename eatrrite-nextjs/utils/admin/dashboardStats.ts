@@ -61,6 +61,7 @@ export function buildDashboardStats(
       label: "Total Leads",
       value: String(leadNow),
       icon: Users,
+      tone: "teal",
       trendPercent:
         leadPrev === null ? null : percentChange(leadNow, leadPrev),
       trendLabel,
@@ -70,6 +71,7 @@ export function buildDashboardStats(
       label: "Appointments",
       value: String(aptNow),
       icon: CalendarDays,
+      tone: "gold",
       trendPercent: aptPrev === null ? null : percentChange(aptNow, aptPrev),
       trendLabel,
     },
@@ -78,6 +80,7 @@ export function buildDashboardStats(
       label: "Completed",
       value: String(doneNow),
       icon: CalendarCheck2,
+      tone: "leaf",
       trendPercent: donePrev === null ? null : percentChange(doneNow, donePrev),
       trendLabel,
     },
@@ -86,6 +89,7 @@ export function buildDashboardStats(
       label: "Revenue",
       value: `₹${revenueNow.toLocaleString("en-IN")}`,
       icon: IndianRupee,
+      tone: "coral",
       trendPercent:
         revenuePrev === null ? null : percentChange(revenueNow, revenuePrev),
       trendLabel,

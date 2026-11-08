@@ -13,8 +13,7 @@ import { appointmentSaveToast } from "@/utils/admin/describeRecordChanges";
 /** Create/edit/delete handlers for the appointments table. */
 export function useAppointmentTableActions() {
   const getLead = useClinicStore((s) => s.getLead);
-  const addAppointment = useClinicStore((s) => s.addAppointment);
-  const updateAppointment = useClinicStore((s) => s.updateAppointment);
+  const saveAppointment = useClinicStore((s) => s.saveAppointment);
   const deleteAppointment = useClinicStore((s) => s.deleteAppointment);
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<ClinicAppointment | null>(null);
@@ -26,9 +25,12 @@ export function useAppointmentTableActions() {
     const previousName = editing
       ? (getLead(editing.leadId)?.name ?? "Lead")
       : nextName;
+    const result = saveAppointment(input, editing?.id);
+    if (!result.ok) {
+      showToast({ title: "Time not available", description: result.error, type: "error" });
+      return;
+    }
     showToast(appointmentSaveToast(editing, input, previousName, nextName));
-    if (editing) updateAppointment(editing.id, input);
-    else addAppointment(input);
   };
 
   const remove = (item: ClinicAppointment) => {

@@ -48,6 +48,7 @@ export function AppointmentsChart() {
     <DashboardCard>
       <DashboardCardHeader
         icon={<CalendarDays className="size-4" />}
+        tone="gold"
         title="Appointments"
         subtitle="Daily appointments for the last 7 days"
         action={
@@ -103,8 +104,8 @@ export function AppointmentsChart() {
               stroke="var(--primary)"
               strokeWidth={2.5}
               fill="url(#apptFill)"
-              dot={{ r: 4, fill: "var(--primary)", strokeWidth: 0 }}
-              activeDot={{ r: 5, fill: "var(--primary)", strokeWidth: 0 }}
+              dot={{ r: 4, fill: "var(--accent)", stroke: "var(--card)", strokeWidth: 2 }}
+              activeDot={{ r: 6, fill: "var(--accent)", stroke: "var(--primary)", strokeWidth: 2 }}
             />
           </AreaChart>
         </ResponsiveContainer>

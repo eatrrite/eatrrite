@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { ICON_TONES, type IconTone } from "@/constants/admin/tones";
 import { cn } from "cn";
 
 type DashboardCardProps = {
@@ -24,6 +25,7 @@ type DashboardCardHeaderProps = {
   title: string;
   subtitle?: string;
   action?: ReactNode;
+  tone?: IconTone;
 };
 
 export function DashboardCardHeader({
@@ -31,11 +33,12 @@ export function DashboardCardHeader({
   title,
   subtitle,
   action,
+  tone = "teal",
 }: DashboardCardHeaderProps) {
   return (
     <div className="mb-4 flex items-start justify-between gap-3">
       <div className="flex min-w-0 items-start gap-3">
-        <span className="mt-0.5 inline-flex size-9 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+        <span className={cn("mt-0.5 inline-flex size-9 shrink-0 items-center justify-center rounded-xl", ICON_TONES[tone])}>
           {icon}
         </span>
         <div className="min-w-0">

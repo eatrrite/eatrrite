@@ -1,8 +1,8 @@
 import { env } from "@/config/env";
-import { findIdByOrder } from "@/services/appointmentReads";
-import { confirmPayment } from "@/services/appointmentWrites";
+import { findIdByOrder } from "@/features/appointment/services/appointmentReads";
+import { confirmPayment } from "@/features/appointment/services/appointmentWrites";
 import { fail, ok } from "@/utils/apiResponse";
-import { isValidPaymentSignature } from "@/utils/razorpaySignature";
+import { isValidPaymentSignature } from "@/features/appointment/utils/razorpaySignature";
 
 type VerifyBody = {
   razorpay_order_id?: string;

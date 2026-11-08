@@ -22,15 +22,18 @@ Short, binding rules for the Eat Rrite Next.js site. Clarity beats cleverness.
 | `components/shared/` | Parts used by several pages |
 | `components/ui/` | shadcn components |
 | `components/admin/` | Admin panel, by page (`components/admin/calendar/`) |
+| `features/<feature>/` | Everything one feature needs, in one place: `components/`, `hooks/`, `services/`, `constants/`, `types/`, `utils/`, `stores/`. Today: `features/appointment/` |
 | `stores/` | Client state for the admin (zustand), until Neon is wired |
 | `constants/<page>/` | Copy for one page, such as `constants/about/` |
 | `constants/` | Brand manifest, routes, API paths, motion values |
-| `hooks/` | React hooks, such as `useBooking`; admin hooks in `hooks/admin/` |
-| `services/` | Database, Razorpay, Apps Script and browser API calls |
-| `utils/` | Small pure helpers, such as slot maths and validators |
+| `hooks/` | Shared React hooks; admin hooks in `hooks/admin/`. Feature hooks live in their feature |
+| `services/` | Shared services, such as the database client. Feature services live in their feature |
+| `utils/` | Small pure helpers used everywhere, such as API responses. Feature helpers live in their feature |
 | `config/` | Server environment variables |
 | `types/` | Shared types |
 | `db/migrations/` | SQL to run in Neon, numbered in order |
+
+New feature code goes in `features/<feature>/`. Import it with `@/features/<feature>/...`. A feature never imports another feature's internals, and shared code (`components/ui`, `utils/apiResponse`, `services/database`) never imports from a feature.
 
 ## Naming
 
@@ -61,7 +64,7 @@ Short, binding rules for the Eat Rrite Next.js site. Clarity beats cleverness.
 - Use `check` constraints for fixed value lists, such as `status` and `role`.
 - No extra indexes, views or functions until a real need appears.
 - Change the schema only with a new numbered file in `db/migrations/`. Never edit a file that already ran.
-- Queries live in `services/`. Always use the `db()` tagged template, never string-built SQL.
+- Queries live in `services/` (or a feature's `services/`). Always use the `db()` tagged template, never string-built SQL.
 
 ## Security
 

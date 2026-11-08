@@ -1,6 +1,6 @@
-import { saveQuestionnaire } from "@/services/appointmentWrites";
+import { saveQuestionnaire } from "@/features/appointment/services/appointmentWrites";
 import { fail, ok } from "@/utils/apiResponse";
-import { validateQuestionnaire } from "@/utils/validateQuestionnaire";
+import { validateQuestionnaire } from "@/features/appointment/utils/validateQuestionnaire";
 
 type Context = { params: Promise<{ id: string }> };
 

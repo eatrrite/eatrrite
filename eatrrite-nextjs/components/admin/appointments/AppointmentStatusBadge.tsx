@@ -8,7 +8,7 @@ import type { ClinicAppointmentStatus } from "@/types/admin/appointment";
 import { cn } from "cn";
 
 const APPOINTMENT_STATUS_TONES: Record<ClinicAppointmentStatus, StatusTone> = {
-  upcoming: "muted",
+  upcoming: "pending",
   completed: "success",
   "not-attended": "muted",
   cancelled: "danger",

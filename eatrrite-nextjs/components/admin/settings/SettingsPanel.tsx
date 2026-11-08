@@ -18,6 +18,7 @@ export function SettingsPanel() {
     <DashboardCard>
       <DashboardCardHeader
         icon={<Bell className="size-4" />}
+        tone="gold"
         title="Notifications"
         subtitle="Dummy preferences saved in this browser"
       />

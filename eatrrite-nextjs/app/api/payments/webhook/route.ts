@@ -1,7 +1,7 @@
 import { env } from "@/config/env";
-import { confirmPayment } from "@/services/appointmentWrites";
+import { confirmPayment } from "@/features/appointment/services/appointmentWrites";
 import { fail, ok } from "@/utils/apiResponse";
-import { isValidWebhookSignature } from "@/utils/razorpaySignature";
+import { isValidWebhookSignature } from "@/features/appointment/utils/razorpaySignature";
 
 // POST /api/payments/webhook → Razorpay "payment.captured" event.
 // Confirms the booking even if the customer closed the browser before the

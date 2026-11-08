@@ -1,10 +1,10 @@
-import { QUESTIONNAIRE_QUESTIONS } from "@/constants/appointment/questionnaire-questions";
-import { isProfileQuestionKey } from "@/constants/appointment/profile-questions";
+import { QUESTIONNAIRE_QUESTIONS } from "@/features/appointment/constants/questionnaire-questions";
+import { isProfileQuestionKey } from "@/features/appointment/constants/profile-questions";
 import type { Lead } from "@/types/admin/lead";
 import type {
   QuestionnaireAnswers,
   QuestionnaireQuestion,
-} from "@/types/appointment/questionnaire";
+} from "@/features/appointment/types/questionnaire";
 import { answerForKey, setAnswerForKey } from "@/utils/admin/questionnaireAnswers";
 
 /** Questions the admin must fill (name/age/gender come from the lead). */
@@ -49,4 +49,13 @@ export function isAdminQuestionnaireComplete(
     }
   }
   return true;
+}
+
+/** How many required admin questions have no answer yet. */
+export function unansweredRequiredCount(answers: QuestionnaireAnswers): number {
+  return adminQuestionnaireQuestions().filter((question) => {
+    if (!question.required) return false;
+    const answer = answerForKey(answers, question.key);
+    return Array.isArray(answer) ? answer.length === 0 : !String(answer ?? "").trim();
+  }).length;
 }
