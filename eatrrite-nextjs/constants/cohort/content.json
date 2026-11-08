@@ -1,0 +1,252 @@
+{
+  "hero": {
+    "pill": "10 spots · Women's hormonal health & lifestyle reversal",
+    "title": "Reverse Your Lifestyle Disease & Hormonal Imbalance — With a Plan Built Around You",
+    "text": "For women dealing with perimenopause/PMOS, thyroid imbalance, stubborn weight, or early lifestyle disease who are ready to work on the root cause — guided personally by nutritionist Mukta Patil.",
+    "image": "/images/services/female-hormone-health-nutrition.jpg",
+    "imageAlt": "Women's hormonal health and lifestyle coaching with Eat Rrite",
+    "cta": "Book your Consultation",
+    "stats": [
+      {
+        "value": "8",
+        "label": "Years of Practice"
+      },
+      {
+        "value": "500+",
+        "label": "Lives Transformed"
+      },
+      {
+        "value": "4.8",
+        "label": "Google Rating"
+      }
+    ]
+  },
+  "fit": {
+    "pill": "Is this you?",
+    "title": "Is This You?",
+    "lead": "This cohort is built for women who recognise themselves in a few of these — you’ll walk us through them when you confirm your consultation.",
+    "items": [
+      {
+        "icon": "fa-weight-scale",
+        "title": "Stubborn weight gain"
+      },
+      {
+        "icon": "fa-battery-quarter",
+        "title": "Constant fatigue, low energy"
+      },
+      {
+        "icon": "fa-cookie-bite",
+        "title": "Sugar cravings you can't control"
+      },
+      {
+        "icon": "fa-hand-dots",
+        "title": "Hair fall or adult acne"
+      },
+      {
+        "icon": "fa-moon",
+        "title": "Disturbed sleep or mood swings"
+      },
+      {
+        "icon": "fa-heart-pulse",
+        "title": "Thyroid imbalance"
+      },
+      {
+        "icon": "fa-droplet",
+        "title": "Pre-diabetes, diabetes, or high BP"
+      },
+      {
+        "icon": "fa-calendar-xmark",
+        "title": "Irregular or missed periods"
+      }
+    ]
+  },
+  "compare": {
+    "pill": "Why nothing has worked",
+    "title": "Why Nothing Has Worked",
+    "lead": "Crash diets, calorie apps and Instagram tips treat the symptom you can see. Hormonal imbalance and early lifestyle disease sit underneath — they need a plan built around your reports, not another 30-day challenge.",
+    "note": "Eat Rrite vs diet apps vs Instagram advice — same problem, very different starting points.",
+    "cols": [
+      {
+        "title": "Eat Rrite",
+        "icon": "fa-leaf",
+        "brand": true
+      },
+      {
+        "title": "Generic Diet Apps",
+        "icon": "fa-mobile-screen",
+        "brand": false
+      },
+      {
+        "title": "Instagram Advice",
+        "icon": "fa-instagram",
+        "brand": false
+      }
+    ],
+    "rows": [
+      [
+        "Personalised to your hormones & labs",
+        "yes",
+        "no",
+        "warn"
+      ],
+      [
+        "1-on-1 time with a qualified nutritionist",
+        "yes",
+        "no",
+        "warn"
+      ],
+      [
+        "Root-cause focus, not just calories",
+        "yes",
+        "warn",
+        "no"
+      ],
+      [
+        "Guidance on which tests to actually take",
+        "yes",
+        "no",
+        "no"
+      ],
+      [
+        "8 years in practice, 500+ clients guided",
+        "yes",
+        "dash",
+        "warn"
+      ]
+    ]
+  },
+  "guide": {
+    "pill": "Your Guide Through the Program",
+    "title": "Meet Mukta Patil — Nutritionist & Founder, Eat Rrite",
+    "text": "Mukta didn’t set out to become a nutritionist — she became one because she had to. Eat Rrite began from her own health crisis: postpartum weight gain, crash diets, and body-shaming that failed her. Eight years on, her mission is unchanged — helping women heal, in mind and body, without fear, judgment, or fads.",
+    "image": "/images/about/mukta-patil-nutritionist.jpg",
+    "points": [
+      "8 years in practice across Hyderabad & Dehradun",
+      "500+ clients guided through sustainable transformation",
+      "Focus areas: hormonal health, diabetes reversal, weight & lifestyle management",
+      "Science-backed, culturally-rooted coaching — food you already eat, not a fad diet"
+    ]
+  },
+  "get": {
+    "pill": "Your ₹800 consultation",
+    "title": "Your ₹800 Consultation",
+    "lead": "One conversation. Clear next steps. No lock-in to a longer program until you choose it.",
+    "items": [
+      {
+        "num": "01",
+        "icon": "fa-user-doctor",
+        "title": "1-on-1 with Mukta",
+        "text": "A 30-minute consultation with Mukta Patil herself — not a junior coach or a chatbot."
+      },
+      {
+        "num": "02",
+        "icon": "fa-comments",
+        "title": "A real conversation",
+        "text": "Talk through your symptoms, history, and what is actually going on in your body."
+      },
+      {
+        "num": "03",
+        "icon": "fa-vial",
+        "title": "Test guidance",
+        "text": "Leave knowing exactly which tests to take next, if any — no guesswork."
+      },
+      {
+        "num": "04",
+        "icon": "fa-clipboard-list",
+        "title": "A path forward",
+        "text": "If you continue: a personalised 30, 90, or 180-day reversal plan."
+      },
+      {
+        "num": "05",
+        "icon": "fa-people-group",
+        "title": "Community access",
+        "text": "Once you join the program, you get access to the Eat Rrite community."
+      }
+    ]
+  },
+  "steps": {
+    "title": "How It Works",
+    "lead": "From booking to a program built for you — no long application, just four simple steps.",
+    "items": [
+      {
+        "num": "01",
+        "icon": "fa-credit-card",
+        "title": "Pay & Book",
+        "text": "₹800, one-time, 30 minutes. Pay directly on this page — no waiting on an application."
+      },
+      {
+        "num": "02",
+        "icon": "fa-clipboard-list",
+        "title": "Confirm Your Details",
+        "text": "Right after payment, tell us your symptoms and goals and pick your exact consultation time."
+      },
+      {
+        "num": "03",
+        "icon": "fa-comments",
+        "title": "Get Direction",
+        "text": "Talk through what's going on and get guided on exactly which tests to take next."
+      },
+      {
+        "num": "04",
+        "icon": "fa-people-group",
+        "title": "Join the Program",
+        "text": "Continue on a personalised 30, 90 or 180-day plan and join the Eat Rrite community."
+      }
+    ],
+    "note": "The ₹800 consultation fee covers your 30-minute session only and is separate from — not adjusted against — program fees.",
+    "cta": "Book Your Consultation"
+  },
+  "videos": {
+    "pill": "Testimonials",
+    "title": "Hear From Our Clients",
+    "lead": "Short video stories from women who worked with Mukta on hormones, weight and lifestyle.",
+    "items": [
+      "/videos/cohort/3hQAWKcZEgQ.mp4",
+      "/videos/cohort/DHrqSjeq3HI.mp4",
+      "/videos/cohort/4mAqFJYEptw.mp4"
+    ]
+  },
+  "investment": {
+    "pill": "An investment, not an expense",
+    "title": "One consultation. A clearer way forward.",
+    "text": "₹800 is a single conversation with Mukta about your hormones, weight, and energy. You leave knowing what is driving the symptoms and what to change first. That is money put toward getting well — not another month spent managing the same problem.",
+    "cta": "Book Your Consultation"
+  },
+  "faq": {
+    "pill": "FAQs",
+    "title": "Frequently asked questions",
+    "image": "/images/faq/mukta-patil-nutrition-faq.png",
+    "items": [
+      {
+        "q": "Is the ₹800 consultation fee adjusted against the program fee?",
+        "a": "No. It's a one-time fee for the 30-minute consultation itself, separate from any program you choose afterward."
+      },
+      {
+        "q": "I've tried diets before and nothing stuck. What's different here?",
+        "a": "Most diets treat the symptom — weight, cravings — without asking why it’s happening. Mukta starts with your actual hormones, labs, and lifestyle, so the plan fits what your body needs, not a generic chart."
+      },
+      {
+        "q": "Do I need blood tests done before I book?",
+        "a": "No. That's exactly what the consultation is for — Mukta will guide you on which tests make sense for you, if any, after hearing your history."
+      },
+      {
+        "q": "What if this cohort's slots are full or I miss the 5th?",
+        "a": "A new cohort of 10 opens every month. WhatsApp us at +91 96398 77483 and we’ll let you know when the next one opens."
+      },
+      {
+        "q": "Am I committing to the full program by booking the consultation?",
+        "a": "No. Booking only confirms your 30-minute consultation. Continuing into a 30/90/180-day program is a separate choice you make after."
+      }
+    ]
+  },
+  "cta": {
+    "pill": "Only 10 spots this cohort",
+    "title": "Book your consultation today",
+    "text": "Bookings close on the 5th. Pay ₹800 now — hear from Mukta within 48 hours.",
+    "cta": "Book Your Consultation"
+  },
+  "sticky": {
+    "text": "10 spots this cohort · Bookings close the 5th",
+    "cta": "Book Consultation — ₹800"
+  }
+}

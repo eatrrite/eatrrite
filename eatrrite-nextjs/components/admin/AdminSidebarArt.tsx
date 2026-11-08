@@ -4,7 +4,7 @@ import Image from "next/image";
 
 const SIDEBAR_ART = "/images/admin/layout/woman-with-laptop.png";
 
-/** Decorative fill for empty space above the sidebar collapse control. */
+/** Decorative fill for whatever space is left under the menu; shrinks (or vanishes) first. */
 export function AdminSidebarArt() {
   return (
     <div

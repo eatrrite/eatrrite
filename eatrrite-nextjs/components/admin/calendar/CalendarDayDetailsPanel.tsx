@@ -1,8 +1,11 @@
 "use client";
 
+import { EmptyState } from "@/components/shared/EmptyState";
 import { Plus } from "lucide-react";
 import { format } from "date-fns";
 import { CalendarDayAppointmentCard } from "@/components/admin/calendar/CalendarDayAppointmentCard";
+import { CalendarDayHiddenSlots } from "@/components/admin/calendar/CalendarDayHiddenSlots";
+import { toDateValue } from "@/utils/admin/date";
 import { Button } from "@/components/ui/button";
 import type { Appointment } from "@/types/admin/appointment";
 import { parseTimeToMinutes } from "@/utils/admin/calendarTime";
@@ -57,10 +60,12 @@ export function CalendarDayDetailsPanel({
         </Button>
       </div>
 
+      <CalendarDayHiddenSlots date={toDateValue(selectedDate)} />
+
       <div className="mt-4 flex min-h-0 flex-1 flex-col gap-2.5 overflow-y-auto">
         {count === 0 ? (
-          <div className="flex flex-1 items-center justify-center rounded-xl border border-dashed border-border px-4 py-10 text-center text-sm text-muted-foreground">
-            No appointments on this day. Add one to get started.
+          <div className="flex flex-1 items-center justify-center rounded-xl border border-dashed border-border px-4">
+            <EmptyState size="sm" image="appointments" title="Nothing booked this day" description="Add an appointment to get started." />
           </div>
         ) : (
           sorted.map((item) => (

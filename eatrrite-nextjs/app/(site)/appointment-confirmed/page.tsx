@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import { LoadingState } from "@/components/shared/LoadingState";
 import { redirect } from "next/navigation";
 import { ROUTES } from "@/constants/routes";
 import { ConfirmedBooking } from "@/features/appointment/components/confirmed/ConfirmedBooking";
@@ -28,7 +29,7 @@ async function Confirmed({ searchParams }: Props) {
 export default function AppointmentConfirmedPage(props: Props) {
   return (
     <section className="border-b border-border bg-mint py-20">
-      <Suspense fallback={<div className="er-container min-h-96" />}>
+      <Suspense fallback={<LoadingState label="Loading your booking…" className="er-container min-h-96" />}>
         <Confirmed {...props} />
       </Suspense>
     </section>

@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     type: "website",
     siteName: BRAND.name,
     locale: BRAND.locale,
-    images: [BRAND.shareImage],
+    images: [{ url: BRAND.shareImage, width: 1200, height: 630 }],
   },
   twitter: { card: "summary_large_image" },
 };
@@ -41,7 +41,7 @@ export const viewport: Viewport = { themeColor: BRAND.themeColor };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${libreBaskerville.variable} ${merriweather.variable} ${caveat.variable}`}>
+    <html lang="en-IN" className={`${libreBaskerville.variable} ${merriweather.variable} ${caveat.variable}`}>
       <body>{children}</body>
     </html>
   );

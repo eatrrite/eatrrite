@@ -1,27 +1,11 @@
 "use client";
 
+import { EmptyState } from "@/components/shared/EmptyState";
 import { useMemo, useState } from "react";
 import { CalendarDays } from "lucide-react";
-import {
-  Area,
-  AreaChart,
-  CartesianGrid,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
-import {
-  DashboardCard,
-  DashboardCardHeader,
-} from "@/components/admin/dashboard/DashboardCard";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { DashboardCard, DashboardCardHeader } from "@/components/admin/dashboard/DashboardCard";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { todayIst } from "@/features/appointment/utils/istTime";
 import { useAdminStore } from "@/stores/useAdminStore";
 import { appointmentTrend } from "@/utils/admin/appointmentTrend";
@@ -73,6 +57,9 @@ export function AppointmentsChart() {
           </Select>
         }
       />
+      {data.every((point) => point.count === 0) ? (
+        <EmptyState size="sm" image="chart" title="No appointments in this period" description="The chart fills in as consultations are booked." className="min-h-60" />
+      ) : (
       <div className="min-h-0 flex-1 pt-2">
         <ResponsiveContainer width="100%" height={240}>
           <AreaChart
@@ -119,6 +106,7 @@ export function AppointmentsChart() {
           </AreaChart>
         </ResponsiveContainer>
       </div>
+      )}
     </DashboardCard>
   );
 }

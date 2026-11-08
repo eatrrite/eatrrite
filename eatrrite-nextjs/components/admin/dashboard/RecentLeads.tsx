@@ -1,5 +1,6 @@
 "use client";
 
+import { EmptyState } from "@/components/shared/EmptyState";
 import { useMemo } from "react";
 import Link from "next/link";
 import { Users } from "lucide-react";
@@ -39,6 +40,9 @@ export function RecentLeads() {
           </Link>
         }
       />
+      {rows.length === 0 ? (
+        <EmptyState size="sm" image="leads" title="No leads yet" description="New bookings and leads you add show up here." />
+      ) : null}
       <ul className="divide-y divide-border">
         {rows.map((lead) => (
           <li key={lead.id}>

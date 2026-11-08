@@ -9,7 +9,7 @@
         ],
         "primaryCta": {
             "label": "Get Consultation",
-            "href": "/appointment"
+            "href": "/book"
         },
         "secondaryCta": {
             "label": "View Our Programs",
@@ -48,8 +48,8 @@
         "text": "Her approach is simple: food should never be feared. It should be understood.",
         "quote": "Your body is a living marvel — take care of it, and it will take care of you when you are old.",
         "cite": "— Mukta Patil (founder)",
-        "image": "/images/about/founder.jpg",
-        "sideImage": "/images/about/bowl.jpg",
+        "image": "/images/about/mukta-patil-nutritionist.jpg",
+        "sideImage": "/images/about/balanced-indian-meal-bowl.jpg",
         "stats": [
             {
                 "value": "8",
@@ -65,7 +65,7 @@
             },
             {
                 "value": "Stories",
-                "label": "Real Client Stories",
+                "label": "Client Stories",
                 "href": "#testimonials"
             }
         ],
@@ -81,7 +81,6 @@
             {
                 "num": "01",
                 "icon": "fa-bowl-food",
-                "title": "Where Food Becomes Medicine",
                 "text": "No crash diets, no starvation. You keep eating your own traditional cuisine — idli-dosa-sambar, rice, paratha and sabzi — we just teach you how to balance it."
             },
             {
@@ -146,13 +145,13 @@
         "lead": "Every program starts with a consultation call that looks at your reports, history and lifestyle — then we build a 30, 90 or 180-day plan around food you already eat.",
         "cta": {
             "label": "Get Consultation",
-            "href": "/appointment"
+            "href": "/book"
         }
     },
     "faq": {
         "pill": "FAQs",
         "title": "Frequently asked questions",
-        "image": "/images/faq/faq-illustration.png",
+        "image": "/images/faq/mukta-patil-nutrition-faq.png",
         "items": [
             {
                 "q": "How do I book a consultation with Eat Rrite?",
@@ -173,31 +172,6 @@
             {
                 "q": "Do you work with specific ages or conditions that need a doctor?",
                 "a": "We work with adults 18 and older, across weight loss and hormone health concerns for women of all ages. If your reports show discrepancies beyond nutrition, we loop in a doctor — either one you already have, or one we can refer you to."
-            }
-        ]
-    },
-    "blog": {
-        "pill": "Blog",
-        "title": "The latest insights on nutrition health",
-        "lead": "Stay informed with expert articles covering the latest nutrition research, healthy eating habits and holistic wellness tips.",
-        "posts": [
-            {
-                "image": "/images/blog/blog1.jpg",
-                "date": "04",
-                "title": "Best foods to naturally boost daily energy levels",
-                "text": "The foods you eat play a key role in maintaining steady energy throughout the day."
-            },
-            {
-                "image": "/images/blog/blog2.jpg",
-                "date": "04",
-                "title": "Explore science-backed habits for healthy eating",
-                "text": "The foods you eat play a key role in maintaining steady energy and better digestion."
-            },
-            {
-                "image": "/images/blog/blog3.jpg",
-                "date": "04",
-                "title": "How personalized nutrition supports lasting wellness",
-                "text": "The foods you eat play a key role in maintaining steady energy and lifestyle balance."
             }
         ]
     },
@@ -247,7 +221,7 @@
         "text": "Don't just chase weight loss — bring in holistic wellbeing.",
         "cta": {
             "label": "Start Your Journey Now",
-            "href": "/appointment"
+            "href": "/book"
         }
     }
 }

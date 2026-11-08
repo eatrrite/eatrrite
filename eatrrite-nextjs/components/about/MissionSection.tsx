@@ -9,7 +9,7 @@ export function MissionSection() {
   const { mission } = about;
   return (
     <PageSection tone="mint" food={pageFood(3)}>
-      <SectionIntro eyebrow={mission.pill} title={mission.title} count={mission.cards.length} />
+      <SectionIntro eyebrow={mission.pill} title={mission.title} count={mission.cards.length} eyebrowHeading />
       <ol className="mt-10 mb-0 grid gap-5 p-0 md:grid-cols-3">
         {mission.cards.map((card, index) => (
           <BlurInItem key={card.title} delay={0.1 + index * 0.08} className="group rounded-lg border border-border bg-white p-6 transition-all duration-300 hover:-translate-y-0.5 hover:bg-mint">

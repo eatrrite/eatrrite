@@ -3,14 +3,14 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { programPath } from "@/constants/routes";
 
-type Program = { slug: string; short: string; image: string; summary: string };
+type Program = { slug: string; short: string; image: string; imageAlt: string; summary: string };
 
 // One program card in the reference design card style.
 export function ProgramTile({ program, index, linkLabel = "Learn More" }: { program: Program; index: number; linkLabel?: string }) {
   return (
-    <Link href={programPath(program.slug)} className="group flex h-full flex-col overflow-hidden rounded-lg border border-border bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-card">
+    <Link href={programPath(program.slug)} aria-label={`${linkLabel} about ${program.short}`} className="group flex h-full flex-col overflow-hidden rounded-lg border border-border bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-card">
       <div className="relative aspect-[4/3] overflow-hidden bg-secondary">
-        <Image src={program.image} alt={program.short} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" className="object-cover transition-transform duration-500 group-hover:scale-105" />
+        <Image src={program.image} alt={program.imageAlt} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" className="object-cover transition-transform duration-500 group-hover:scale-105" />
       </div>
       <div className="flex flex-1 flex-col gap-2 p-5">
         <span className="text-xs text-muted-foreground tabular-nums">{String(index + 1).padStart(2, "0")}</span>

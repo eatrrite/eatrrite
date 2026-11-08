@@ -1,5 +1,6 @@
 "use client";
 
+import { EmptyState } from "@/components/shared/EmptyState";
 import { useCallback, useMemo, useState } from "react";
 import { DataTable } from "@/components/admin/DataTable";
 import { LeadDetailsCard } from "@/components/admin/leads/LeadDetailsCard";
@@ -9,7 +10,6 @@ import { LeadsToolbar } from "@/components/admin/leads/LeadsToolbar";
 import { ConfirmationModal } from "@/components/admin/ConfirmationModal";
 import { useConfirmDialog } from "@/hooks/admin/useConfirmDialog";
 import { useSelectedRow } from "@/hooks/admin/useSelectedRow";
-import { useShowToast } from "@/hooks/useShowToast";
 import { useAdminStore } from "@/stores/useAdminStore";
 import type { Lead, LeadInput } from "@/types/admin/lead";
 import type { LeadListFilters } from "@/types/admin/lead";
@@ -26,23 +26,19 @@ export function LeadsTable() {
   const addLead = useAdminStore((s) => s.addLead);
   const updateLead = useAdminStore((s) => s.updateLead);
   const deleteLead = useAdminStore((s) => s.deleteLead);
-  const appointments = useAdminStore((s) => s.appointments);
-  const deleteAppointment = useAdminStore((s) => s.deleteAppointment);
   const [filters, setFilters] = useState(INITIAL_FILTERS);
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<Lead | null>(null);
   const { ask, props: confirmProps } = useConfirmDialog();
-  const showToast = useShowToast();
 
   const rows = useMemo(() => filterLeads(leads, filters), [leads, filters]);
   const getId = useCallback((lead: Lead) => lead.id, []);
   const [selectedId, selectRow, selected] = useSelectedRow(rows, getId);
 
   const save = (input: LeadInput) => {
-    const toast = leadSaveToast(editing, input);
-    if (editing) updateLead(editing.id, input);
-    else addLead(input);
-    showToast(toast);
+    const { title, description } = leadSaveToast(editing, input);
+    if (editing) updateLead(editing.id, input, { title, description });
+    else addLead(input, { title, description });
   };
 
   const remove = (lead: Lead) => {
@@ -52,14 +48,10 @@ export function LeadsTable() {
         "This removes the lead and any linked appointments from the lead list.",
       confirmLabel: "Delete lead",
       onConfirm: () => {
-        appointments
-          .filter((item) => item.leadId === lead.id)
-          .forEach((item) => deleteAppointment(item.id));
-        deleteLead(lead.id);
-        showToast({
+        // The database removes the lead's appointments with it (on delete cascade).
+        deleteLead(lead.id, {
           title: "Lead deleted",
           description: `${lead.name} was removed from the lead list.`,
-          type: "success",
         });
       },
     });
@@ -82,7 +74,14 @@ export function LeadsTable() {
           getRowId={getId}
           selectedRowId={selectedId}
           onRowSelect={(lead) => selectRow(lead.id)}
-          emptyMessage="No leads match these filters."
+          resetKey={JSON.stringify(filters)}
+          empty={
+            leads.length === 0 ? (
+              <EmptyState image="leads" title="No leads yet" description="Leads appear here when someone books on the website, or add one yourself." />
+            ) : (
+              <EmptyState image="search" title="No leads match" description="Try a different search or age filter." />
+            )
+          }
         />
         <LeadDetailsCard
           lead={selected}

@@ -18,7 +18,7 @@ export function createScheduleActions(set: SetState, get: GetState) {
     const before = get().days;
     const next = update(before);
     set({ days: next });
-    saveOrRevert(saveScheduleAction(next), () => set({ days: before }));
+    saveOrRevert(saveScheduleAction(next), () => set({ days: before }), { title: "Schedule saved", description: "The website shows the new hours." });
   };
 
   return {

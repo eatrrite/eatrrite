@@ -59,13 +59,16 @@ export function QuestionnaireForm({ booking, questions }: { booking: ConfirmedBo
     event.preventDefault();
     if (left > 0 || !gender || submitting) return;
     setSubmitting(true);
-    const result = await submitQuestionnaireAction(booking.id, { name, age: Number(age), gender, answers });
+    const id = showToast({ title: "Submitting your answers…", type: "pending" });
+    const result = await submitQuestionnaireAction(booking.id, { name, age: Number(age), gender, answers }).catch(
+      () => ({ ok: false as const, error: "Check your connection and try again." }),
+    );
     if (!result.ok) {
       setSubmitting(false);
-      showToast({ title: "Please check your answers", description: result.error, type: "error" });
+      showToast({ title: "Please check your answers", description: result.error, type: "error", id });
       return;
     }
-    showToast({ title: "Questionnaire submitted", description: "Your Google Meet link is ready.", type: "success" });
+    showToast({ title: "Questionnaire submitted", description: "Your Google Meet link is ready.", type: "success", id });
     router.refresh();
   }
 

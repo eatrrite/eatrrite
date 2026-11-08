@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/utils/seo";
+import { programPath, ROUTES } from "@/constants/routes";
 import { redirect } from "next/navigation";
 import { PageBanner } from "@/components/layout/PageBanner";
+import { ClosingBlock } from "@/components/shared/ClosingBlock";
+import { JsonLd } from "@/components/shared/JsonLd";
+import { serviceData } from "@/utils/structuredData";
 import { ProgramAbout } from "@/components/programs/ProgramAbout";
 import { ProgramBenefits } from "@/components/programs/ProgramBenefits";
 import { PackageCards } from "@/components/shared/PackageCards";
@@ -23,7 +28,8 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const program = find((await params).slug);
-  return program ? { title: program.name, description: program.summary } : {};
+  if (!program) return {};
+  return pageMetadata({ title: program.seoTitle, description: program.seoDescription ?? program.summary, path: programPath(program.slug) });
 }
 
 // Copies program.php in the reference section style. An unknown slug goes to /programs, as in PHP.
@@ -33,13 +39,15 @@ export default async function ProgramPage({ params }: Props) {
   const copy = content.detail;
   return (
     <>
-      <PageBanner title={program.short} crumb="Program" />
+      <JsonLd data={serviceData(program.name, program.seoDescription ?? program.summary, programPath(program.slug))} />
+      <PageBanner title={program.short} crumb="Programs" path={programPath(program.slug)} parent={{ name: "Programs", path: ROUTES.programs }} />
       <ProgramAbout program={program} pill={copy.aboutPill} />
       <ProgramBenefits program={program} benefitsTitle={copy.benefitsTitle} idealTitle={copy.idealTitle} />
       <PageSection tone="white" food={pageFood(7)}>
-        <SectionIntro eyebrow={copy.packagesPill} title={copy.packagesTitle} center />
+        <SectionIntro eyebrow={copy.packagesPill} title={copy.packagesTitle} center eyebrowHeading />
         <PackageCards />
       </PageSection>
+      <ClosingBlock pathname={programPath(program.slug)} />
     </>
   );
 }

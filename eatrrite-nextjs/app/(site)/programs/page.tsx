@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/utils/seo";
+import { ROUTES } from "@/constants/routes";
 import { PageBanner } from "@/components/layout/PageBanner";
 import { BlurIn } from "@/components/motion/BlurIn";
 import { ProgramTile } from "@/components/shared/ProgramTile";
@@ -8,17 +10,17 @@ import { pageFood } from "@/constants/home/floatingFood";
 import content from "@/constants/programs/content.json";
 import programs from "@/constants/programs/programs.json";
 
-export const metadata: Metadata = {
-  title: "Nutrition Programs",
-  description:
-    "Explore Eat Rrite's 30, 90 and 180-day nutrition programs for weight loss, diabetes, gut health and women's hormonal health.",
-};
+export const metadata: Metadata = pageMetadata({
+  title: "Online Nutrition Programs with Indian Food | Eat Rrite",
+  description: "Explore Eat Rrite's 30, 90 and 180-day nutrition programs for weight loss, diabetes, gut health and women's hormonal health.",
+  path: ROUTES.programs,
+});
 
 export default function ProgramsPage() {
   const copy = content.list;
   return (
     <>
-      <PageBanner title="Programs" />
+      <PageBanner title="Programs" path={ROUTES.programs} />
       <PageSection tone="white" food={pageFood(0)}>
         <SectionIntro eyebrow={copy.pill} title={copy.title} lead={copy.lead} count={programs.length} center />
         <div className="mt-10 grid gap-5 sm:grid-cols-2">

@@ -12,7 +12,6 @@ import type { Appointment, AppointmentInput } from "@/types/admin/appointment";
 import type { Lead } from "@/types/admin/lead";
 import type { DaySchedule } from "@/types/admin/schedule";
 import type { AdminSettings } from "@/types/admin/settings";
-import type { Todo } from "@/types/admin/todo";
 import { attempt, type ActionResult } from "@/utils/actionResult";
 
 // Every admin change goes through here. Each action checks the session first.
@@ -104,28 +103,4 @@ export async function savePreferencesAction(preferences: AdminSettings): Promise
       where id`;
     return {};
   }, "Could not save the setting.");
-}
-
-export async function addTodoAction(todo: Todo): Promise<ActionResult> {
-  return attempt(async () => {
-    await assertAdmin();
-    await db()`insert into er_todos (id, label, done) values (${todo.id}, ${todo.label}, ${todo.done})`;
-    return {};
-  }, "Could not add the to-do.");
-}
-
-export async function setTodoDoneAction(id: string, done: boolean): Promise<ActionResult> {
-  return attempt(async () => {
-    await assertAdmin();
-    await db()`update er_todos set done = ${done} where id = ${id}`;
-    return {};
-  }, "Could not update the to-do.");
-}
-
-export async function deleteTodoAction(id: string): Promise<ActionResult> {
-  return attempt(async () => {
-    await assertAdmin();
-    await db()`delete from er_todos where id = ${id}`;
-    return {};
-  }, "Could not delete the to-do.");
 }

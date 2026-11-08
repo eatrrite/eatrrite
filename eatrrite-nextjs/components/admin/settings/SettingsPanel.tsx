@@ -7,11 +7,9 @@ import {
 } from "@/components/admin/dashboard/DashboardCard";
 import { SettingsToggleRow } from "@/components/admin/settings/SettingsToggleRow";
 import { SETTINGS_TOGGLES } from "@/constants/admin/settings";
-import { useShowToast } from "@/hooks/useShowToast";
 import { useAdminStore } from "@/stores/useAdminStore";
 
 export function SettingsPanel() {
-  const showToast = useShowToast();
   const settings = useAdminStore();
 
   return (
@@ -30,11 +28,9 @@ export function SettingsPanel() {
             description={item.description}
             checked={settings[item.key]}
             onCheckedChange={(checked) => {
-              settings.setSetting(item.key, checked);
-              showToast({
+              settings.setSetting(item.key, checked, {
                 title: checked ? `${item.title} on` : `${item.title} off`,
                 description: item.description,
-                type: "success",
               });
             }}
           />

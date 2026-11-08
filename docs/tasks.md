@@ -71,7 +71,7 @@ Links to pages not built yet (`/about`, `/programs` and others) show a 404 until
 
 Shared:
 
-- [ ] Decide `cohort.php` and `snackbar.php` (open decision 3). Both are left out for now.
+- [x] `cohort.php` rebuilt as `/cohort` (not in the menu; booking buttons open `/appointment`). `snackbar.php` stays out: it is the product line.
 - [x] Page banner section
 - [x] Export `constants/about.php`, `constants/inner.php` and `constants/programs/` to `lib/data/*.json`
 
@@ -259,10 +259,88 @@ Emails (moved from Phase 4):
 - [x] Public booking on Neon: slots, holds, order, payment verification, lead and appointment, questionnaire, placeholder Meet link
 - [x] Working hours in the top bar, footer and contact page, and the booking page's fee, hours and services, read from Neon
 - [x] Production build passes; `check:rules` (15) and `check:booking` (7) pass
-- [ ] Run the migration: `bun run db:migrate` (the Neon SQL Editor splits the file and fails on the questionnaire insert)
-- [ ] Set `NEON_AUTH_BASE_URL` in `.env.local` (Neon Console → Settings → Better Auth → Project Info)
-- [ ] Restart the dev server, open `/admin/signup` and create the admin account with the admin email
+- [x] Run the migration: `bun run db:migrate` (the Neon SQL Editor splits the file and fails on the questionnaire insert)
+- [x] Set `NEON_AUTH_BASE_URL` in `.env.local` (Neon Console → Settings → Better Auth → Project Info)
+- [x] Restart the dev server, open `/admin/signup` and create the admin account with the admin email
 - [ ] Test end to end: sign in, add a lead and appointment, change the schedule, book and pay on the website, fill the questionnaire
+
+## Phase 7: Empty, Loading and Error States
+
+- [x] Illustration sheet cut into `public/images/empty-states/` (appointments, leads, todos, today, chart, search, questionnaire, slots, error); the sheet kept in `docs/assets/`
+- [x] `EmptyState` in tables (none yet vs. no match), detail cards, calendar day panel, dashboard cards, chart with no data, questionnaire not filled, slot picker
+- [x] Every save waits with a "Saving…" toast that turns into the result (admin store, appointment form, booking payment, questionnaire)
+- [x] `LoadingState` while the admin, booking page and confirmation page wait for Neon
+- [x] `error.tsx` for the public site, the admin and admin pages, with a Try again button
+- [ ] Check the admin toasts in the browser after signing in
+
+## Phase 8: SEO and PHP Pages
+
+- [x] Titles and descriptions match the PHP pages
+- [x] `sitemap.xml`, `robots.txt` (admin, API and the confirmation page blocked), canonical on every public page, `lang="en-IN"`
+- [x] Old `.php` addresses for cohort, thank-you and confirmed pages redirect
+- [x] Admin sidebar picture only uses space left under the menu; the top bar shows from `lg` up
+
+## Phase 9: What the PHP Site Has That Next.js Still Needs
+
+Details in `requirements.md` (What the PHP Site Has That Next.js Still Needs).
+
+- [x] Real Google Meet link through the PHP Apps Script (placeholder only when it is not configured) (`meetLink.ts`)
+- [x] Emails over SMTP, same templates as PHP: questionnaire link after payment, Meet link to the customer and booking to the team after the questionnaire (`services/mailer.ts`, `features/appointment/emails/`)
+- [x] Questionnaire reminder emails at 1, 3, 6, 12, 24, 30 and 36 hours, from `GET /api/cron/questionnaire-reminders` (Bearer `CRON_SECRET`)
+- [x] Admin hides and shows single slots (calendar day panel, "Website slots"); the website skips hidden slots
+- [x] Admin cancels a booking and the slot is freed (status Cancelled, or Delete)
+- [x] Razorpay webhook records a paid booking even if the tab was closed (`POST /api/payments/webhook`; the hold keeps the order and details)
+- [x] Migration `002_php_parity.sql` run on Neon
+- [ ] Schedule the reminder route every 15 minutes on the host (cron-job.org or the host's cron)
+- [ ] Add the webhook in the Razorpay dashboard (events `payment.captured`, `order.paid`) and set `RAZORPAY_WEBHOOK_SECRET`
+- [ ] Send one test booking and check the three emails arrive
+
+## Phase 10: To-Dos and Pagination
+
+- [x] To-do filters: day (today by default, yesterday, pick a date with a single-date calendar, all to-dos) and status (pending, completed)
+- [x] Each to-do has a ⋮ menu: Edit (same dialog, label filled in) and Delete (confirm dialog), as for leads and appointments
+- [x] shadcn Pagination (`components/ui/pagination.tsx`), one small pager `ListPagination` at the bottom right of the to-dos, leads, appointments and today's appointments; `usePagination` goes back to page 1 when filters change
+- [x] Cohort application form: left out, `/cohort` books the normal consultation
+- [x] Snackbar page and orders: left out on purpose (product line)
+
+## Phase 11: Brief Phase 1 (content, page fixes, SEO, redirects, slugs)
+
+From the Notion "Eat Rrite: Phase 1 and Phase 2 checklist" (from the developer brief). Built in five parts.
+
+**1A Addresses and redirects**
+- [x] Clean program slugs, `/book` (was `/appointment`), new `/media`; internal links use the new addresses (`ROUTES`)
+- [x] 301s in `config/redirects.ts`: every `.php` page, `program.php?slug=…`, old Next.js slugs, `/founder-profile.php` → `/about`, `/nutricare-for-mom-to-be.php` → Female Hormone Health, `eatrrite.com` → `www.eatrrite.com`
+- [x] Branded 404: "This page has moved", Programs, Book a Consultation, WhatsApp
+- [ ] Old-site addresses still unknown (Post Natal, old program pages, Celiac and Crohn's): get them from Search Console's Pages report and add them
+- [ ] HTTPS and deleting the old PHP pages happen on the host at launch
+
+**1B Site-wide**
+- [x] Header and footer hours line "Consultations by appointment · Mon–Sun" (exact slots stay on the booking page)
+- [x] Phones: sticky WhatsApp / Book Appointment bar; desktop: one floating WhatsApp button
+- [x] WhatsApp messages pre-filled per page (`constants/whatsapp.ts`), no health details
+- [x] Footer social icons (Instagram @muktapatil01 and @eatrrite, LinkedIn, Medium), disclaimer line, automatic year
+- [x] Favicon 32×32 and Apple icon 180×180 from the logo mark; 1200×630 share image on every page
+- [ ] YouTube and Facebook icons once Mukta shares the links
+
+**1C Home and About**
+- [x] Repeated "Where Food Becomes Medicine" removed, "Client Stories" label, hidden "Learn more about …" labels, FAQ alt text and H3 questions, home blog section hidden
+- [x] Credentials strip under the hero, linking to About › Credentials & Media
+- [x] About: 4 typo fixes, "Our Story" and "What guides us" as H2, Credentials & Media section (story, three rows, six Read cards)
+- [ ] Link the 4.8★ stat once Mukta shares the Google reviews link; event photos once captioned
+
+**1D Programs, Pricing, Booking, Contact, Blog**
+- [x] Programs: "About the Program" and "Packages" as H2, program name as a subtitle, unique alt text, breadcrumb "Programs", closing block (Mukta's line, Book, WhatsApp)
+- [x] Booking: dropdown names match the footer (migration `003_service_names.sql`, run), consent box (not pre-ticked) linking to `/privacy-policy`, the Meet-link line under the pay button
+- [x] Blog: placeholder posts and images removed; the page points to `/media` until articles arrive
+- [x] Privacy Policy page from brief §8.3 (Mukta's lawyer to check the wording)
+
+**1E SEO**
+- [x] Brief titles and descriptions on every page (`utils/seo.ts` adds canonical and share preview); one H1 and unique title and description per page, checked on the production build
+- [x] JSON-LD: ProfessionalService (site-wide), Person (About), FAQPage (Home), Service (each program), BreadcrumbList (every inner page). No review markup until real Google reviews exist
+- [x] Sitemap lists only live pages (adds `/media`, `/privacy-policy`); robots also blocks `/thank-you`
+- [x] Key images renamed by content (founder, bowl, program images, FAQ illustration)
+- [ ] Search Console and Bing verification, sitemap submission (needs Mukta's account access)
+- [ ] Test the structured data in Google's Rich Results Test once staging is public
 
 ## Next: Real Services
 

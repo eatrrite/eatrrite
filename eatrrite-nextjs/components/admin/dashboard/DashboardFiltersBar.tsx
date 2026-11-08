@@ -5,13 +5,7 @@ import {
   DASHBOARD_STATUS_OPTIONS,
 } from "@/constants/admin/dashboard/filters";
 import { DateRangePicker } from "@/components/admin/forms/DateRangePicker";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { FilterSelect } from "@/components/admin/forms/FilterSelect";
 import { useShowToast } from "@/hooks/useShowToast";
 import type { DashboardFilters } from "@/types/admin/dashboard";
 import { notifyFilterApplied } from "@/utils/admin/filterToast";
@@ -69,40 +63,5 @@ export function DashboardFiltersBar({
         }}
       />
     </div>
-  );
-}
-
-type Option<T extends string> = { value: T; label: string };
-
-function FilterSelect<T extends string>({
-  value,
-  options,
-  onChange,
-}: {
-  value: T;
-  options: readonly Option<T>[];
-  onChange: (value: T) => void;
-}) {
-  const selectedLabel =
-    options.find((option) => option.value === value)?.label ?? value;
-
-  return (
-    <Select
-      value={value}
-      onValueChange={(next) => {
-        if (next) onChange(next as T);
-      }}
-    >
-      <SelectTrigger size="sm" className="w-auto min-w-[8.5rem] shrink-0">
-        <SelectValue>{selectedLabel}</SelectValue>
-      </SelectTrigger>
-      <SelectContent alignItemWithTrigger={false} align="end">
-        {options.map((option) => (
-          <SelectItem key={option.value} value={option.value}>
-            {option.label}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
   );
 }

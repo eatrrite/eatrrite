@@ -6,6 +6,7 @@ import { confirmedPath } from "@/constants/routes";
 import { useRazorpayCheckout } from "@/features/appointment/hooks/useRazorpayCheckout";
 import { releaseHold, startBooking, verifyPayment } from "@/features/appointment/services/bookingApi";
 import type { BookingInput } from "@/features/appointment/types/booking";
+import { toast } from "sonner";
 import { useShowToast } from "@/hooks/useShowToast";
 
 // Runs the booking: the server checks and holds the slot and creates the order → Razorpay
@@ -20,15 +21,17 @@ export function useBooking() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
 
-  const fail = (title: string, description: string) => {
-    showToast({ title, description, type: "error" });
+  const fail = (title: string, description: string, id?: string | number) => {
+    showToast({ title, description, type: "error", id });
     return false;
   };
 
   // Returns true when the booking is saved.
   async function pay(input: BookingInput): Promise<boolean> {
+    const starting = showToast({ title: "Holding your slot…", type: "pending" });
     const order = await startBooking(input);
-    if (!order.ok) return fail("Could not start the booking", order.error);
+    if (!order.ok) return fail("Could not start the booking", order.error, starting);
+    toast.dismiss(starting);
     // The payment did not happen, so the slot goes back to everyone.
     const stop = (title: string, description: string) => {
       void releaseHold(order.holdId);
@@ -44,14 +47,15 @@ export function useBooking() {
     }
     if (result.status === "failed") return stop("Payment failed", result.message);
 
+    const confirming = showToast({ title: "Confirming your payment…", type: "pending" });
     const saved = await verifyPayment(result.payment, order.holdId, input);
     if (!saved.ok) {
       // Money was taken, so keep the hold and do not invite another payment.
       const message = `${saved.error} Payment reference: ${result.payment.razorpay_payment_id}.`;
       setError(message);
-      return fail("Booking not completed", message);
+      return fail("Booking not completed", message, confirming);
     }
-    showToast({ title: "Payment successful", description: "Your slot is booked. One last step: the questionnaire.", type: "success" });
+    showToast({ title: "Payment successful", description: "Your slot is booked. One last step: the questionnaire.", type: "success", id: confirming });
     router.push(confirmedPath(saved.appointmentId));
     return true;
   }
@@ -65,6 +69,7 @@ export function useBooking() {
     try {
       saved = await pay(input);
     } catch {
+      toast.dismiss(); // clear any "Holding…" or "Confirming…" spinner left open
       fail("Something went wrong", "Please try again.");
     } finally {
       // After a saved booking the page moves on, so the form stays locked.

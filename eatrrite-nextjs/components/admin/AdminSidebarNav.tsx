@@ -45,8 +45,8 @@ export function AdminSidebarNav({
     <nav
       aria-label="Admin"
       className={cn(
-        "min-h-0 shrink-0 space-y-1.5 overflow-y-auto",
-        collapsed ? "flex-1 p-3" : "max-h-[55%] p-4",
+        "min-h-0 space-y-1.5 overflow-y-auto",
+        collapsed ? "flex-1 p-3" : "p-4",
       )}
     >
       {ADMIN_NAV.map((item) => {

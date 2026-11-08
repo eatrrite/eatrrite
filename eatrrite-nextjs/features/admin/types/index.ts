@@ -1,6 +1,6 @@
 import type { Profile } from "@/features/auth/types";
 import type { QuestionnaireQuestion } from "@/features/appointment/types/questionnaire";
-import type { BookingSettings } from "@/features/appointment/types/slots";
+import type { BookingSettings, OccupiedSlot } from "@/features/appointment/types/slots";
 import type { Appointment } from "@/types/admin/appointment";
 import type { Lead } from "@/types/admin/lead";
 import type { DaySchedule } from "@/types/admin/schedule";
@@ -18,4 +18,6 @@ export type AdminData = {
   settings: BookingSettings;
   services: string[];
   questions: QuestionnaireQuestion[];
+  /** Start times hidden from the website, today on. */
+  hiddenSlots: OccupiedSlot[];
 };

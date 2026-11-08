@@ -1,4 +1,6 @@
+import { after } from "next/server";
 import { env } from "@/config/env";
+import { sendQuestionnaireEmail } from "@/features/appointment/services/bookingEmails";
 import { getServices } from "@/features/appointment/services/bookingConfig";
 import { confirmBooking } from "@/features/appointment/services/bookingDb";
 import { isValidPaymentSignature } from "@/features/appointment/utils/razorpaySignature";
@@ -28,7 +30,9 @@ export async function POST(request: Request) {
   if (typeof input === "string") return fail(input);
   try {
     const outcome = await confirmBooking(input, body.holdId, paymentId);
-    return outcome.ok ? ok({ appointmentId: outcome.appointmentId }) : fail(outcome.error, 409);
+    if (!outcome.ok) return fail(outcome.error, 409);
+    if (outcome.created) after(() => sendQuestionnaireEmail(outcome.appointmentId));
+    return ok({ appointmentId: outcome.appointmentId });
   } catch (error) {
     console.error("Confirm booking failed", error);
     return fail(`Payment ${paymentId} was received, but we could not save the booking. Please contact us.`, 500);

@@ -7,8 +7,11 @@ export const ROUTES = {
   pricing: "/pricing",
   blog: "/blog",
   contact: "/contact",
-  appointment: "/appointment",
+  appointment: "/book",
+  media: "/media",
+  privacy: "/privacy-policy",
   appointmentConfirmed: "/appointment-confirmed",
+  cohort: "/cohort",
 } as const;
 
 export const programPath = (slug: string) => `${ROUTES.programs}/${slug}`;

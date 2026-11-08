@@ -3,6 +3,7 @@ import { WorkingHours } from "@/components/layout/WorkingHours";
 import { LinkButton } from "@/components/shared/section/LinkButton";
 import { Button } from "@/components/ui/button";
 import { BRAND } from "@/constants/brand";
+import { whatsappLink, whatsappMessageFor } from "@/constants/whatsapp";
 import programs from "@/constants/programs/programs.json";
 import { ROUTES } from "@/constants/routes";
 
@@ -36,7 +37,7 @@ export function ContactAside() {
         </ol>
         <div className="mt-5 flex flex-wrap gap-3">
           <LinkButton href={ROUTES.appointment}>Get Consultation</LinkButton>
-          <Button variant="outline" size="lg" nativeButton={false} render={<a href={BRAND.whatsapp} target="_blank" rel="noopener" />}>Message on WhatsApp</Button>
+          <Button variant="outline" size="lg" nativeButton={false} render={<a href={whatsappLink(whatsappMessageFor("/contact"))} target="_blank" rel="noopener" />}>Message on WhatsApp</Button>
         </div>
       </div>
       <div className="rounded-xl border border-border bg-white p-6 md:p-7">

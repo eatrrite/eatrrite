@@ -6,11 +6,13 @@ import type { AdminData } from "@/features/admin/types";
 import { createAppointmentSlotActions } from "@/features/appointment/stores/appointmentSlotActions";
 import { DEFAULT_BOOKING_SETTINGS } from "@/features/appointment/constants/appointment-settings";
 import type { QuestionnaireQuestion } from "@/features/appointment/types/questionnaire";
-import type { BookingSettings } from "@/features/appointment/types/slots";
+import type { BookingSettings, OccupiedSlot } from "@/features/appointment/types/slots";
 import type { Profile } from "@/features/auth/types";
 import { DEFAULT_ADMIN_SETTINGS } from "@/constants/admin/settings";
 import { createEntityActions } from "@/stores/adminEntityActions";
-import { saveOrRevert } from "@/stores/saveOrRevert";
+import { createHiddenSlotActions } from "@/stores/hiddenSlotActions";
+import { createTodoActions } from "@/stores/todoActions";
+import { saveOrRevert, type SaveNotice } from "@/stores/saveOrRevert";
 import { createScheduleActions } from "@/stores/scheduleActions";
 import type { Appointment, AppointmentInput } from "@/types/admin/appointment";
 import type { Lead, LeadInput } from "@/types/admin/lead";
@@ -30,12 +32,13 @@ type AdminState = AdminSettings & {
   settings: BookingSettings;
   services: string[];
   questions: QuestionnaireQuestion[];
+  hiddenSlots: OccupiedSlot[];
   hydrate: (data: AdminData) => void;
   getLead: (id: string) => Lead | undefined;
-  addLead: (input: LeadInput) => Lead;
-  updateLead: (id: string, input: LeadInput) => void;
-  deleteLead: (id: string) => void;
-  deleteAppointment: (id: string) => void;
+  addLead: (input: LeadInput, notice: SaveNotice) => Lead;
+  updateLead: (id: string, input: LeadInput, notice: SaveNotice) => void;
+  deleteLead: (id: string, notice: SaveNotice) => void;
+  deleteAppointment: (id: string, notice: SaveNotice) => void;
   slotsFor: (date: string, ignoreId?: string) => string[];
   saveAppointment: (input: AppointmentInput, id?: string) => Promise<ActionResult>;
   setDayOpen: (day: Weekday, isOpen: boolean) => void;
@@ -43,9 +46,12 @@ type AdminState = AdminSettings & {
   updateDaySlot: (day: Weekday, slotId: string, patch: Partial<Omit<ScheduleTimeSlot, "id">>) => void;
   removeDaySlot: (day: Weekday, slotId: string) => void;
   addTodo: (input: TodoInput) => Todo;
+  updateTodo: (id: string, input: TodoInput) => void;
   toggleTodo: (id: string) => void;
   deleteTodo: (id: string) => void;
-  setSetting: (key: AdminSettingsKey, value: boolean) => void;
+  setSetting: (key: AdminSettingsKey, value: boolean, notice: SaveNotice) => void;
+  isSlotHidden: (date: string, time: string) => boolean;
+  toggleSlotHidden: (date: string, time: string) => void;
 };
 
 const preferencesOf = (state: AdminSettings): AdminSettings => ({
@@ -67,14 +73,17 @@ export const useAdminStore = create<AdminState>()((set, get) => ({
   settings: DEFAULT_BOOKING_SETTINGS,
   services: [],
   questions: [],
+  hiddenSlots: [],
   hydrate: ({ preferences, ...data }) => set({ ...preferences, ...data }),
   ...createEntityActions(set, get),
   ...createAppointmentSlotActions(set, get),
   ...createScheduleActions(set, get),
-  setSetting: (key, value) => {
+  ...createTodoActions(set, get),
+  ...createHiddenSlotActions(set, get),
+  setSetting: (key, value, notice) => {
     const before = preferencesOf(get());
     const next = { ...before, [key]: value };
     set(next);
-    saveOrRevert(savePreferencesAction(next), () => set(before));
+    saveOrRevert(savePreferencesAction(next), () => set(before), notice);
   },
 }));

@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { LoadingState } from "@/components/shared/LoadingState";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { Toaster } from "@/components/ui/sonner";
 import { AdminDataProvider } from "@/features/admin/components/AdminDataProvider";
@@ -19,7 +20,7 @@ async function AdminGate({ children }: { children: React.ReactNode }) {
 export default function AdminPanelLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <Suspense fallback={<div className="admin-shell h-dvh bg-background" />}>
+      <Suspense fallback={<LoadingState label="Loading the admin…" className="admin-shell h-dvh bg-background" />}>
         <AdminGate>{children}</AdminGate>
       </Suspense>
       <Toaster />

@@ -57,8 +57,11 @@ No clinic, dental or other-brand wording in names, files, comments or text. The 
 - Dropdowns use the shadcn `Select`, never a native `<select>`.
 - Every eyebrow (the line above a section heading) uses `type-eyebrow`, the handwritten Caveat style from the home page. Public pages and admin page headers alike. Never an uppercase small-caps line.
 - Anything you can press or pick shows the pointer cursor. One rule in `app/globals.css` covers buttons, chips, radios, checkboxes, tabs and options; do not add `cursor-pointer` by hand.
-- Every user action ends with a toast through `useShowToast` (long forms may also use `useProgressToast`).
-- Brand name, contact details and links come from `constants/brand.ts`.
+- Every user action ends with a toast through `useShowToast` (long forms may also use `useProgressToast`). An action that waits on the server shows a pending toast first and replaces it with the result.
+- Empty and failed views use `components/shared/EmptyState` (illustrations in `public/images/empty-states/`). Server waits use `LoadingState`; every route group has an `error.tsx` with `ErrorState` and a Try again button.
+- Brand name, contact details and links come from `constants/brand.ts`. WhatsApp links come from `constants/whatsapp.ts` (pre-filled per page, never health details).
+- Every public page sets its metadata with `pageMetadata()` (`utils/seo.ts`): brief title, description, canonical and share preview. Inner pages pass `path` to `PageBanner` for breadcrumb data.
+- Old addresses redirect only through `config/redirects.ts` (301). Link with `ROUTES`, never an old address.
 
 ## Database
 

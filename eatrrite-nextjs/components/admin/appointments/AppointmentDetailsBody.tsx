@@ -1,5 +1,6 @@
 "use client";
 
+import { EmptyState } from "@/components/shared/EmptyState";
 import { CalendarDays, Clock3, Link2, Salad } from "lucide-react";
 import { format, parseISO } from "date-fns";
 import { AppointmentStatusBadge } from "@/components/admin/appointments/AppointmentStatusBadge";
@@ -58,11 +59,7 @@ export function AppointmentDetailsBody({
             <Salad className="size-3.5" />
             Service
           </p>
-          <p
-            className={`text-sm leading-snug ${appointment.service ? "text-foreground" : "text-muted-foreground"}`}
-          >
-            {appointment.service || "No service added"}
-          </p>
+          <p className={`text-sm leading-snug ${appointment.service ? "text-foreground" : "text-muted-foreground"}`}>{appointment.service || "No service added"}</p>
         </div>
         <div className="border-t border-border/70 pt-3">
           <p className="mb-1 flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
@@ -84,18 +81,14 @@ export function AppointmentDetailsBody({
         </div>
         <div className="border-t border-border/70 pt-3">
           <p className="mb-1 text-xs font-medium text-muted-foreground">Notes</p>
-          <p
-            className={`text-sm leading-snug ${appointment.notes ? "text-foreground" : "text-muted-foreground"}`}
-          >
-            {appointment.notes ?? "No notes added"}
-          </p>
+          <p className={`text-sm leading-snug ${appointment.notes ? "text-foreground" : "text-muted-foreground"}`}>{appointment.notes ?? "No notes added"}</p>
         </div>
       </div>
 
       <div className="space-y-2 rounded-xl border border-border px-3.5 py-3">
         <p className="text-xs font-medium text-muted-foreground">Questionnaire</p>
         {appointment.questionnaire.length === 0 ? (
-          <p className="text-sm text-muted-foreground">No answers yet</p>
+          <EmptyState size="sm" image="questionnaire" title="No answers yet" description="The customer fills this in after paying, or you can add it when editing." />
         ) : (
           <ul className="space-y-2">
             {questions.map((question) => {
@@ -112,10 +105,7 @@ export function AppointmentDetailsBody({
         )}
       </div>
 
-      <p className="text-xs text-muted-foreground">
-        Added {formatStamp(appointment.createdAt)} · Updated{" "}
-        {formatStamp(appointment.updatedAt)}
-      </p>
+      <p className="text-xs text-muted-foreground">Added {formatStamp(appointment.createdAt)} · Updated {formatStamp(appointment.updatedAt)}</p>
     </div>
   );
 }

@@ -13,7 +13,7 @@ export function FaqSection() {
     <PageSection id="faqs" tone="white" food={FLOATING_FOOD.faq}>
       <div className="grid items-end gap-8 lg:grid-cols-[auto_1fr] lg:gap-12">
         <BlurIn className="mx-auto w-40 sm:w-48 lg:mx-0">
-          <Image src={faq.image} alt="" width={433} height={326} sizes="192px" className="h-auto w-full mix-blend-multiply" />
+          <Image src={faq.image} alt="Mukta Patil answering common nutrition questions" width={433} height={326} sizes="192px" className="h-auto w-full mix-blend-multiply" />
         </BlurIn>
         <SectionIntro eyebrow={faq.pill} title={faq.title} count={faq.items.length} />
       </div>

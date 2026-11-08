@@ -35,12 +35,13 @@ export function useCalendarDayActions(selectedKey: string) {
     const previousName = editing
       ? (getLead(editing.leadId)?.name ?? "Lead")
       : nextName;
+    const id = showToast({ title: "Saving appointment…", type: "pending" });
     const result = await saveAppointment(input, editing?.id);
     if (!result.ok) {
-      showToast({ title: "Appointment not saved", description: result.error, type: "error" });
+      showToast({ title: "Appointment not saved", description: result.error, type: "error", id });
       return false;
     }
-    showToast(appointmentSaveToast(editing, input, previousName, nextName));
+    showToast({ ...appointmentSaveToast(editing, input, previousName, nextName), id });
     return true;
   };
 
@@ -51,13 +52,11 @@ export function useCalendarDayActions(selectedKey: string) {
       description: `Removes the consultation for ${name} on ${item.date} at ${item.time}.`,
       confirmLabel: "Delete appointment",
       onConfirm: () => {
-        deleteAppointment(item.id);
-        setDetail(null);
-        showToast({
+        deleteAppointment(item.id, {
           title: "Appointment deleted",
           description: `Consultation for ${name} on ${item.date} at ${item.time} was removed.`,
-          type: "success",
         });
+        setDetail(null);
       },
     });
   };

@@ -4,7 +4,7 @@ import { BlurIn, BlurInItem } from "@/components/motion/BlurIn";
 import { PageSection } from "@/components/shared/section/PageSection";
 import { pageFood } from "@/constants/home/floatingFood";
 
-type Program = { short: string; image_secondary: string; benefits: string[]; ideal: string };
+type Program = { short: string; image_secondary: string; imageSecondaryAlt: string; benefits: string[]; ideal: string };
 
 // Key benefits and ideal-for, round image left as in the reference why-choose layout.
 export function ProgramBenefits({ program, benefitsTitle, idealTitle }: { program: Program; benefitsTitle: string; idealTitle: string }) {
@@ -13,7 +13,7 @@ export function ProgramBenefits({ program, benefitsTitle, idealTitle }: { progra
       <div className="grid items-center gap-12 lg:grid-cols-[2fr_3fr] lg:gap-16">
         <BlurIn className="relative mx-auto flex aspect-square w-full max-w-[22rem] items-center justify-center lg:max-w-none">
           <div aria-hidden className="absolute inset-[8%] rounded-full bg-soft" />
-          <Image src={program.image_secondary} alt={program.short} width={800} height={800} sizes="(max-width: 1024px) 320px, 40vw" className="relative z-10 aspect-square w-[78%] rounded-full object-cover shadow-card" />
+          <Image src={program.image_secondary} alt={program.imageSecondaryAlt} width={800} height={800} sizes="(max-width: 1024px) 320px, 40vw" className="relative z-10 aspect-square w-[78%] rounded-full object-cover shadow-card" />
         </BlurIn>
         <div className="min-w-0">
           <BlurIn>

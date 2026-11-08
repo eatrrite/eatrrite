@@ -1,6 +1,9 @@
 "use client";
 
+import { EmptyState } from "@/components/shared/EmptyState";
 import { useMemo } from "react";
+import { ListPagination } from "@/components/admin/ListPagination";
+import { usePagination } from "@/hooks/admin/usePagination";
 import Link from "next/link";
 import { CalendarDays } from "lucide-react";
 import { DashboardAvatar } from "@/components/admin/dashboard/DashboardAvatar";
@@ -28,6 +31,7 @@ export function TodayAppointments() {
       ),
     [appointments, getLead],
   );
+  const { page, pageCount, pageItems, setPage } = usePagination(rows, 5);
 
   return (
     <DashboardCard>
@@ -46,8 +50,11 @@ export function TodayAppointments() {
           </Link>
         }
       />
+      {rows.length === 0 ? (
+        <EmptyState size="sm" image="today" title="Nothing booked today" description="Today's consultations will be listed here." />
+      ) : null}
       <ul className="divide-y divide-border">
-        {rows.map((appointment) => (
+        {pageItems.map((appointment) => (
           <li key={appointment.id}>
             <Link
               href={`/admin/appointments?id=${appointment.id}`}
@@ -70,6 +77,7 @@ export function TodayAppointments() {
           </li>
         ))}
       </ul>
+      <ListPagination className="mt-3" page={page} pageCount={pageCount} onPageChange={setPage} />
     </DashboardCard>
   );
 }

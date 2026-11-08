@@ -1,21 +1,24 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/utils/seo";
+import { ROUTES } from "@/constants/routes";
 import { BookingForm } from "@/features/appointment/components/BookingForm";
 import { PageBanner } from "@/components/layout/PageBanner";
 import { BlurIn } from "@/components/motion/BlurIn";
 import { PageSection } from "@/components/shared/section/PageSection";
 import { SectionIntro } from "@/components/shared/section/SectionIntro";
 import { Suspense } from "react";
+import { LoadingState } from "@/components/shared/LoadingState";
 import { connection } from "next/server";
 import { getBookingSettings, getServices, getWeeklyHours } from "@/features/appointment/services/bookingConfig";
 import { hoursNote } from "@/features/appointment/utils/hours";
 import copy from "@/features/appointment/constants/content.json";
 import { pageFood } from "@/constants/home/floatingFood";
 
-export const metadata: Metadata = {
-  title: "Book Appointment",
-  description:
-    "Book a consultation with Eat Rrite. Confirm your slot with a small fee, complete the questionnaire, then receive your Google Meet link.",
-};
+export const metadata: Metadata = pageMetadata({
+  title: "Book an Online Nutrition Consultation | Eat Rrite",
+  description: "Book a consultation with Eat Rrite. Confirm your slot with a small fee, complete the questionnaire, then receive your Google Meet link.",
+  path: ROUTES.appointment,
+});
 
 // The fee, call length, hours and services come from the database, read per request.
 async function BookingSection() {
@@ -40,9 +43,9 @@ async function BookingSection() {
 export default function AppointmentPage() {
   return (
     <>
-      <PageBanner title="Book Appointment" />
+      <PageBanner title="Book Appointment" path={ROUTES.appointment} />
       <PageSection tone="white" food={pageFood(8)}>
-        <Suspense fallback={<div className="min-h-96" />}>
+        <Suspense fallback={<LoadingState label="Loading booking details…" className="min-h-96" />}>
           <BookingSection />
         </Suspense>
       </PageSection>

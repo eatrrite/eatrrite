@@ -1,5 +1,6 @@
 "use client";
 
+import { EmptyState } from "@/components/shared/EmptyState";
 import { Pencil, Trash2 } from "lucide-react";
 import { AppointmentDetailsBody } from "@/components/admin/appointments/AppointmentDetailsBody";
 import { Button } from "@/components/ui/button";
@@ -21,8 +22,8 @@ export function AppointmentDetailsCard({
 }: AppointmentDetailsCardProps) {
   if (!appointment) {
     return (
-      <aside className="flex h-fit min-h-48 items-center justify-center self-start rounded-2xl border border-dashed border-border bg-card p-6 text-center text-sm text-muted-foreground">
-        Select an appointment to view details.
+      <aside className="flex h-fit min-h-48 items-center justify-center self-start rounded-2xl border border-dashed border-border bg-card p-6">
+        <EmptyState size="sm" image="appointments" title="No appointment selected" description="Pick one from the list to see its details." />
       </aside>
     );
   }

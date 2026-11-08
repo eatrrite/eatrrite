@@ -5,6 +5,10 @@ function readEnv(name: string): string {
   return value;
 }
 
+// Optional settings: an empty string when not set, so a feature can fall back (for example the
+// placeholder Meet link or skipping an email in development).
+const optional = (name: string) => process.env[name]?.trim() ?? "";
+
 export const env = {
   databaseUrl: () => readEnv("DATABASE_URL"),
   razorpayKeyId: () => readEnv("RAZORPAY_KEY_ID"),
@@ -12,4 +16,16 @@ export const env = {
   neonAuthBaseUrl: () => readEnv("NEON_AUTH_BASE_URL"),
   neonAuthCookieSecret: () => readEnv("NEON_AUTH_COOKIE_SECRET"),
   adminEmails: () => readEnv("ADMIN_EMAILS"),
+  razorpayWebhookSecret: () => optional("RAZORPAY_WEBHOOK_SECRET"),
+  appsScriptUrl: () => optional("APPS_SCRIPT_URL"),
+  appsScriptSecret: () => optional("APPS_SCRIPT_SECRET"),
+  smtpHost: () => optional("SMTP_HOST"),
+  smtpPort: () => Number(optional("SMTP_PORT") || 587),
+  smtpUser: () => optional("SMTP_USER"),
+  smtpPass: () => optional("SMTP_PASS"),
+  mailFrom: () => optional("MAIL_FROM"),
+  mailFromName: () => optional("MAIL_FROM_NAME") || "Eat Rrite",
+  adminNotifyEmail: () => optional("ADMIN_NOTIFY_EMAIL"),
+  cronSecret: () => optional("CRON_SECRET"),
+  siteUrl: () => optional("SITE_URL") || "https://www.eatrrite.com",
 };

@@ -7,6 +7,7 @@ type Program = {
   slug: string;
   short: string;
   image: string;
+  imageAlt: string;
   summary: string;
   benefits: string[];
 };
@@ -32,7 +33,7 @@ export function ProgramChapter({
         <Image
           data-chapter-image
           src={program.image}
-          alt={program.short}
+          alt={program.imageAlt}
           fill
           sizes="(max-width: 1024px) 100vw, 55vw"
           className="object-cover"
@@ -63,7 +64,7 @@ export function ProgramChapter({
             </li>
           ))}
         </ul>
-        <LinkButton href={programPath(program.slug)} className="mt-7 self-start px-5">
+        <LinkButton href={programPath(program.slug)} ariaLabel={`Learn more about ${program.short}`} className="mt-7 self-start px-5">
           Learn More
           <ArrowRight className="size-4" />
         </LinkButton>

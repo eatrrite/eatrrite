@@ -11,6 +11,7 @@ import { useShowToast } from "@/hooks/useShowToast";
 import type { BookingSlot } from "@/features/appointment/types/booking";
 import { SlotDialog } from "./SlotDialog";
 import { SlotTrigger } from "./SlotTrigger";
+import { ConsentCheckbox } from "@/components/shared/ConsentCheckbox";
 
 const EMPTY = { service: "", name: "", email: "", phone: "" };
 
@@ -32,11 +33,17 @@ export function BookingForm({ feeRupees, meetingMinutes, hours, services }: Book
   const [slotOpen, setSlotOpen] = useState(false);
   // The calendar reads today's date, so it first renders on click, not during prerender.
   const [calendarUsed, setCalendarUsed] = useState(false);
+  // Consent is never pre-ticked (brief §5.1, DPDP).
+  const [consent, setConsent] = useState(false);
   const update = (key: keyof typeof EMPTY) => (value: string) => setFields((f) => ({ ...f, [key]: value }));
 
   function submit(event: React.FormEvent) {
     event.preventDefault();
     if (busy) return;
+    if (!consent) {
+      showToast({ title: "Please tick the consent box", description: "We need your consent to use your details for this booking.", type: "error" });
+      return;
+    }
     const checked = validateBooking({ ...fields, ...slot }, services);
     if (typeof checked === "string") {
       showToast({ title: "Please check your details", description: checked, type: "error" });
@@ -75,9 +82,11 @@ export function BookingForm({ feeRupees, meetingMinutes, hours, services }: Book
       <p className="m-0 text-sm leading-relaxed text-muted-foreground">
         A ₹{feeRupees} confirmation fee holds your {meetingMinutes}-minute consultation. Hours (IST): {hours}.
       </p>
+      <ConsentCheckbox id="booking-consent" checked={consent} onChange={setConsent} />
       <Button type="submit" size="xl" disabled={busy} className="w-full sm:w-auto">
         {busy ? "Processing…" : `Pay ₹${feeRupees} and book`}
       </Button>
+      <p className="m-0 text-sm leading-relaxed text-text">After payment you&apos;ll get a short questionnaire. Your Google Meet link follows on WhatsApp and email.</p>
       {calendarUsed ? <SlotDialog open={slotOpen} onOpenChange={setSlotOpen} onConfirm={setSlot} /> : null}
     </form>
   );

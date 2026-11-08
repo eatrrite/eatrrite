@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { env } from "@/config/env";
 import { getServices } from "@/features/appointment/services/bookingConfig";
-import { createHold, releaseHold, slotSource } from "@/features/appointment/services/bookingDb";
+import { attachOrder, createHold, releaseHold, slotSource } from "@/features/appointment/services/bookingDb";
 import { createOrder } from "@/features/appointment/services/razorpay";
 import { customerSlotError } from "@/features/appointment/utils/customerSlots";
 import { validateBooking } from "@/features/appointment/utils/validateBooking";
@@ -20,6 +20,7 @@ export async function POST(request: Request) {
   const holdId = await createHold(input.date, input.time, source.settings.holdMinutes);
   try {
     const order = await createOrder(source.settings.feeRupees, `er_${randomUUID().slice(0, 12)}`, { purpose: "consultation" });
+    await attachOrder(holdId, order.id, input);
     return ok({
       orderId: order.id,
       amount: order.amount,

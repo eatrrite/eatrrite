@@ -11,36 +11,41 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import type { TodoInput } from "@/types/admin/todo";
+import type { Todo, TodoInput } from "@/types/admin/todo";
 
 type TodoFormDialogProps = {
   open: boolean;
+  /** The to-do being edited; empty when adding a new one. */
+  todo?: Todo | null;
   onClose: () => void;
   onSave: (input: TodoInput) => void;
 };
 
-export function TodoFormDialog({ open, onClose, onSave }: TodoFormDialogProps) {
+// Add or edit a to-do, the same dialog pattern as leads and appointments.
+export function TodoFormDialog({ open, todo, onClose, onSave }: TodoFormDialogProps) {
   return (
     <Dialog open={open} onOpenChange={(next) => (!next ? onClose() : null)}>
       <DialogContent className="sm:max-w-md" showCloseButton>
-        {open ? <TodoFormBody onClose={onClose} onSave={onSave} /> : null}
+        {open ? <TodoFormBody todo={todo} onClose={onClose} onSave={onSave} /> : null}
       </DialogContent>
     </Dialog>
   );
 }
 
 function TodoFormBody({
+  todo,
   onClose,
   onSave,
 }: Omit<TodoFormDialogProps, "open">) {
-  const [label, setLabel] = useState("");
+  const [label, setLabel] = useState(todo?.label ?? "");
   const trimmed = label.trim();
+  const editing = Boolean(todo);
 
   return (
     <>
       <DialogHeader>
         <DialogTitle className="font-heading text-xl font-bold">
-          Add to-do
+          {editing ? "Edit to-do" : "Add to-do"}
         </DialogTitle>
       </DialogHeader>
       <form
@@ -48,6 +53,7 @@ function TodoFormBody({
         onSubmit={(event) => {
           event.preventDefault();
           if (!trimmed) return;
+          if (trimmed === todo?.label) return onClose();
           onSave({ label: trimmed });
           onClose();
         }}
@@ -67,7 +73,7 @@ function TodoFormBody({
             Cancel
           </Button>
           <Button type="submit" disabled={!trimmed}>
-            Add to-do
+            {editing ? "Save changes" : "Add to-do"}
           </Button>
         </DialogFooter>
       </form>

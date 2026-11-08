@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/utils/seo";
+import { ROUTES } from "@/constants/routes";
 import { ContactAside } from "@/components/contact/ContactAside";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { PageBanner } from "@/components/layout/PageBanner";
@@ -9,16 +11,17 @@ import { BRAND } from "@/constants/brand";
 import copy from "@/constants/contact/content.json";
 import { pageFood } from "@/constants/home/floatingFood";
 
-export const metadata: Metadata = {
-  title: "Contact Eat Rrite",
-  description: "Get in touch with Eat Rrite to book your nutrition consultation.",
-};
+export const metadata: Metadata = pageMetadata({
+  title: "Contact Eat Rrite: WhatsApp, Phone & Email",
+  description: "Message Mukta on WhatsApp or book an online consultation.",
+  path: ROUTES.contact,
+});
 
 // Copies contact.php in the reference design contact section layout.
 export default function ContactPage() {
   return (
     <>
-      <PageBanner title="Contact Us" />
+      <PageBanner title="Contact Us" path={ROUTES.contact} />
       <PageSection tone="white" food={pageFood(9)}>
         <SectionIntro eyebrow={copy.pill} title={copy.title} lead={copy.text} />
         <BlurIn delay={0.2}>

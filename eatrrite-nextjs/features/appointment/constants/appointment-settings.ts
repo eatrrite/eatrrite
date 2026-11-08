@@ -25,8 +25,9 @@ export const DEFAULT_BOOKING_SETTINGS: BookingSettings = {
 
 // The starting services, seeded into er_services. The app reads er_services.
 export const DEFAULT_SERVICES = [
-  "Nutrition for Weight & Lifestyle Management",
-  "Nutrition for Diabetes Management & Reversal",
-  "Nutrition for Gut Health",
-  "Female Hormone Health Diet Program",
+  // The footer's program names (brief §5.1), so the booking dropdown matches the site.
+  "Complete Weight & Lifestyle Management",
+  "Diabetes Management & Reversal",
+  "Gut Health",
+  "Female Hormone Health",
 ];

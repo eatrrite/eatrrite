@@ -108,7 +108,11 @@ Each phase waits for approval before the next one starts. Phases 1 to 3 are fron
 | Pricing | `pricing.php` | `/pricing` | page-banner, pricing cards |
 | Blog | `blog.php` | `/blog` | page-banner, blog |
 | Contact | `contact.php` | `/contact` | page-banner, contact details |
-| Book Appointment | `appointment.php` | `/appointment` | page-banner, booking form |
+| Book Appointment | `appointment.php` | `/book` | page-banner, booking form |
+| Media | (new) | `/media` | page-banner, featured in / spoken at, online articles |
+| Privacy Policy | (new) | `/privacy-policy` | page-banner, policy (lawyer to check wording) |
+
+Clean addresses (brief §6.3): programs live at `/programs/weight-loss-indian-food`, `/programs/diabetes-diet-plan`, `/programs/gut-health-diet` and `/programs/female-hormone-health`. Every old address 301-redirects to its new page; the list is `eatrrite-nextjs/config/redirects.ts`.
 
 Program detail pages are not in the navigation, but the footer and Programs page link to them, so Phase 3 includes them. There are four: Diabetes, Female Hormone Health, Gut Health and Weight and Lifestyle.
 
@@ -141,6 +145,8 @@ Run `db/migrations/001_initial.sql` in the Neon SQL Editor, after turning on Neo
 | `RAZORPAY_WEBHOOK_SECRET` | Set when the webhook is added in the Razorpay dashboard |
 | `APPOINTMENT_FEE_RUPEES` | `800` |
 | `APPS_SCRIPT_URL`, `APPS_SCRIPT_SECRET` | The Apps Script that creates Meet links, same as PHP |
+| `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `MAIL_FROM`, `ADMIN_NOTIFY_EMAIL` | The mail account the PHP site sends from |
+| `CRON_SECRET` | Protects the questionnaire reminder route |
 
 ## What Phases 4 and 5 Must Replace
 
@@ -157,6 +163,21 @@ Run `db/migrations/001_initial.sql` in the Neon SQL Editor, after turning on Neo
 | `admin/` | Login, appointments calendar, hide and show slots, cancel booking |
 
 The booking order must not change: payment, confirmed appointment, questionnaire, Meet link, confirmation email.
+
+## What the PHP Site Has That Next.js Still Needs
+
+Found when comparing the two sites (November 2026). Each item is tracked in `tasks.md` (Phase 9). All are built; the host still needs the reminder schedule and the Razorpay webhook.
+
+| PHP feature | PHP code | Next.js plan |
+| --- | --- | --- |
+| Real Google Meet link through Apps Script and Google Calendar | `appointment-form/src/GoogleAppsScriptClient.php`, `api/generate-meet.php` | Server call to the same Apps Script (`APPS_SCRIPT_URL`, `APPS_SCRIPT_SECRET`); placeholder link only when they are not set |
+| Emails: customer booking, admin booking, questionnaire done, questionnaire reminders | `email/AppointmentEmails.php`, `email/templates/` (PHPMailer, SMTP) | Same templates sent from the server over the same SMTP account |
+| Questionnaire reminder job | `appointment-form/cron/questionnaire-reminders.php` | Protected cron route, run by the host's scheduler |
+| Admin hides single slots | `admin/appointments-calendar/api/toggle-slot.php`, `DisabledSlotsStore.php` | `er_hidden_slots` table, toggle in the admin calendar, booking rules skip hidden slots |
+| Admin cancels a booking | `admin/appointments-calendar/api/cancel-booking.php` | Already there: status Cancelled frees the slot; Delete removes it |
+| Payment recorded even if the customer closes the tab | `api/finalize-booking.php` | Razorpay webhook (`RAZORPAY_WEBHOOK_SECRET`) confirms the booking from the details saved with the hold |
+| Cohort application form with its own payment | `cohort-form/` | Left out: `/cohort` books the normal ₹800 consultation |
+| Snackbar product page and orders | `snackbar.php`, `snackbar-form/` | Left out on purpose: it is the product line |
 
 ## Open Decisions
 

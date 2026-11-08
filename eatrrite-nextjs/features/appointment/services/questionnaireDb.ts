@@ -1,8 +1,8 @@
 import "server-only";
-import { getQuestions } from "@/features/appointment/services/bookingConfig";
+import { getBookingSettings, getQuestions } from "@/features/appointment/services/bookingConfig";
+import { createMeetLink } from "@/features/appointment/services/meetLink";
 import type { QuestionnaireAnswers } from "@/features/appointment/types/questionnaire";
 import type { Lead, LeadGender } from "@/types/admin/lead";
-import { generateAdminMeetLink } from "@/utils/admin/generateMeetLink";
 import { applyLeadToQuestionnaire, isAdminQuestionnaireComplete } from "@/utils/admin/leadQuestionnaire";
 import { db } from "@/services/database";
 
@@ -43,13 +43,16 @@ export async function getConfirmedBooking(id: string): Promise<ConfirmedBooking 
   };
 }
 
-// Saves the answers on the appointment, the name, age and gender on the lead, then creates the
-// (placeholder) Meet link. Answers are saved once: a second submit leaves the first in place.
+// Creates the Meet link (Apps Script, as on the PHP site), then saves the answers on the
+// appointment and the name, age and gender on the lead. If the link cannot be made nothing is
+// saved, so the customer can submit again. Answers are saved once: a second submit keeps the first.
 export async function saveQuestionnaire(appointmentId: string, input: QuestionnaireInput): Promise<{ meetLink: string }> {
   const sql = db();
   const [row] = await sql`
-    select a.lead_id, a.meet_link, jsonb_array_length(a.questionnaire) as answered
-    from er_appointments a where a.id = ${appointmentId} and a.payment_id is not null`;
+    select a.lead_id, a.meet_link, jsonb_array_length(a.questionnaire) as answered, a.service, a.payment_id,
+      to_char(a.date, 'YYYY-MM-DD') as date, to_char(a.time, 'HH24:MI') as time, l.phone
+    from er_appointments a join er_leads l on l.id = a.lead_id
+    where a.id = ${appointmentId} and a.payment_id is not null`;
   if (!row) throw new Error("We could not find this booking.");
   if (row.answered > 0 && row.meet_link) return { meetLink: row.meet_link };
 
@@ -64,7 +67,13 @@ export async function saveQuestionnaire(appointmentId: string, input: Questionna
   const answers = applyLeadToQuestionnaire(input.answers, profile);
   if (!isAdminQuestionnaireComplete(answers, profile, questions)) throw new Error("Please answer every required question.");
 
-  const meetLink = generateAdminMeetLink();
+  const { meetingMinutes } = await getBookingSettings();
+  const meetLink = await createMeetLink({
+    name, service: row.service, phone: row.phone, paymentId: row.payment_id, date: row.date, time: row.time, minutes: meetingMinutes,
+  }).catch((error) => {
+    console.error("Meet link failed", error);
+    throw new Error("We could not create your Google Meet link. Please submit again in a moment.");
+  });
   await sql.transaction([
     sql`update er_leads set name = ${name}, age = ${input.age}, gender = ${input.gender} where id = ${row.lead_id}`,
     sql`update er_appointments set questionnaire = ${JSON.stringify(answers)}::jsonb, meet_link = ${meetLink} where id = ${appointmentId}`,

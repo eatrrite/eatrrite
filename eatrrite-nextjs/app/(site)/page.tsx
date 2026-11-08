@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
+import { JsonLd } from "@/components/shared/JsonLd";
+import home from "@/constants/home/content.json";
+import { faqData } from "@/utils/structuredData";
+import { pageMetadata } from "@/utils/seo";
+import { ROUTES } from "@/constants/routes";
 import { AboutSection } from "@/components/home/AboutSection";
-import { BlogSection } from "@/components/home/BlogSection";
+import { CredentialsStrip } from "@/components/home/CredentialsStrip";
 import { CtaSection } from "@/components/home/CtaSection";
 import { FaqSection } from "@/components/home/FaqSection";
 import { Hero } from "@/components/home/Hero";
@@ -11,16 +16,18 @@ import { ProgramsSection } from "@/components/home/ProgramsSection";
 import { TestimonialsSection } from "@/components/home/TestimonialsSection";
 import { WhyChooseSection } from "@/components/home/WhyChooseSection";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Eat Rrite | Holistic Nutrition Coaching in Hyderabad & Dehradun",
-  description:
-    "Eat Rrite offers science-backed, culturally-rooted nutrition coaching for weight loss, perimenopause/PMOS, diabetes, gut health and more — without crash diets.",
-};
+  description: "Online nutrition coaching with the Indian food you already eat. Weight, diabetes, gut, PMOS and perimenopause care with Mukta Patil.",
+  path: ROUTES.home,
+});
 
 export default function HomePage() {
   return (
     <>
+      <JsonLd data={faqData(home.faq.items)} />
       <Hero />
+      <CredentialsStrip />
       <ProgramsSection />
       <Marquee />
       <AboutSection />
@@ -28,7 +35,7 @@ export default function HomePage() {
       <ProcessSection />
       <ProgramGridSection />
       <FaqSection />
-      <BlogSection />
+      {/* Blog section hidden until the Media articles are live (brief §5.1). */}
       <TestimonialsSection />
       <CtaSection />
     </>

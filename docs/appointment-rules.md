@@ -51,7 +51,7 @@ The admin Schedule page starts from these same hours. The public note on the boo
 4. **No overlap.** A start time is not offered when its 45-minute block overlaps another booking's block. Blocks that only touch are fine: after a 12:00 booking, 12:45 is free but 12:30 is not.
 5. **What takes a slot.** Confirmed, finalizing and completed bookings, and pending bookings whose 15-minute payment hold is still open. A cancelled or expired booking frees its slot.
 6. **Past times.** Today's times at or before the current minute are hidden. Past dates offer nothing.
-7. **Hidden slots.** A slot the admin hides is not offered and cannot be booked.
+7. **Hidden slots.** A slot the admin hides (admin calendar → day → Website slots, saved in `er_hidden_slots`) is not offered and cannot be booked.
 8. **Window.** A customer can book from today to 30 days ahead, inclusive.
 9. **Dates and times.** A date must be a real calendar day (`2026-02-31` is rejected). Times like `9:05`, `09:05` and `9:05 pm` are normalized to `HH:mm`.
 10. **Weekly hours.** A working window must end after it starts, or it offers nothing.
@@ -110,15 +110,14 @@ The booking runs on the server against Neon. A website booking shows up in the a
 
 ## Toasts
 
-Every user action shows a toast through one hook, `hooks/useShowToast.ts` (sonner, `<Toaster />` mounted in the site and admin layouts). It takes `{ title, description, type }` with type `success`, `info`, `error` or `pending`. Public actions that toast: booking problems (slot taken, order failed, payment cancelled or failed, payment not verified), payment success, form validation, questionnaire submitted or rejected, Meet link copied, and the contact form notice. The one message that also stays on screen is "payment taken but booking not completed", because it must not disappear.
+Every user action shows a toast through one hook, `hooks/useShowToast.ts` (sonner, `<Toaster />` mounted in the site and admin layouts). It takes `{ title, description, type, id }` with type `success`, `info`, `error` or `pending`. Every action that waits on the server first shows a `pending` toast ("Saving…", "Holding your slot…", "Confirming your payment…", "Submitting your answers…") and then replaces it with the result by passing the same `id`. Public actions that toast: booking problems (slot taken, order failed, payment cancelled or failed, payment not verified), payment success, form validation, questionnaire submitted or rejected, Meet link copied, and the contact form notice. The one message that also stays on screen is "payment taken but booking not completed", because it must not disappear.
 
 Questionnaire progress uses `hooks/useProgressToast.tsx`, which updates one toast in place.
 
 Checks: `bun run check:booking` (7 checks on the server-side booking rules; the database calls themselves need Neon).
 
-Still to do: a customer who pays and closes the tab before the page confirms is not recorded until the Razorpay webhook is added. The Google Meet link is a placeholder (`generateAdminMeetLink`). A website lead gets its name, age and gender from the questionnaire.
+Emails: after payment the customer gets the questionnaire link; reminders follow at 1, 3, 6, 12, 24, 30 and 36 hours until it is answered (`/api/cron/questionnaire-reminders`); after the questionnaire the customer gets the Meet link and the team gets the booking. The Meet link comes from the PHP Apps Script; without `APPS_SCRIPT_URL` it is a placeholder. If the link cannot be made, nothing is saved and the customer can submit again. The Razorpay webhook (`/api/payments/webhook`) confirms a paid booking from the hold's saved details when the tab was closed. A website lead gets its name, age and gender from the questionnaire.
 
 ## Not built yet
 
-- Hidden slots from the admin saved in the database (the rules already accept them).
 - Admin screens to change the booking settings, services and questions (they live in Neon and can be edited there for now).

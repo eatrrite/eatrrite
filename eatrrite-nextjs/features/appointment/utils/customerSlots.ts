@@ -4,12 +4,12 @@ import { addDays, nowIst } from "@/features/appointment/utils/istTime";
 import { availableTimes } from "@/features/appointment/utils/slots";
 
 /** What the customer-side rules read: the database's hours, rules and taken slots. */
-export type SlotSource = { weekly: WeeklyHours; settings: BookingSettings; occupied: OccupiedSlot[] };
+export type SlotSource = { weekly: WeeklyHours; settings: BookingSettings; occupied: OccupiedSlot[]; hidden?: OccupiedSlot[] };
 
-// Times a customer can pick on a date: the working hours, minus booked and held blocks.
-export function customerTimes(date: string, { weekly, settings, occupied }: SlotSource, today = nowIst().date): string[] {
+// Times a customer can pick on a date: the working hours, minus booked and held blocks and hidden slots.
+export function customerTimes(date: string, { weekly, settings, occupied, hidden }: SlotSource, today = nowIst().date): string[] {
   if (!isBookableDate(date, today, settings.bookingDaysAhead)) return [];
-  return availableTimes(date, { weekly, settings, occupied });
+  return availableTimes(date, { weekly, settings, occupied, disabled: hidden });
 }
 
 // Open times for every bookable day, today included, keyed by date. Days with none are left out.
@@ -21,6 +21,6 @@ export function customerAvailability(source: SlotSource, today = nowIst().date):
 }
 
 // Why a customer cannot book this slot, or null when they can.
-export function customerSlotError(date: string, time: string, { weekly, settings, occupied }: SlotSource): BookingError | null {
-  return bookingError(date, time, { weekly, settings, occupied });
+export function customerSlotError(date: string, time: string, { weekly, settings, occupied, hidden }: SlotSource): BookingError | null {
+  return bookingError(date, time, { weekly, settings, occupied, disabled: hidden });
 }

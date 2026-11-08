@@ -10,7 +10,7 @@ Eat Rrite stores everything in one Neon Postgres database. Sign-in uses Neon's M
    - `NEON_AUTH_BASE_URL`: the Auth URL from step 1
    - `NEON_AUTH_COOKIE_SECRET`: at least 32 characters (`openssl rand -base64 32`)
    - `ADMIN_EMAILS`: who may sign up and open the admin, comma separated (`marketing.eatrrite@gmail.com`)
-3. Run the migration once: `bun run db:migrate` (from `eatrrite-nextjs/`). It sends `db/migrations/001_initial.sql` to Neon as one transaction, so it either all runs or nothing is saved. It needs step 1 first, because `er_profiles` points at `neon_auth."user"`. (Pasting the file into the Neon SQL Editor can fail on the questionnaire insert, because the editor splits the file into separate statements.)
+3. Run the migrations once, in order: `bun run db:migrate`, then `bun run db:migrate db/migrations/002_php_parity.sql` (from `eatrrite-nextjs/`). 002 adds hidden slots, the order and details on a hold (for the webhook), `paid_at` and `reminders_sent` on appointments, and a date on to-dos. It sends `db/migrations/001_initial.sql` to Neon as one transaction, so it either all runs or nothing is saved. It needs step 1 first, because `er_profiles` points at `neon_auth."user"`. (Pasting the file into the Neon SQL Editor can fail on the questionnaire insert, because the editor splits the file into separate statements.)
 4. Start the app and open `/admin/signup`. Sign up with the admin email. The profile row is created on first sign-in.
 
 ## Tables
@@ -27,14 +27,15 @@ All tables start with `er_`. Each has `created_at` and `updated_at`, and one tri
 | `er_leads` | People who booked or were added by the admin | – |
 | `er_appointments` | One consultation: date, time, service, status, notes, Meet link, payment id, questionnaire answers | `lead_id` → `er_leads` |
 | `er_slot_holds` | A slot kept for 15 minutes while a payment is open | – |
-| `er_todos` | The admin dashboard to-do list | – |
+| `er_todos` | The admin dashboard to-do list, each on an India date | – |
+| `er_hidden_slots` | Start times the admin hid from the website (002) | – |
 
 Questionnaire answers are stored on the appointment as JSON: `[{ "key": "primary_goal", "answer": "…" }, …]`. The key is the question's `key` in `er_questions`.
 
 ## How the code reads and writes
 
 - `services/database.ts` gives one SQL client (`db()`), server only. Queries use tagged templates, never string-built SQL.
-- **Admin:** the admin layout checks the session, loads everything from Neon on the server and fills the zustand store (an in-memory cache, no longer saved in the browser). Each change updates the store at once and is saved through a server action; if saving fails the change is undone and a toast says why.
+- **Admin:** the admin layout checks the session, loads everything from Neon on the server and fills the zustand store (an in-memory cache, no longer saved in the browser). Each change updates the store at once and is saved through a server action (`stores/saveOrRevert.ts`). A "Saving…" toast shows until Neon answers, then turns into the success message; if saving fails the change is undone and the same toast says why.
 - **Public site:** slots, holds, payment confirmation and the questionnaire run on the server (`app/api/…` and server components), reading the settings, schedule, services and questions from Neon.
 - **Auth:** `features/auth/` holds the Neon Auth server instance, the sign-in, sign-up and sign-out actions, the admin email check and the login and signup forms. `proxy.ts` sends anyone without a session from `/admin` to `/admin/login`; the admin layout also checks the email is in `ADMIN_EMAILS`.
 

@@ -12,7 +12,7 @@ export function StorySection() {
     <PageSection tone="white" food={pageFood(1)}>
       <div className="grid items-center gap-12 lg:grid-cols-[3fr_2fr] lg:gap-14">
         <div className="min-w-0">
-          <SectionIntro eyebrow={story.pill} title={story.title} />
+          <SectionIntro eyebrow={story.pill} title={story.title} eyebrowHeading />
           {story.paragraphs.map((paragraph, index) => (
             <BlurIn key={paragraph} delay={0.15 + index * 0.05}>
               <p className="mt-4 mb-0 max-w-xl text-text">{paragraph}</p>

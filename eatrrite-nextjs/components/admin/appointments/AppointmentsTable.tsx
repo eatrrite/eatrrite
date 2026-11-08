@@ -1,5 +1,6 @@
 "use client";
 
+import { EmptyState } from "@/components/shared/EmptyState";
 import { useCallback, useMemo, useState } from "react";
 import { DataTable } from "@/components/admin/DataTable";
 import { AppointmentDetailsCard } from "@/components/admin/appointments/AppointmentDetailsCard";
@@ -31,12 +32,10 @@ export function AppointmentsTable() {
   );
   const getId = useCallback((item: Appointment) => item.id, []);
   const [selectedId, selectRow, selected] = useSelectedRow(rows, getId);
+  const { getLead } = actions;
   const columns = useMemo(
-    () =>
-      getAppointmentListColumns(
-        (id) => actions.getLead(id)?.name ?? "Unknown",
-      ),
-    [actions.getLead],
+    () => getAppointmentListColumns((id) => getLead(id)?.name ?? "Unknown"),
+    [getLead],
   );
 
   return (
@@ -54,7 +53,14 @@ export function AppointmentsTable() {
           getRowId={getId}
           selectedRowId={selectedId}
           onRowSelect={(item) => selectRow(item.id)}
-          emptyMessage="No appointments match these filters."
+          resetKey={JSON.stringify(filters)}
+          empty={
+            appointments.length === 0 ? (
+              <EmptyState image="appointments" title="No appointments yet" description="Website bookings appear here after payment, or add one yourself." />
+            ) : (
+              <EmptyState image="search" title="No appointments match" description="Try a different search, status or date filter." />
+            )
+          }
         />
         <AppointmentDetailsCard
           appointment={selected}

@@ -15,7 +15,7 @@ export function WhyChooseSection() {
         <BlurIn className="mx-auto w-full max-w-sm lg:mx-0 lg:max-w-none">
           <div className="relative mx-auto flex aspect-square max-w-[22rem] items-center justify-center lg:max-w-none">
             <div aria-hidden className="absolute inset-[8%] rounded-full bg-soft" />
-            <Image src="/images/about/bowl.jpg" alt="A balanced Indian meal" width={1200} height={1200} sizes="(max-width: 1024px) 320px, 40vw" className="relative z-10 aspect-square w-[78%] rounded-full object-cover shadow-card" />
+            <Image src="/images/about/balanced-indian-meal-bowl.jpg" alt="A balanced Indian meal" width={1200} height={1200} sizes="(max-width: 1024px) 320px, 40vw" className="relative z-10 aspect-square w-[78%] rounded-full object-cover shadow-card" />
           </div>
         </BlurIn>
         <div className="min-w-0">
@@ -25,8 +25,8 @@ export function WhyChooseSection() {
               <BlurInItem key={item.num} delay={0.1 + index * 0.06} className="group flex gap-4 border-t border-border pt-5 first:border-t-0 first:pt-0 sm:gap-5 sm:[&:nth-child(-n+2)]:border-t-0 sm:[&:nth-child(-n+2)]:pt-0">
                   <span aria-hidden className="font-heading text-2xl font-bold text-primary/25 tabular-nums transition-colors group-hover:text-primary/50 sm:text-3xl">{item.num}</span>
                   <div className="min-w-0">
-                    <h3 className="m-0 font-heading text-lg font-bold text-ink sm:text-xl">{item.title}</h3>
-                    <p className="mt-1.5 mb-0 text-sm leading-relaxed text-text">{item.text}</p>
+                    {"title" in item && item.title ? <h3 className="m-0 font-heading text-lg font-bold text-ink sm:text-xl">{item.title}</h3> : null}
+                    <p className={"title" in item && item.title ? "mt-1.5 mb-0 text-sm leading-relaxed text-text" : "m-0 text-sm leading-relaxed text-text"}>{item.text}</p>
                   </div>
               </BlurInItem>
             ))}

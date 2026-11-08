@@ -1,5 +1,6 @@
 "use client";
 
+import { EmptyState } from "@/components/shared/EmptyState";
 import { Mail, MapPin, Pencil, Phone, Trash2 } from "lucide-react";
 import { format, parseISO } from "date-fns";
 import { Button } from "@/components/ui/button";
@@ -24,8 +25,8 @@ export function LeadDetailsCard({
 }: LeadDetailsCardProps) {
   if (!lead) {
     return (
-      <aside className="flex h-fit min-h-48 items-center justify-center self-start rounded-2xl border border-dashed border-border bg-card p-6 text-center text-sm text-muted-foreground">
-        Select a lead to view details.
+      <aside className="flex h-fit min-h-48 items-center justify-center self-start rounded-2xl border border-dashed border-border bg-card p-6">
+        <EmptyState size="sm" image="leads" title="No lead selected" description="Pick one from the list to see their details." />
       </aside>
     );
   }

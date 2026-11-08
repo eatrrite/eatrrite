@@ -1,9 +1,9 @@
 [
     {
-        "slug": "weight-lifestyle-management",
+        "slug": "weight-loss-indian-food",
         "name": "Nutrition for Weight & Lifestyle Management",
         "short": "Complete Weight & Lifestyle Management",
-        "image": "/images/services/weight.jpg",
+        "image": "/images/services/weight-loss-indian-food.jpg",
         "image_secondary": "/images/hero/healthy-plate.jpg",
         "summary": "Lose weight without giving up the food you grew up eating — dal-chawal, idli-dosa-sambar and paratha-sabzi included.",
         "about": "This is Eat Rrite's core weight-loss program — built for anyone who wants to lose weight without giving up the food they grew up eating. Instead of a generic calorie chart, Mukta builds your plan around your actual reports, your daily routine, and your favourite meals.",
@@ -14,13 +14,16 @@
             "Direct WhatsApp access to Mukta",
             "A sustainable shift in habits"
         ],
-        "ideal": "Anyone looking to lose weight — without crash diets, starvation, or giving up the food they grew up eating."
+        "ideal": "Anyone looking to lose weight — without crash diets, starvation, or giving up the food they grew up eating.",
+        "imageAlt": "Balanced Indian meal for weight loss with Eat Rrite",
+        "imageSecondaryAlt": "Healthy Indian plate of dal, rice and vegetables",
+        "seoTitle": "Weight Loss with Indian Food (Online) | Eat Rrite"
     },
     {
-        "slug": "diabetes-management",
+        "slug": "diabetes-diet-plan",
         "name": "Nutrition for Diabetes Management & Reversal",
         "short": "Diabetes Management & Reversal",
-        "image": "/images/services/diabetes.jpg",
+        "image": "/images/services/diabetes-diet-indian-food.jpg",
         "image_secondary": "/images/hero/salad.jpg",
         "summary": "Manage and work toward reversing diabetes or high blood sugar with food you already eat — alongside your doctor.",
         "about": "For anyone diagnosed with diabetes or high blood sugar, this program looks at nutrition as a genuine management and reversal tool — built around your reports and regular meals. Along with working toward sugar reversal, it also works on the side effects many diabetics live with — weight gain, low energy, sluggish mornings, a post-meal energy crash, slow digestion, acid reflux, and more.",
@@ -31,14 +34,17 @@
             "Coordination with your doctor",
             "Meals from regular Indian food"
         ],
-        "ideal": "Anyone diagnosed with diabetes or high blood sugar."
+        "ideal": "Anyone diagnosed with diabetes or high blood sugar.",
+        "imageAlt": "Diabetes-friendly Indian meal planned by Eat Rrite",
+        "imageSecondaryAlt": "Fresh salad for blood sugar control",
+        "seoTitle": "Diabetes Diet Plan with Indian Food (Online) | Eat Rrite"
     },
     {
-        "slug": "gut-health",
+        "slug": "gut-health-diet",
         "name": "Nutrition for Gut Health",
         "short": "Gut Health",
-        "image": "/images/services/gut.jpg",
-        "image_secondary": "/images/about/bowl.jpg",
+        "image": "/images/services/gut-health-diet.jpg",
+        "image_secondary": "/images/about/balanced-indian-meal-bowl.jpg",
         "summary": "Relief from acidity, bloating, constipation and GERD — using your regular Indian meals.",
         "about": "Mukta works with your regular meals, adjusting how and what you combine, so gut issues are addressed without replacing your diet. The aim is a life free of antacids — with better mood, better sleep, better focus at work, and an easier time with friends and family.",
         "benefits": [
@@ -48,13 +54,16 @@
             "Relief from bloating, acidity, constipation and GERD",
             "Plan around home-cooked meals"
         ],
-        "ideal": "Anyone dealing with acidity, bloating, constipation, GERD, or gut-related anxiety."
+        "ideal": "Anyone dealing with acidity, bloating, constipation, GERD, or gut-related anxiety.",
+        "imageAlt": "Gut-friendly Indian food for better digestion",
+        "imageSecondaryAlt": "Fibre-rich foods for gut health",
+        "seoTitle": "Gut Health Diet for Acidity, Bloating & GERD | Eat Rrite"
     },
     {
         "slug": "female-hormone-health",
         "name": "Female Hormone Health Diet Program",
         "short": "Female Hormone Health",
-        "image": "/images/services/hormone.jpg",
+        "image": "/images/services/female-hormone-health-nutrition.jpg",
         "image_secondary": "/images/about/kitchen.jpg",
         "summary": "Nutrition for perimenopause/PMOS, Menopause and Postpartum Recovery.",
         "about": "Mukta builds your plan around your specific hormonal picture and reports, addressing the root cause rather than only the symptoms. With the diet, women typically see weight loss, a flatter stomach, better digestion, clearer thinking without brain fog, a steadier period flow with fewer cramps, better mood regulation, easier joint-pain management, and better chances of fertility.",
@@ -65,6 +74,10 @@
             "Better mood, joint-pain management, and fertility support",
             "Direct WhatsApp access through flare-ups"
         ],
-        "ideal": "Women managing perimenopause/PMOS, Menopause, PMS, or Postpartum Recovery."
+        "ideal": "Women managing perimenopause/PMOS, Menopause, PMS, or Postpartum Recovery.",
+        "imageAlt": "Nutrition for women's hormone health with Eat Rrite",
+        "imageSecondaryAlt": "Wholesome food for PMOS and perimenopause",
+        "seoTitle": "PMOS (PCOS/PCOD), Menopause & Hormone Diet | Eat Rrite",
+        "seoDescription": "Nutrition for PMOS (earlier PCOS/PCOD), perimenopause, menopause and postpartum recovery."
     }
 ]

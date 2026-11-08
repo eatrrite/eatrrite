@@ -1,6 +1,6 @@
 // Runs one migration file against Neon in a single round trip (BEGIN … COMMIT is inside the file).
 // Usage: bun run db:migrate            (runs db/migrations/001_initial.sql)
-//        bun run db:migrate <file.sql>
+//        bun run db:migrate <file.sql>   (for example db/migrations/002_php_parity.sql)
 import { readFile } from "node:fs/promises";
 import { Pool } from "@neondatabase/serverless";
 

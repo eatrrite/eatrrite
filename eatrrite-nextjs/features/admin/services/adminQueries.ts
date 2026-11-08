@@ -17,8 +17,16 @@ export async function listAppointments() {
 }
 
 export async function listTodos() {
-  const rows = await db()`select id, label, done from er_todos order by created_at desc`;
+  const rows = await db()`select id, label, done, to_char(date, 'YYYY-MM-DD') as date from er_todos order by date desc, created_at desc`;
   return (rows as TodoRow[]).map(toTodo);
+}
+
+// Hidden start times from today on (older ones no longer matter).
+export async function listHiddenSlots() {
+  const rows = await db()`
+    select to_char(date, 'YYYY-MM-DD') as date, to_char(time, 'HH24:MI') as time
+    from er_hidden_slots where date >= (now() at time zone 'Asia/Kolkata')::date order by date, time`;
+  return rows as { date: string; time: string }[];
 }
 
 export async function getPreferences(): Promise<AdminSettings> {

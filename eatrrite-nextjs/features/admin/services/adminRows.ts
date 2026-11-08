@@ -65,6 +65,6 @@ export const toAppointment = (row: AppointmentRow): Appointment => ({
   updatedAt: iso(row.updated_at),
 });
 
-export type TodoRow = { id: string; label: string; done: boolean };
+export type TodoRow = { id: string; label: string; done: boolean; date: string };
 
-export const toTodo = (row: TodoRow): Todo => ({ id: row.id, label: row.label, done: row.done });
+export const toTodo = (row: TodoRow): Todo => ({ id: row.id, label: row.label, done: row.done, date: row.date });

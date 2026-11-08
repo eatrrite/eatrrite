@@ -1,42 +1,42 @@
 "use client";
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import type { DataTableAlign, DataTableColumn } from "@/types/admin/dataTable";
+import { ALIGN_CLASS, DataTableHead } from "@/components/admin/DataTableHead";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import type { DataTableColumn } from "@/types/admin/dataTable";
 import { normalizeColumnWidths } from "@/utils/admin/dataTableWidths";
+import { ListPagination } from "@/components/admin/ListPagination";
+import { usePagination } from "@/hooks/admin/usePagination";
+import { EmptyState } from "@/components/shared/EmptyState";
 import { cn } from "cn";
 
 type DataTableProps<T> = {
   columns: DataTableColumn<T>[];
   rows: T[];
   getRowId: (row: T) => string;
-  emptyMessage?: string;
+  /** What shows when there are no rows: an EmptyState. */
+  empty?: React.ReactNode;
   className?: string;
   selectedRowId?: string | null;
   onRowSelect?: (row: T) => void;
+  /** Rows per page (default 10). The pager shows bottom right when there is more than one page. */
+  pageSize?: number;
+  /** Change it (for example to the current filters) to go back to page 1. */
+  resetKey?: string;
 };
 
-const ALIGN_CLASS: Record<DataTableAlign, string> = {
-  left: "text-left",
-  center: "text-center",
-  right: "text-right",
-};
 
 export function DataTable<T>({
   columns,
   rows,
   getRowId,
-  emptyMessage = "No results found.",
+  empty = <EmptyState image="search" title="Nothing found" description="Try a different search or filter." />,
   className,
   selectedRowId,
   onRowSelect,
+  pageSize = 10,
+  resetKey,
 }: DataTableProps<T>) {
+  const { page, pageCount, pageItems, setPage } = usePagination(rows, pageSize, resetKey);
   const widths = normalizeColumnWidths(columns.map((column) => column.width));
 
   return (
@@ -55,34 +55,19 @@ export function DataTable<T>({
             />
           ))}
         </colgroup>
-        <TableHeader>
-          <TableRow>
-            {columns.map((column, index) => (
-              <TableHead
-                key={column.key}
-                style={{ width: `${widths[index]}%` }}
-                className={cn(
-                  "h-12 truncate px-6 text-sm",
-                  ALIGN_CLASS[column.align ?? "left"],
-                )}
-              >
-                {column.header}
-              </TableHead>
-            ))}
-          </TableRow>
-        </TableHeader>
+        <DataTableHead columns={columns} widths={widths} />
         <TableBody>
           {rows.length === 0 ? (
             <TableRow>
               <TableCell
                 colSpan={columns.length}
-                className="px-6 py-10 text-center text-muted-foreground"
+                className="px-6 text-center whitespace-normal"
               >
-                {emptyMessage}
+                {empty}
               </TableCell>
             </TableRow>
           ) : (
-            rows.map((row) => {
+            pageItems.map((row) => {
               const id = getRowId(row);
               const selected = selectedRowId === id;
               return (
@@ -113,6 +98,11 @@ export function DataTable<T>({
           )}
         </TableBody>
       </Table>
+      {pageCount > 1 ? (
+        <div className="border-t border-border px-4 py-3">
+          <ListPagination page={page} pageCount={pageCount} onPageChange={setPage} />
+        </div>
+      ) : null}
     </div>
   );
 }

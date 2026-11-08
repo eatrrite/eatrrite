@@ -1,0 +1,57 @@
+{
+  "updated": "November 2026",
+  "intro": "This policy explains what Eat Rrite collects when you book a consultation or contact us, why, who it is shared with, how long it is kept, and how to withdraw your consent or ask for your data to be deleted.",
+  "sections": [
+    {
+      "title": "What we collect",
+      "items": [
+        "Your name, email address and mobile number, when you book or contact us.",
+        "Your answers to the health questionnaire you fill in after booking.",
+        "Payment confirmation details from the payment provider. We never see or store your card or bank details."
+      ]
+    },
+    {
+      "title": "Why we collect it",
+      "items": [
+        "To arrange your consultation, send your Google Meet link and remind you before it.",
+        "To prepare a nutrition plan that fits your health, reports and routine.",
+        "To reply when you message or call us."
+      ]
+    },
+    {
+      "title": "Who it is shared with",
+      "items": [
+        "Google, for the Meet link, calendar and email.",
+        "Meta, for WhatsApp messages about your consultation.",
+        "Razorpay, the payment provider, for the ₹800 confirmation fee.",
+        "No one else. We never sell your data."
+      ]
+    },
+    {
+      "title": "Health answers",
+      "items": [
+        "Your questionnaire answers are treated as sensitive. They are stored securely, never sent in plain email, and only Mukta can see them.",
+        "Health details are never used in advertising or tracking."
+      ]
+    },
+    {
+      "title": "How long we keep it",
+      "items": [
+        "For as long as you are a client, and then only as long as needed for our records, after which it is deleted."
+      ]
+    },
+    {
+      "title": "Your choices",
+      "items": [
+        "You can withdraw your consent, see the data we hold, correct it, or ask us to delete it at any time.",
+        "Write to info@eatrrite.com or message us on WhatsApp. We reply within a few working days."
+      ]
+    },
+    {
+      "title": "Complaints",
+      "items": [
+        "Mukta Patil, founder of Eat Rrite, is responsible for your data. Email info@eatrrite.com or call +91 96398 77483."
+      ]
+    }
+  ]
+}
