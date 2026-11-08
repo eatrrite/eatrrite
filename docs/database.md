@@ -5,12 +5,12 @@ Eat Rrite stores everything in one Neon Postgres database. Sign-in uses Neon's M
 ## Setup (once)
 
 1. In the Neon Console, open **Auth** and click **Enable Auth**. Copy the Auth URL from **Settings → Better Auth → Project Info**.
-2. In `eatrrite-nextjs/.env.local` set:
+2. In `.env.local` (project root) set:
    - `DATABASE_URL`: the Neon connection string (already set)
    - `NEON_AUTH_BASE_URL`: the Auth URL from step 1
    - `NEON_AUTH_COOKIE_SECRET`: at least 32 characters (`openssl rand -base64 32`)
    - `ADMIN_EMAILS`: who may sign up and open the admin, comma separated (`marketing.eatrrite@gmail.com`)
-3. Run the migrations once, in order: `bun run db:migrate`, then `bun run db:migrate db/migrations/002_php_parity.sql` (from `eatrrite-nextjs/`). 002 adds hidden slots, the order and details on a hold (for the webhook), `paid_at` and `reminders_sent` on appointments, and a date on to-dos. It sends `db/migrations/001_initial.sql` to Neon as one transaction, so it either all runs or nothing is saved. It needs step 1 first, because `er_profiles` points at `neon_auth."user"`. (Pasting the file into the Neon SQL Editor can fail on the questionnaire insert, because the editor splits the file into separate statements.)
+3. Run the migrations once, in order: `bun run db:migrate`, then `bun run db:migrate db/migrations/002_php_parity.sql` (from the project root), then `bun run db:migrate db/migrations/003_service_names.sql`. 002 adds hidden slots, the order and details on a hold (for the webhook), `paid_at` and `reminders_sent` on appointments, and a date on to-dos. It sends `db/migrations/001_initial.sql` to Neon as one transaction, so it either all runs or nothing is saved. It needs step 1 first, because `er_profiles` points at `neon_auth."user"`. (Pasting the file into the Neon SQL Editor can fail on the questionnaire insert, because the editor splits the file into separate statements.)
 4. Start the app and open `/admin/signup`. Sign up with the admin email. The profile row is created on first sign-in.
 
 ## Tables

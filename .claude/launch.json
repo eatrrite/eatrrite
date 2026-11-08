@@ -2,12 +2,10 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "eatrrite-nextjs",
+      "name": "eatrrite",
       "runtimeExecutable": "bun",
       "runtimeArgs": [
         "run",
-        "--cwd",
-        "eatrrite-nextjs",
         "dev",
         "--port",
         "3100"

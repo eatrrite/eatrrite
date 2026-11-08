@@ -1,4 +1,4 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Secrets live only in .env.local. Never commit it.
 
 # dependencies
 /node_modules

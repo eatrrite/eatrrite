@@ -2,7 +2,7 @@
 
 Move www.eatrrite.com from PHP to Next.js without changing how it looks or works. The user should not be able to tell the site was rebuilt.
 
-The new project lives in `eatrrite-nextjs/`. The PHP site stays in the project root as the reference and keeps running until the new site is approved.
+The Next.js app is the project root. The PHP site was removed from the repo in November 2026 (it stays in git history; its secrets and booking files are in a private backup outside the repo).
 
 ## The Five Phases
 
@@ -51,7 +51,7 @@ Each phase waits for approval before the next one starts. Phases 1 to 3 are fron
 
 ## Design Tokens
 
-`eatrrite-nextjs/app/globals.css` holds every token. The `--er-*` variables copy the PHP `:root` one for one, and the shadcn variables point at them.
+`app/globals.css` holds every token. The `--er-*` variables copy the PHP `:root` one for one, and the shadcn variables point at them.
 
 **Colours**
 
@@ -112,7 +112,7 @@ Each phase waits for approval before the next one starts. Phases 1 to 3 are fron
 | Media | (new) | `/media` | page-banner, featured in / spoken at, online articles |
 | Privacy Policy | (new) | `/privacy-policy` | page-banner, policy (lawyer to check wording) |
 
-Clean addresses (brief §6.3): programs live at `/programs/weight-loss-indian-food`, `/programs/diabetes-diet-plan`, `/programs/gut-health-diet` and `/programs/female-hormone-health`. Every old address 301-redirects to its new page; the list is `eatrrite-nextjs/config/redirects.ts`.
+Clean addresses (brief §6.3): programs live at `/programs/weight-loss-indian-food`, `/programs/diabetes-diet-plan`, `/programs/gut-health-diet` and `/programs/female-hormone-health`. Every old address 301-redirects to its new page; the list is `config/redirects.ts`.
 
 Program detail pages are not in the navigation, but the footer and Programs page link to them, so Phase 3 includes them. There are four: Diabetes, Female Hormone Health, Gut Health and Weight and Lifestyle.
 
@@ -136,7 +136,7 @@ Run `db/migrations/001_initial.sql` in the Neon SQL Editor, after turning on Neo
 
 ## Environment
 
-`eatrrite-nextjs/.env.local`, never committed. `.env.example` lists the names.
+`.env.local` in the project root, never committed. `.env.example` lists the names.
 
 | Name | Value |
 | --- | --- |

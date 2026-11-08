@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "eatrrite-nextjs",
+      "name": "eatrrite",
       "dependencies": {
         "@base-ui/react": "^1.9.0",
         "@fortawesome/fontawesome-common-types": "6.5.2",

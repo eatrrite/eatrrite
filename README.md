@@ -1,40 +1,35 @@
-# Eat Rrite Next.js
+# Eat Rrite
 
-Next.js rebuild of www.eatrrite.com. The PHP site in the parent folder is the reference.
-Plan: `../docs/tasks.md`. Rules: `../docs/RULES.md`.
+Next.js site and admin for www.eatrrite.com. Plan: `docs/tasks.md`. Rules: `docs/RULES.md`. Database: `docs/database.md`.
 
 ## Setup
 
 1. `bun install`
-2. Copy `.env.example` to `.env.local` and fill it in (see `../docs/requirements.md`).
-3. In Neon: turn on Neon Auth, then run `db/migrations/001_initial.sql` in the SQL Editor.
-4. `bun run dev`
+2. Copy `.env.example` to `.env.local` and fill it in (see `docs/requirements.md`, Environment).
+3. In Neon, turn on Neon Auth, then run the migrations in order:
+   - `bun run db:migrate`
+   - `bun run db:migrate db/migrations/002_php_parity.sql`
+   - `bun run db:migrate db/migrations/003_service_names.sql`
+4. `bun run dev`, then sign up once at `/admin/signup` with an email listed in `ADMIN_EMAILS`.
 
 ## Test a booking (Razorpay test mode)
 
-1. Open `/appointment`, fill the form, pick a slot, press Pay.
-2. Pay with a Razorpay test card, for example Visa `4100 2800 0000 1007`, any future expiry, any CVV.
-3. On the mock bank page, enter any 4 to 10 digit OTP.
-4. You land on `/appointment-confirmed`. Answer the questionnaire to create the Meet link.
+1. Open `/book`, fill the form, tick the consent box, pick a slot, press Pay.
+2. Pay with a Razorpay test card, for example Visa `4100 2800 0000 1007`, any future expiry, any CVV, any 4 to 10 digit OTP.
+3. You land on `/appointment-confirmed`. Answer the questionnaire to get the Meet link and the emails.
 
-Test payments move no money. Creating a Meet link adds a real event to the connected Google Calendar.
-
-## Admin
-
-Open `/admin`. Password for the UI preview: `eatrrite@1234`. The admin uses sample data stored in the browser until it is connected to Neon.
+Test payments move no money.
 
 ## Folders
 
 | Path | Holds |
 | --- | --- |
-| `app/(site)/` | Pages |
-| `app/api/` | Slots, booking, payment, questionnaire and Meet routes |
-| `components/<page>/` | Parts of one page |
-| `components/layout/`, `components/shared/`, `components/ui/` | Site chrome, shared parts, shadcn |
-| `app/admin/`, `components/admin/` | Admin panel, copied from the Deccan Dentics admin |
-| `stores/` | Admin client state (zustand) |
-| `constants/` | Brand manifest, routes, API paths, page copy in `constants/<page>/` |
-| `hooks/` | `useBooking`, `useRazorpayCheckout`, `useSlotTimes` |
-| `services/` | Database queries, Razorpay, Apps Script, browser API calls |
-| `utils/` | Slot maths, time helpers, validators, signatures |
-| `db/migrations/` | SQL for Neon |
+| `app/(site)/` | Public pages |
+| `app/admin/` | Admin login, signup and panel |
+| `app/api/` | Slots, booking, payment verify, Razorpay webhook, reminder cron |
+| `features/` | `appointment/`, `auth/`, `admin/`: everything one feature needs |
+| `components/` | Page parts, layout, shared parts, shadcn `ui/` |
+| `constants/` | Brand, routes, WhatsApp links, page copy |
+| `config/` | Server environment, redirects |
+| `db/migrations/` | SQL for Neon, numbered |
+| `docs/` | Brief, requirements, tasks, rules |

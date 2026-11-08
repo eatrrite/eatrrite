@@ -3,8 +3,8 @@
 Client work for Mukta Patil on www.eatrrite.com: fixes, SEO, speed and automation, not a redesign.
 
 - Client brief: `docs/eatrrite-developer-brief.pdf` (source of truth, with exact copy-paste text)
-- Next.js rebuild: code in `eatrrite-nextjs/`, summary in `docs/requirements.md`, five-phase work list in `docs/tasks.md` (tick items off as they are done, and wait for approval between phases)
-- Original PHP fix lists: `docs/php-site-requirements.md` and `docs/php-site-tasks.md`
+- The Next.js app is the project root (the PHP site was removed; it lives on in git history). Summary in `docs/requirements.md`, work list in `docs/tasks.md` (tick items off as they are done, and wait for approval between phases), code rules in `docs/RULES.md`
+- Original PHP fix lists, for reference: `docs/php-site-requirements.md` and `docs/php-site-tasks.md`
 
 ## Rules
 
