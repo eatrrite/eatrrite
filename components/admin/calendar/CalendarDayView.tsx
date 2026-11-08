@@ -17,6 +17,7 @@ import {
   calendarGridHeightPx,
   calendarTimelineOuterHeightPx,
 } from "@/utils/admin/calendarTime";
+import { layoutOverlaps } from "@/utils/admin/calendarOverlap";
 import { toDateValue } from "@/utils/admin/date";
 
 type CalendarDayViewProps = {
@@ -41,6 +42,14 @@ export function CalendarDayView({
     [appointments],
   );
   const dayItems = appointmentsOnDate(byDate, dateKey);
+  const placed = useMemo(() => {
+    const blocks = dayItems.flatMap((item) => {
+      const layout = appointmentBlockLayout(item.time, blockMinutes);
+      return layout ? [{ item, layout }] : [];
+    });
+    const slots = layoutOverlaps(blocks.map(({ item, layout }) => ({ id: item.id, ...layout })));
+    return blocks.map((block) => ({ ...block, slot: slots.get(block.item.id) }));
+  }, [dayItems, blockMinutes]);
   const gridHeight = calendarGridHeightPx();
   const outerHeight = calendarTimelineOuterHeightPx();
 
@@ -59,20 +68,17 @@ export function CalendarDayView({
           >
             <CalendarHourLines />
             <CalendarDayEmptySlots onEmptySlot={onEmptySlot} />
-            {dayItems.map((item) => {
-              const layout = appointmentBlockLayout(item.time, blockMinutes);
-              if (!layout) return null;
-              return (
-                <CalendarDayBlock
-                  key={item.id}
-                  appointment={item}
-                  leadName={leadName(item.leadId)}
-                  topPx={layout.topPx}
-                  heightPx={layout.heightPx}
-                  onSelect={() => onSelectAppointment?.(item)}
-                />
-              );
-            })}
+            {placed.map(({ item, layout, slot }) => (
+              <CalendarDayBlock
+                key={item.id}
+                appointment={item}
+                leadName={leadName(item.leadId)}
+                topPx={layout.topPx}
+                heightPx={layout.heightPx}
+                slot={slot}
+                onSelect={() => onSelectAppointment?.(item)}
+              />
+            ))}
           </div>
         </div>
       </div>

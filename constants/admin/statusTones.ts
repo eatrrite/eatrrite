@@ -10,4 +10,4 @@ export const STATUS_TONES = {
 export type StatusTone = keyof typeof STATUS_TONES;
 
 export const STATUS_BADGE_BASE =
-  "inline-flex rounded-full px-3 py-1 text-xs font-body font-medium whitespace-nowrap";
+  "inline-flex rounded-full px-2.5 py-0.5 text-[11px] font-body font-medium whitespace-nowrap sm:px-3 sm:py-1 sm:text-xs";

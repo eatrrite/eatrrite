@@ -4,6 +4,7 @@ import { useState } from "react";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon, X } from "lucide-react";
 import type { DateRange } from "react-day-picker";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -30,6 +31,7 @@ export function DateRangePicker({
   onChange,
   className,
 }: DateRangePickerProps) {
+  const twoMonths = useMediaQuery("(min-width: 640px)");
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState<DateRange | undefined>(value);
   const empty = !value?.from;
@@ -82,7 +84,7 @@ export function DateRangePicker({
         <PopoverContent align="end" className="w-auto p-0">
           <Calendar
             mode="range"
-            numberOfMonths={2}
+            numberOfMonths={twoMonths ? 2 : 1}
             defaultMonth={draft?.from ?? value?.from}
             selected={draft}
             onSelect={setDraft}

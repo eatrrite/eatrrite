@@ -10,7 +10,7 @@ Eat Rrite stores everything in one Neon Postgres database. Sign-in uses Neon's M
    - `NEON_AUTH_BASE_URL`: the Auth URL from step 1
    - `NEON_AUTH_COOKIE_SECRET`: at least 32 characters (`openssl rand -base64 32`)
    - `ADMIN_EMAILS`: who may sign up and open the admin, comma separated (`marketing.eatrrite@gmail.com`)
-3. Run the migrations once, in order: `bun run db:migrate`, then `bun run db:migrate db/migrations/002_php_parity.sql` (from the project root), then `bun run db:migrate db/migrations/003_service_names.sql`. 002 adds hidden slots, the order and details on a hold (for the webhook), `paid_at` and `reminders_sent` on appointments, and a date on to-dos. It sends `db/migrations/001_initial.sql` to Neon as one transaction, so it either all runs or nothing is saved. It needs step 1 first, because `er_profiles` points at `neon_auth."user"`. (Pasting the file into the Neon SQL Editor can fail on the questionnaire insert, because the editor splits the file into separate statements.)
+3. Run `bun run db:migrate` once, from the project root. It sends `db/migrations/001_initial.sql`, the only setup file, to Neon as one transaction, so it either all runs or nothing is saved. It needs step 1 first, because `er_profiles` points at `neon_auth."user"`. (Pasting the file into the Neon SQL Editor can fail on the questionnaire insert, because the editor splits the file into separate statements.)
 4. Start the app and open `/admin/signup`. Sign up with the admin email. The profile row is created on first sign-in.
 
 ## Tables
@@ -28,7 +28,7 @@ All tables start with `er_`. Each has `created_at` and `updated_at`, and one tri
 | `er_appointments` | One consultation: date, time, service, status, notes, Meet link, payment id, questionnaire answers | `lead_id` → `er_leads` |
 | `er_slot_holds` | A slot kept for 15 minutes while a payment is open | – |
 | `er_todos` | The admin dashboard to-do list, each on an India date | – |
-| `er_hidden_slots` | Start times the admin hid from the website (002) | – |
+| `er_hidden_slots` | Start times the admin hid from the website | – |
 
 Questionnaire answers are stored on the appointment as JSON: `[{ "key": "primary_goal", "answer": "…" }, …]`. The key is the question's `key` in `er_questions`.
 

@@ -46,7 +46,7 @@ export function AppointmentsChart() {
         subtitle={`Daily appointments for the last ${RANGES[range]} days`}
         action={
           <Select value={range} onValueChange={(next) => next && setRange(next as Range)}>
-            <SelectTrigger size="sm" className="w-[8.5rem]">
+            <SelectTrigger size="sm" className="w-[6.5rem] sm:w-[8.5rem]">
               <SelectValue />
             </SelectTrigger>
             <SelectContent alignItemWithTrigger={false} align="end">

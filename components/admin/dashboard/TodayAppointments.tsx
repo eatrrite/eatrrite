@@ -58,12 +58,15 @@ export function TodayAppointments() {
           <li key={appointment.id}>
             <Link
               href={`/admin/appointments?id=${appointment.id}`}
-              className="flex flex-wrap items-center gap-3 py-3 transition-colors hover:bg-muted/40 sm:flex-nowrap"
+              className="flex items-center gap-2.5 py-3 transition-colors hover:bg-muted/40 sm:gap-3"
             >
-              <span className="w-20 shrink-0 text-sm text-muted-foreground tabular-nums">
+              <span className="w-[4.25rem] shrink-0 text-sm sm:w-20 text-muted-foreground tabular-nums">
                 {formatTimeLabel(appointment.time)}
               </span>
-              <DashboardAvatar name={appointment.leadName} />
+              {/* No room for the avatar on phones: the name matters more. */}
+              <span className="hidden sm:block">
+                <DashboardAvatar name={appointment.leadName} />
+              </span>
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-semibold text-foreground">
                   {appointment.leadName}

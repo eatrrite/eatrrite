@@ -6,6 +6,9 @@ export type AppointmentStatus =
   | "not-attended"
   | "cancelled";
 
+/** Bulk "mark as completed" changes only these. Cancelled stays cancelled: its slot may be rebooked. */
+export const canBulkComplete = (status: AppointmentStatus) => status === "upcoming" || status === "not-attended";
+
 export type Appointment = {
   id: string;
   leadId: string;

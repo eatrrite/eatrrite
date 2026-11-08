@@ -72,7 +72,7 @@ No clinic, dental or other-brand wording in names, files, comments or text. The 
 - Use foreign keys for real relationships. Choose `on delete` on purpose.
 - Use `check` constraints for fixed value lists, such as `status` and `role`.
 - No extra indexes, views or functions until a real need appears.
-- Change the schema only with a new numbered file in `db/migrations/`. Never edit a file that already ran. `001_initial.sql` holds V1.
+- Change the schema only with a new numbered file in `db/migrations/`. Never edit a file that already ran. `001_initial.sql` alone sets up the whole database (while nothing is live it is edited in place and re-run on a fresh database; once live, add a new file).
 - Settings, working hours, services and questions are read through cached functions tagged `booking-config`; anything that changes them calls `updateTag("booking-config")`.
 - Server actions return `ActionResult` (`utils/actionResult.ts`) instead of throwing, and start with `assertAdmin()` when they change admin data.
 - Queries live in `services/` (or a feature's `services/`). Always use the `db()` tagged template, never string-built SQL.

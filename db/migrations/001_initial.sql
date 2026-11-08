@@ -1,4 +1,5 @@
--- Eat Rrite database, V1. Run this whole file once in the Neon SQL Editor.
+-- Eat Rrite database setup. This one file builds the whole database: run it once on an empty
+-- database, in the Neon SQL Editor or with: bun run db:migrate db/migrations/001_initial.sql
 --
 -- Before running: turn on Neon Auth (Neon Console → Auth → Enable Auth), so the
 -- neon_auth."user" table exists. er_profiles points at it.
@@ -103,6 +104,8 @@ create table er_leads (
 -- service keeps the name chosen at booking, so renaming a service never changes old bookings.
 -- questionnaire is a list of answers: [{ "key": "<er_questions.key>", "answer": "..." | ["..."] }].
 -- payment_id is unique, so one Razorpay payment can never create two appointments.
+-- paid_at is when the payment was confirmed; reminders_sent lists the questionnaire reminders
+-- (hours after payment) already emailed.
 create table er_appointments (
   id uuid primary key default gen_random_uuid(),
   lead_id uuid not null references er_leads(id) on delete cascade,
@@ -114,25 +117,41 @@ create table er_appointments (
   notes text,
   meet_link text,
   payment_id text unique,
+  paid_at timestamptz,
+  reminders_sent integer[] not null default '{}',
   questionnaire jsonb not null default '[]'::jsonb,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
 
 -- A slot kept for a customer while their payment is open. Ignored once expires_at has passed.
+-- order_id (the Razorpay order) and booking (the customer's details) let the webhook finish a
+-- paid booking even when the customer closed the tab before the page confirmed it.
 create table er_slot_holds (
   id uuid primary key default gen_random_uuid(),
   date date not null,
   time time not null,
   expires_at timestamptz not null,
+  order_id text unique,
+  booking jsonb,
   created_at timestamptz not null default now()
 );
 
--- The admin dashboard to-do list.
+-- Single slots the admin hides from the website.
+create table er_hidden_slots (
+  id uuid primary key default gen_random_uuid(),
+  date date not null,
+  time time not null,
+  created_at timestamptz not null default now(),
+  unique (date, time)
+);
+
+-- The admin dashboard to-do list. date is the day (India time) a to-do belongs to.
 create table er_todos (
   id uuid primary key default gen_random_uuid(),
   label text not null,
   done boolean not null default false,
+  date date not null default (now() at time zone 'Asia/Kolkata')::date,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -146,7 +165,7 @@ create trigger er_leads_updated_at before update on er_leads for each row execut
 create trigger er_appointments_updated_at before update on er_appointments for each row execute function er_set_updated_at();
 create trigger er_todos_updated_at before update on er_todos for each row execute function er_set_updated_at();
 
--- Starting data: the PHP site's rules, working hours, services and questionnaire.
+-- Starting data: booking rules, working hours, services (the footer's program names) and the questionnaire.
 
 insert into er_settings (id) values (true);
 
@@ -167,10 +186,10 @@ insert into er_schedule_slots (weekday, start_time, end_time) values
   ('sunday', '11:30', '13:00');
 
 insert into er_services (name, position) values
-  ('Nutrition for Weight & Lifestyle Management', 1),
-  ('Nutrition for Diabetes Management & Reversal', 2),
-  ('Nutrition for Gut Health', 3),
-  ('Female Hormone Health Diet Program', 4);
+  ('Complete Weight & Lifestyle Management', 1),
+  ('Diabetes Management & Reversal', 2),
+  ('Gut Health', 3),
+  ('Female Hormone Health', 4);
 
 insert into er_questions (key, label, type, required, options, groups, min_value, max_value, position) values
   ('name', 'Name', 'text', true, null, null, null, null, 1),

@@ -16,8 +16,8 @@ export function StatsCard({ card }: StatsCardProps) {
       : `${trendUp ? "+" : ""}${card.trendPercent}%`;
 
   return (
-    <article className="rounded-2xl border border-border bg-card p-5 shadow-xs">
-      <div className="flex items-center gap-3">
+    <article className="rounded-2xl border border-border bg-card p-4 shadow-xs sm:p-5">
+      <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center">
         <div className={cn("inline-flex size-10 shrink-0 items-center justify-center rounded-full", ICON_TONES[card.tone])}>
           <Icon className="size-4" />
         </div>
@@ -30,7 +30,7 @@ export function StatsCard({ card }: StatsCardProps) {
       </div>
 
       {trendText ? (
-        <p className="mt-4 flex items-center gap-1 text-sm">
+        <p className="mt-3 flex flex-wrap items-center gap-x-1 text-sm sm:mt-4">
           <span
             className={cn(
               "inline-flex items-center gap-0.5 font-medium",
@@ -47,7 +47,7 @@ export function StatsCard({ card }: StatsCardProps) {
           <span className="text-muted-foreground">{card.trendLabel}</span>
         </p>
       ) : (
-        <p className="mt-4 text-sm text-muted-foreground">{card.trendLabel}</p>
+        <p className="mt-3 text-sm text-muted-foreground sm:mt-4">{card.trendLabel}</p>
       )}
     </article>
   );

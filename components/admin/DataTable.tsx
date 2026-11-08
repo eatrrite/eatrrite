@@ -1,12 +1,15 @@
 "use client";
 
-import { ALIGN_CLASS, DataTableHead } from "@/components/admin/DataTableHead";
+import { DataTableHead } from "@/components/admin/DataTableHead";
+import { DataTableRow } from "@/components/admin/DataTableRow";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import type { DataTableColumn } from "@/types/admin/dataTable";
 import { normalizeColumnWidths } from "@/utils/admin/dataTableWidths";
 import { ListPagination } from "@/components/admin/ListPagination";
 import { usePagination } from "@/hooks/admin/usePagination";
 import { EmptyState } from "@/components/shared/EmptyState";
+import { SELECT_COLUMN_WIDTH, SelectAllHead } from "@/components/admin/DataTableSelect";
+import type { TableSelection } from "@/hooks/admin/useBulkSelection";
 import { cn } from "cn";
 
 type DataTableProps<T> = {
@@ -18,10 +21,16 @@ type DataTableProps<T> = {
   className?: string;
   selectedRowId?: string | null;
   onRowSelect?: (row: T) => void;
-  /** Rows per page (default 10). The pager shows bottom right when there is more than one page. */
+  /** Rows per page (default 20). The pager shows bottom right when there is more than one page. */
   pageSize?: number;
   /** Change it (for example to the current filters) to go back to page 1. */
   resetKey?: string;
+  /** Tick boxes for bulk actions, with a header box for the current page. */
+  selection?: TableSelection;
+  /** How a row is read out by screen readers next to its tick box. */
+  rowLabel?: (row: T) => string;
+  /** Below lg the table keeps this width and scrolls sideways instead of squashing. */
+  minWidthClass?: string;
 };
 
 export function DataTable<T>({
@@ -38,15 +47,15 @@ export function DataTable<T>({
   className,
   selectedRowId,
   onRowSelect,
-  pageSize = 10,
+  pageSize = 20,
   resetKey,
+  selection,
+  rowLabel,
+  minWidthClass = "min-w-[28rem]",
 }: DataTableProps<T>) {
-  const { page, pageCount, pageItems, setPage } = usePagination(
-    rows,
-    pageSize,
-    resetKey,
-  );
+  const { page, pageCount, pageItems, setPage } = usePagination(rows, pageSize, resetKey);
   const widths = normalizeColumnWidths(columns.map((column) => column.width));
+  const pageIds = pageItems.map(getRowId);
 
   return (
     <div
@@ -55,8 +64,9 @@ export function DataTable<T>({
         className,
       )}
     >
-      <Table className="table-fixed text-base">
+      <Table className={cn("table-fixed text-sm sm:text-base lg:min-w-0", minWidthClass)}>
         <colgroup>
+          {selection ? <col style={{ width: SELECT_COLUMN_WIDTH }} /> : null}
           {widths.map((width, index) => (
             <col
               key={columns[index]?.key ?? index}
@@ -64,12 +74,16 @@ export function DataTable<T>({
             />
           ))}
         </colgroup>
-        <DataTableHead columns={columns} widths={widths} />
+        <DataTableHead
+          columns={columns}
+          widths={widths}
+          leading={selection ? <SelectAllHead selection={selection} pageIds={pageIds} /> : null}
+        />
         <TableBody>
           {rows.length === 0 ? (
             <TableRow>
               <TableCell
-                colSpan={columns.length}
+                colSpan={columns.length + (selection ? 1 : 0)}
                 className="px-6 text-center whitespace-normal"
               >
                 {empty}
@@ -78,30 +92,18 @@ export function DataTable<T>({
           ) : (
             pageItems.map((row) => {
               const id = getRowId(row);
-              const selected = selectedRowId === id;
               return (
-                <TableRow
+                <DataTableRow
                   key={id}
-                  data-state={selected ? "selected" : undefined}
-                  className={cn(
-                    onRowSelect && "cursor-pointer",
-                    selected && "bg-primary/5 hover:bg-primary/10",
-                  )}
-                  onClick={() => onRowSelect?.(row)}
-                >
-                  {columns.map((column, index) => (
-                    <TableCell
-                      key={column.key}
-                      style={{ width: `${widths[index]}%` }}
-                      className={cn(
-                        "truncate px-6 py-3.5",
-                        ALIGN_CLASS[column.align ?? "left"],
-                      )}
-                    >
-                      {column.cell(row)}
-                    </TableCell>
-                  ))}
-                </TableRow>
+                  row={row}
+                  id={id}
+                  columns={columns}
+                  widths={widths}
+                  active={selectedRowId === id}
+                  onOpen={onRowSelect ? () => onRowSelect(row) : undefined}
+                  selection={selection}
+                  label={rowLabel?.(row) ?? "row"}
+                />
               );
             })
           )}
@@ -109,11 +111,7 @@ export function DataTable<T>({
       </Table>
       {pageCount > 1 ? (
         <div className="border-t border-border px-4 py-3">
-          <ListPagination
-            page={page}
-            pageCount={pageCount}
-            onPageChange={setPage}
-          />
+          <ListPagination page={page} pageCount={pageCount} onPageChange={setPage} />
         </div>
       ) : null}
     </div>

@@ -10,7 +10,7 @@ export function ProfileStats() {
   const openTodos = todos.filter((todo) => !todo.done).length;
 
   return (
-    <div className="grid gap-4 sm:grid-cols-3">
+    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
       <AdminStatCard
         label="Leads"
         value={leads.length}
@@ -25,6 +25,7 @@ export function ProfileStats() {
         label="Open todos"
         value={openTodos}
         hint="Still on today’s list"
+        className="col-span-2 sm:col-span-1"
       />
     </div>
   );

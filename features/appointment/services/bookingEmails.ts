@@ -13,6 +13,12 @@ const displayDate = (date: string) =>
     weekday: "long", day: "numeric", month: "long", year: "numeric", timeZone: "Asia/Kolkata",
   });
 
+// "Tue, 10 Nov", short enough for a subject line.
+const shortDate = (date: string) =>
+  new Date(`${date}T00:00:00+05:30`).toLocaleDateString("en-IN", {
+    weekday: "short", day: "numeric", month: "short", timeZone: "Asia/Kolkata",
+  });
+
 // Everything an email about this appointment needs, or null when it has no email address.
 export async function bookingEmailData(appointmentId: string): Promise<BookingEmailData | null> {
   const [row] = await db()`
@@ -26,6 +32,7 @@ export async function bookingEmailData(appointmentId: string): Promise<BookingEm
     phone: row.phone,
     service: row.service,
     displayDate: displayDate(row.date),
+    shortDate: shortDate(row.date),
     displayTime: formatTimeLabel(row.time),
     meetLink: row.meet_link ?? undefined,
     paymentId: row.payment_id ?? undefined,

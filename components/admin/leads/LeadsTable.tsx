@@ -7,7 +7,12 @@ import { LeadDetailsCard } from "@/components/admin/leads/LeadDetailsCard";
 import { LeadFormDialog } from "@/components/admin/leads/LeadFormDialog";
 import { LEAD_LIST_COLUMNS } from "@/components/admin/leads/leadColumns";
 import { LeadsToolbar } from "@/components/admin/leads/LeadsToolbar";
+import { BulkActionBar } from "@/components/admin/BulkActionBar";
 import { ConfirmationModal } from "@/components/admin/ConfirmationModal";
+import { Button } from "@/components/ui/button";
+import { useBulkSelection } from "@/hooks/admin/useBulkSelection";
+import { useLeadBulkActions } from "@/hooks/admin/useLeadBulkActions";
+import { Trash2Icon } from "lucide-react";
 import { useConfirmDialog } from "@/hooks/admin/useConfirmDialog";
 import { useSelectedRow } from "@/hooks/admin/useSelectedRow";
 import { useAdminStore } from "@/stores/useAdminStore";
@@ -34,6 +39,8 @@ export function LeadsTable() {
   const rows = useMemo(() => filterLeads(leads, filters), [leads, filters]);
   const getId = useCallback((lead: Lead) => lead.id, []);
   const [selectedId, selectRow, selected] = useSelectedRow(rows, getId);
+  const bulk = useBulkSelection(rows, getId);
+  const bulkActions = useLeadBulkActions(ask, bulk.clear);
 
   const save = (input: LeadInput) => {
     const { title, description } = leadSaveToast(editing, input);
@@ -75,6 +82,9 @@ export function LeadsTable() {
           selectedRowId={selectedId}
           onRowSelect={(lead) => selectRow(lead.id)}
           resetKey={JSON.stringify(filters)}
+          selection={bulk.selection}
+          rowLabel={(lead) => lead.name}
+          minWidthClass="min-w-[18rem]"
           empty={
             leads.length === 0 ? (
               <EmptyState image="leads" title="No leads yet" description="Leads appear here when someone books on the website, or add one yourself." />
@@ -101,6 +111,12 @@ export function LeadsTable() {
         onClose={() => setOpen(false)}
         onSave={save}
       />
+      <BulkActionBar count={bulk.selectedRows.length} noun={["lead", "leads"]} onClear={bulk.clear}>
+        <Button type="button" variant="destructive" size="sm" onClick={() => bulkActions.deleteAll(bulk.selectedRows)}>
+          <Trash2Icon data-icon="inline-start" />
+          Delete all
+        </Button>
+      </BulkActionBar>
       {confirmProps ? <ConfirmationModal {...confirmProps} /> : null}
     </div>
   );

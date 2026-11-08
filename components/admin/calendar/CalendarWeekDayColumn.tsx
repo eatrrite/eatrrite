@@ -1,9 +1,11 @@
 "use client";
 
+import { useMemo } from "react";
 import { useAdminStore } from "@/stores/useAdminStore";
 import type { Appointment } from "@/types/admin/appointment";
 import { CalendarAppointmentBlock } from "@/components/admin/calendar/CalendarAppointmentBlock";
 import { CalendarDayEmptySlots } from "@/components/admin/calendar/CalendarDayEmptySlots";
+import { layoutOverlaps } from "@/utils/admin/calendarOverlap";
 import { appointmentBlockLayout } from "@/utils/admin/calendarTime";
 import { cn } from "cn";
 
@@ -25,6 +27,14 @@ export function CalendarWeekDayColumn({
   onEmptySlot,
 }: CalendarWeekDayColumnProps) {
   const { blockMinutes } = useAdminStore((s) => s.settings);
+  const placed = useMemo(() => {
+    const blocks = appointments.flatMap((item) => {
+      const layout = appointmentBlockLayout(item.time, blockMinutes);
+      return layout ? [{ item, layout }] : [];
+    });
+    const slots = layoutOverlaps(blocks.map(({ item, layout }) => ({ id: item.id, ...layout })));
+    return blocks.map((block) => ({ ...block, slot: slots.get(block.item.id) }));
+  }, [appointments, blockMinutes]);
   return (
     <div
       role="presentation"
@@ -42,20 +52,17 @@ export function CalendarWeekDayColumn({
           }}
         />
       ) : null}
-      {appointments.map((item) => {
-        const layout = appointmentBlockLayout(item.time, blockMinutes);
-        if (!layout) return null;
-        return (
-          <CalendarAppointmentBlock
-            key={item.id}
-            appointment={item}
-            leadName={leadName(item.leadId)}
-            topPx={layout.topPx}
-            heightPx={layout.heightPx}
-            onSelect={() => onSelectAppointment(item)}
-          />
-        );
-      })}
+      {placed.map(({ item, layout, slot }) => (
+        <CalendarAppointmentBlock
+          key={item.id}
+          appointment={item}
+          leadName={leadName(item.leadId)}
+          topPx={layout.topPx}
+          heightPx={layout.heightPx}
+          slot={slot}
+          onSelect={() => onSelectAppointment(item)}
+        />
+      ))}
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { button, detailsCard, emailLayout, escapeHtml, note } from "@/features/appointment/emails/layout";
+import { button, detailsCard, emailLayout, escapeHtml, note, sectionTitle } from "@/features/appointment/emails/layout";
 
 /** What every booking email shows. Date and time are already formatted for people. */
 export type BookingEmailData = {
@@ -6,7 +6,10 @@ export type BookingEmailData = {
   email: string;
   phone: string;
   service: string;
+  /** "Tuesday, 10 November 2026" */
   displayDate: string;
+  /** "Tue, 10 Nov", for subject lines. */
+  shortDate: string;
   displayTime: string;
   meetLink?: string;
   paymentId?: string;
@@ -17,59 +20,65 @@ const slotRows = (data: BookingEmailData): [string, string][] => [
   ["Service", data.service],
   ["Date", data.displayDate],
   ["Time", `${data.displayTime} IST`],
-  ["Length", "30 minutes, on Google Meet"],
+  ["Duration", "30 minutes"],
+  ["Where", "Online, on Google Meet"],
 ];
 
+const when = (data: BookingEmailData) => `${data.shortDate}, ${data.displayTime} IST`;
+const firstName = (name: string) => escapeHtml(name.trim().split(/\s+/)[0] || name);
 const RESCHEDULE = "Need a different time? Reply to this email or WhatsApp us on +91 96398 77483.";
 
-// Sent right after payment: the slot is held, the questionnaire unlocks the Meet link.
+// 1. Right after payment. The one job: fill in the questionnaire, which unlocks the Meet link.
 export const customerQuestionnaireEmail = (data: BookingEmailData) => ({
-  subject: "Your Eat Rrite consultation is booked",
+  subject: `Booking confirmed for ${when(data)}: one step left`,
   html: emailLayout({
-    preheader: "One short questionnaire and your Google Meet link is on its way.",
-    eyebrow: "Booking confirmed",
+    preheader: "Fill in a 5-minute questionnaire to receive your Google Meet link.",
+    eyebrow: "Payment received",
     heading: "Your consultation is booked",
-    intro: `Hello ${escapeHtml(data.name)}, thank you for booking with Eat Rrite. Your slot is reserved. Fill in the short questionnaire so Mukta can prepare, and your Google Meet link follows straight away.`,
+    intro: `Hi ${firstName(data.name)}, thank you for booking with Eat Rrite. Your slot is reserved. <strong>One step is left:</strong> fill in a short questionnaire so Mukta can prepare for your call. Your Google Meet link is emailed to you as soon as you submit it.`,
     body:
+      button(data.questionnaireUrl, "Fill in the questionnaire") +
+      sectionTitle("Your booking") +
       detailsCard(slotRows(data)) +
-      button(data.questionnaireUrl, "Complete the questionnaire") +
-      note(`It takes about 5 minutes. ${RESCHEDULE}`),
+      note(`The questionnaire takes about 5 minutes. ${RESCHEDULE}`),
   }),
 });
 
-// Sent by the reminder job while the questionnaire is still empty.
+// 2. Sent by the reminder job while the questionnaire is still empty.
 export const customerReminderEmail = (data: BookingEmailData) => ({
-  subject: "Reminder: your Eat Rrite questionnaire",
+  subject: `Reminder: your questionnaire for ${when(data)}`,
   html: emailLayout({
-    preheader: "Your slot is reserved. The questionnaire unlocks your Google Meet link.",
-    eyebrow: "A gentle reminder",
-    heading: "One step left before your consultation",
-    intro: `Hello ${escapeHtml(data.name)}, your consultation is reserved. We still need your questionnaire before we can send your Google Meet link.`,
+    preheader: "Your slot is reserved. Submit the questionnaire to get your Google Meet link.",
+    eyebrow: "Friendly reminder",
+    heading: "Your questionnaire is still pending",
+    intro: `Hi ${firstName(data.name)}, your consultation is reserved, but we have not received your questionnaire yet. Once you submit it, your Google Meet link is emailed to you straight away.`,
     body:
+      button(data.questionnaireUrl, "Fill in the questionnaire") +
+      sectionTitle("Your booking") +
       detailsCard(slotRows(data)) +
-      button(data.questionnaireUrl, "Complete the questionnaire") +
       note("These reminders stop as soon as you submit the questionnaire."),
   }),
 });
 
-// Sent after the questionnaire: the Meet link.
+// 3. After the questionnaire: the Meet link, first, then the booking.
 export const customerMeetEmail = (data: BookingEmailData) => ({
-  subject: "Your Google Meet link for Eat Rrite",
+  subject: `Your Google Meet link for ${when(data)}`,
   html: emailLayout({
-    preheader: `Join on ${data.displayDate} at ${data.displayTime} IST.`,
-    eyebrow: "You're all set",
+    preheader: `Join on ${data.displayDate} at ${data.displayTime} IST. Keep this email handy.`,
+    eyebrow: "Questionnaire received",
     heading: "Your Google Meet link is ready",
-    intro: `Hello ${escapeHtml(data.name)}, thank you for completing the questionnaire. Mukta will go through your answers before you meet. Here are your details and link.`,
+    intro: `Hi ${firstName(data.name)}, thank you for completing the questionnaire. Mukta will go through your answers before you meet. Use the button below to join at your booked time.`,
     body:
-      detailsCard(slotRows(data)) +
       button(data.meetLink ?? "", "Join Google Meet") +
+      sectionTitle("Your consultation") +
+      detailsCard(slotRows(data)) +
       note(`Join a couple of minutes early from a quiet place, with any recent reports nearby. ${RESCHEDULE}`),
   }),
 });
 
 // Tells the team a client finished the questionnaire. No health answers here: they stay in the admin.
 export const adminBookingEmail = (data: BookingEmailData) => ({
-  subject: `New consultation: ${data.name} · ${data.displayDate}`,
+  subject: `New consultation: ${data.name}, ${when(data)}`,
   html: emailLayout({
     preheader: `${data.name} · ${data.displayDate} at ${data.displayTime} IST`,
     eyebrow: "New paid consultation",
@@ -77,12 +86,14 @@ export const adminBookingEmail = (data: BookingEmailData) => ({
     intro: "A client has paid and completed the questionnaire. Their answers are in the admin.",
     signOff: false,
     body:
+      (data.meetLink ? button(data.meetLink, "Open Google Meet") : "") +
+      sectionTitle("Booking") +
       detailsCard([
         ["Name", data.name],
         ["Email", data.email],
         ["Phone", data.phone],
         ...slotRows(data),
         ...(data.paymentId ? ([["Payment ID", data.paymentId]] as [string, string][]) : []),
-      ]) + (data.meetLink ? button(data.meetLink, "Open Google Meet") : ""),
+      ]),
   }),
 });

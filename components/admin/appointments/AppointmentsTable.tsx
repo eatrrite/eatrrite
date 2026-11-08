@@ -7,7 +7,9 @@ import { AppointmentDetailsCard } from "@/components/admin/appointments/Appointm
 import { AppointmentFormDialog } from "@/components/admin/appointments/AppointmentFormDialog";
 import { getAppointmentListColumns } from "@/components/admin/appointments/appointmentColumns";
 import { AppointmentsToolbar } from "@/components/admin/appointments/AppointmentsToolbar";
+import { AppointmentBulkBar } from "@/components/admin/appointments/AppointmentBulkBar";
 import { ConfirmationModal } from "@/components/admin/ConfirmationModal";
+import { useBulkSelection } from "@/hooks/admin/useBulkSelection";
 import { useAppointmentTableActions } from "@/hooks/admin/useAppointmentTableActions";
 import { useSelectedRow } from "@/hooks/admin/useSelectedRow";
 import { useAdminStore } from "@/stores/useAdminStore";
@@ -32,6 +34,7 @@ export function AppointmentsTable() {
   );
   const getId = useCallback((item: Appointment) => item.id, []);
   const [selectedId, selectRow, selected] = useSelectedRow(rows, getId);
+  const bulk = useBulkSelection(rows, getId);
   const { getLead } = actions;
   const columns = useMemo(
     () => getAppointmentListColumns((id) => getLead(id)?.name ?? "Unknown"),
@@ -54,6 +57,8 @@ export function AppointmentsTable() {
           selectedRowId={selectedId}
           onRowSelect={(item) => selectRow(item.id)}
           resetKey={JSON.stringify(filters)}
+          selection={bulk.selection}
+          rowLabel={(item) => `${getLead(item.leadId)?.name ?? "Unknown"}, ${item.date} ${item.time}`}
           empty={
             appointments.length === 0 ? (
               <EmptyState image="appointments" title="No appointments yet" description="Website bookings appear here after payment, or add one yourself." />
@@ -80,6 +85,7 @@ export function AppointmentsTable() {
         onClose={() => actions.setOpen(false)}
         onSave={actions.save}
       />
+      <AppointmentBulkBar selected={bulk.selectedRows} ask={actions.ask} onDone={bulk.clear} />
       {actions.confirmProps ? (
         <ConfirmationModal {...actions.confirmProps} />
       ) : null}

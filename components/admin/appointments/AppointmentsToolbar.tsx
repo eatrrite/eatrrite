@@ -42,7 +42,7 @@ export function AppointmentsToolbar({
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <div className="flex min-w-0 flex-1 flex-wrap items-center gap-2">
-        <label className="relative min-w-0 flex-1 sm:max-w-64">
+        <label className="relative w-full min-w-0 sm:w-auto sm:flex-1 sm:max-w-64">
           <span className="sr-only">Search appointments</span>
           <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
           <input
@@ -54,7 +54,7 @@ export function AppointmentsToolbar({
               if (q) notifyFilterApplied(showToast, "Search applied", q);
             }}
             placeholder="Search appointments..."
-            className="h-8 w-full rounded-lg border border-input bg-background py-1.5 pr-3 pl-9 text-sm outline-none transition-colors placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
+            className="h-9 w-full rounded-lg sm:h-8 border border-input bg-background py-1.5 pr-3 pl-9 text-sm outline-none transition-colors placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
           />
         </label>
         <Select
@@ -71,7 +71,7 @@ export function AppointmentsToolbar({
             );
           }}
         >
-          <SelectTrigger size="sm" className="w-auto min-w-[7.5rem] shrink-0">
+          <SelectTrigger size="sm" className="flex-1 sm:w-auto sm:flex-none min-w-[7.5rem] shrink-0">
             <SelectValue>{dateLabel}</SelectValue>
           </SelectTrigger>
           <SelectContent alignItemWithTrigger={false} align="start">
@@ -96,7 +96,7 @@ export function AppointmentsToolbar({
             );
           }}
         >
-          <SelectTrigger size="sm" className="w-auto min-w-[8.5rem] shrink-0">
+          <SelectTrigger size="sm" className="flex-1 sm:w-auto sm:flex-none min-w-[8.5rem] shrink-0">
             <SelectValue>{statusLabel}</SelectValue>
           </SelectTrigger>
           <SelectContent alignItemWithTrigger={false} align="start">

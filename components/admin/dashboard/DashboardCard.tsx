@@ -11,7 +11,7 @@ export function DashboardCard({ children, className }: DashboardCardProps) {
   return (
     <section
       className={cn(
-        "flex h-full flex-col rounded-2xl border border-border bg-card p-5 shadow-xs",
+        "flex h-full min-w-0 flex-col rounded-2xl border border-border bg-card p-4 shadow-xs sm:p-5",
         className,
       )}
     >

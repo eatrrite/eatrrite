@@ -24,8 +24,8 @@ export function ScheduleTimeSlotRow({
   onRemove,
 }: ScheduleTimeSlotRowProps) {
   return (
-    <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-      <div className="min-w-[8.5rem] flex-1 sm:max-w-[11rem]">
+    <div className="flex items-center gap-1.5 sm:gap-3">
+      <div className="min-w-0 flex-1 sm:max-w-[11rem]">
         <TimeSelect
           id={`${day}-${slot.id}-open`}
           value={slot.openTime}
@@ -33,7 +33,7 @@ export function ScheduleTimeSlotRow({
         />
       </div>
       <span className="text-sm text-muted-foreground">–</span>
-      <div className="min-w-[8.5rem] flex-1 sm:max-w-[11rem]">
+      <div className="min-w-0 flex-1 sm:max-w-[11rem]">
         <TimeSelect
           id={`${day}-${slot.id}-close`}
           value={slot.closeTime}
@@ -46,6 +46,7 @@ export function ScheduleTimeSlotRow({
         variant="ghost"
         aria-label="Remove time slot"
         disabled={!canRemove}
+        className="shrink-0"
         onClick={() => onRemove(slot.id)}
       >
         <Trash2 className="size-3.5 text-destructive" />

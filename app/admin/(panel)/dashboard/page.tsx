@@ -29,7 +29,7 @@ export default function AdminDashboardPage() {
       </AdminMotion>
 
       <AdminMotion delay={0.4}>
-        <div className="grid gap-4 lg:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 [&>*]:min-w-0">
           <AppointmentsChart />
           <TodayTodo />
           <TodayAppointments />

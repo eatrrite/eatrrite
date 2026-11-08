@@ -63,6 +63,7 @@ export function useAppointmentTableActions() {
 
   return {
     getLead,
+    ask,
     open,
     editing,
     confirmProps,

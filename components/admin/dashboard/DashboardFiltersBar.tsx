@@ -22,10 +22,11 @@ export function DashboardFiltersBar({
   const showToast = useShowToast();
 
   return (
-    <div className="flex max-w-full shrink-0 items-center gap-2 overflow-x-auto">
+    <div className="grid w-full grid-cols-2 gap-2 sm:flex sm:w-auto sm:max-w-full sm:shrink-0 sm:items-center">
       <FilterSelect
         value={filters.status}
         options={DASHBOARD_STATUS_OPTIONS}
+        className="w-full min-w-0 sm:w-auto sm:min-w-[8.5rem]"
         onChange={(status) => {
           onChange({ ...filters, status });
           notifyFilterApplied(
@@ -39,6 +40,7 @@ export function DashboardFiltersBar({
       <FilterSelect
         value={filters.range}
         options={DASHBOARD_RANGE_OPTIONS}
+        className="w-full min-w-0 sm:w-auto sm:min-w-[8.5rem]"
         onChange={(range) => {
           onChange({ ...filters, range, dateRange: undefined });
           notifyFilterApplied(
@@ -50,6 +52,7 @@ export function DashboardFiltersBar({
         }}
       />
       <DateRangePicker
+        className="col-span-2 sm:col-span-1"
         value={filters.dateRange}
         onChange={(dateRange) => {
           onChange({ ...filters, dateRange });

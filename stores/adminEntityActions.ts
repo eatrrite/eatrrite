@@ -1,6 +1,7 @@
 import { deleteAppointmentAction, deleteLeadAction, saveLeadAction } from "@/features/admin/services/adminActions";
+import { completeAppointmentsAction, deleteAppointmentsAction, deleteLeadsAction } from "@/features/admin/services/bulkActions";
 import { saveOrRevert, type SaveNotice } from "@/stores/saveOrRevert";
-import type { Appointment } from "@/types/admin/appointment";
+import { canBulkComplete, type Appointment } from "@/types/admin/appointment";
 import type { Lead, LeadInput } from "@/types/admin/lead";
 import { createId } from "@/utils/admin/id";
 
@@ -45,6 +46,33 @@ export function createEntityActions(set: SetState, get: GetState) {
       const before = get().appointments;
       set({ appointments: before.filter((item) => item.id !== id) });
       saveOrRevert(deleteAppointmentAction(id), () => set({ appointments: before }), notice);
+    },
+
+    deleteLeads: (ids: string[], notice: SaveNotice) => {
+      const { leads, appointments } = get();
+      const gone = new Set(ids);
+      set({ leads: leads.filter((item) => !gone.has(item.id)), appointments: appointments.filter((item) => !gone.has(item.leadId)) });
+      saveOrRevert(deleteLeadsAction(ids), () => set({ leads, appointments }), notice);
+    },
+
+    deleteAppointments: (ids: string[], notice: SaveNotice) => {
+      const before = get().appointments;
+      const gone = new Set(ids);
+      set({ appointments: before.filter((item) => !gone.has(item.id)) });
+      saveOrRevert(deleteAppointmentsAction(ids), () => set({ appointments: before }), notice);
+    },
+
+    // Same rule as the server: only upcoming and not-attended ones change.
+    completeAppointments: (ids: string[], notice: SaveNotice) => {
+      const before = get().appointments;
+      const picked = new Set(ids);
+      const now = new Date().toISOString();
+      set({
+        appointments: before.map((item) =>
+          picked.has(item.id) && canBulkComplete(item.status) ? { ...item, status: "completed", updatedAt: now } : item,
+        ),
+      });
+      saveOrRevert(completeAppointmentsAction(ids), () => set({ appointments: before }), notice);
     },
   };
 }

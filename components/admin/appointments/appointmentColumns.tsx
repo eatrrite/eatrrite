@@ -10,7 +10,7 @@ export function getAppointmentListColumns(
   return [
     {
       key: "lead",
-      header: "Lead",
+      header: "Lead name",
       width: 40,
       cell: (item) => (
         <span className="font-medium">{leadName(item.leadId)}</span>

@@ -1,53 +1,49 @@
-# Eat Rrite Next.js Rebuild: Requirements
+# Eat Rrite: Requirements
 
-Move www.eatrrite.com from PHP to Next.js without changing how it looks or works. The user should not be able to tell the site was rebuilt.
+Client work for Mukta Patil on www.eatrrite.com: fixes, SEO, speed and automation from her developer brief (`eatrrite-developer-brief.pdf`), on a Next.js rebuild of the PHP site that should look and work the same.
 
 The Next.js app is the project root. The PHP site was removed from the repo in November 2026 (it stays in git history; its secrets and booking files are in a private backup outside the repo).
 
-## The Five Phases
+The work list is `tasks.md`: the build history, then the brief's Phase 1 and Phase 2 checklist (copied from the Notion page "Eat Rrite: Phase 1 and Phase 2 checklist"), then Handover and Go-live.
 
-| Phase | What gets built | Done when |
+## Scope
+
+| Part | What it covers | Status |
 | --- | --- | --- |
-| 1. Foundation | Next.js, shadcn, Tailwind and Framer Motion, the PHP theme in shadcn variables, and a foundation UI page | Farhan approves typography, colours, spacing and radius |
-| 2. Home page | Header, footer and the home page, matching the PHP home page exactly | Side-by-side check passes |
-| 3. Other pages | About, Programs, Pricing, Blog, Contact, Book Appointment and the program detail pages | Side-by-side check passes on every page |
-| 4. Payments and booking | Razorpay ₹800 payment, slots, confirmed appointments, questionnaire, Google Meet and emails | Test booking works from start to finish |
-| 5. Admin panel | Admin UI copied from the Deccan Dentics admin, then connected to Neon | Farhan approves the admin UI, then the live data |
+| Rebuild (build Phases 1 to 10) | PHP site rebuilt in Next.js: pages, booking with Razorpay, questionnaire, Meet links, emails, reminders, Neon database, admin panel | Built; live testing at handover |
+| Brief Phase 1 (₹5,000) | Content and page fixes, redirects, clean slugs, SEO titles, structured data, Search Console | Mostly done; items needing Mukta or the host remain |
+| Brief Phase 2 (₹5,000) | Media articles, reviews and social, booking flow upgrades, WhatsApp automation, legal pages, consent, tracking, ads landing pages, speed, blog template | Not started, apart from the email automation |
+| Handover and go-live | Client accounts, live payments, final real booking | Must be finished before handover |
 
-Each phase waits for approval before the next one starts. Phases 1 to 3 are front end only, with no backend, database or payment logic.
+## Client Rules
 
-## Rules for Every Phase
+From `CLAUDE.md` and the brief. They apply to every change.
 
-**Rebuild rules**
-
-- Keep layout, spacing, colours, fonts, images, wording and animation as they are on the PHP site.
-- Build the UI from shadcn components, restyled to the PHP rules.
-- Take colours only from `app/globals.css`. Do not add a shade to a component.
-- Move copy from `constants/` in the PHP site into typed data files. Do not retype it.
-
-**Client rules** (from `CLAUDE.md` and the brief)
-
+- No changes to design, fonts, colours, logo, layout or existing text, except the fixes in the brief. Use the brief's wording exactly.
 - Keep the ₹800 fee. Do not publish program fees.
 - Keep the word "PMOS".
 - Never mention the product line.
-- Use client names, photos and stories only with written consent.
-- Keep health information and personal data out of tracking events and URLs.
-- Work on staging, keep a backup, and show Mukta before going live.
+- Client names, photos and stories only with written consent. Never WhatsApp screenshots.
+- No health information or personal data in tracking events or URLs.
+- Every change serves Visibility, Trust or Client turnover.
+- Work on staging, keep a backup, and show Mukta before going live. Mukta owns every account; the developer gets access, not ownership.
 
 ## Stack
 
 | Part | Choice |
 | --- | --- |
-| Framework | Next.js 16 with the App Router and TypeScript |
+| Framework | Next.js 16 with the App Router and TypeScript (`cacheComponents` on) |
 | Styling | Tailwind CSS 4 |
 | Components | shadcn (`base-nova` style, built on Base UI) |
-| Icons | Font Awesome 6.5.2 as inline SVG |
-| Animation | Framer Motion, replacing the PHP site's GSAP |
-| Fonts | Libre Baskerville (headings), Merriweather (body), Caveat (accents), self-hosted through `next/font`, as on Deccan Dentics |
+| Icons | Font Awesome 6.5.2 as inline SVG on the site; Lucide in the admin and shadcn parts |
+| Animation | Framer Motion |
+| Fonts | Libre Baskerville (headings), Merriweather (body), Caveat (accents), self-hosted through `next/font` |
 | Package manager | Bun |
 | Database | Neon Postgres, through `@neondatabase/serverless` |
-| Auth | Neon Auth (users in `neon_auth.user`), linked to `profiles` |
-| Payments | Razorpay Standard Checkout, test mode for now |
+| Auth | Neon Auth for the admin; access by `ADMIN_EMAILS` |
+| Payments | Razorpay Standard Checkout and webhook; test mode until handover |
+| Meet links | Google Apps Script web app (`apps-script/Code.gs`) with the Calendar advanced service |
+| Email | nodemailer over SMTP (the account the PHP site used) |
 
 ## Design Tokens
 
@@ -79,7 +75,7 @@ Each phase waits for approval before the next one starts. Phases 1 to 3 are fron
 
 **Breakpoints:** `er-lg` (1100px), `er-md` (980px), `er-sm` (640px) and `er-xs` (520px) match the PHP `max-width` media queries.
 
-**Motion:** `lib/motion.ts` holds the durations, distances, thresholds and staggers from `assets/js/main.js`.
+**Motion:** `constants/motion.ts` holds the durations, distances and staggers from the PHP site's animations; the wrappers are in `components/motion/`.
 
 **Transitions:** Tailwind 4 moves elements with the CSS `translate`, `scale` and `rotate` properties. A `transition-[...]` list must name them, or the movement jumps instead of animating.
 
@@ -89,121 +85,94 @@ Each phase waits for approval before the next one starts. Phases 1 to 3 are fron
 
 | Path | What it holds |
 | --- | --- |
-| `app/(site)/` | Public pages, sharing the top bar, header, footer and floating buttons |
-| `app/foundation/` | Foundation UI reference page, not indexed |
-| `components/site/` | Top bar, header, footer, floating buttons and shared parts |
-| `components/home/` | One file per home page section |
-| `components/about/`, `components/programs/` | Parts of the other pages |
-| `features/appointment/` | All appointment code: booking and confirmation components, hooks, services, constants (rules, hours, questionnaire), types, utils and the admin slot guard |
-| `lib/data/` | Page copy, exported from the PHP `constants/` files |
+| `app/(site)/` | Public pages, sharing the header, footer and floating buttons |
+| `app/admin/` | Admin sign-in (`(auth)`) and the admin panel (`(panel)`) |
+| `app/api/` | Slots, appointments, payment verify and webhook, reminder cron, auth |
+| `components/` | UI by page (`home`, `about`, `programs`, `contact`, `layout`, `shared`, `admin`) and shadcn parts in `ui` |
+| `features/appointment/` | All booking code: components, hooks, services (booking, emails, Meet link, reminders), constants, types, utils |
+| `features/admin/`, `features/auth/` | Admin server actions and queries; Neon Auth |
+| `config/` | Environment getters (`env.ts`) and the 301 list (`redirects.ts`) |
+| `constants/`, `lib/data/` | Site copy and settings |
+| `db/migrations/` | `001_initial.sql` builds the whole database |
+| `apps-script/Code.gs` | The Google Apps Script that creates Meet links |
 
 ## Pages
 
-| Nav item | PHP file | Next.js route | PHP sections |
-| --- | --- | --- | --- |
-| Home | `index.php` | `/` | hero, services, marquee, about-home, why-choose, process, programs, faq, blog, testimonials, cta |
-| About | `about.php` | `/about` | page-banner, about-story, about-doctors, about-mission |
-| Programs | `programs.php` | `/programs` | page-banner, program list |
-| Program detail | `program.php?slug=` | `/programs/[slug]` | page-banner, program-about, program-benefits, program-packages |
-| Pricing | `pricing.php` | `/pricing` | page-banner, pricing cards |
-| Blog | `blog.php` | `/blog` | page-banner, blog |
-| Contact | `contact.php` | `/contact` | page-banner, contact details |
-| Book Appointment | `appointment.php` | `/book` | page-banner, booking form |
-| Media | (new) | `/media` | page-banner, featured in / spoken at, online articles |
-| Privacy Policy | (new) | `/privacy-policy` | page-banner, policy (lawyer to check wording) |
+| Page | Route | Old PHP address (301) |
+| --- | --- | --- |
+| Home | `/` | `index.php` |
+| About | `/about` (and `/about/doctors`) | `about.php`, `founder-profile.php` |
+| Programs | `/programs` | `programs.php` |
+| Program detail | `/programs/weight-loss-indian-food`, `/programs/diabetes-diet-plan`, `/programs/gut-health-diet`, `/programs/female-hormone-health` | `program.php?slug=…`, `nutricare-for-mom-to-be.php` |
+| Pricing | `/pricing` | `pricing.php` |
+| Blog | `/blog` | `blog.php` |
+| Contact | `/contact` | `contact.php` |
+| Book Appointment | `/book` | `appointment.php` |
+| Booking confirmed and questionnaire | `/appointment-confirmed?appointmentId=…` | – |
+| Media | `/media` | (new) |
+| Privacy Policy | `/privacy-policy` | (new; lawyer to check) |
+| Cohort | `/cohort` (not in the menu) | `cohort.php` |
 
-Clean addresses (brief §6.3): programs live at `/programs/weight-loss-indian-food`, `/programs/diabetes-diet-plan`, `/programs/gut-health-diet` and `/programs/female-hormone-health`. Every old address 301-redirects to its new page; the list is `config/redirects.ts`.
+The full redirect list is `config/redirects.ts`. Old-site addresses still unknown are listed in `tasks.md` (1.2).
 
-Program detail pages are not in the navigation, but the footer and Programs page link to them, so Phase 3 includes them. There are four: Diabetes, Female Hormone Health, Gut Health and Weight and Lifestyle.
+## Booking Flow
 
-Phase 4 adds `/appointment-confirmed` and `/appointment-thank-you`.
+The order never changes: payment, confirmed appointment, questionnaire, Meet link, emails. Rules and settings: `appointment-rules.md`.
+
+1. The visitor picks a service and slot; the slot is held for 15 minutes.
+2. Razorpay takes the ₹800 fee. The server checks the signature; the webhook confirms the booking if the tab closed.
+3. The customer gets the questionnaire email. Reminders follow at 1, 3, 6, 12, 24, 30 and 36 hours until it is filled in.
+4. After the questionnaire, the Apps Script creates the Google Calendar event with a Meet link (one per appointment), saved on the appointment.
+5. The customer gets the Meet-link email; the team gets the booking email (no health answers in it).
 
 ## Database
 
-Run `db/migrations/001_initial.sql` in the Neon SQL Editor, after turning on Neon Auth.
-
-| Table | Purpose | Key columns |
-| --- | --- | --- |
-| `neon_auth.user` | Signed-in users, managed by Neon Auth | `id` |
-| `profiles` | One per user, for roles | `user_id` → `neon_auth.user(id)`, `email`, `phone`, `role` (`admin` or `customer`) |
-| `appointments` | One per booking | contact details, `service`, `slot_start`, `status`, Razorpay order and payment ids, `questionnaire` (JSON), `meet_link` |
-
-- Guests book without an account, as on the PHP site. So `appointments` keeps its own contact details and has no link to `profiles`.
-- The PHP `holds` table is not needed. A `pending` appointment holds its slot for 15 minutes.
-- The PHP `questionnaire_answers` table becomes one `questionnaire` JSON column.
-- Phase 5 adds `disabled_slots` for the admin's hide and show, and a `patients` table (name, phone, email, age, profession, status) that `appointments` link to, because the admin has a Patients page.
-- Statuses follow the PHP flow: `pending` → `confirmed` → `finalizing` → `completed`, or `failed` if the Meet link fails, or `cancelled`.
+Neon Postgres, set up by `db/migrations/001_initial.sql` on an empty database (`bun run db:migrate`). Tables, setup and how the code reads and writes: `database.md`.
 
 ## Environment
 
-`.env.local` in the project root, never committed. `.env.example` lists the names.
+`.env.local` in the project root, never committed. `.env.example` lists the names. On the host, the same names are set in its environment settings.
 
 | Name | Value |
 | --- | --- |
 | `DATABASE_URL` | Neon connection string |
-| `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET` | Razorpay test keys, from the PHP site |
-| `RAZORPAY_WEBHOOK_SECRET` | Set when the webhook is added in the Razorpay dashboard |
-| `APPOINTMENT_FEE_RUPEES` | `800` |
-| `APPS_SCRIPT_URL`, `APPS_SCRIPT_SECRET` | The Apps Script in `apps-script/Code.gs` that creates Meet links (web app URL, and the same value as its `SECRET` script property) |
-| `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `MAIL_FROM`, `ADMIN_NOTIFY_EMAIL` | The mail account the PHP site sends from |
+| `NEON_AUTH_BASE_URL`, `NEON_AUTH_COOKIE_SECRET`, `ADMIN_EMAILS` | Admin sign-in |
+| `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET` | Test keys now; live keys at handover |
+| `RAZORPAY_WEBHOOK_SECRET` | From the Razorpay webhook (test now, live at handover) |
+| `APPS_SCRIPT_URL`, `APPS_SCRIPT_SECRET` | The Meet-link web app and its `SECRET` script property |
+| `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `MAIL_FROM`, `MAIL_FROM_NAME`, `ADMIN_NOTIFY_EMAIL` | The sending mail account and where team emails go |
 | `CRON_SECRET` | Protects the questionnaire reminder route |
+| `SITE_URL` | Address used in email links (defaults to `https://www.eatrrite.com`) |
 
-## What Phases 4 and 5 Must Replace
+## Handover and Go-live
 
-| PHP code | What it does |
-| --- | --- |
-| `appointment-form/api/` | Create order, verify payment, slots, questionnaire, Meet link |
-| `appointment-form/src/` | Slot rules, holds, 45-minute blocking, Razorpay, checkout |
-| `docs/database.md` | Neon tables, Neon Auth, setup steps and how the code reads and writes |
-| `docs/appointment-rules.md` | Next.js booking rules, settings and the website booking flow, copied from the PHP slot rules |
-| `includes/db/` and `sql/` | MySQL tables and queries |
-| `email/` | Customer and admin emails, currently through PHPMailer |
-| `appointment-form/cron/` | Questionnaire reminder emails at 1, 3, 6, 12, 24, 30 and 36 hours |
-| `appointment-form/scripts/google-apps-script` | Google Meet and Calendar |
-| `admin/` | Login, appointments calendar, hide and show slots, cancel booking |
+These must all be done before the website is handed over. The checklist is in `tasks.md` (Handover and Go-live).
 
-The booking order must not change: payment, confirmed appointment, questionnaire, Meet link, confirmation email.
-
-## What the PHP Site Has That Next.js Still Needs
-
-Found when comparing the two sites (November 2026). Each item is tracked in `tasks.md` (Phase 9). All are built; the host still needs the reminder schedule and the Razorpay webhook.
-
-| PHP feature | PHP code | Next.js plan |
+| Item | Today | At handover |
 | --- | --- | --- |
-| Real Google Meet link through Apps Script and Google Calendar | `appointment-form/src/GoogleAppsScriptClient.php`, `api/generate-meet.php` | Server call to the same Apps Script (`APPS_SCRIPT_URL`, `APPS_SCRIPT_SECRET`); placeholder link only when they are not set |
-| Emails: customer booking, admin booking, questionnaire done, questionnaire reminders | `email/AppointmentEmails.php`, `email/templates/` (PHPMailer, SMTP) | Same templates sent from the server over the same SMTP account |
-| Questionnaire reminder job | `appointment-form/cron/questionnaire-reminders.php` | Protected cron route, run by the host's scheduler |
-| Admin hides single slots | `admin/appointments-calendar/api/toggle-slot.php`, `DisabledSlotsStore.php` | `er_hidden_slots` table, toggle in the admin calendar, booking rules skip hidden slots |
-| Admin cancels a booking | `admin/appointments-calendar/api/cancel-booking.php` | Already there: status Cancelled frees the slot; Delete removes it |
-| Payment recorded even if the customer closes the tab | `api/finalize-booking.php` | Razorpay webhook (`RAZORPAY_WEBHOOK_SECRET`) confirms the booking from the details saved with the hold |
-| Cohort application form with its own payment | `cohort-form/` | Left out: `/cohort` books the normal ₹800 consultation |
-| Snackbar product page and orders | `snackbar.php`, `snackbar-form/` | Left out on purpose: it is the product line |
+| Apps Script (Meet links and calendar events) | Deployed on Farhan's account, itz.me.farhan6710@gmail.com | Deployed again on the client account, marketing.eatrrite@gmail.com; new `APPS_SCRIPT_URL` and `APPS_SCRIPT_SECRET` on the host; old deployment removed |
+| Emails | Built, sent over SMTP | Questionnaire, reminder, Meet-link and admin emails tested on phone and desktop from the client's sending account |
+| Reminders | Route built | Scheduled every 15 minutes on the host and tested |
+| Razorpay | Test mode, `rzp_test_` keys | Live mode on, live keys on the host, live webhook and secret, test mode off |
+| Final check | – | After everything above, one real live-mode ₹800 booking from the website, end to end, with Mukta's agreement |
 
 ## Open Decisions
 
-| # | Question | Needed by | Current plan |
-| --- | --- | --- | --- |
-| 3 | Are `cohort.php` and `snackbar.php` part of the rebuild? They are not in the navigation you listed. | Phase 3 | Leave both out. `snackbar.php` also conflicts with the client's rule against mentioning the product line, so ask Mukta about it. |
-| 5 | Where will Next.js run? It needs Node.js hosting, and the PHP site is on Hostinger. | Phase 4 | Check the Hostinger plan before Phase 4 starts. |
-| 6 | Keep the existing Hostinger MySQL database and its data? | Phase 4 | Keep it, so existing appointments carry over. |
+| Question | Current plan |
+| --- | --- |
+| Where will Next.js run? It needs Node.js hosting; the PHP site is on Hostinger. | Confirm the host before staging. |
+| Mukta's approval of the redesign (the brief asked for no redesign) | Show her on staging before going live. |
 
 ## Decisions Made
 
 | Decision | Outcome |
 | --- | --- |
-| Icons | Font Awesome 6.5.2 on the site, the version the PHP site loads, drawn as inline SVG by `components/site/icon.tsx`. Lucide stays inside shadcn components. |
+| Icons | Font Awesome 6.5.2 on the site, the version the PHP site loads, drawn as inline SVG by `components/shared/Icon.tsx`. Lucide stays inside shadcn components. |
 | Hover lift | Deliberate change from PHP, asked for by Farhan: lifting cards use a 350 ms `ease` transition, and hover sits on a wrapper that does not move, so a card cannot rise off the pointer and flicker. |
 | Layout below 375 px | The site must work down to 310 px. The top bar and call to action have small additions for this, below the widths the PHP site was built for. |
 | Spacing and fields | From Phase 4, spacing follows the 4px Tailwind scale and all form fields share one 48px style in the site font. This replaces the copied PHP values (including Arial on the booking form). |
 | Admin design | The admin follows the layout of the reference admin (not the PHP admin), in Eat Rrite colours and fonts, with Leads in place of patients. Every appointment links to a lead. Its theme applies only when the admin shell is on the page (`:root:has(.admin-shell)` in `globals.css`). |
 | Buttons | The shadcn `Button` uses the Deccan variants (default, outline, secondary, ghost, destructive, link). Public pages use `PillButton`, which keeps the PHP pill style. |
-| Admin password | `eatrrite@1234`, checked in the browser for the UI preview only. Anyone can read it in the page code. It is replaced by Neon Auth before launch. |
 | Home page redesign | Farhan asked for the home page (after the hero) to follow the Deccan Dentics home design: alternating white and mint sections with a bottom border, faint floating food icons behind content, numbered lists, a programs tab panel, an FAQ picker and a testimonials carousel. Every element reveals with slide, fade and blur (`components/motion/BlurIn.tsx`). The marquee is unchanged and all home copy is kept. The header later changed too: it starts as a full-width white bar and, after 40px of scroll, shrinks into a floating rounded pill with a blur and soft shadow (Pico style, Framer Motion). The hero kept its slides and overlay, but the left side follows the Deccan Dentics hero: an eyebrow pill, the last two title words in gold with a brush mark, four Eat Rrite points with Lucide icons, and a "Trusted by 500+ happy clients" card pinned to the right edge, centred vertically and tilted 45 degrees on wide screens (inline under the buttons on phones). The hero background slides and blurs between images with embla, with previous and next arrows on the right edge. Hero and header buttons are shadcn Buttons (a gold `accent` variant was added). The About menu item is a dropdown with Founder's Story (`/about`) and Doctors on Board (`/about/doctors`), which holds the doctors section on its own. The same style now covers every page and a light footer, and the fonts are the Deccan Dentics set. **This goes against the client brief's "no redesign" rule, so Mukta must approve it before launch.** |
-| Emails | Moved to Phase 5. The confirmation page no longer says an email is on its way. |
 | Heading tags | "Reserve your slot" is an H2, as the brief asks. PHP has it as a second H1. It looks the same. |
-| Brief's wording corrections | Copy the site as it stands during the rebuild, then apply the brief in one pass. List of corrections: `php-site-tasks.md`. Applying them later means the home page still shows the blog placeholders, testimonials and the 4.8★ rating as they are on the live site. |
-
-## Differences Found in the Existing Docs
-
-- `DESIGN.md` gives mint as `#e5fad1`. That value only appears as the slot picker's day hover colour. The site-wide mint is the PHP `:root` value `#f1f7f4`.
-- `--color-muted` (`#819291`) has about 3.3:1 contrast on white, and the brief asks for 4.5:1. It is kept for an exact match. Changing it is one line in `globals.css` if Mukta wants it.
+| Muted text colour | `--color-muted` (`#819291`) has about 3.3:1 contrast on white; the brief asks for 4.5:1 (2.10). Changing it is one line in `globals.css` if Mukta agrees. |

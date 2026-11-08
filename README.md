@@ -6,10 +6,7 @@ Next.js site and admin for www.eatrrite.com. Plan: `docs/tasks.md`. Rules: `docs
 
 1. `bun install`
 2. Copy `.env.example` to `.env.local` and fill it in (see `docs/requirements.md`, Environment).
-3. In Neon, turn on Neon Auth, then run the migrations in order:
-   - `bun run db:migrate`
-   - `bun run db:migrate db/migrations/002_php_parity.sql`
-   - `bun run db:migrate db/migrations/003_service_names.sql`
+3. In Neon, turn on Neon Auth, then set up the database with `bun run db:migrate` (one file, `db/migrations/001_initial.sql`, builds everything).
 4. `bun run dev`, then sign up once at `/admin/signup` with an email listed in `ADMIN_EMAILS`.
 
 ## Test a booking (Razorpay test mode)
