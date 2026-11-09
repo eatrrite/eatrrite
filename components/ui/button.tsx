@@ -17,6 +17,8 @@ const buttonVariants = cva(
           "hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:hover:bg-mint",
         accent:
           "btn-elevated btn-accent ![background-clip:padding-box,border-box] focus-visible:ring-0 focus-visible:outline-none",
+        light:
+          "btn-elevated btn-light ![background-clip:padding-box,border-box] focus-visible:ring-0 focus-visible:outline-none",
         destructive:
           "btn-elevated btn-destructive ![background-clip:padding-box,border-box] focus-visible:ring-0 focus-visible:outline-none",
         link: "text-primary underline-offset-4 hover:underline",

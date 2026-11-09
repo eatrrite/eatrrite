@@ -56,7 +56,7 @@ export function Hero() {
                 <CalendarDays />
                 {hero.primaryCta.label}
               </Button>
-              <Button size="xl" variant="outline" className="!rounded-full" nativeButton={false} render={<Link href={hero.secondaryCta.href} />}>
+              <Button size="xl" variant="light" className="!rounded-full" nativeButton={false} render={<Link href={hero.secondaryCta.href} />}>
                 <LayoutGrid />
                 {hero.secondaryCta.label}
               </Button>

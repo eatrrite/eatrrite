@@ -661,6 +661,33 @@
 }
 /* Gold elevated button for calls to action on dark (teal) backgrounds. Same
    construction as btn-primary, using the brand accent. */
+/* White elevated button for dark backgrounds (the hero): same 3D build as btn-accent, white face,
+   brand teal text. */
+@utility btn-light {
+  color: var(--er-color-primary);
+  background-image:
+    linear-gradient(
+      to bottom,
+      #ffffff,
+      color-mix(in srgb, var(--er-color-primary) 8%, white)
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.95),
+      color-mix(in srgb, var(--er-color-primary) 30%, white)
+    );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 1),
+    inset 0 -1px 0 color-mix(in srgb, var(--er-color-primary) 10%, transparent),
+    0 1px 2px rgba(0, 0, 0, 0.12),
+    0 6px 14px rgba(0, 0, 0, 0.16);
+  &:active {
+    box-shadow:
+      inset 0 2px 4px color-mix(in srgb, var(--er-color-primary) 18%, transparent),
+      0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+}
+
 @utility btn-accent {
   color: var(--er-color-ink);
   background-image:

@@ -24,6 +24,8 @@ export const BRAND = {
     instagram: "https://www.instagram.com/eatrrite",
     linkedin: "https://www.linkedin.com/in/19muktapatil",
     medium: "https://medium.com/@19mukta",
+    youtube: "https://www.youtube.com/@eatrritebymuktapatil",
+    facebook: "https://www.facebook.com/eatrrite",
   },
   // Footer line needed before ads (brief §4).
   disclaimer: "General guidance, not medical advice. With a medical condition, follow your doctor.",

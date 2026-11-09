@@ -4,7 +4,7 @@ import { BRAND } from "@/constants/brand";
 // JSON-LD builders (brief §6.4, §5.2). Review / AggregateRating is left out until real Google
 // reviews are on the site: never fake or self-written.
 const absolute = (path: string) => new URL(path, BRAND.url).toString();
-const SAME_AS = Object.values(BRAND.socials);
+const SAME_AS = Object.values(BRAND.socials).filter(Boolean);
 const ORG_ID = `${BRAND.url}/#organization`;
 const PERSON_ID = `${BRAND.url}/#mukta-patil`;
 const AREA_SERVED = [{ "@type": "Country", name: "India" }, { "@type": "Place", name: "Worldwide (online)" }];
