@@ -3,6 +3,8 @@
 import type { CalendarMonthCell as MonthCell } from "@/utils/admin/calendarMonth";
 import { cn } from "cn";
 
+const MAX_DOTS = 8;
+
 type CalendarMonthCellProps = {
   cell: MonthCell;
   dots: string[];
@@ -35,18 +37,14 @@ export function CalendarMonthCell({
       >
         {cell.dayNumber}
       </span>
-      {dots.length > 0 ? (
-        <span className="flex items-center justify-center gap-1">
-          {dots.slice(0, 4).map((dotClass, index) => (
-            <span
-              key={`${dotClass}-${index}`}
-              className={cn("size-1.5 rounded-full", dotClass)}
-            />
-          ))}
-        </span>
-      ) : (
-        <span className="h-1.5" aria-hidden />
-      )}
+      {/* One dot per appointment, up to two rows of four: a full day (7 under the booking
+          rules) shows every dot. The two-row space is always kept, so all cells line up. */}
+      <span className="flex h-4 max-w-9 flex-wrap content-start justify-center gap-1">
+        {dots.slice(0, MAX_DOTS).map((dotClass, index) => (
+          <span key={`${dotClass}-${index}`} className={cn("size-1.5 rounded-full", dotClass)} />
+        ))}
+      </span>
+      {dots.length > 0 ? <span className="sr-only">{dots.length} appointments</span> : null}
     </button>
   );
 }

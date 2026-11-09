@@ -19,7 +19,7 @@ export function ReadCards() {
               rel="noopener"
               className="group relative flex h-full flex-col overflow-hidden rounded-lg border border-border bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-border-hover hover:shadow-card"
             >
-              <span aria-hidden className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-accent transition-transform duration-300 group-hover:scale-x-100" />
+              <span aria-hidden className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-primary transition-transform duration-300 group-hover:scale-x-100" />
               <span className="flex items-start justify-between gap-3">
                 <span className="rounded-full bg-mint px-3 py-1 text-xs font-semibold text-primary">{publisher}</span>
                 <span aria-hidden className="inline-flex size-9 shrink-0 items-center justify-center rounded-full border border-border text-primary transition-colors duration-300 group-hover:border-primary group-hover:bg-primary group-hover:text-white">

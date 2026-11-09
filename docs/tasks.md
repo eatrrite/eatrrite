@@ -303,11 +303,12 @@ Details in `requirements.md` (What the PHP Site Has That Next.js Still Needs).
 
 ## Phase 10: To-Dos and Pagination
 
-- [x] To-do filters: day (today by default, yesterday, pick a date with a single-date calendar, all to-dos) and status (pending, completed)
+- [x] To-do filters: day (all to-dos by default, today, yesterday, pick a date with a single-date calendar) and status (pending, completed)
 - [x] Each to-do has a ⋮ menu: Edit (same dialog, label filled in) and Delete (confirm dialog), as for leads and appointments
 - [x] shadcn Pagination (`components/ui/pagination.tsx`), one small pager `ListPagination` at the bottom right of the to-dos, leads, appointments and today's appointments; `usePagination` goes back to page 1 when filters change
 - [x] Account page: Edit profile (name, mobile, address; email locked as the login) and Reset password; login page "Forgot password?" with `/admin/forgot-password` and `/admin/reset-password` (Neon Auth email link)
 - [ ] Test the password reset email end to end on the deployed site (needs the Neon Auth email provider and the trusted domain)
+- [x] Hero: three slides, each with its own headline, about the same length and one size, revealed letter by letter (slide, fade, blur) and held 5 seconds: dal-chawal ("Lose Weight with the Food You Already Love, Without Losing Your Dal-Chawal.", to confirm with Mukta), diabetes ("Manage or Reverse Your Diabetes Without Quitting Roti, Rice or Potatoes!"), hormones ("Lose Weight & Manage PMOS or Perimenopause Without Quitting Dal-Chawal or Roti."); one clock for picture and headline (`HeroSlideProvider`), copy in `constants/home/content.json`
 - [x] Leads and appointments: 20 rows per page, compact on phones, tables scroll sideways under `lg`; every admin page checked at 375px
 - [x] Bulk select on Leads and Appointments: tick boxes (shadcn Checkbox), a header box for the current page, ticks kept across pages (`useBulkSelection`), a floating bar with Delete all (both) and Mark as completed (appointments; cancelled and completed ones are skipped), each behind a confirmation that gives the counts (`features/admin/services/bulkActions.ts`)
 - [x] Cohort application form: left out, `/cohort` books the normal consultation

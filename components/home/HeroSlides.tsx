@@ -1,40 +1,24 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useHeroSlide } from "@/components/home/hero/HeroSlideContext";
 import { cn } from "cn";
 
-const DELAY_MS = 5000;
 const SWIPE_PX = 40;
 
 // Same style as the four hero feature icons (round, faint white glass, thin white border, gold
 // icon), one size up for the arrows.
 const arrow =
-  "flex size-12 cursor-pointer items-center justify-center rounded-full border border-white/15 bg-white/12 text-accent shadow-lg backdrop-blur-sm transition-colors duration-300 outline-none hover:border-white/35 hover:bg-white/20 focus-visible:ring-2 focus-visible:ring-accent";
+  "flex size-12 cursor-pointer items-center justify-center rounded-md border border-primary/10 bg-primary text-white shadow-lg backdrop-blur-sm transition-colors duration-300 outline-none hover:border-primary/30 hover:bg-primary/80 focus-visible:ring-2 focus-visible:ring-primary/20";
 
 // Background slides, stacked: the current one fades in and sharpens while the last one fades
-// out and blurs. Changes every 5 seconds, with previous and next arrows on the right edge and a
-// swipe on phones. The overlay and the text above it do not move.
-export function HeroSlides({ slides }: { slides: string[] }) {
-  const [active, setActive] = useState(0);
-  const [cycle, setCycle] = useState(0);
+// out and blurs. Previous and next arrows on the right edge and a swipe on phones. The slide
+// clock lives in HeroSlideProvider, so the headline changes with the picture.
+export function HeroSlides({ images }: { images: string[] }) {
+  const { active, go } = useHeroSlide();
   const touchX = useRef<number | null>(null);
-
-  const go = useCallback(
-    (step: number) => {
-      setActive((current) => (current + step + slides.length) % slides.length);
-      // Restart the timer, so a slide picked by hand is not replaced at once.
-      setCycle((n) => n + 1);
-    },
-    [slides.length],
-  );
-
-  useEffect(() => {
-    if (slides.length < 2) return;
-    const timer = window.setTimeout(() => go(1), DELAY_MS);
-    return () => window.clearTimeout(timer);
-  }, [active, cycle, go, slides.length]);
 
   const onTouchEnd = (x: number) => {
     if (touchX.current === null) return;
@@ -50,7 +34,7 @@ export function HeroSlides({ slides }: { slides: string[] }) {
         onTouchStart={(event) => (touchX.current = event.touches[0].clientX)}
         onTouchEnd={(event) => onTouchEnd(event.changedTouches[0].clientX)}
       >
-        {slides.map((src, i) => (
+        {images.map((src, i) => (
           <div
             key={src}
             aria-hidden={i !== active}

@@ -3,11 +3,11 @@ import { faPhone } from "@fortawesome/free-solid-svg-icons";
 import { BRAND } from "@/constants/brand";
 import { Icon } from "@/components/shared/Icon";
 
-// Copies .topbar from the PHP style.css.
+// Copies .topbar from the PHP style.css. Shown from tablet width (768px) up.
 export function TopBar() {
   const link = "inline-flex items-center gap-2 whitespace-nowrap text-white/88 transition-colors duration-300 hover:text-accent";
   return (
-    <div className="hidden bg-primary py-2.5 text-[13px] text-white/88 lg:block">
+    <div className="hidden bg-primary py-2.5 text-[13px] text-white/88 md:block">
       <div className="er-container flex flex-wrap justify-between gap-4">
         <span className="inline-flex items-center gap-2">
           <Icon icon={faClock} className="text-accent" /> {BRAND.hoursLine}

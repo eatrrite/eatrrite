@@ -84,8 +84,9 @@ export function AppointmentsChart() {
               tick={{ fill: "var(--muted-foreground)", fontSize: 12 }}
             />
             <YAxis
-              domain={[0, 40]}
-              ticks={[0, 10, 20, 30, 40]}
+              // Scales to the busiest day (at most 7 a day under the booking rules), whole numbers only.
+              domain={[0, (dataMax: number) => Math.max(4, Math.ceil(dataMax * 1.25))]}
+              allowDecimals={false}
               tickLine={false}
               axisLine={false}
               tick={{ fill: "var(--muted-foreground)", fontSize: 12 }}

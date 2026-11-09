@@ -27,7 +27,7 @@ export function TodayTodo() {
   const toggleTodo = useAdminStore((s) => s.toggleTodo);
   const deleteTodo = useAdminStore((s) => s.deleteTodo);
   const today = todayIst();
-  const [filters, setFilters] = useState<Filters>({ day: "today", date: today, status: "all" });
+  const [filters, setFilters] = useState<Filters>({ day: "all", date: today, status: "all" });
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<Todo | null>(null);
   const { ask, props: confirmProps } = useConfirmDialog();

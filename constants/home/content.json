@@ -1,11 +1,23 @@
 {
     "hero": {
         "pill": "Holistic Nutrition Coaching",
-        "title": "Lose Weight Without Losing Your Dal-Chawal.",
         "text": "Real nutrition isn't about starvation or fear — it's about learning how to Eat Rrite. Science-backed, rooted in the food you already love, and built to last longer than 30 days.",
         "slides": [
-            "/images/hero/carousel-1.png",
-            "/images/hero/carousel-2.png"
+            {
+                "image": "/images/hero/hero-lose-weight-dal-chawal.jpg",
+                "title": "Lose Weight with the Food You Already Love,",
+                "highlight": "Without Losing Your Dal-Chawal."
+            },
+            {
+                "image": "/images/hero/hero-diabetes-roti-rice.jpg",
+                "title": "Manage or Reverse Your Diabetes",
+                "highlight": "Without Quitting Roti, Rice or Potatoes!"
+            },
+            {
+                "image": "/images/hero/hero-hormones-dal-roti.jpg",
+                "title": "Lose Weight & Manage PMOS or Perimenopause",
+                "highlight": "Without Quitting Dal-Chawal or Roti."
+            }
         ],
         "primaryCta": {
             "label": "Get Consultation",

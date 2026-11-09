@@ -14,17 +14,25 @@ export function PackageCards({ badge = false }: { badge?: boolean }) {
         <BlurIn key={pack.name} delay={0.1 + index * 0.08} className="h-full">
           <article
             className={cn(
-              "relative flex h-full flex-col gap-3 rounded-xl border bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-card md:p-8",
-              pack.featured ? "border-primary/40 shadow-card" : "border-border"
+              "group relative flex h-full flex-col gap-3 rounded-xl border bg-white p-6 transition-[translate,box-shadow,border-color] duration-300 hover:-translate-y-1.5 hover:border-primary hover:shadow-card-hover md:p-8",
+              pack.featured ? "border-primary/40 shadow-card" : "border-border",
             )}
           >
+            {/* A teal line draws across the top on hover. No overflow-hidden on the card: it would
+                cut the "Most Popular" tag, so the line rounds its own top corners. */}
+            <span aria-hidden className="absolute -inset-x-px -top-px h-1 origin-left scale-x-0 rounded-t-xl bg-primary transition-transform duration-500 ease-out group-hover:scale-x-100" />
             {badge && pack.featured ? (
               <span className="absolute -top-3 left-6 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-white">Most Popular</span>
             ) : null}
-            <span className="font-heading text-3xl font-bold text-primary/20 tabular-nums">{String(index + 1).padStart(2, "0")}</span>
-            <h3 className="m-0 font-heading text-xl font-bold text-ink">{pack.name}</h3>
+            <span className="font-heading text-3xl font-bold text-primary/20 tabular-nums transition-colors duration-300 group-hover:text-primary/45">{String(index + 1).padStart(2, "0")}</span>
+            <h3 className="m-0 font-heading text-xl font-bold text-ink transition-colors duration-300 group-hover:text-primary">{pack.name}</h3>
             <p className="m-0 flex-1 text-sm leading-relaxed text-text">{pack.blurb}</p>
-            <LinkButton href={ROUTES.appointment} variant={pack.featured ? "default" : "outline"} className="mt-3 self-start px-5">
+            {/* The outline buttons turn into the primary button while their card is hovered. */}
+            <LinkButton
+              href={ROUTES.appointment}
+              variant={pack.featured ? "default" : "outline"}
+              className={cn("mt-3 self-start px-5", !pack.featured && "group-hover:btn-primary")}
+            >
               Get Consultation
             </LinkButton>
           </article>
