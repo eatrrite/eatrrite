@@ -2,9 +2,9 @@ import "server-only";
 import type { AdminUser, Profile } from "@/features/auth/types";
 import { db } from "@/services/database";
 
-type ProfileRow = { id: string; name: string; email: string; mobile: string | null; address: string | null };
+export type ProfileRow = { id: string; name: string; email: string; mobile: string | null; address: string | null };
 
-const toProfile = (row: ProfileRow): Profile => ({
+export const toProfile = (row: ProfileRow): Profile => ({
   id: row.id,
   name: row.name,
   email: row.email,

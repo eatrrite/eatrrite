@@ -1,6 +1,8 @@
 "use client";
 
-import { useActionState } from "react";
+import { Suspense, useActionState } from "react";
+import { CircleCheck } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -43,6 +45,11 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
       <p className="mt-6 type-eyebrow">{copy.eyebrow}</p>
       <h1 className="mt-1 font-heading text-3xl font-bold text-foreground">{copy.title}</h1>
       <p className="mt-2 text-sm text-muted-foreground">{copy.lead}</p>
+      {mode === "login" ? (
+        <Suspense fallback={null}>
+          <PasswordResetNotice />
+        </Suspense>
+      ) : null}
 
       <div className="mt-6 grid gap-4">
         {mode === "signup" ? (
@@ -56,7 +63,14 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
           <Input id="auth-email" name="email" type="email" autoComplete="email" required placeholder="you@example.com" />
         </div>
         <div className="grid gap-2">
-          <Label htmlFor="auth-password">Password</Label>
+          <div className="flex items-center justify-between gap-3">
+            <Label htmlFor="auth-password">Password</Label>
+            {mode === "login" ? (
+              <Link href={ADMIN_ROUTES.forgotPassword} className="text-sm font-medium text-primary hover:underline">
+                Forgot password?
+              </Link>
+            ) : null}
+          </div>
           <Input
             id="auth-password"
             name="password"
@@ -86,5 +100,16 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
         </p>
       ) : null}
     </form>
+  );
+}
+
+// After a password reset the login page opens with ?reset=done: say so above the form.
+function PasswordResetNotice() {
+  if (useSearchParams().get("reset") !== "done") return null;
+  return (
+    <p role="status" className="mt-4 flex items-center gap-2 rounded-lg bg-mint px-3 py-2 text-sm text-primary">
+      <CircleCheck aria-hidden className="size-4 shrink-0" />
+      Your password is updated. Log in with the new one.
+    </p>
   );
 }

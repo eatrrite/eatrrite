@@ -9,5 +9,5 @@ export default function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin", "/admin/((?!login|signup).*)"],
+  matcher: ["/admin", "/admin/((?!login|signup|forgot-password|reset-password).*)"],
 };

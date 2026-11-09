@@ -156,6 +156,12 @@ These must all be done before the website is handed over. The checklist is in `t
 | Razorpay | Test mode, `rzp_test_` keys | Live mode on, live keys on the host, live webhook and secret, test mode off |
 | Final check | – | After everything above, one real live-mode ₹800 booking from the website, end to end, with Mukta's agreement |
 
+## Admin Profile and Password
+
+- The Account page edits the admin's name, mobile and address (`er_profiles`, and the Neon Auth name).
+- The email cannot be changed from the admin. It is the login, and admin access is checked against `ADMIN_EMAILS`, so a changed email would lock the admin out. To change it: add the new email to `ADMIN_EMAILS` on the host, sign up once at `/admin/signup` with it, then remove the old email.
+- Password reset by email link (Neon Auth): "Forgot password?" on the login page, or "Reset password" on the Account page. The link opens `/admin/reset-password` on the same site. The site's address must be a trusted domain in Neon Auth, and Neon Auth must have an email provider that can send the reset email.
+
 ## Open Decisions
 
 | Question | Current plan |

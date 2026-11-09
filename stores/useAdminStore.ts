@@ -2,6 +2,7 @@
 
 import { create } from "zustand";
 import { savePreferencesAction } from "@/features/admin/services/adminActions";
+import { updateProfileAction, type ProfileInput } from "@/features/admin/services/profileActions";
 import type { AdminData } from "@/features/admin/types";
 import { createAppointmentSlotActions } from "@/features/appointment/stores/appointmentSlotActions";
 import { DEFAULT_BOOKING_SETTINGS } from "@/features/appointment/constants/appointment-settings";
@@ -53,6 +54,8 @@ type AdminState = AdminSettings & {
   toggleTodo: (id: string) => void;
   deleteTodo: (id: string) => void;
   setSetting: (key: AdminSettingsKey, value: boolean, notice: SaveNotice) => void;
+  /** Saves the admin's name, mobile and address; the profile updates once Neon confirms. */
+  saveProfile: (input: ProfileInput) => Promise<ActionResult>;
   isSlotHidden: (date: string, time: string) => boolean;
   toggleSlotHidden: (date: string, time: string) => void;
 };
@@ -83,6 +86,11 @@ export const useAdminStore = create<AdminState>()((set, get) => ({
   ...createScheduleActions(set, get),
   ...createTodoActions(set, get),
   ...createHiddenSlotActions(set, get),
+  saveProfile: async (input) => {
+    const result = await updateProfileAction(input);
+    if (result.ok) set({ profile: result.profile });
+    return result;
+  },
   setSetting: (key, value, notice) => {
     const before = preferencesOf(get());
     const next = { ...before, [key]: value };
