@@ -13,12 +13,13 @@ import { ADMIN_ROUTES } from "@/features/auth/utils/routes";
 const COPY = {
   login: {
     eyebrow: "Admin",
-    title: "Sign in",
-    lead: "Sign in to manage leads, appointments and the schedule.",
-    submit: "Sign in",
-    busy: "Signing in…",
-    switchText: "First time here?",
-    switchLink: { label: "Create the admin account", href: ADMIN_ROUTES.signup },
+    title: "Log In",
+    lead: "Log in to manage leads, appointments and the schedule.",
+    submit: "Log In",
+    busy: "Logging in…",
+    // The admin account already exists, so the login page offers no way to create one.
+    switchText: null,
+    switchLink: null,
   },
   signup: {
     eyebrow: "Admin",
@@ -27,11 +28,11 @@ const COPY = {
     submit: "Create account",
     busy: "Creating account…",
     switchText: "Already have an account?",
-    switchLink: { label: "Sign in", href: ADMIN_ROUTES.login },
+    switchLink: { label: "Log In", href: ADMIN_ROUTES.login },
   },
 } as const;
 
-// Admin sign-in and sign-up. The server action does the work; errors show under the fields.
+// Admin log in and sign-up. The server action does the work; errors show under the fields.
 export function AuthForm({ mode }: { mode: "login" | "signup" }) {
   const copy = COPY[mode];
   const [state, formAction, pending] = useActionState(mode === "login" ? signInAction : signUpAction, null);
@@ -76,12 +77,14 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
       <Button type="submit" size="lg" disabled={pending} className="mt-6 w-full">
         {pending ? copy.busy : copy.submit}
       </Button>
-      <p className="mt-4 text-center text-sm text-muted-foreground">
-        {copy.switchText}{" "}
-        <Link href={copy.switchLink.href} className="font-medium text-primary hover:underline">
-          {copy.switchLink.label}
-        </Link>
-      </p>
+      {copy.switchLink ? (
+        <p className="mt-4 text-center text-sm text-muted-foreground">
+          {copy.switchText}{" "}
+          <Link href={copy.switchLink.href} className="font-medium text-primary hover:underline">
+            {copy.switchLink.label}
+          </Link>
+        </p>
+      ) : null}
     </form>
   );
 }

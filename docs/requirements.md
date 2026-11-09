@@ -140,7 +140,7 @@ Neon Postgres, set up by `db/migrations/001_initial.sql` on an empty database (`
 | `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET` | Test keys now; live keys at handover |
 | `RAZORPAY_WEBHOOK_SECRET` | From the Razorpay webhook (test now, live at handover) |
 | `APPS_SCRIPT_URL`, `APPS_SCRIPT_SECRET` | The Meet-link web app and its `SECRET` script property |
-| `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `MAIL_FROM`, `MAIL_FROM_NAME`, `ADMIN_NOTIFY_EMAIL` | The sending mail account and where team emails go |
+| `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `MAIL_FROM`, `MAIL_FROM_NAME`, `ADMIN_NOTIFY_EMAIL` | The sending mail account, and where team emails go (`ADMIN_NOTIFY_EMAIL` takes several addresses, comma-separated) |
 | `CRON_SECRET` | Protects the questionnaire reminder route |
 | `SITE_URL` | Address used in email links (defaults to `https://www.eatrrite.com`) |
 
