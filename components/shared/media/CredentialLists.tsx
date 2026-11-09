@@ -14,7 +14,6 @@ export function CredentialLists() {
         return (
           <BlurInItem key={row.label} delay={0.05 + index * 0.08} className="h-full list-none">
             <div className="relative h-full overflow-hidden rounded-lg border border-border bg-white p-6">
-              <span aria-hidden className="absolute inset-x-0 top-0 h-1 bg-primary" />
               <div className="flex items-center gap-3">
                 <span className="inline-flex size-10 items-center justify-center rounded-full bg-primary text-white">
                   <Icon aria-hidden className="size-[18px]" />
