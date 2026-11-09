@@ -31,7 +31,9 @@ export const BRAND = {
   // Footer line needed before ads (brief §4).
   disclaimer: "General guidance, not medical advice. With a medical condition, follow your doctor.",
   logo: "/images/logo/logo-horizontal.png",
-  shareImage: "/images/og/eatrrite-nutritionist-mukta-patil.jpg",
+  // Link preview card (WhatsApp, Facebook, LinkedIn, X, Slack, iMessage): the logo on brand colours.
+  shareImage: "/images/og/eatrrite-share.jpg",
+  shareImageAlt: "Eat Rrite logo: Holistic Nutrition and Wellbeing",
   themeColor: "#014e4e",
   backgroundColor: "#f8f5f0",
 } as const;

@@ -26,9 +26,9 @@ export function pageMetadata({ title, description, path, noindex = false }: Page
       url: path,
       title,
       description,
-      images: [{ url: BRAND.shareImage, width: 1200, height: 630, alt: "Eat Rrite: Indian food you already eat, balanced" }],
+      images: [{ url: BRAND.shareImage, width: 1200, height: 630, alt: BRAND.shareImageAlt }],
     },
-    twitter: { card: "summary_large_image", title, description, images: [BRAND.shareImage] },
+    twitter: { card: "summary_large_image", title, description, images: [{ url: BRAND.shareImage, alt: BRAND.shareImageAlt }] },
     ...(noindex ? { robots: { index: false, follow: false } } : {}),
   };
 }
