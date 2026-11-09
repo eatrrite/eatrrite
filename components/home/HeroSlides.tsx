@@ -9,9 +9,10 @@ import { cn } from "cn";
 const SWIPE_PX = 40;
 
 // Round glass buttons in one frosted pill on the right edge, with the slide count between them.
-// White chevrons; on hover the button fills gold with dark text, like the gold Get Consultation.
+// Gold buttons with dark chevrons, like the gold Get Consultation; on hover they turn clear with
+// white chevrons on the frosted pill.
 const arrow =
-  "flex size-11 cursor-pointer items-center justify-center rounded-full text-white transition-[background-color,color,scale] duration-300 outline-none hover:bg-accent hover:text-ink active:scale-95 focus-visible:ring-2 focus-visible:ring-accent";
+  "flex size-11 cursor-pointer items-center justify-center rounded-full bg-accent text-ink transition-[background-color,color,scale] duration-300 outline-none hover:bg-transparent hover:text-white active:scale-95 focus-visible:ring-2 focus-visible:ring-white";
 
 // Background slides, stacked: the current one fades in and sharpens while the last one fades
 // out and blurs. Previous and next arrows on the right edge and a swipe on phones. The slide
