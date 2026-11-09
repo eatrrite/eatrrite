@@ -18,9 +18,12 @@ export function PackageCards({ badge = false }: { badge?: boolean }) {
               pack.featured ? "border-primary/40 shadow-card" : "border-border",
             )}
           >
-            {/* A teal line draws across the top on hover. No overflow-hidden on the card: it would
-                cut the "Most Popular" tag, so the line rounds its own top corners. */}
-            <span aria-hidden className="absolute -inset-x-px -top-px h-1 origin-left scale-x-0 rounded-t-xl bg-primary transition-transform duration-500 ease-out group-hover:scale-x-100" />
+            {/* A teal line draws across the top on hover. It sits in its own clipped layer inside the
+                border, so it follows the card's rounded corners while the "Most Popular" tag, which
+                sticks out above the card, is never cut. */}
+            <span aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden rounded-[inherit]">
+              <span className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-primary transition-transform duration-500 ease-out group-hover:scale-x-100" />
+            </span>
             {badge && pack.featured ? (
               <span className="absolute -top-3 left-6 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-white">Most Popular</span>
             ) : null}

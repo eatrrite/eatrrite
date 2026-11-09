@@ -8,10 +8,10 @@ import { cn } from "cn";
 
 const SWIPE_PX = 40;
 
-// Same style as the four hero feature icons (round, faint white glass, thin white border, gold
-// icon), one size up for the arrows.
+// Round glass buttons in one frosted pill on the right edge, with the slide count between them.
+// White chevrons; on hover the button fills gold with dark text, like the gold Get Consultation.
 const arrow =
-  "flex size-12 cursor-pointer items-center justify-center rounded-md border border-primary/10 bg-primary text-white shadow-lg backdrop-blur-sm transition-colors duration-300 outline-none hover:border-primary/30 hover:bg-primary/80 focus-visible:ring-2 focus-visible:ring-primary/20";
+  "flex size-11 cursor-pointer items-center justify-center rounded-full text-white transition-[background-color,color,scale] duration-300 outline-none hover:bg-accent hover:text-ink active:scale-95 focus-visible:ring-2 focus-visible:ring-accent";
 
 // Background slides, stacked: the current one fades in and sharpens while the last one fades
 // out and blurs. Previous and next arrows on the right edge and a swipe on phones. The slide
@@ -48,12 +48,17 @@ export function HeroSlides({ images }: { images: string[] }) {
         ))}
       </div>
       {/* Only where there is room beside the text. On phones the hero swipes and plays by itself. */}
-      <div className="absolute top-1/2 right-4 z-4 hidden -translate-y-1/2 flex-col gap-3 md:flex lg:right-6">
+      <div className="absolute top-1/2 right-4 z-4 hidden -translate-y-1/2 flex-col items-center gap-1 rounded-full border border-white/20 bg-white/10 p-1.5 shadow-lg backdrop-blur-md md:flex lg:right-6">
         <button type="button" aria-label="Previous slide" className={arrow} onClick={() => go(-1)}>
-          <ChevronLeft className="size-5" strokeWidth={1.75} />
+          <ChevronLeft className="size-5" strokeWidth={2} />
         </button>
+        <span aria-live="polite" className="py-1 font-heading text-xs text-white/85 tabular-nums">
+          <span className="font-bold text-accent">{String(active + 1).padStart(2, "0")}</span>
+          <span className="mx-0.5 text-white/40">/</span>
+          {String(images.length).padStart(2, "0")}
+        </span>
         <button type="button" aria-label="Next slide" className={arrow} onClick={() => go(1)}>
-          <ChevronRight className="size-5" strokeWidth={1.75} />
+          <ChevronRight className="size-5" strokeWidth={2} />
         </button>
       </div>
     </>

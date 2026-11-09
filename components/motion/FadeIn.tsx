@@ -13,13 +13,11 @@ type FadeInProps = HTMLMotionProps<"div"> & {
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-/** Reveal only after content has clearly entered the viewport. */
+/** Reveal as soon as the element's top edge rises 8% above the bottom of the screen (same as BlurIn). */
 const inViewViewport = {
   once: true,
-  amount: 0.3,
-  // Shrink the root from the bottom so the trigger sits ~1/5 up the
-  // screen—not at the fold where content has barely entered.
-  margin: "0px 0px -20% 0px",
+  amount: 0,
+  margin: "0px 0px -8% 0px",
 } as const;
 
 export function FadeIn({

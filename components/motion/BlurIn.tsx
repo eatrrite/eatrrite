@@ -6,7 +6,9 @@ import { motion, type HTMLMotionProps } from "framer-motion";
 // as the element slides up and fades in.
 const ease = [0.22, 1, 0.36, 1] as const;
 
-const viewport = { once: true, amount: 0.3, margin: "0px 0px -20% 0px" } as const;
+// Starts as soon as the element's top edge rises 8% above the bottom of the screen. Measuring a
+// share of the element (amount) made tall blocks, like the contact page's form, wait far too long.
+const viewport = { once: true, amount: 0, margin: "0px 0px -8% 0px" } as const;
 
 type BlurInProps = HTMLMotionProps<"div"> & {
   delay?: number;
