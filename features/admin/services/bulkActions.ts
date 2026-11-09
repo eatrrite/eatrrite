@@ -2,6 +2,7 @@
 
 import { assertAdmin } from "@/features/auth/services/session";
 import { db } from "@/services/database";
+import type { PaymentStatus } from "@/types/admin/appointment";
 import { attempt, type ActionResult } from "@/utils/actionResult";
 
 // Bulk changes from the Leads and Appointments lists. Each checks the session, accepts only
@@ -45,13 +46,19 @@ export async function completeAppointmentsAction(ids: string[]): Promise<ActionR
   }, "Could not update the appointments.");
 }
 
-// Marks the fee received for appointments added while it was still due. paid_at keeps the first time.
-export async function markAppointmentsPaidAction(ids: string[]): Promise<ActionResult> {
+const PAYMENT_STATUSES: readonly PaymentStatus[] = ["paid", "due", "refunded"];
+
+// Sets the payment: "paid" once the fee is received (paid_at keeps the first time), "refunded"
+// once it is given back (paid_at kept), "due" again (paid_at cleared).
+export async function setAppointmentsPaymentAction(ids: string[], status: PaymentStatus): Promise<ActionResult> {
   return attempt(async () => {
     await assertAdmin();
+    if (!PAYMENT_STATUSES.includes(status)) throw new Error("Unknown payment status.");
     await db()`
-      update er_appointments set payment_done = true, paid_at = coalesce(paid_at, now())
-      where id = any(${cleanIds(ids)}::uuid[]) and not payment_done`;
+      update er_appointments
+      set payment_status = ${status},
+        paid_at = case when ${status} = 'due' then null else coalesce(paid_at, now()) end
+      where id = any(${cleanIds(ids)}::uuid[]) and payment_status <> ${status}`;
     return {};
-  }, "Could not mark the payment.");
+  }, "Could not update the payment.");
 }

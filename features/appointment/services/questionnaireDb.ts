@@ -18,7 +18,7 @@ export type ConfirmedBooking = {
   time: string;
   /** Present once the questionnaire is submitted. */
   meetLink?: string;
-  /** The fee is paid (payment_done); false while it is still due. */
+  /** The fee is paid (payment_status 'paid'); false while due or after a refund. */
   paid: boolean;
 };
 
@@ -26,7 +26,7 @@ export type QuestionnaireInput = { name: string; age: number; gender: LeadGender
 
 export async function getConfirmedBooking(id: string): Promise<ConfirmedBooking | null> {
   const [row] = await db()`
-    select a.id, l.name, l.phone, l.age, l.gender, a.service, a.payment_done as paid,
+    select a.id, l.name, l.phone, l.age, l.gender, a.service, a.payment_status = 'paid' as paid,
       to_char(a.date, 'YYYY-MM-DD') as date, to_char(a.time, 'HH24:MI') as time,
       case when jsonb_array_length(a.questionnaire) > 0 then a.meet_link end as meet_link
     from er_appointments a join er_leads l on l.id = a.lead_id

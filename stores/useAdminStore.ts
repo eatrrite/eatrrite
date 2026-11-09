@@ -15,7 +15,7 @@ import { createHiddenSlotActions } from "@/stores/hiddenSlotActions";
 import { createTodoActions } from "@/stores/todoActions";
 import { saveOrRevert, type SaveNotice } from "@/stores/saveOrRevert";
 import { createScheduleActions } from "@/stores/scheduleActions";
-import type { Appointment, AppointmentInput } from "@/types/admin/appointment";
+import type { Appointment, AppointmentInput, PaymentStatus } from "@/types/admin/appointment";
 import type { Lead, LeadInput } from "@/types/admin/lead";
 import type { DaySchedule, ScheduleTimeSlot, Weekday } from "@/types/admin/schedule";
 import type { AdminSettings, AdminSettingsKey } from "@/types/admin/settings";
@@ -43,7 +43,7 @@ type AdminState = AdminSettings & {
   deleteLeads: (ids: string[], notice: SaveNotice) => void;
   deleteAppointments: (ids: string[], notice: SaveNotice) => void;
   completeAppointments: (ids: string[], notice: SaveNotice) => void;
-  markAppointmentsPaid: (ids: string[], notice: SaveNotice) => void;
+  setAppointmentsPayment: (ids: string[], status: PaymentStatus, notice: SaveNotice) => void;
   slotsFor: (date: string, ignoreId?: string) => string[];
   saveAppointment: (input: AppointmentInput, id?: string) => Promise<ActionResult>;
   setDayOpen: (day: Weekday, isOpen: boolean) => void;

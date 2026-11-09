@@ -1,6 +1,6 @@
 import "server-only";
 import type { QuestionnaireAnswers } from "@/features/appointment/types/questionnaire";
-import type { Appointment, AppointmentStatus } from "@/types/admin/appointment";
+import type { Appointment, AppointmentStatus, PaymentStatus } from "@/types/admin/appointment";
 import type { Lead, LeadGender } from "@/types/admin/lead";
 import type { Todo } from "@/types/admin/todo";
 
@@ -45,7 +45,7 @@ export type AppointmentRow = {
   notes: string | null;
   meet_link: string | null;
   payment_id: string | null;
-  payment_done: boolean;
+  payment_status: PaymentStatus;
   paid_at: Date | null;
   questionnaire: QuestionnaireAnswers;
   created_at: Date;
@@ -62,7 +62,7 @@ export const toAppointment = (row: AppointmentRow): Appointment => ({
   notes: optional(row.notes),
   meetLink: optional(row.meet_link),
   paymentId: optional(row.payment_id),
-  paymentDone: row.payment_done,
+  paymentStatus: row.payment_status,
   paidAt: row.paid_at ? iso(row.paid_at) : undefined,
   questionnaire: row.questionnaire ?? [],
   createdAt: iso(row.created_at),

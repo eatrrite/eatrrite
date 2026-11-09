@@ -30,9 +30,10 @@ export const APPOINTMENT_SORT_OPTIONS = [
   { value: "date-desc", label: "Appointment date, newest first", short: "Sort: Newest date" },
 ] as const;
 
-/** Payment filter on the Appointments list, from payment_done. */
+/** Payment filter on the Appointments list, from payment_status. */
 export const APPOINTMENT_PAYMENT_FILTER_OPTIONS = [
   { value: "all", label: "All payments" },
   { value: "paid", label: "Paid" },
   { value: "due", label: "Payment due" },
+  { value: "refunded", label: "Refunded" },
 ] as const;

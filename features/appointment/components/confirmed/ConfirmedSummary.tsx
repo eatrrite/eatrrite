@@ -4,7 +4,7 @@ import { displayDate, displayTime } from "@/features/appointment/utils/istTime";
 export type ConfirmedDetails = { name: string; service: string; date: string; time: string };
 
 // Left column of appointment-confirmed.php: status line and booking details.
-// "Payment received" only once the fee is paid (payment_done); an admin booking may still owe it.
+// "Payment received" only once the fee is paid (payment_status 'paid'); an admin booking may still owe it.
 export function ConfirmedSummary({ details, done, paid }: { details: ConfirmedDetails; done: boolean; paid: boolean }) {
   const rows = [
     ["Name", details.name],

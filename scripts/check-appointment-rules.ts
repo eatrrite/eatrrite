@@ -123,10 +123,10 @@ check("admin schedule round-trips the real working hours", () => {
 });
 
 const appointment = (id: string, date: string, time: string, status: Appointment["status"] = "upcoming"): Appointment => ({
-  id, leadId: "l", date, time, service: "s", status, paymentDone: true, questionnaire: [], createdAt: "", updatedAt: "",
+  id, leadId: "l", date, time, service: "s", status, paymentStatus: "paid", questionnaire: [], createdAt: "", updatedAt: "",
 });
 const days = weeklyToSchedule(EATRRITE_AVAILABLE_TIMES);
-const input = (date: string, time: string) => ({ leadId: "l", date, time, service: "s", status: "upcoming" as const, paymentDone: false, questionnaire: [] });
+const input = (date: string, time: string) => ({ leadId: "l", date, time, service: "s", status: "upcoming" as const, paymentStatus: "due" as const, questionnaire: [] });
 
 check("admin: no overlap, cancelled frees the slot, own slot stays editable", () => {
   const taken = [appointment("a", MON, "12:00"), appointment("b", MON, "15:30", "cancelled")];

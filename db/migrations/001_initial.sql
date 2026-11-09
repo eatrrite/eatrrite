@@ -118,8 +118,10 @@ create table er_appointments (
   meet_link text,
   payment_id text unique,
   paid_at timestamptz,
-  -- true once the ₹800 fee is paid (website checkout, or marked paid by the admin); false = due.
-  payment_done boolean not null default false,
+  -- The ₹800 fee: 'paid' (website checkout, or marked paid by the admin), 'due' (an admin booking
+  -- holding the slot before payment) or 'refunded' (paid, then given back, usually after a cancel).
+  payment_status text not null default 'due'
+    constraint er_appointments_payment_status_check check (payment_status in ('paid', 'due', 'refunded')),
   reminders_sent integer[] not null default '{}',
   questionnaire jsonb not null default '[]'::jsonb,
   created_at timestamptz not null default now(),

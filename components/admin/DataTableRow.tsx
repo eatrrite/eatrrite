@@ -17,23 +17,20 @@ type DataTableRowProps<T> = {
   onOpen?: () => void;
   selection?: TableSelection;
   label: string;
-  tone?: "alert" | "muted";
+  tone?: "muted";
 };
 
 // One body row of DataTable. Open and ticked rows share the soft teal tint, and only the open row
-// has the teal left edge. "alert" (needs action, e.g. a fee due) tints the row soft pink; "muted"
-// (closed, e.g. cancelled) fades it a little, back to full on hover.
+// has the teal left edge. "muted" (closed, e.g. cancelled) fades it a little, back to full on hover.
 export function DataTableRow<T>({ row, id, columns, widths, active, onOpen, selection, label, tone }: DataTableRowProps<T>) {
   const ticked = selection?.isSelected(id) ?? false;
-  const alert = tone === "alert";
   const muted = tone === "muted" && !active;
   return (
     <TableRow
       data-state={active || ticked ? "selected" : undefined}
       className={cn(
         onOpen && "cursor-pointer",
-        alert && "bg-alert-bg/60 hover:bg-alert-bg data-[state=selected]:bg-alert-bg",
-        !alert && (active || ticked) && "bg-primary/5 hover:bg-primary/10",
+        (active || ticked) && "bg-primary/5 hover:bg-primary/10",
         muted && "opacity-60 transition-opacity hover:opacity-100",
         active && "shadow-[inset_3px_0_0_var(--color-primary)]",
       )}

@@ -19,6 +19,13 @@ import { useAdminStore } from "@/stores/useAdminStore";
 import type { Appointment } from "@/types/admin/appointment";
 import type { AppointmentListFilters } from "@/types/admin/appointment";
 import { filterAppointments } from "@/utils/admin/filterAppointments";
+import { PAYMENT_STATE_LABELS, paymentState } from "@/utils/admin/paymentState";
+
+// ", payment due" / ", refund due" … for screen readers, after the name and slot.
+const paymentLabel = (item: Appointment) => {
+  const state = paymentState(item);
+  return state ? `, ${PAYMENT_STATE_LABELS[state].toLowerCase()}` : "";
+};
 
 const INITIAL_FILTERS: AppointmentListFilters = {
   query: "",
@@ -66,8 +73,8 @@ export function AppointmentsTable() {
           }}
           resetKey={JSON.stringify(filters)}
           selection={bulk.selection}
-          rowLabel={(item) => `${getLead(item.leadId)?.name ?? "Unknown"}, ${item.date} ${item.time}${item.paymentDone ? "" : ", payment due"}`}
-          rowTone={(item) => (item.status === "cancelled" ? "muted" : item.paymentDone ? undefined : "alert")}
+          rowLabel={(item) => `${getLead(item.leadId)?.name ?? "Unknown"}, ${item.date} ${item.time}${paymentLabel(item)}`}
+          rowTone={(item) => (item.status === "cancelled" ? "muted" : undefined)}
           empty={
             appointments.length === 0 ? (
               <EmptyState image="appointments" title="No appointments yet" description="Website bookings appear here after payment, or add one yourself." />

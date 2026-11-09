@@ -33,7 +33,7 @@ export function filterAppointments(
     if (filters.status !== "all" && item.status !== filters.status) return false;
     if (!matchesDatePreset(item.date, filters.date, reference)) return false;
     if (!isInDateRange(item.date, filters.dateRange)) return false;
-    if (filters.payment !== "all" && item.paymentDone !== (filters.payment === "paid")) return false;
+    if (filters.payment !== "all" && item.paymentStatus !== filters.payment) return false;
     if (!query) return true;
     const leadName = names.get(item.leadId) ?? "";
     return (

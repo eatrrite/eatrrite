@@ -12,7 +12,7 @@ const EMPTY: AppointmentInput = {
   service: "",
   status: "upcoming",
   // An appointment added here usually holds a slot before the lead pays.
-  paymentDone: false,
+  paymentStatus: "due",
   questionnaire: [],
 };
 
@@ -31,7 +31,7 @@ export function appointmentToInput(
       status: appointment.status,
       notes: appointment.notes,
       meetLink: appointment.meetLink,
-      paymentDone: appointment.paymentDone,
+      paymentStatus: appointment.paymentStatus,
       questionnaire: applyLeadToQuestionnaire(appointment.questionnaire, lead),
     };
   }

@@ -4,6 +4,12 @@ import { DatePicker } from "@/components/admin/forms/DatePicker";
 import { ChoiceChips } from "@/components/admin/forms/ChoiceChips";
 import { TimeSelect } from "@/components/admin/forms/TimeSelect";
 import { PaymentSelect } from "@/components/admin/forms/PaymentSelect";
+
+const PAYMENT_HINTS = {
+  paid: "The ₹800 fee is received.",
+  due: "The slot is held; mark it paid once the fee is received.",
+  refunded: "The fee was given back (usually after a cancellation).",
+} as const;
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -119,10 +125,8 @@ export function AppointmentBasicsFields({
 
       <div className="space-y-2">
         <Label htmlFor="apt-payment">Payment</Label>
-        <PaymentSelect id="apt-payment" value={value.paymentDone} onChange={(paid) => set("paymentDone", paid)} />
-        <p className="m-0 text-xs text-muted-foreground">
-          {value.paymentDone ? "The ₹800 fee is received." : "The slot is held; mark it paid once the fee is received."}
-        </p>
+        <PaymentSelect id="apt-payment" value={value.paymentStatus} onChange={(status) => set("paymentStatus", status)} />
+        <p className="m-0 text-xs text-muted-foreground">{PAYMENT_HINTS[value.paymentStatus]}</p>
       </div>
 
       <div className="space-y-2 sm:col-span-2">

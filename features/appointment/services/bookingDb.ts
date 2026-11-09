@@ -100,8 +100,8 @@ export async function confirmBooking(input: BookingInput, holdId: string, paymen
 
   const leadId = await leadFor(input);
   const [row] = await sql`
-    insert into er_appointments (lead_id, date, time, service, status, payment_id, payment_done, paid_at)
-    values (${leadId}, ${input.date}, ${input.time}, ${input.service}, 'upcoming', ${paymentId}, true, now())
+    insert into er_appointments (lead_id, date, time, service, status, payment_id, payment_status, paid_at)
+    values (${leadId}, ${input.date}, ${input.time}, ${input.service}, 'upcoming', ${paymentId}, 'paid', now())
     on conflict (payment_id) do update set payment_id = excluded.payment_id
     returning id, (xmax = 0) as created`;
   await releaseHold(holdId);

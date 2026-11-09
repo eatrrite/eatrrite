@@ -20,20 +20,20 @@ export function countWithStatus(
   return booked(appointments, filters, window).filter((a) => a.status === status).length;
 }
 
-/** Fee still due (payment_done false). A cancelled one is not owed. */
+/** Fee still due (payment_status 'due'). A cancelled one is not owed. */
 export function countDue(appointments: Appointment[], filters: DashboardFilters, window: DateWindow) {
-  return booked(appointments, filters, window).filter((a) => !a.paymentDone && a.status !== "cancelled").length;
+  return booked(appointments, filters, window).filter((a) => a.paymentStatus === "due" && a.status !== "cancelled").length;
 }
 
 /**
- * Fees received in the window, by when they were paid (paid_at, else the booking time). A
- * cancelled booking is left out: its fee is usually refunded.
+ * Fees received and kept in the window (payment_status 'paid'), by when they were paid (paid_at,
+ * else the booking time). A refunded fee is not revenue. A cancelled booking still counts until it
+ * is marked refunded, since the money is still held.
  */
 export function countPaid(appointments: Appointment[], filters: DashboardFilters, window: DateWindow) {
   return appointments.filter(
     (a) =>
-      a.paymentDone &&
-      a.status !== "cancelled" &&
+      a.paymentStatus === "paid" &&
       matchStatus(a, filters.status) &&
       isInWindow(a.paidAt ?? a.createdAt, window),
   ).length;

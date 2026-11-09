@@ -1,7 +1,7 @@
 import { deleteAppointmentAction, deleteLeadAction, saveLeadAction } from "@/features/admin/services/adminActions";
-import { completeAppointmentsAction, deleteAppointmentsAction, deleteLeadsAction, markAppointmentsPaidAction } from "@/features/admin/services/bulkActions";
+import { completeAppointmentsAction, deleteAppointmentsAction, deleteLeadsAction, setAppointmentsPaymentAction } from "@/features/admin/services/bulkActions";
 import { saveOrRevert, type SaveNotice } from "@/stores/saveOrRevert";
-import { canBulkComplete, type Appointment } from "@/types/admin/appointment";
+import { canBulkComplete, type Appointment, type PaymentStatus } from "@/types/admin/appointment";
 import type { Lead, LeadInput } from "@/types/admin/lead";
 import { createId } from "@/utils/admin/id";
 
@@ -75,12 +75,14 @@ export function createEntityActions(set: SetState, get: GetState) {
       saveOrRevert(completeAppointmentsAction(ids), () => set({ appointments: before }), notice);
     },
 
-    markAppointmentsPaid: (ids: string[], notice: SaveNotice) => {
+    // Paid, due or refunded; paid_at as the server keeps it (cleared only when due).
+    setAppointmentsPayment: (ids: string[], status: PaymentStatus, notice: SaveNotice) => {
       const before = get().appointments;
       const picked = new Set(ids);
       const now = new Date().toISOString();
-      set({ appointments: before.map((item) => (picked.has(item.id) ? { ...item, paymentDone: true, paidAt: item.paidAt ?? now, updatedAt: now } : item)) });
-      saveOrRevert(markAppointmentsPaidAction(ids), () => set({ appointments: before }), notice);
+      const paidAt = (item: Appointment) => (status === "due" ? undefined : (item.paidAt ?? now));
+      set({ appointments: before.map((item) => (picked.has(item.id) ? { ...item, paymentStatus: status, paidAt: paidAt(item), updatedAt: now } : item)) });
+      saveOrRevert(setAppointmentsPaymentAction(ids, status), () => set({ appointments: before }), notice);
     },
   };
 }

@@ -1,5 +1,5 @@
--- 004: Sample leads and appointments for trying the admin (dashboard, calendar, lists).
--- Run once, on a database with 001: bun run db:migrate db/migrations/004_dashboard_seed.sql
+-- 002: Sample leads and appointments for trying the admin (dashboard, calendar, lists).
+-- Run once, on a database with 001: bun run db:migrate db/migrations/002_dashboard_seed.sql
 --
 -- Every appointment follows the booking rules (docs/appointment-rules.md), read from the
 -- database itself, so the sample matches whatever the Schedule page says:
@@ -91,7 +91,7 @@ planned as (
   cross join settings s
 )
 insert into er_appointments (
-  lead_id, date, time, service, status, notes, meet_link, payment_id, payment_done,
+  lead_id, date, time, service, status, notes, meet_link, payment_id, payment_status,
   questionnaire, paid_at, created_at, updated_at
 )
 select
@@ -113,7 +113,7 @@ select
       || '-' || substr(md5(pl.day::text || pl.start_time::text), 8, 3)
   end,
   'pay_seed_' || to_char(pl.day, 'YYYYMMDD') || '_' || to_char(pl.start_time, 'HH24MI'),
-  true,
+  'paid',
   '[]'::jsonb,
   case when pl.status = 'cancelled' then null else pl.booked_at at time zone 'Asia/Kolkata' end,
   pl.booked_at at time zone 'Asia/Kolkata',

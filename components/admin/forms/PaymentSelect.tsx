@@ -1,24 +1,26 @@
 "use client";
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import type { PaymentStatus } from "@/types/admin/appointment";
+import { PAYMENT_STATUS_LABELS } from "@/utils/admin/paymentState";
 
-const OPTIONS = [
-  { value: "paid", label: "Paid" },
-  { value: "due", label: "Due" },
-] as const;
+const OPTIONS: PaymentStatus[] = ["paid", "due", "refunded"];
 
-/** Paid or Due, saved as payment_done (true or false). */
-export function PaymentSelect({ id, value, onChange }: { id?: string; value: boolean; onChange: (paid: boolean) => void }) {
-  const current = value ? "paid" : "due";
+/** Paid, Due or Refunded: the appointment's payment_status. */
+export function PaymentSelect({ id, value, onChange }: { id?: string; value: PaymentStatus; onChange: (status: PaymentStatus) => void }) {
   return (
-    <Select items={[...OPTIONS]} value={current} onValueChange={(next) => next && onChange(next === "paid")}>
+    <Select
+      items={OPTIONS.map((option) => ({ value: option, label: PAYMENT_STATUS_LABELS[option] }))}
+      value={value}
+      onValueChange={(next) => next && onChange(next as PaymentStatus)}
+    >
       <SelectTrigger id={id} className="w-full">
-        <SelectValue>{value ? "Paid" : "Due"}</SelectValue>
+        <SelectValue>{PAYMENT_STATUS_LABELS[value]}</SelectValue>
       </SelectTrigger>
       <SelectContent>
         {OPTIONS.map((option) => (
-          <SelectItem key={option.value} value={option.value}>
-            {option.label}
+          <SelectItem key={option} value={option}>
+            {PAYMENT_STATUS_LABELS[option]}
           </SelectItem>
         ))}
       </SelectContent>

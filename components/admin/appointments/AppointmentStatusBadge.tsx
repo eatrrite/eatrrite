@@ -4,7 +4,8 @@ import {
   STATUS_TONES,
   type StatusTone,
 } from "@/constants/admin/statusTones";
-import type { AppointmentStatus } from "@/types/admin/appointment";
+import type { Appointment, AppointmentStatus } from "@/types/admin/appointment";
+import { needsPaymentAction } from "@/utils/admin/paymentState";
 import { cn } from "cn";
 
 export const APPOINTMENT_STATUS_TONES: Record<AppointmentStatus, StatusTone> = {
@@ -16,12 +17,11 @@ export const APPOINTMENT_STATUS_TONES: Record<AppointmentStatus, StatusTone> = {
 };
 
 /**
- * Colour for an appointment's avatar: pink while its fee is due (needs action), otherwise the
- * status chip's colour, so the avatar and the chip in a row agree.
+ * Colour for an appointment's avatar: pink while its fee is due, otherwise the status chip's
+ * colour, so the avatar and the chip in a row agree.
  */
-export function appointmentAvatarTone(appointment: { status: AppointmentStatus; paymentDone: boolean }) {
-  const due = !appointment.paymentDone && appointment.status !== "cancelled";
-  return STATUS_TONES[due ? "danger" : APPOINTMENT_STATUS_TONES[appointment.status]];
+export function appointmentAvatarTone(appointment: Pick<Appointment, "status" | "paymentStatus">) {
+  return STATUS_TONES[needsPaymentAction(appointment) ? "danger" : APPOINTMENT_STATUS_TONES[appointment.status]];
 }
 
 type AppointmentStatusBadgeProps = {

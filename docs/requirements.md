@@ -93,7 +93,7 @@ From `CLAUDE.md` and the brief. They apply to every change.
 | `features/admin/`, `features/auth/` | Admin server actions and queries; Neon Auth |
 | `config/` | Environment getters (`env.ts`) and the 301 list (`redirects.ts`) |
 | `constants/`, `lib/data/` | Site copy and settings |
-| `db/migrations/` | `001_initial.sql` builds the whole database |
+| `db/migrations/` | `001_initial.sql` builds the whole database; `002_dashboard_seed.sql` adds sample data (dev only); `003_payment_status.sql` and `004_payment_status_refunded.sql` bring a database set up before the payment column up to date |
 | `apps-script/Code.gs` | The Google Apps Script that creates Meet links |
 
 ## Pages

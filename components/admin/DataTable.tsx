@@ -29,8 +29,8 @@ type DataTableProps<T> = {
   selection?: TableSelection;
   /** How a row is read out by screen readers next to its tick box. */
   rowLabel?: (row: T) => string;
-  /** "alert" tints a row that needs action (a fee due); "muted" fades a closed one (cancelled). */
-  rowTone?: (row: T) => "alert" | "muted" | undefined;
+  /** "muted" fades a closed row (a cancelled appointment). */
+  rowTone?: (row: T) => "muted" | undefined;
   /** Below lg the table keeps this width and scrolls sideways instead of squashing. */
   minWidthClass?: string;
 };
