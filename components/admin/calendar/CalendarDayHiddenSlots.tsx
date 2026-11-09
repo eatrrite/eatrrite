@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { EyeOff } from "lucide-react";
+import { EyeOff, Globe } from "lucide-react";
 import { scheduleToWeekly } from "@/features/appointment/utils/scheduleWeekly";
 import { availableTimes } from "@/features/appointment/utils/slots";
 import { todayIst } from "@/features/appointment/utils/istTime";
@@ -27,8 +27,8 @@ export function CalendarDayHiddenSlots({ date }: { date: string }) {
   const isHidden = (time: string) => hiddenSlots.some((slot) => slot.date === date && slot.time === time);
 
   return (
-    <section aria-label="Website slots" className="mt-4 shrink-0 rounded-xl border border-border p-3">
-      <p className="m-0 text-sm font-semibold text-foreground">Website slots</p>
+    <section aria-label="Website slots" className="mt-4 shrink-0 rounded-xl border border-border/70 bg-mint/60 p-3">
+      <p className="m-0 flex items-center gap-1.5 text-sm font-semibold text-ink"><Globe className="size-3.5 text-primary" />Website slots</p>
       <p className="mt-0.5 mb-2.5 text-xs text-muted-foreground">Tap a time to hide it from the booking page.</p>
       <div className="flex flex-wrap gap-1.5">
         {times.map((time) => {
@@ -42,7 +42,7 @@ export function CalendarDayHiddenSlots({ date }: { date: string }) {
               onClick={() => toggle(date, time)}
               className={cn(
                 "inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs tabular-nums transition-colors",
-                hidden ? "border-dashed border-border bg-muted text-muted-foreground line-through" : "border-primary/30 bg-secondary text-primary hover:bg-primary/10",
+                hidden ? "border-dashed border-border bg-muted text-muted-foreground line-through" : "border-primary/30 bg-card text-primary hover:border-primary hover:bg-primary hover:text-white",
               )}
             >
               {hidden ? <EyeOff className="size-3" /> : null}

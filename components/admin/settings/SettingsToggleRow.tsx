@@ -16,9 +16,9 @@ export function SettingsToggleRow({
   onCheckedChange,
 }: SettingsToggleRowProps) {
   return (
-    <div className="flex items-start justify-between gap-4 border-b border-border/70 py-4 last:border-b-0">
+    <div className="-mx-2 flex items-start justify-between gap-4 rounded-xl border-b border-border/70 px-2 py-4 transition-colors duration-300 last:border-b-0 hover:bg-mint">
       <div className="min-w-0">
-        <p className="text-sm font-medium text-foreground">{title}</p>
+        <p className="text-sm font-semibold text-ink">{title}</p>
         <p className="mt-0.5 text-sm text-muted-foreground">{description}</p>
       </div>
       <Switch

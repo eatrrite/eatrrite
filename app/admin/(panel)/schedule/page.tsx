@@ -13,8 +13,10 @@ export default function AdminSchedulePage() {
         title="Consultation Schedule"
         description="Set your consultation hours for each day. You can add multiple time slots if you have breaks during the day."
       >
-        <aside className="flex max-w-sm items-start gap-3 rounded-2xl border border-primary/15 bg-primary/5 px-4 py-3 text-sm text-foreground">
-          <Clock3 className="mt-0.5 size-4 shrink-0 text-primary" />
+        <aside className="flex max-w-sm items-start gap-3 rounded-2xl border border-accent/40 bg-accent/10 px-4 py-3 text-sm text-foreground">
+          <span className="inline-flex size-8 shrink-0 items-center justify-center rounded-lg bg-accent text-ink">
+            <Clock3 className="size-4" />
+          </span>
           <p>
             These timings will be used for appointment booking and availability.
           </p>

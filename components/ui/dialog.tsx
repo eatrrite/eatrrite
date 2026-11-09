@@ -31,7 +31,7 @@ function DialogOverlay({
     <DialogPrimitive.Backdrop
       data-slot="dialog-overlay"
       className={cn(
-        "fixed inset-0 isolate z-50 bg-black/10 duration-100 supports-backdrop-filter:backdrop-blur-xs data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0",
+        "fixed inset-0 isolate z-50 bg-black/10 duration-100 supports-backdrop-filter:backdrop-blur-xs [:root:has(.admin-shell)_&]:bg-primary-dark/25 [:root:has(.admin-shell)_&]:supports-backdrop-filter:backdrop-blur-sm data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0",
         className
       )}
       {...props}
@@ -39,6 +39,8 @@ function DialogOverlay({
   )
 }
 
+// In the admin (the admin shell is on the page) dialogs get a teal top edge, a deeper shadow
+// and a teal-tinted backdrop; the public booking dialog keeps its look.
 function DialogContent({
   className,
   children,
@@ -53,7 +55,7 @@ function DialogContent({
       <DialogPrimitive.Popup
         data-slot="dialog-content"
         className={cn(
-          "fixed top-1/2 left-1/2 z-50 max-h-[calc(100dvh-2rem)] w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 overflow-y-auto overscroll-contain rounded-xl bg-popover font-body text-sm text-popover-foreground ring-1 ring-foreground/10 duration-100 outline-none sm:max-w-sm data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
+          "fixed top-1/2 left-1/2 z-50 max-h-[calc(100dvh-2rem)] w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 overflow-y-auto overscroll-contain rounded-xl bg-popover font-body text-sm text-popover-foreground ring-1 ring-foreground/10 duration-100 outline-none [:root:has(.admin-shell)_&]:rounded-2xl [:root:has(.admin-shell)_&]:border-t-4 [:root:has(.admin-shell)_&]:border-t-primary [:root:has(.admin-shell)_&]:shadow-[0_30px_70px_-30px_rgba(1,54,54,0.6)] sm:max-w-sm data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
           className
         )}
         {...props}

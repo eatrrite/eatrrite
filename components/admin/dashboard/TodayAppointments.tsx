@@ -58,7 +58,7 @@ export function TodayAppointments() {
           <li key={appointment.id}>
             <Link
               href={`/admin/appointments?id=${appointment.id}`}
-              className="flex items-center gap-2.5 py-3 transition-colors hover:bg-muted/40 sm:gap-3"
+              className="flex items-center gap-2.5 py-3 -mx-2 rounded-xl px-2 transition-[background-color,translate] duration-300 hover:translate-x-0.5 hover:bg-mint sm:gap-3"
             >
               <span className="w-[4.25rem] shrink-0 text-sm sm:w-20 text-muted-foreground tabular-nums">
                 {formatTimeLabel(appointment.time)}

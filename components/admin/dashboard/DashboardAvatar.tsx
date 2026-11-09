@@ -17,7 +17,7 @@ export function DashboardAvatar({ name, className }: DashboardAvatarProps) {
   return (
     <span
       className={cn(
-        "inline-flex size-9 shrink-0 items-center justify-center rounded-full text-xs font-semibold",
+        "inline-flex size-9 shrink-0 items-center justify-center rounded-full font-heading text-xs font-bold ring-2 ring-white shadow-xs",
         ICON_TONES[toneFor(name)],
         className,
       )}

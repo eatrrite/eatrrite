@@ -35,12 +35,15 @@ export function CalendarDayDetailsPanel({
 
   return (
     <div className="flex min-h-0 flex-1 flex-col">
-      <div className="flex shrink-0 items-start justify-between gap-3">
-        <div className="min-w-0">
-          <p className="font-heading text-base font-bold text-foreground">
-            {format(selectedDate, "EEEE, d MMM yyyy")}
+      {/* Teal band with the chosen day, like the website's banners. */}
+      <div className="relative -mx-4 -mt-4 flex shrink-0 items-center justify-between gap-3 overflow-hidden bg-linear-to-br from-primary to-primary-dark px-4 py-4 text-white sm:-mx-5 sm:-mt-5 sm:px-5">
+        <div aria-hidden className="absolute -top-10 -right-6 size-32 rounded-full bg-accent/20 blur-2xl" />
+        <div className="relative min-w-0">
+          <p className="m-0 type-eyebrow text-lg text-accent">{format(selectedDate, "EEEE")}</p>
+          <p className="truncate font-heading text-lg font-bold text-white">
+            {format(selectedDate, "d MMMM yyyy")}
           </p>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <p className="mt-0.5 text-sm text-white/75">
             {count === 0
               ? "No appointments"
               : `${count} appointment${count === 1 ? "" : "s"}`}
@@ -48,9 +51,9 @@ export function CalendarDayDetailsPanel({
         </div>
         <Button
           type="button"
-          variant="secondary"
+          variant="accent"
           size="sm"
-          className="shrink-0 gap-1.5 text-primary"
+          className="relative shrink-0 gap-1.5"
           disabled={!canAdd}
           onClick={onAdd}
         >
@@ -64,7 +67,7 @@ export function CalendarDayDetailsPanel({
 
       <div className="mt-4 flex min-h-0 flex-1 flex-col gap-2.5 overflow-y-auto">
         {count === 0 ? (
-          <div className="flex flex-1 items-center justify-center rounded-xl border border-dashed border-border px-4">
+          <div className="flex flex-1 items-center justify-center rounded-xl border border-dashed border-border bg-mint/40 px-4">
             <EmptyState size="sm" image="appointments" title="Nothing booked this day" description="Add an appointment to get started." />
           </div>
         ) : (

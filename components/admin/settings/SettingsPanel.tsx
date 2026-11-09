@@ -18,7 +18,7 @@ export function SettingsPanel() {
         icon={<Bell className="size-4" />}
         tone="gold"
         title="Notifications"
-        subtitle="Dummy preferences saved in this browser"
+        subtitle="Saved to your admin account"
       />
       <div>
         {SETTINGS_TOGGLES.map((item) => (

@@ -24,7 +24,7 @@ export function AdminSidebar({
   mode = "rail",
 }: AdminSidebarProps) {
   const body = (
-    <div className="flex h-full flex-col bg-card text-sidebar-foreground">
+    <div className="flex h-full flex-col bg-linear-to-b from-card via-card to-mint text-sidebar-foreground">
       <div className="flex h-16 shrink-0 items-center justify-center border-b border-sidebar-border/80 px-4">
         <Link
           href="/admin/dashboard"

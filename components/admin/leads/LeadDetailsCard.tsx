@@ -37,17 +37,20 @@ export function LeadDetailsCard({
   }
 
   return (
-    <aside className="flex h-fit flex-col gap-4 self-start rounded-2xl border border-border bg-card p-5 shadow-xs">
+    <aside className="flex h-fit flex-col gap-4 self-start overflow-hidden rounded-2xl border border-border/80 bg-card p-5 shadow-[0_14px_40px_-28px_rgba(1,78,78,0.35)]">
       <HeroMotion key={`${lead.id}-head`} delay={0.05}>
-        <div className="flex items-start gap-3">
-          <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-full bg-accent/25 font-heading text-sm font-bold text-ink">
+        {/* Teal band with the lead's name, like the website's banners. */}
+        <div className="relative -mx-5 -mt-5 flex items-center gap-3.5 bg-linear-to-br from-primary to-primary-dark px-5 pt-5 pb-5 text-white">
+          <div aria-hidden className="absolute -top-10 -right-8 size-32 rounded-full bg-accent/20 blur-2xl" />
+          <span className="relative inline-flex size-12 shrink-0 items-center justify-center rounded-full bg-accent font-heading text-sm font-bold text-ink ring-4 ring-white/15">
             {getInitials(lead.name)}
           </span>
-          <div className="min-w-0 flex-1">
-            <p className="truncate font-heading text-lg font-bold text-foreground">
+          <div className="relative min-w-0 flex-1">
+            <p className="m-0 type-eyebrow text-lg text-accent">Lead</p>
+            <p className="truncate font-heading text-xl font-bold text-white">
               {lead.name}
             </p>
-            <p className="mt-0.5 text-sm text-muted-foreground">
+            <p className="mt-0.5 text-sm text-white/75">
               {[
                 lead.age ? `${lead.age} years` : "",
                 lead.gender,
@@ -61,19 +64,19 @@ export function LeadDetailsCard({
       </HeroMotion>
 
       <HeroMotion key={`${lead.id}-contact`} delay={0.18}>
-        <div className="space-y-2.5 rounded-xl bg-mint px-3.5 py-3">
+        <div className="space-y-2.5 rounded-xl border border-border/60 bg-mint px-3.5 py-3">
           <p className="flex items-start gap-2.5 text-sm text-foreground">
-            <Phone className="mt-0.5 size-3.5 shrink-0 text-muted-foreground" />
+            <Phone className="mt-0.5 size-3.5 shrink-0 text-primary" />
             <span>{lead.phone}</span>
           </p>
           <p className="flex items-start gap-2.5 text-sm text-foreground">
-            <Mail className="mt-0.5 size-3.5 shrink-0 text-muted-foreground" />
+            <Mail className="mt-0.5 size-3.5 shrink-0 text-primary" />
             <span className={lead.email ? undefined : "text-muted-foreground"}>
               {lead.email ?? "Email not provided"}
             </span>
           </p>
           <p className="flex items-start gap-2.5 text-sm text-foreground">
-            <MapPin className="mt-0.5 size-3.5 shrink-0 text-muted-foreground" />
+            <MapPin className="mt-0.5 size-3.5 shrink-0 text-primary" />
             <span
               className={lead.address ? undefined : "text-muted-foreground"}
             >

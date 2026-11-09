@@ -60,7 +60,7 @@ export function DataTable<T>({
   return (
     <div
       className={cn(
-        "h-fit self-start rounded-xl border border-border bg-card overflow-hidden",
+        "h-fit self-start overflow-hidden rounded-2xl border border-border/80 bg-card shadow-[0_14px_40px_-28px_rgba(1,78,78,0.35)]",
         className,
       )}
     >

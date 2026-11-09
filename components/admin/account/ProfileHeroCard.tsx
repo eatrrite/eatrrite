@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { KeyRound, Mail, MapPin, Pencil, Phone } from "lucide-react";
-import { DashboardCard, DashboardCardHeader } from "@/components/admin/dashboard/DashboardCard";
+import { DashboardCard } from "@/components/admin/dashboard/DashboardCard";
 import { ProfileFormDialog } from "@/components/admin/account/ProfileFormDialog";
 import { Button } from "@/components/ui/button";
 import { sendMyResetLinkAction } from "@/features/auth/services/passwordActions";
@@ -27,22 +27,28 @@ export function ProfileHeroCard() {
 
   return (
     <DashboardCard>
-      <DashboardCardHeader
-        icon={<span className="font-heading text-sm font-bold">{profile.initials}</span>}
-        title={profile.name}
-        subtitle="Admin"
-      />
-      <div className="space-y-2.5 rounded-xl bg-mint px-3.5 py-3">
+      {/* Teal band with the admin's initials and name, like the lead and appointment cards. */}
+      <div className="relative -mx-4 -mt-4 mb-5 flex items-center gap-4 overflow-hidden rounded-t-2xl bg-linear-to-br from-primary to-primary-dark px-5 py-6 text-white sm:-mx-5 sm:-mt-5">
+        <div aria-hidden className="absolute -top-12 -right-10 size-40 rounded-full bg-accent/20 blur-2xl" />
+        <span className="relative inline-flex size-14 shrink-0 items-center justify-center rounded-full bg-accent font-heading text-base font-bold text-ink ring-4 ring-white/15">
+          {profile.initials}
+        </span>
+        <div className="relative min-w-0">
+          <p className="m-0 type-eyebrow text-lg text-accent">Admin</p>
+          <p className="truncate font-heading text-2xl font-bold text-white">{profile.name}</p>
+        </div>
+      </div>
+      <div className="space-y-2.5 rounded-xl border border-border/60 bg-mint px-3.5 py-3">
         <p className="flex items-center gap-2.5 text-sm text-foreground">
-          <Mail className="size-3.5 shrink-0 text-muted-foreground" />
+          <Mail className="size-3.5 shrink-0 text-primary" />
           {profile.email}
         </p>
         <p className="flex items-center gap-2.5 text-sm text-foreground">
-          <Phone className="size-3.5 shrink-0 text-muted-foreground" />
+          <Phone className="size-3.5 shrink-0 text-primary" />
           {profile.mobile ?? "Mobile not added"}
         </p>
         <p className="flex items-start gap-2.5 text-sm text-foreground">
-          <MapPin className="mt-0.5 size-3.5 shrink-0 text-muted-foreground" />
+          <MapPin className="mt-0.5 size-3.5 shrink-0 text-primary" />
           {profile.address ?? "Address not added"}
         </p>
       </div>

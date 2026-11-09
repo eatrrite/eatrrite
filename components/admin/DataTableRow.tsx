@@ -25,7 +25,7 @@ export function DataTableRow<T>({ row, id, columns, widths, active, onOpen, sele
   return (
     <TableRow
       data-state={active || ticked ? "selected" : undefined}
-      className={cn(onOpen && "cursor-pointer", (active || ticked) && "bg-primary/5 hover:bg-primary/10")}
+      className={cn(onOpen && "cursor-pointer", (active || ticked) && "bg-primary/5 hover:bg-primary/10", active && "shadow-[inset_3px_0_0_var(--color-primary)]")}
       onClick={onOpen}
     >
       {selection ? <SelectRowCell selection={selection} id={id} label={label} /> : null}

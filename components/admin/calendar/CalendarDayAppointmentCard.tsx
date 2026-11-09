@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronRight, FileText, Salad } from "lucide-react";
+import { ChevronRight, FileText } from "lucide-react";
 import { AppointmentStatusBadge } from "@/components/admin/appointments/AppointmentStatusBadge";
 import { DashboardAvatar } from "@/components/admin/dashboard/DashboardAvatar";
 import type { Appointment } from "@/types/admin/appointment";
@@ -24,10 +24,12 @@ export function CalendarDayAppointmentCard({
     <button
       type="button"
       onClick={onOpen}
-      className="flex w-full gap-2 rounded-xl border border-border bg-card p-2.5 text-left shadow-xs transition-colors hover:bg-muted/40 sm:gap-3 sm:p-3"
+      className="group relative flex w-full shrink-0 gap-2 overflow-hidden rounded-xl border border-border/80 bg-card p-2.5 pl-3.5 text-left shadow-xs transition-[background-color,border-color,translate] duration-300 hover:-translate-y-0.5 hover:border-primary/25 hover:bg-mint sm:gap-3 sm:p-3 sm:pl-4"
     >
+      {/* Teal edge marks each consultation, like the lists elsewhere in the admin. */}
+      <span aria-hidden className="absolute inset-y-0 left-0 w-1 bg-primary/70 transition-colors group-hover:bg-primary" />
       <div className="w-14 shrink-0 text-[11px] leading-snug text-muted-foreground sm:w-[4.5rem] sm:text-xs">
-        <p className="font-medium text-foreground">
+        <p className="font-heading font-bold text-primary">
           {formatTimeLabel(appointment.time)}
         </p>
         <p>{formatTimeLabel(appointmentEndTime(appointment.time, meetingMinutes))}</p>
@@ -49,17 +51,13 @@ export function CalendarDayAppointmentCard({
               <AppointmentStatusBadge status={appointment.status} />
             </div>
             <p className="mt-2 flex items-center gap-1.5 text-xs text-muted-foreground">
-              <Salad className="size-3.5 shrink-0" />
-              <span className="truncate">{appointment.service || "No service"}</span>
-            </p>
-            <p className="mt-1 flex items-center gap-1.5 text-xs text-muted-foreground">
               <FileText className="size-3.5 shrink-0" />
               <span className="truncate">
                 {appointment.notes ?? "No notes"}
               </span>
             </p>
           </div>
-          <ChevronRight className="mt-1 size-4 shrink-0 text-muted-foreground" />
+          <ChevronRight className="mt-1 size-4 shrink-0 text-muted-foreground transition-[translate,color] group-hover:translate-x-0.5 group-hover:text-primary" />
         </div>
       </div>
     </button>

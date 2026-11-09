@@ -37,9 +37,13 @@ export function AdminPageHeader({
           </HeroMotion>
         ) : null}
         <HeroMotion delay={eyebrow || lead ? 0.18 : 0.05}>
-          <h2 className="mt-1 font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+          <h2 className="mt-1 font-heading text-[1.75rem] leading-tight font-bold tracking-tight text-ink sm:text-[2.15rem]">
             {title}
           </h2>
+        </HeroMotion>
+        {/* The gold rule the website and emails put under a heading. */}
+        <HeroMotion delay={eyebrow || lead ? 0.24 : 0.1}>
+          <span aria-hidden className="mt-3 block h-[3px] w-12 rounded-full bg-accent" />
         </HeroMotion>
         {description ? (
           <HeroMotion delay={0.28}>

@@ -10,7 +10,7 @@ export default function AdminSettingsPage() {
       <AdminPageHeader
         eyebrow="Settings"
         title="Admin preferences"
-        description="Simple toggles for reminders and notifications. Saved locally for now."
+        description="Simple toggles for reminders and notifications, saved to your admin account."
       />
       <AdminMotion>
         <div className="max-w-2xl">

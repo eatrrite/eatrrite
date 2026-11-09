@@ -61,19 +61,20 @@ export function AdminSidebarNav({
             href={item.href}
             onClick={onNavigate}
             className={cn(
-              "flex items-center gap-3 rounded-2xl text-sm font-medium transition",
+              "group/nav relative flex items-center gap-3 rounded-2xl text-sm font-medium transition-[background-color,color,translate] duration-300",
               collapsed ? "justify-center px-4 py-4" : "px-4 py-2.5",
               active
                 ? "btn-elevated btn-primary ![background-clip:padding-box,border-box]"
-                : "text-sidebar-foreground/75 hover:bg-secondary hover:text-secondary-foreground",
+                : "text-sidebar-foreground/75 hover:translate-x-0.5 hover:bg-mint hover:text-primary",
             )}
           >
-            <Icon className="size-4 shrink-0" />
+            <Icon className={cn("size-4 shrink-0 transition-colors", active ? "text-accent" : "group-hover/nav:text-primary")} />
             {collapsed ? (
               <span className="sr-only">{item.label}</span>
             ) : (
               <span>{item.label}</span>
             )}
+            {active && !collapsed ? <span aria-hidden className="ml-auto size-1.5 rounded-full bg-accent" /> : null}
           </Link>
         );
 

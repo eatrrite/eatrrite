@@ -56,9 +56,12 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
           onMobileMenuClick={() => setIsMobileNavOpen(true)}
           onLogout={signOutAction}
         />
-        <main
-          className="min-h-0 flex-1 overflow-y-auto px-4 py-6 text-left sm:px-6 lg:px-8"
-        >
+        <main className="relative isolate min-h-0 flex-1 overflow-y-auto px-4 py-6 text-left sm:px-6 lg:px-8">
+          {/* Soft teal and gold glows behind the page, as on the website; they never take clicks. */}
+          <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+            <div className="absolute -top-40 right-[-10rem] size-[34rem] rounded-full bg-primary/[0.07] blur-3xl" />
+            <div className="absolute bottom-[-12rem] left-[10%] size-[30rem] rounded-full bg-accent/[0.10] blur-3xl" />
+          </div>
           {children}
         </main>
       </div>

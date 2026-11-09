@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { CalendarDays, Clock3, Settings, Users } from "lucide-react";
+import { ArrowRight, CalendarDays, Clock3, Settings, Users } from "lucide-react";
 import {
   DashboardCard,
   DashboardCardHeader,
@@ -33,12 +33,13 @@ export function ProfileQuickLinks() {
             <Link
               key={item.href}
               href={item.href}
-              className="flex items-center gap-3 rounded-xl border border-border px-3 py-3 text-sm font-medium text-foreground transition-colors hover:bg-muted/60"
+              className="group flex items-center gap-3 rounded-xl border border-border/80 px-3 py-3 text-sm font-medium text-ink transition-[background-color,border-color,translate] duration-300 hover:-translate-y-0.5 hover:border-primary/25 hover:bg-mint"
             >
               <span className={cn("inline-flex size-8 items-center justify-center rounded-lg", ICON_TONES[item.tone])}>
                 <Icon className="size-4" />
               </span>
               {item.label}
+              <ArrowRight aria-hidden className="ml-auto size-4 -translate-x-1 text-primary opacity-0 transition-[opacity,translate] duration-300 group-hover:translate-x-0 group-hover:opacity-100" />
             </Link>
           );
         })}

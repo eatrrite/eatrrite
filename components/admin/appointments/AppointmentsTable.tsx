@@ -12,6 +12,7 @@ import { ConfirmationModal } from "@/components/admin/ConfirmationModal";
 import { useBulkSelection } from "@/hooks/admin/useBulkSelection";
 import { useAppointmentTableActions } from "@/hooks/admin/useAppointmentTableActions";
 import { useSelectedRow } from "@/hooks/admin/useSelectedRow";
+import { DETAILS_PANEL_CLASS, useDetailsPanel } from "@/hooks/admin/useDetailsPanel";
 import { useAdminStore } from "@/stores/useAdminStore";
 import type { Appointment } from "@/types/admin/appointment";
 import type { AppointmentListFilters } from "@/types/admin/appointment";
@@ -34,6 +35,7 @@ export function AppointmentsTable() {
   );
   const getId = useCallback((item: Appointment) => item.id, []);
   const [selectedId, selectRow, selected] = useSelectedRow(rows, getId);
+  const { ref: detailsRef, reveal: revealDetails } = useDetailsPanel();
   const bulk = useBulkSelection(rows, getId);
   const { getLead } = actions;
   const columns = useMemo(
@@ -55,7 +57,10 @@ export function AppointmentsTable() {
           rows={rows}
           getRowId={getId}
           selectedRowId={selectedId}
-          onRowSelect={(item) => selectRow(item.id)}
+          onRowSelect={(item) => {
+            selectRow(item.id);
+            revealDetails();
+          }}
           resetKey={JSON.stringify(filters)}
           selection={bulk.selection}
           rowLabel={(item) => `${getLead(item.leadId)?.name ?? "Unknown"}, ${item.date} ${item.time}`}
@@ -67,16 +72,18 @@ export function AppointmentsTable() {
             )
           }
         />
-        <AppointmentDetailsCard
-          appointment={selected}
-          leadName={
-            selected
-              ? (actions.getLead(selected.leadId)?.name ?? "Unknown")
-              : ""
-          }
-          onEdit={() => selected && actions.startEdit(selected)}
-          onDelete={() => selected && actions.remove(selected)}
-        />
+        <div ref={detailsRef} className={DETAILS_PANEL_CLASS}>
+          <AppointmentDetailsCard
+            appointment={selected}
+            leadName={
+              selected
+                ? (actions.getLead(selected.leadId)?.name ?? "Unknown")
+                : ""
+            }
+            onEdit={() => selected && actions.startEdit(selected)}
+            onDelete={() => selected && actions.remove(selected)}
+          />
+        </div>
       </div>
       <AppointmentFormDialog
         open={actions.open}

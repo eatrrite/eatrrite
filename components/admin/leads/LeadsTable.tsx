@@ -15,6 +15,7 @@ import { useLeadBulkActions } from "@/hooks/admin/useLeadBulkActions";
 import { Trash2Icon } from "lucide-react";
 import { useConfirmDialog } from "@/hooks/admin/useConfirmDialog";
 import { useSelectedRow } from "@/hooks/admin/useSelectedRow";
+import { DETAILS_PANEL_CLASS, useDetailsPanel } from "@/hooks/admin/useDetailsPanel";
 import { useAdminStore } from "@/stores/useAdminStore";
 import type { Lead, LeadInput } from "@/types/admin/lead";
 import type { LeadListFilters } from "@/types/admin/lead";
@@ -39,6 +40,7 @@ export function LeadsTable() {
   const rows = useMemo(() => filterLeads(leads, filters), [leads, filters]);
   const getId = useCallback((lead: Lead) => lead.id, []);
   const [selectedId, selectRow, selected] = useSelectedRow(rows, getId);
+  const { ref: detailsRef, reveal: revealDetails } = useDetailsPanel();
   const bulk = useBulkSelection(rows, getId);
   const bulkActions = useLeadBulkActions(ask, bulk.clear);
 
@@ -80,7 +82,10 @@ export function LeadsTable() {
           rows={rows}
           getRowId={getId}
           selectedRowId={selectedId}
-          onRowSelect={(lead) => selectRow(lead.id)}
+          onRowSelect={(lead) => {
+            selectRow(lead.id);
+            revealDetails();
+          }}
           resetKey={JSON.stringify(filters)}
           selection={bulk.selection}
           rowLabel={(lead) => lead.name}
@@ -93,17 +98,19 @@ export function LeadsTable() {
             )
           }
         />
-        <LeadDetailsCard
-          lead={selected}
-          onEdit={() => {
-            if (!selected) return;
-            setEditing(selected);
-            setOpen(true);
-          }}
-          onDelete={() => {
-            if (selected) remove(selected);
-          }}
-        />
+        <div ref={detailsRef} className={DETAILS_PANEL_CLASS}>
+          <LeadDetailsCard
+            lead={selected}
+            onEdit={() => {
+              if (!selected) return;
+              setEditing(selected);
+              setOpen(true);
+            }}
+            onDelete={() => {
+              if (selected) remove(selected);
+            }}
+          />
+        </div>
       </div>
       <LeadFormDialog
         open={open}
