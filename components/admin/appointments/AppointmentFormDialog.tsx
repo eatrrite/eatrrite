@@ -35,8 +35,8 @@ import {
 
 const STEPS = [
   { label: "Booking", title: "Who and when", hint: "Choose the lead, then the date, time and service." },
-  { label: "Questionnaire", title: "Health questionnaire", hint: "Answer on the lead's behalf. Fields marked * are required." },
-  { label: "Meet link", title: "Review and create the Meet link", hint: "Check the details, then generate the link to finish." },
+  { label: "Questionnaire", title: "Health questionnaire", hint: "Optional. Answer on the lead's behalf, or skip it and share the questionnaire link from the appointment details." },
+  { label: "Meet link", title: "Review and create the Meet link", hint: "Check the details. Generate the link now, or save and it is made when the lead sends the questionnaire." },
 ] as const;
 const LAST = STEPS.length - 1;
 
@@ -105,19 +105,21 @@ function AppointmentFormBody({
   // Editing an appointment: the steps above are free tabs, and Save needs only the booking details.
   // A website booking may still have no questionnaire or Meet link, and the admin must still be
   // able to change its status. Creating one keeps all three steps.
+  // The questionnaire is optional: the lead usually fills it from the link in the appointment
+  // details (see canSaveAppointment).
   const isEdit = Boolean(appointment);
   const basicsDone = hasAppointmentBasics(value) && !slotError;
+  const questionnaireDone = isAdminQuestionnaireComplete(value.questionnaire, lead, questions);
   const canSave = isEdit ? basicsDone : canSaveAppointment(value, lead, questions) && !slotError;
   // An edit may keep its saved time even if the schedule has since changed.
   const keepsSavedTime = (date: string, time: string) => appointment?.date === date && appointment.time === time;
   const timeOptions = slotsFor(value.date, appointment?.id);
   const visibleTimes = value.time && keepsSavedTime(value.date, value.time) && !timeOptions.includes(value.time) ? [...timeOptions, value.time].sort() : timeOptions;
-  const questionnaireDone = isAdminQuestionnaireComplete(value.questionnaire, lead, questions);
   const stepDone = [basicsDone, questionnaireDone, canSave];
-  const canGoNext = step === 0 ? basicsDone : step === 1 ? questionnaireDone : false;
+  const canGoNext = step === 0 ? basicsDone : step === 1;
 
-  // A step opens once every step before it is complete.
-  const canOpen = (index: number) => isEdit || stepDone.slice(0, index).every(Boolean);
+  // A step opens once the booking step is complete; the questionnaire never blocks.
+  const canOpen = (index: number) => isEdit || index === 0 || basicsDone;
 
   // Say what is missing instead of leaving "Continue" greyed out without a reason.
   const missing = missingBasics(value);
@@ -127,7 +129,7 @@ function AppointmentFormBody({
     step === 0 && !basicsDone
       ? bookingHint
       : step === 1 && !questionnaireDone
-        ? `${unanswered} required ${unanswered === 1 ? "question" : "questions"} left`
+        ? `${unanswered} required ${unanswered === 1 ? "question" : "questions"} left. Unfinished answers are not saved.`
         : step === LAST && !canSave
           ? "Generate the Meet link to finish"
           : null;
@@ -154,7 +156,10 @@ function AppointmentFormBody({
   async function save() {
     if (!canSave || saving) return;
     setSaving(true);
-    const saved = await onSave({ ...value, questionnaire: applyLeadToQuestionnaire(value.questionnaire, lead) });
+    // Unfinished answers are dropped: the questionnaire link only opens for an empty one, and the
+    // lead then fills it in full.
+    const questionnaire = questionnaireDone ? applyLeadToQuestionnaire(value.questionnaire, lead) : [];
+    const saved = await onSave({ ...value, questionnaire });
     setSaving(false);
     if (saved) onClose();
   }

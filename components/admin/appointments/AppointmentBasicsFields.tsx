@@ -3,6 +3,7 @@
 import { DatePicker } from "@/components/admin/forms/DatePicker";
 import { ChoiceChips } from "@/components/admin/forms/ChoiceChips";
 import { TimeSelect } from "@/components/admin/forms/TimeSelect";
+import { PaymentSelect } from "@/components/admin/forms/PaymentSelect";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -114,6 +115,14 @@ export function AppointmentBasicsFields({
             ))}
           </SelectContent>
         </Select>
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="apt-payment">Payment</Label>
+        <PaymentSelect id="apt-payment" value={value.paymentDone} onChange={(paid) => set("paymentDone", paid)} />
+        <p className="m-0 text-xs text-muted-foreground">
+          {value.paymentDone ? "The ₹800 fee is received." : "The slot is held; mark it paid once the fee is received."}
+        </p>
       </div>
 
       <div className="space-y-2 sm:col-span-2">

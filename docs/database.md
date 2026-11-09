@@ -13,6 +13,7 @@ Eat Rrite stores everything in one Neon Postgres database. Sign-in uses Neon's M
 3. Run `bun run db:migrate` once, from the project root. It sends `db/migrations/001_initial.sql`, the only setup file, to Neon as one transaction, so it either all runs or nothing is saved. It needs step 1 first, because `er_profiles` points at `neon_auth."user"`. (Pasting the file into the Neon SQL Editor can fail on the questionnaire insert, because the editor splits the file into separate statements.)
 4. Start the app and open `/admin/signup`. Sign up with the admin email. The profile row is created on first sign-in.
 5. Optional, for trying the admin only (never on the live database): `bun run db:migrate db/migrations/004_dashboard_seed.sql` adds 20 sample leads and about 100 appointments from three weeks ago to ten days ahead. Every one follows the booking rules, read from `er_schedule_slots` and `er_settings`: inside working hours, starts one 45-minute block apart, no overlaps, nothing on hidden slots or on top of real bookings. Their payment ids start with `pay_seed_`.
+6. Only for a database set up before `payment_done` was added to `001_initial.sql`: `bun run db:migrate db/migrations/005_payment_status.sql` adds the column to `er_appointments` and marks every existing booking paid. Safe to run again. `payment_done` is true once the ₹800 fee is paid (website checkout, or marked paid in the admin) and false while it is due.
 
 ## Tables
 

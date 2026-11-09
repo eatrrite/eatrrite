@@ -48,6 +48,7 @@ export function filterAppointments(
   return appointments.filter((item) => {
     if (filters.status !== "all" && item.status !== filters.status) return false;
     if (!matchesDateFilter(item.date, filters.date, reference)) return false;
+    if (filters.payment !== "all" && item.paymentDone !== (filters.payment === "paid")) return false;
     if (!query) return true;
     const leadName = names.get(item.leadId) ?? "";
     return (

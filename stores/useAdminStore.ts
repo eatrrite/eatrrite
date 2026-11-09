@@ -43,6 +43,7 @@ type AdminState = AdminSettings & {
   deleteLeads: (ids: string[], notice: SaveNotice) => void;
   deleteAppointments: (ids: string[], notice: SaveNotice) => void;
   completeAppointments: (ids: string[], notice: SaveNotice) => void;
+  markAppointmentsPaid: (ids: string[], notice: SaveNotice) => void;
   slotsFor: (date: string, ignoreId?: string) => string[];
   saveAppointment: (input: AppointmentInput, id?: string) => Promise<ActionResult>;
   setDayOpen: (day: Weekday, isOpen: boolean) => void;

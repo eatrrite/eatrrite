@@ -51,14 +51,18 @@ export async function saveAppointmentAction(input: AppointmentInput, id?: string
 
     const answers = JSON.stringify(input.questionnaire);
     const [row] = await db()`
-      insert into er_appointments (id, lead_id, date, time, service, status, notes, meet_link, payment_id, questionnaire)
+      insert into er_appointments (id, lead_id, date, time, service, status, notes, meet_link, payment_id, payment_done, paid_at, questionnaire)
       values (${id ?? crypto.randomUUID()}, ${input.leadId}, ${input.date}, ${input.time}, ${input.service}, ${input.status},
-              ${input.notes ?? null}, ${input.meetLink ?? null}, ${input.paymentId ?? null}, ${answers}::jsonb)
+              ${input.notes ?? null}, ${input.meetLink ?? null}, ${input.paymentId ?? null}, ${input.paymentDone},
+              ${input.paymentDone ? new Date() : null}, ${answers}::jsonb)
       on conflict (id) do update set
         lead_id = excluded.lead_id, date = excluded.date, time = excluded.time, service = excluded.service,
-        status = excluded.status, notes = excluded.notes, meet_link = excluded.meet_link, questionnaire = excluded.questionnaire
+        status = excluded.status, notes = excluded.notes, meet_link = excluded.meet_link, questionnaire = excluded.questionnaire,
+        payment_done = excluded.payment_done,
+        -- paid_at: kept while paid, set when first marked paid, cleared when marked due.
+        paid_at = case when not excluded.payment_done then null else coalesce(er_appointments.paid_at, now()) end
       returning id, lead_id, to_char(date, 'YYYY-MM-DD') as date, to_char(time, 'HH24:MI') as time,
-        service, status, notes, meet_link, payment_id, questionnaire, created_at, updated_at`;
+        service, status, notes, meet_link, payment_id, payment_done, questionnaire, created_at, updated_at`;
     return { appointment: toAppointment(row as AppointmentRow) };
   }, "Could not save the appointment.");
 }

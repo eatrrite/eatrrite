@@ -22,6 +22,7 @@ const INITIAL_FILTERS: AppointmentListFilters = {
   query: "",
   status: "all",
   date: "all",
+  payment: "all",
 };
 
 export function AppointmentsTable() {

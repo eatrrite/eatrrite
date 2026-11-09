@@ -16,7 +16,8 @@ type Props = { searchParams: Promise<{ appointmentId?: string }> };
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
-// Reads the paid booking from the database. An unknown id goes back to the booking form.
+// Reads the booking (paid on the website, or added by the admin) from the database. An unknown
+// or cancelled one goes back to the booking form.
 async function Confirmed({ searchParams }: Props) {
   const { appointmentId = "" } = await searchParams;
   const booking = UUID.test(appointmentId) ? await getConfirmedBooking(appointmentId) : null;

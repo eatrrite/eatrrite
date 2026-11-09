@@ -35,7 +35,7 @@ function Ready({ done, children }: { done: boolean; children: string }) {
 export function AppointmentMeetStep({ value, lead, onChange, questions, appointmentId }: AppointmentMeetStepProps) {
   const basicsReady = hasAppointmentBasics(value);
   const questionnaireReady = isAdminQuestionnaireComplete(value.questionnaire, lead, questions);
-  const canGenerate = basicsReady && questionnaireReady;
+  const canGenerate = basicsReady;
   const { creating, generate } = useMeetLink({ value, leadName: lead?.name, appointmentId, enabled: canGenerate, onCreated: (meetLink) => onChange({ ...value, meetLink }) });
 
   async function copy() {
@@ -90,12 +90,16 @@ export function AppointmentMeetStep({ value, lead, onChange, questions, appointm
           <>
             <ul className="m-0 flex list-none flex-col gap-1.5 p-0">
               <Ready done={basicsReady}>Booking details filled in</Ready>
-              <Ready done={questionnaireReady}>Questionnaire answered</Ready>
+              <Ready done={questionnaireReady}>{questionnaireReady ? "Questionnaire answered" : "Questionnaire: the lead fills it from the link"}</Ready>
             </ul>
             <Button type="button" disabled={!canGenerate || creating} onClick={() => generate()}>
               {creating ? "Creating…" : "Generate Meet link"}
             </Button>
-            <p className="m-0 text-xs text-muted-foreground">The appointment can be saved once the link exists.</p>
+            <p className="m-0 text-xs text-muted-foreground">
+              {questionnaireReady
+                ? "The appointment can be saved once the link exists."
+                : "You can save without it: the link is made when the lead sends the questionnaire."}
+            </p>
           </>
         )}
       </div>

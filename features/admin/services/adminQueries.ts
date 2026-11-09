@@ -11,7 +11,7 @@ export async function listLeads() {
 export async function listAppointments() {
   const rows = await db()`
     select id, lead_id, to_char(date, 'YYYY-MM-DD') as date, to_char(time, 'HH24:MI') as time,
-      service, status, notes, meet_link, payment_id, questionnaire, created_at, updated_at
+      service, status, notes, meet_link, payment_id, payment_done, questionnaire, created_at, updated_at
     from er_appointments order by date desc, time desc`;
   return (rows as AppointmentRow[]).map(toAppointment);
 }

@@ -1,5 +1,5 @@
 import { deleteAppointmentAction, deleteLeadAction, saveLeadAction } from "@/features/admin/services/adminActions";
-import { completeAppointmentsAction, deleteAppointmentsAction, deleteLeadsAction } from "@/features/admin/services/bulkActions";
+import { completeAppointmentsAction, deleteAppointmentsAction, deleteLeadsAction, markAppointmentsPaidAction } from "@/features/admin/services/bulkActions";
 import { saveOrRevert, type SaveNotice } from "@/stores/saveOrRevert";
 import { canBulkComplete, type Appointment } from "@/types/admin/appointment";
 import type { Lead, LeadInput } from "@/types/admin/lead";
@@ -73,6 +73,13 @@ export function createEntityActions(set: SetState, get: GetState) {
         ),
       });
       saveOrRevert(completeAppointmentsAction(ids), () => set({ appointments: before }), notice);
+    },
+
+    markAppointmentsPaid: (ids: string[], notice: SaveNotice) => {
+      const before = get().appointments;
+      const picked = new Set(ids);
+      set({ appointments: before.map((item) => (picked.has(item.id) ? { ...item, paymentDone: true } : item)) });
+      saveOrRevert(markAppointmentsPaidAction(ids), () => set({ appointments: before }), notice);
     },
   };
 }

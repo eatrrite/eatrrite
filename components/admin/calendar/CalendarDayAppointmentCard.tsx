@@ -1,6 +1,7 @@
 "use client";
 
 import { ChevronRight, FileText } from "lucide-react";
+import { PaymentDueBadge } from "@/components/admin/appointments/AppointmentPaymentRow";
 import { AppointmentStatusBadge } from "@/components/admin/appointments/AppointmentStatusBadge";
 import { DashboardAvatar } from "@/components/admin/dashboard/DashboardAvatar";
 import type { Appointment } from "@/types/admin/appointment";
@@ -48,7 +49,10 @@ export function CalendarDayAppointmentCard({
                   {appointment.service || "Consultation"}
                 </p>
               </div>
-              <AppointmentStatusBadge status={appointment.status} />
+              <span className="flex shrink-0 flex-col items-end gap-1">
+                <AppointmentStatusBadge status={appointment.status} />
+                <PaymentDueBadge paymentDone={appointment.paymentDone} />
+              </span>
             </div>
             <p className="mt-2 flex items-center gap-1.5 text-xs text-muted-foreground">
               <FileText className="size-3.5 shrink-0" />

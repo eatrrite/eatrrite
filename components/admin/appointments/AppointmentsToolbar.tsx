@@ -2,7 +2,8 @@
 
 import { Plus, Search } from "lucide-react";
 import { APPOINTMENT_DATE_FILTER_OPTIONS } from "@/constants/admin/appointments/dateFilters";
-import { APPOINTMENT_STATUS_FILTER_OPTIONS } from "@/constants/admin/appointments/statuses";
+import { APPOINTMENT_PAYMENT_FILTER_OPTIONS, APPOINTMENT_STATUS_FILTER_OPTIONS } from "@/constants/admin/appointments/statuses";
+import { FilterSelect } from "@/components/admin/forms/FilterSelect";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -107,6 +108,16 @@ export function AppointmentsToolbar({
             ))}
           </SelectContent>
         </Select>
+        <FilterSelect
+          label="Payment"
+          value={filters.payment}
+          options={APPOINTMENT_PAYMENT_FILTER_OPTIONS}
+          className="flex-1 sm:w-auto sm:flex-none"
+          onChange={(payment) => {
+            onChange({ ...filters, payment });
+            notifyFilterApplied(showToast, "Payment filter applied", APPOINTMENT_PAYMENT_FILTER_OPTIONS.find((o) => o.value === payment)?.label ?? payment);
+          }}
+        />
       </div>
       <Button type="button" className="gap-1.5 shrink-0" disabled={!canAdd} onClick={onAdd}>
         <Plus className="size-4" />

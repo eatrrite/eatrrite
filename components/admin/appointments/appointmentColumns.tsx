@@ -2,6 +2,7 @@
 
 import { format, parseISO } from "date-fns";
 import { DashboardAvatar } from "@/components/admin/dashboard/DashboardAvatar";
+import { PaymentDueBadge } from "@/components/admin/appointments/AppointmentPaymentRow";
 import { AppointmentStatusBadge } from "@/components/admin/appointments/AppointmentStatusBadge";
 import type { Appointment } from "@/types/admin/appointment";
 import type { DataTableColumn } from "@/types/admin/dataTable";
@@ -40,7 +41,12 @@ export function getAppointmentListColumns(
       key: "status",
       header: "Status",
       width: 30,
-      cell: (item) => <AppointmentStatusBadge status={item.status} />,
+      cell: (item) => (
+        <span className="flex flex-wrap items-center gap-1">
+          <AppointmentStatusBadge status={item.status} />
+          <PaymentDueBadge paymentDone={item.paymentDone} />
+        </span>
+      ),
     },
   ];
 }

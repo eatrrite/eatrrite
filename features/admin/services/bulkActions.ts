@@ -44,3 +44,14 @@ export async function completeAppointmentsAction(ids: string[]): Promise<ActionR
     return {};
   }, "Could not update the appointments.");
 }
+
+// Marks the fee received for appointments added while it was still due. paid_at keeps the first time.
+export async function markAppointmentsPaidAction(ids: string[]): Promise<ActionResult> {
+  return attempt(async () => {
+    await assertAdmin();
+    await db()`
+      update er_appointments set payment_done = true, paid_at = coalesce(paid_at, now())
+      where id = any(${cleanIds(ids)}::uuid[]) and not payment_done`;
+    return {};
+  }, "Could not mark the payment.");
+}

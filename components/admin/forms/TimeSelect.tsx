@@ -30,7 +30,7 @@ export function TimeSelect({
 }: TimeSelectProps) {
   return (
     <Select
-      value={value || undefined}
+      value={value || null}
       disabled={disabled}
       onValueChange={(next) => {
         if (next) onChange(next);

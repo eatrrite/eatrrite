@@ -90,7 +90,7 @@ planned as (
   cross join settings s
 )
 insert into er_appointments (
-  lead_id, date, time, service, status, notes, meet_link, payment_id,
+  lead_id, date, time, service, status, notes, meet_link, payment_id, payment_done,
   questionnaire, paid_at, created_at, updated_at
 )
 select
@@ -112,6 +112,7 @@ select
       || '-' || substr(md5(pl.day::text || pl.start_time::text), 8, 3)
   end,
   'pay_seed_' || to_char(pl.day, 'YYYYMMDD') || '_' || to_char(pl.start_time, 'HH24MI'),
+  true,
   '[]'::jsonb,
   case when pl.status = 'cancelled' then null else pl.booked_at at time zone 'Asia/Kolkata' end,
   pl.booked_at at time zone 'Asia/Kolkata',

@@ -18,17 +18,19 @@ export type ConfirmedBooking = {
   time: string;
   /** Present once the questionnaire is submitted. */
   meetLink?: string;
+  /** The fee is paid (payment_done); false while it is still due. */
+  paid: boolean;
 };
 
 export type QuestionnaireInput = { name: string; age: number; gender: LeadGender; answers: QuestionnaireAnswers };
 
 export async function getConfirmedBooking(id: string): Promise<ConfirmedBooking | null> {
   const [row] = await db()`
-    select a.id, l.name, l.phone, l.age, l.gender, a.service,
+    select a.id, l.name, l.phone, l.age, l.gender, a.service, a.payment_done as paid,
       to_char(a.date, 'YYYY-MM-DD') as date, to_char(a.time, 'HH24:MI') as time,
       case when jsonb_array_length(a.questionnaire) > 0 then a.meet_link end as meet_link
     from er_appointments a join er_leads l on l.id = a.lead_id
-    where a.id = ${id} and a.payment_id is not null`;
+    where a.id = ${id} and a.status <> 'cancelled'`;
   if (!row) return null;
   return {
     id: row.id,
@@ -40,6 +42,7 @@ export async function getConfirmedBooking(id: string): Promise<ConfirmedBooking 
     date: row.date,
     time: row.time,
     meetLink: row.meet_link ?? undefined,
+    paid: row.paid,
   };
 }
 
@@ -52,7 +55,7 @@ export async function saveQuestionnaire(appointmentId: string, input: Questionna
     select a.lead_id, a.meet_link, jsonb_array_length(a.questionnaire) as answered, a.service,
       to_char(a.date, 'YYYY-MM-DD') as date, to_char(a.time, 'HH24:MI') as time
     from er_appointments a
-    where a.id = ${appointmentId} and a.payment_id is not null`;
+    where a.id = ${appointmentId} and a.status <> 'cancelled'`;
   if (!row) throw new Error("We could not find this booking.");
   if (row.answered > 0 && row.meet_link) return { meetLink: row.meet_link };
 
@@ -67,8 +70,9 @@ export async function saveQuestionnaire(appointmentId: string, input: Questionna
   const answers = applyLeadToQuestionnaire(input.answers, profile);
   if (!isAdminQuestionnaireComplete(answers, profile, questions)) throw new Error("Please answer every required question.");
 
+  // The admin may have made the Meet link already (questionnaire left for the lead): keep it.
   const { meetingMinutes } = await getBookingSettings();
-  const meetLink = await createMeetLink({
+  const meetLink = row.meet_link || await createMeetLink({
     appointmentId, name, service: row.service, date: row.date, time: row.time, minutes: meetingMinutes,
   }).catch((error) => {
     console.error("Meet link failed", error);

@@ -17,7 +17,11 @@ export function hasMeetLink(input: AppointmentInput): boolean {
   return Boolean(input.meetLink?.trim());
 }
 
-/** Save is allowed only when basics, questionnaire, and Meet link are ready. */
+/**
+ * A new appointment saves once the booking details are in. The questionnaire is optional (the
+ * lead fills it from the link, which also creates the Meet link); a finished one needs the Meet
+ * link too, since nothing else would make it.
+ */
 export function canSaveAppointment(
   input: AppointmentInput,
   lead: Lead | undefined,
@@ -25,8 +29,7 @@ export function canSaveAppointment(
 ): boolean {
   return (
     hasAppointmentBasics(input) &&
-    isAdminQuestionnaireComplete(input.questionnaire, lead, questions) &&
-    hasMeetLink(input)
+    (hasMeetLink(input) || !isAdminQuestionnaireComplete(input.questionnaire, lead, questions))
   );
 }
 

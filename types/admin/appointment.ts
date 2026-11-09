@@ -20,6 +20,8 @@ export type Appointment = {
   meetLink?: string;
   /** Razorpay payment id of a website booking. Stops one payment creating two appointments. */
   paymentId?: string;
+  /** The ₹800 fee is paid (website checkout, or marked paid by the admin). False: still due. */
+  paymentDone: boolean;
   questionnaire: QuestionnaireAnswers;
   createdAt: string;
   updatedAt: string;
@@ -40,4 +42,7 @@ export type AppointmentListFilters = {
   query: string;
   status: "all" | AppointmentStatus;
   date: AppointmentDateFilter;
+  payment: AppointmentPaymentFilter;
 };
+
+export type AppointmentPaymentFilter = "all" | "paid" | "due";

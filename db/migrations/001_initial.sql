@@ -118,6 +118,8 @@ create table er_appointments (
   meet_link text,
   payment_id text unique,
   paid_at timestamptz,
+  -- true once the ₹800 fee is paid (website checkout, or marked paid by the admin); false = due.
+  payment_done boolean not null default false,
   reminders_sent integer[] not null default '{}',
   questionnaire jsonb not null default '[]'::jsonb,
   created_at timestamptz not null default now(),

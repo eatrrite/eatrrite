@@ -4,7 +4,8 @@ import { displayDate, displayTime } from "@/features/appointment/utils/istTime";
 export type ConfirmedDetails = { name: string; service: string; date: string; time: string };
 
 // Left column of appointment-confirmed.php: status line and booking details.
-export function ConfirmedSummary({ details, done }: { details: ConfirmedDetails; done: boolean }) {
+// "Payment received" only once the fee is paid (payment_done); an admin booking may still owe it.
+export function ConfirmedSummary({ details, done, paid }: { details: ConfirmedDetails; done: boolean; paid: boolean }) {
   const rows = [
     ["Name", details.name],
     ["Consultation", details.service],
@@ -15,8 +16,8 @@ export function ConfirmedSummary({ details, done }: { details: ConfirmedDetails;
     // Stays in view on wide screens while the right side scrolls. top-28 clears the sticky header.
     <aside className="lg:sticky lg:top-28">
       <BlurIn>
-        <p className="m-0 type-eyebrow">Payment received</p>
-        <h1 className="mt-3 mb-0 font-heading text-3xl font-bold tracking-tight text-ink sm:text-4xl">Appointment Confirmed</h1>
+        {paid ? <p className="m-0 mb-3 type-eyebrow">Payment received</p> : null}
+        <h1 className="m-0 font-heading text-3xl font-bold tracking-tight text-ink sm:text-4xl">Appointment Confirmed</h1>
         <p className="mt-4 mb-0 text-text">
           {done
             ? "Your questionnaire is in and your Google Meet link is ready."

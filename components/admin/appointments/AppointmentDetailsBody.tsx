@@ -3,6 +3,8 @@
 import { EmptyState } from "@/components/shared/EmptyState";
 import { CalendarDays, Clock3, Link2, Salad } from "lucide-react";
 import { format, parseISO } from "date-fns";
+import { AppointmentPaymentRow } from "@/components/admin/appointments/AppointmentPaymentRow";
+import { AppointmentQuestionnaireLink } from "@/components/admin/appointments/AppointmentQuestionnaireLink";
 import { AppointmentStatusBadge } from "@/components/admin/appointments/AppointmentStatusBadge";
 import { useAdminStore } from "@/stores/useAdminStore";
 import type { Appointment } from "@/types/admin/appointment";
@@ -65,6 +67,7 @@ export function AppointmentDetailsBody({
             {appointment.service || "No service added"}
           </p>
         </div>
+        <AppointmentPaymentRow appointment={appointment} />
         <div className="border-t border-border/70 pt-3">
           <p className="mb-1 flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
             <Link2 className="size-3.5" />
@@ -100,12 +103,15 @@ export function AppointmentDetailsBody({
           Questionnaire
         </p>
         {appointment.questionnaire.length === 0 ? (
-          <EmptyState
-            size="sm"
-            image="questionnaire"
-            title="No answers yet"
-            description="The customer fills this in after paying, or you can add it when editing."
-          />
+          <>
+            <EmptyState
+              size="sm"
+              image="questionnaire"
+              title="No answers yet"
+              description="The lead fills this in from the questionnaire link, or you can add it when editing."
+            />
+            {appointment.status !== "cancelled" ? <AppointmentQuestionnaireLink appointmentId={appointment.id} /> : null}
+          </>
         ) : (
           <ul className="space-y-2">
             {questions.map((question) => {

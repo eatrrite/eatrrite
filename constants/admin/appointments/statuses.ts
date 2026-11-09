@@ -22,3 +22,10 @@ export const APPOINTMENT_STATUS_FILTER_OPTIONS = [
     label: APPOINTMENT_STATUS_LABELS[status],
   })),
 ] as const;
+
+/** Payment filter on the Appointments list, from payment_done. */
+export const APPOINTMENT_PAYMENT_FILTER_OPTIONS = [
+  { value: "all", label: "All payments" },
+  { value: "paid", label: "Paid" },
+  { value: "due", label: "Payment due" },
+] as const;

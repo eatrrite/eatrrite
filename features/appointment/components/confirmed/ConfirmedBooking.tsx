@@ -27,7 +27,7 @@ export function ConfirmedBooking({ booking, questions }: { booking: Booking; que
 
   return (
     <div className="er-container grid items-start gap-10 lg:grid-cols-[1fr_2fr]">
-      <ConfirmedSummary done={done} details={{ name: booking.name, service: booking.service, date: booking.date, time: booking.time }} />
+      <ConfirmedSummary done={done} paid={booking.paid} details={{ name: booking.name, service: booking.service, date: booking.date, time: booking.time }} />
       <div ref={panel} tabIndex={-1} className="scroll-mt-32 rounded-xl border border-border bg-white p-6 outline-none md:p-8">
         {done ? <MeetStatus link={booking.meetLink ?? ""} /> : <QuestionnaireForm booking={booking} questions={questions} />}
       </div>
