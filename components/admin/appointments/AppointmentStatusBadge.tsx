@@ -7,12 +7,22 @@ import {
 import type { AppointmentStatus } from "@/types/admin/appointment";
 import { cn } from "cn";
 
-const APPOINTMENT_STATUS_TONES: Record<AppointmentStatus, StatusTone> = {
+export const APPOINTMENT_STATUS_TONES: Record<AppointmentStatus, StatusTone> = {
   upcoming: "pending",
   completed: "success",
   "not-attended": "muted",
-  cancelled: "danger",
+  // Grey, not red: red is kept for what needs action (a payment due), and a cancelled one needs none.
+  cancelled: "muted",
 };
+
+/**
+ * Colour for an appointment's avatar: pink while its fee is due (needs action), otherwise the
+ * status chip's colour, so the avatar and the chip in a row agree.
+ */
+export function appointmentAvatarTone(appointment: { status: AppointmentStatus; paymentDone: boolean }) {
+  const due = !appointment.paymentDone && appointment.status !== "cancelled";
+  return STATUS_TONES[due ? "danger" : APPOINTMENT_STATUS_TONES[appointment.status]];
+}
 
 type AppointmentStatusBadgeProps = {
   status: AppointmentStatus;

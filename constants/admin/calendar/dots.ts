@@ -15,5 +15,5 @@ export const APPOINTMENT_STATUS_DOT_TONE: Record<AppointmentStatus, StatusTone> 
     upcoming: "pending",
     completed: "success",
     "not-attended": "muted",
-    cancelled: "danger",
+    cancelled: "muted",
   };

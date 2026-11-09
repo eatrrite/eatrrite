@@ -11,14 +11,16 @@ const toneFor = (name: string) =>
 type DashboardAvatarProps = {
   name: string;
   className?: string;
+  /** Colour classes to use instead of the name's colour (an appointment's status tone). */
+  toneClass?: string;
 };
 
-export function DashboardAvatar({ name, className }: DashboardAvatarProps) {
+export function DashboardAvatar({ name, className, toneClass }: DashboardAvatarProps) {
   return (
     <span
       className={cn(
         "inline-flex size-9 shrink-0 items-center justify-center rounded-full font-heading text-xs font-bold ring-2 ring-white shadow-xs",
-        ICON_TONES[toneFor(name)],
+        toneClass ?? ICON_TONES[toneFor(name)],
         className,
       )}
       aria-hidden
