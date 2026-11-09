@@ -17,6 +17,7 @@ export function FounderBadge({ className }: { className?: string }) {
         aria-hidden
         className="inline-flex size-8 shrink-0 items-center justify-center rounded-full bg-primary text-white ring-2 ring-primary/25 sm:size-9"
       >
+        
         <Sprout className="size-4 sm:size-[1.125rem] text-white" strokeWidth={2.2} />
       </span>
       <span className="min-w-0">
