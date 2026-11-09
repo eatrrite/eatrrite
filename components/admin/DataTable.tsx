@@ -29,8 +29,6 @@ type DataTableProps<T> = {
   selection?: TableSelection;
   /** How a row is read out by screen readers next to its tick box. */
   rowLabel?: (row: T) => string;
-  /** "muted" fades a closed row (a cancelled appointment). */
-  rowTone?: (row: T) => "muted" | undefined;
   /** Below lg the table keeps this width and scrolls sideways instead of squashing. */
   minWidthClass?: string;
 };
@@ -53,7 +51,6 @@ export function DataTable<T>({
   resetKey,
   selection,
   rowLabel,
-  rowTone,
   minWidthClass = "min-w-[28rem]",
 }: DataTableProps<T>) {
   const { page, pageCount, pageItems, setPage } = usePagination(rows, pageSize, resetKey);
@@ -106,7 +103,6 @@ export function DataTable<T>({
                   onOpen={onRowSelect ? () => onRowSelect(row) : undefined}
                   selection={selection}
                   label={rowLabel?.(row) ?? "row"}
-                  tone={rowTone?.(row)}
                 />
               );
             })

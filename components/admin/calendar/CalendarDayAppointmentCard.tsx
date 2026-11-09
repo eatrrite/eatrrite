@@ -2,7 +2,8 @@
 
 import { ChevronRight, FileText } from "lucide-react";
 import { PaymentActionBadge } from "@/components/admin/appointments/AppointmentPaymentRow";
-import { AppointmentStatusBadge, appointmentAvatarTone } from "@/components/admin/appointments/AppointmentStatusBadge";
+import { AppointmentStatusBadge } from "@/components/admin/appointments/AppointmentStatusBadge";
+import { paymentAvatarTone } from "@/utils/admin/paymentState";
 import { DashboardAvatar } from "@/components/admin/dashboard/DashboardAvatar";
 import type { Appointment } from "@/types/admin/appointment";
 import { appointmentEndTime } from "@/utils/admin/calendarTime";
@@ -38,7 +39,7 @@ export function CalendarDayAppointmentCard({
 
       <div className="min-w-0 flex-1">
         <div className="flex items-start gap-2">
-          <DashboardAvatar name={leadName} toneClass={appointmentAvatarTone(appointment)} className="size-8 text-[10px]" />
+          <DashboardAvatar name={leadName} toneClass={paymentAvatarTone(appointment)} className="size-8 text-[10px]" />
           <div className="min-w-0 flex-1">
             <div className="flex items-start justify-between gap-2">
               <div className="min-w-0">

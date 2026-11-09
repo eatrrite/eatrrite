@@ -30,3 +30,18 @@ export const PAYMENT_STATUS_LABELS: Record<PaymentStatus, string> = {
   due: "Due",
   refunded: "Refunded",
 };
+
+/**
+ * The only colours in the appointment lists come from the payment: green done, red on pink due,
+ * blue refunded; grey when there is nothing to show. `text` is the line under the name, `avatar`
+ * the initials circle.
+ */
+export const PAYMENT_TONES: Record<PaymentState | "none", { text: string; avatar: string }> = {
+  done: { text: "text-green-700", avatar: "bg-green-100 text-green-800" },
+  due: { text: "text-alert-text", avatar: "bg-alert-bg text-alert-text" },
+  refunded: { text: "text-sky-700", avatar: "bg-sky-100 text-sky-800" },
+  none: { text: "text-muted-foreground", avatar: "bg-pill text-muted-foreground" },
+};
+
+export const paymentAvatarTone = (item: Pick<Appointment, "status" | "paymentStatus">) =>
+  PAYMENT_TONES[paymentState(item) ?? "none"].avatar;

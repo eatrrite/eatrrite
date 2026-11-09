@@ -74,7 +74,6 @@ export function AppointmentsTable() {
           resetKey={JSON.stringify(filters)}
           selection={bulk.selection}
           rowLabel={(item) => `${getLead(item.leadId)?.name ?? "Unknown"}, ${item.date} ${item.time}${paymentLabel(item)}`}
-          rowTone={(item) => (item.status === "cancelled" ? "muted" : undefined)}
           empty={
             appointments.length === 0 ? (
               <EmptyState image="appointments" title="No appointments yet" description="Website bookings appear here after payment, or add one yourself." />
