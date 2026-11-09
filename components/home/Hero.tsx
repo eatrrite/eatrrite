@@ -23,7 +23,7 @@ export function Hero() {
   const { hero } = home;
   const [start, highlight] = splitTitle(hero.title);
   return (
-    <section className="relative flex min-h-[70vh] items-center overflow-hidden text-white md:min-h-[85vh] er-md:py-30 er-md:pb-20">
+    <section className="relative flex min-h-[70vh] items-center overflow-hidden text-white md:min-h-[85vh] er-md:pb-0">
       <HeroSlides slides={hero.slides} />
       <div className="absolute inset-0 z-2 bg-[linear-gradient(90deg,rgba(1,78,78,0.82),rgba(1,78,78,0.35))]" />
       <div className="er-container relative z-3 py-16">
