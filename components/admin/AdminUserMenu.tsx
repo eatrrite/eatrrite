@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import {
   ChevronDown,
@@ -22,7 +22,7 @@ import {
 import { useAdminProfile } from "@/hooks/admin/useAdminProfile";
 
 type AdminUserMenuProps = {
-  onLogout: () => void;
+  onLogout: () => Promise<void>;
 };
 
 export function AdminUserMenu({ onLogout }: AdminUserMenuProps) {
@@ -30,6 +30,8 @@ export function AdminUserMenu({ onLogout }: AdminUserMenuProps) {
   const profile = useAdminProfile();
   const [menuOpen, setMenuOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
+  // Stays true from "Log Out" until the login page has loaded, so the dialog shows "Logging out…".
+  const [loggingOut, startLogout] = useTransition();
 
   const go = (href: string) => {
     setMenuOpen(false);
@@ -107,7 +109,10 @@ export function AdminUserMenu({ onLogout }: AdminUserMenuProps) {
         cancelLabel="Cancel"
         confirmLabel="Log Out"
         confirmVariant="destructive"
-        onConfirm={onLogout}
+        closeOnConfirm={false}
+        pending={loggingOut}
+        pendingLabel="Logging out…"
+        onConfirm={() => startLogout(onLogout)}
       />
     </>
   );

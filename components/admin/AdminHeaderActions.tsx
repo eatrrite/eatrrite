@@ -7,7 +7,7 @@ import { AdminUserMenu } from "@/components/admin/AdminUserMenu";
 import { Button } from "@/components/ui/button";
 
 type AdminHeaderActionsProps = {
-  onLogout: () => void;
+  onLogout: () => Promise<void>;
 };
 
 export function AdminHeaderActions({ onLogout }: AdminHeaderActionsProps) {

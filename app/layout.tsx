@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Caveat, Libre_Baskerville, Merriweather } from "next/font/google";
+import { env } from "@/config/env";
 import { BRAND } from "@/constants/brand";
 import "./globals.css";
 
@@ -24,7 +25,7 @@ const caveat = Caveat({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(BRAND.url),
+  metadataBase: new URL(env.siteUrl()),
   title: `${BRAND.name} - Nutritionist, Holistic Health and Wellness`,
   description: BRAND.description,
   applicationName: BRAND.name,

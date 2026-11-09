@@ -9,7 +9,8 @@ import { ADMIN_ROUTES } from "@/features/auth/utils/routes";
 
 const text = (form: FormData, key: string) => String(form.get(key) ?? "").trim();
 
-// Signs in with email and password, makes the profile row on first sign-in, then opens the admin.
+// Signs in with email and password, then opens the admin. The admin layout makes the profile row
+// on first sign-in (loadAdminData), so login does not wait for it twice.
 export async function signInAction(_state: AuthFormState, form: FormData): Promise<AuthFormState> {
   const email = text(form, "email").toLowerCase();
   const password = String(form.get("password") ?? "");
@@ -18,7 +19,6 @@ export async function signInAction(_state: AuthFormState, form: FormData): Promi
 
   const { data, error } = await neonAuth().signIn.email({ email, password });
   if (error || !data?.user) return { error: error?.message || "Email or password is incorrect." };
-  await ensureProfile({ id: data.user.id, email, name: data.user.name ?? "" });
   redirect(ADMIN_ROUTES.home);
 }
 

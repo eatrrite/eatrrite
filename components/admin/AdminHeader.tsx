@@ -8,7 +8,7 @@ import { SHELL_HEADER_MOTION } from "@/constants/admin/adminShell";
 type AdminHeaderProps = {
   title: string;
   onMobileMenuClick: () => void;
-  onLogout: () => void;
+  onLogout: () => Promise<void>;
 };
 
 export function AdminHeader({

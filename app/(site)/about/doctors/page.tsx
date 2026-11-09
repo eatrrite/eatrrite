@@ -6,7 +6,7 @@ import { PageBanner } from "@/components/layout/PageBanner";
 
 export const metadata: Metadata = pageMetadata({
   title: "Doctors on Board | Eat Rrite",
-  description: "Meet the physician who works alongside Eat Rrite's nutrition coaching when your reports need more than food.",
+  description: "Meet the physician who works alongside Eat Rrite's nutrition programs when your reports need more than food.",
   path: ROUTES.doctors,
 });
 

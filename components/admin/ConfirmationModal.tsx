@@ -1,5 +1,6 @@
 "use client";
 
+import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -19,6 +20,11 @@ type ConfirmationModalProps = {
   confirmLabel?: string;
   confirmVariant?: "default" | "destructive";
   onConfirm: () => void;
+  /** Keep the dialog open after confirming (the caller closes it, or the page changes). */
+  closeOnConfirm?: boolean;
+  /** While true, both buttons are disabled and the confirm button shows `pendingLabel`. */
+  pending?: boolean;
+  pendingLabel?: string;
 };
 
 export function ConfirmationModal({
@@ -30,9 +36,12 @@ export function ConfirmationModal({
   confirmLabel = "Confirm",
   confirmVariant = "default",
   onConfirm,
+  closeOnConfirm = true,
+  pending = false,
+  pendingLabel,
 }: ConfirmationModalProps) {
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={(next) => !pending && onOpenChange(next)}>
       <DialogContent className="sm:max-w-md" showCloseButton>
         <DialogHeader>
           <DialogTitle className="font-heading text-xl font-bold">
@@ -46,6 +55,7 @@ export function ConfirmationModal({
           <Button
             type="button"
             variant="outline"
+            disabled={pending}
             onClick={() => onOpenChange(false)}
           >
             {cancelLabel}
@@ -53,12 +63,20 @@ export function ConfirmationModal({
           <Button
             type="button"
             variant={confirmVariant}
+            disabled={pending}
             onClick={() => {
               onConfirm();
-              onOpenChange(false);
+              if (closeOnConfirm) onOpenChange(false);
             }}
           >
-            {confirmLabel}
+            {pending ? (
+              <>
+                <Loader2 className="animate-spin" />
+                {pendingLabel ?? confirmLabel}
+              </>
+            ) : (
+              confirmLabel
+            )}
           </Button>
         </DialogFooter>
       </DialogContent>

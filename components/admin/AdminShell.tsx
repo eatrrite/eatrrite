@@ -54,7 +54,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
         <AdminHeader
           title={title}
           onMobileMenuClick={() => setIsMobileNavOpen(true)}
-          onLogout={() => void signOutAction()}
+          onLogout={signOutAction}
         />
         <main
           className="min-h-0 flex-1 overflow-y-auto px-4 py-6 text-left sm:px-6 lg:px-8"

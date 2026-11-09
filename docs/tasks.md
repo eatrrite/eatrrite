@@ -376,7 +376,7 @@ Copied from the Notion page "Eat Rrite: Phase 1 and Phase 2 checklist" (Mukta's 
 - [x] Footer: copyright year updates automatically
 - [x] Footer disclaimer line: "General guidance, not medical advice. With a medical condition, follow your doctor."
 - [x] Remove the stray "meta-description / meta-viewport / title" text on About and Booking
-- [x] Favicon (logo mark) at 32×32 and 180×180
+- [x] Favicon (logo mark): 16/32/48 favicon on a white tile, 512 icon, 180 Apple icon, 192/512 and maskable manifest icons, all from the full (uncut) tree mark; share previews use the deployment's own address (`SITE_URL`)
 - [x] Open Graph share preview on every page: title, description and 1200×630 image
 
 **1.5 Home page (brief §5.1)**
@@ -428,6 +428,7 @@ Copied from the Notion page "Eat Rrite: Phase 1 and Phase 2 checklist" (Mukta's 
 **1.10 Page titles and descriptions (brief §6.2)**
 - [x] Home, About, Programs, the four program pages, Pricing, Booking, Contact, Blog and Media use the brief's titles and descriptions (`utils/seo.ts`)
 - [x] Every page has a unique title, a unique description and exactly one H1
+- [x] Online, worldwide brand: no city names and no "coaching" in any title or description. Home title is Mukta's answer from Notion ("Eat Rrite | Holistic Nutrition and Wellbeing"), its description the credentials line
 
 **1.11 Technical SEO (brief §6.5)**
 - [x] /sitemap.xml lists only live, final pages and updates itself

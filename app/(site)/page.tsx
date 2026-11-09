@@ -17,8 +17,8 @@ import { TestimonialsSection } from "@/components/home/TestimonialsSection";
 import { WhyChooseSection } from "@/components/home/WhyChooseSection";
 
 export const metadata: Metadata = pageMetadata({
-  title: "Eat Rrite | Holistic Nutrition Coaching in Hyderabad & Dehradun",
-  description: "Online nutrition coaching with the Indian food you already eat. Weight, diabetes, gut, PMOS and perimenopause care with Mukta Patil.",
+  title: "Eat Rrite | Holistic Nutrition and Wellbeing",
+  description: "Nutritionist, Yoga Teacher & Life Coach · Since 2018 · Featured in The New Indian Express and Deccan Chronicle · Clients in 10+ countries",
   path: ROUTES.home,
 });
 
