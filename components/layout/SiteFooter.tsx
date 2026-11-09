@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Clock3, Mail, MapPin, Phone } from "lucide-react";
 import { SocialLinks } from "@/components/layout/SocialLinks";
 import { BlurIn } from "@/components/motion/BlurIn";
+import { footerViewport } from "@/constants/motion";
 import { BRAND } from "@/constants/brand";
 import programs from "@/constants/programs/programs.json";
 import { FOOTER_LINKS, programPath } from "@/constants/routes";
@@ -27,14 +28,14 @@ export async function SiteFooter() {
   return (
     <footer className="bg-white">
       <div className="er-container grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
-        <BlurIn className="flex flex-col gap-4">
+        <BlurIn viewport={footerViewport} className="flex flex-col gap-4">
           <Image src={BRAND.logo} alt={BRAND.name} width={1162} height={332} className="h-12 w-auto self-start object-contain" />
           <p className="m-0 max-w-xs text-sm leading-relaxed text-text">
             Science-backed, culturally-rooted nutrition coaching — so you learn how to Eat Rrite for life, without crash diets.
           </p>
           <SocialLinks />
         </BlurIn>
-        <BlurIn delay={0.06}>
+        <BlurIn viewport={footerViewport} delay={0.06}>
           <FooterTitle>Quick Links</FooterTitle>
           <ul className="mt-4 mb-0 grid gap-2.5 p-0">
             {FOOTER_LINKS.map(({ label, href }) => (
@@ -42,7 +43,7 @@ export async function SiteFooter() {
             ))}
           </ul>
         </BlurIn>
-        <BlurIn delay={0.12}>
+        <BlurIn viewport={footerViewport} delay={0.12}>
           <FooterTitle>Programs</FooterTitle>
           <ul className="mt-4 mb-0 grid gap-2.5 p-0">
             {programs.map((p) => (
@@ -50,7 +51,7 @@ export async function SiteFooter() {
             ))}
           </ul>
         </BlurIn>
-        <BlurIn delay={0.18}>
+        <BlurIn viewport={footerViewport} delay={0.18}>
           <FooterTitle>Get In Touch</FooterTitle>
           <ul className="mt-4 mb-0 grid gap-3 p-0 text-sm text-text">
             <li className="flex items-center gap-2.5"><Mail className="size-4 shrink-0 text-primary" /><a className={link} href={BRAND.emailHref}>{BRAND.email}</a></li>

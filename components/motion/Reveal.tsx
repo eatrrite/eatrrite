@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { easePower3Out, revealPresets, type RevealPreset } from "@/constants/motion";
+import { easePower3Out, footerViewport, revealPresets, revealViewport, type RevealPreset } from "@/constants/motion";
 
 // Framer Motion version of revealOnEnter() from the PHP main.js.
 // It animates this wrapper, so hover transforms on the child keep working.
@@ -33,7 +33,7 @@ export function Reveal({
         ? { animate: shown }
         : {
             whileInView: shown,
-            viewport: { once: true, amount: p.amount, margin: p.margin },
+            viewport: preset === "footer" ? footerViewport : revealViewport,
           })}
       transition={{ duration: duration ?? p.duration, delay, ease: easePower3Out }}
     >

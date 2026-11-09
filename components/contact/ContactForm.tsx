@@ -40,7 +40,7 @@ export function ContactForm() {
         <div className="space-y-2">
           <Label htmlFor="contact-program">Program of interest</Label>
           <Select items={PROGRAMS.map((p) => ({ label: p, value: p }))} defaultValue={PROGRAMS[0]}>
-            <SelectTrigger id="contact-program" className="w-full"><SelectValue /></SelectTrigger>
+            <SelectTrigger id="contact-program" className="w-full min-w-0"><SelectValue className="block min-w-0 truncate" /></SelectTrigger>
             <SelectContent>
               {PROGRAMS.map((p) => <SelectItem key={p} value={p}>{p}</SelectItem>)}
             </SelectContent>

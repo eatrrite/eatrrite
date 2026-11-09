@@ -28,8 +28,8 @@ export default function ContactPage() {
           <p className="mt-5 mb-0 font-heading text-4xl font-bold text-primary/15 tabular-nums sm:text-5xl">{BRAND.phone}</p>
         </BlurIn>
         <div className="mt-10 grid gap-8 lg:grid-cols-2">
-          <BlurIn><ContactForm /></BlurIn>
-          <BlurIn delay={0.1}><ContactAside /></BlurIn>
+          <BlurIn className="min-w-0"><ContactForm /></BlurIn>
+          <BlurIn delay={0.1} className="min-w-0"><ContactAside /></BlurIn>
         </div>
       </PageSection>
     </>

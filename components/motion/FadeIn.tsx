@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import { motion, type HTMLMotionProps } from "framer-motion";
 import { cn } from "cn";
+import { revealViewport as inViewViewport } from "@/constants/motion";
 
 type FadeInProps = HTMLMotionProps<"div"> & {
   delay?: number;
@@ -13,12 +14,7 @@ type FadeInProps = HTMLMotionProps<"div"> & {
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-/** Reveal as soon as the element's top edge rises 8% above the bottom of the screen (same as BlurIn). */
-const inViewViewport = {
-  once: true,
-  amount: 0,
-  margin: "0px 0px -8% 0px",
-} as const;
+// Trigger point: revealViewport in constants/motion.ts (same as BlurIn and Reveal).
 
 export function FadeIn({
   children,

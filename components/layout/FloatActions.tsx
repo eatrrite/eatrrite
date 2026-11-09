@@ -23,20 +23,22 @@ export function FloatActions() {
         aria-label="Quick contact"
         className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-white/95 backdrop-blur lg:hidden"
       >
-        <div className="er-container grid grid-cols-2 gap-3 py-3">
+        {/* Under 380px two labelled halves no longer fit, so WhatsApp becomes an icon button
+            (its label stays for screen readers) and Book Appointment takes the rest. */}
+        <div className="er-container grid grid-cols-2 gap-3 py-3 max-[379px]:grid-cols-[auto_1fr] max-[379px]:gap-2">
           <Button
             size="lg"
             variant="outline"
-            className="w-full border-whatsapp text-ink"
+            className="w-full border-whatsapp text-ink max-[379px]:w-11 max-[379px]:px-0"
             nativeButton={false}
             render={<a href={href} target="_blank" rel="noopener" />}
           >
-            <Icon icon={faWhatsapp} className="text-whatsapp" />
-            WhatsApp
+            <Icon icon={faWhatsapp} className="text-whatsapp max-[379px]:text-xl" />
+            <span className="max-[379px]:sr-only">WhatsApp</span>
           </Button>
           <Button
             size="lg"
-            className="w-full"
+            className="w-full min-w-0"
             nativeButton={false}
             render={<Link href={ROUTES.appointment} />}
           >

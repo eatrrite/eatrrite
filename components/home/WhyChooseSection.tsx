@@ -10,7 +10,7 @@ export function WhyChooseSection() {
   const { why } = home;
   return (
     <PageSection id="why-choose" tone="mint" food={FLOATING_FOOD.why}>
-      <div aria-hidden className="pointer-events-none absolute top-1/2 -left-24 size-[28rem] -translate-y-1/2 rounded-full bg-secondary/70 blur-3xl" />
+      <div aria-hidden className="pointer-events-none absolute top-1/2 -left-24 size-[20rem] -translate-y-1/2 sm:size-[28rem] rounded-full bg-secondary/70 blur-3xl" />
       <div className="relative grid items-center gap-12 lg:grid-cols-[2fr_3fr] lg:gap-16">
         <BlurIn className="mx-auto w-full max-w-sm lg:mx-0 lg:max-w-none">
           <div className="relative mx-auto flex aspect-square max-w-[26rem] items-center justify-center lg:max-w-none">
