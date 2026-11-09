@@ -3,6 +3,8 @@ import { BlurIn } from "@/components/motion/BlurIn";
 import { FLOATING_FOOD } from "@/constants/home/floatingFood";
 import home from "@/constants/home/content.json";
 import { FounderStats } from "./FounderStats";
+import { BrandSeal } from "@/components/shared/BrandSeal";
+import { FounderBadge } from "@/components/shared/FounderBadge";
 import { PageSection } from "@/components/shared/section/PageSection";
 import { LinkButton } from "@/components/shared/section/LinkButton";
 import { SectionIntro } from "@/components/shared/section/SectionIntro";
@@ -18,9 +20,10 @@ export function AboutSection() {
           <BlurIn delay={0.2}>
             <p className="mt-3 mb-0 max-w-xl text-text">{about.text}</p>
           </BlurIn>
-          <BlurIn delay={0.25} className="relative mt-8 max-w-md">
+          <BlurIn delay={0.25} className="relative mt-8 mb-6 max-w-md">
             <Image src={about.image} alt="Mukta Patil" width={934} height={1046} sizes="(max-width: 1024px) 100vw, 448px" className="aspect-[4/3] w-full rounded-lg object-cover object-top" />
-            <Image src={about.sideImage} alt="Nourishing bowl" width={240} height={240} className="absolute -right-6 -bottom-6 hidden size-28 rounded-full border-4 border-white object-cover shadow-card sm:block" />
+            <BrandSeal className="absolute -top-5 -right-5 hidden size-24 sm:inline-flex" />
+            <FounderBadge className="absolute -bottom-5 left-3 sm:left-4" />
           </BlurIn>
         </div>
         <div className="min-w-0">

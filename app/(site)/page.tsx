@@ -28,12 +28,11 @@ export default function HomePage() {
       <JsonLd data={faqData(home.faq.items)} />
       <Hero />
       <CredentialsStrip />
-      <ProgramsSection />
-      <Marquee />
       <AboutSection />
+      <Marquee />
+      <ProgramGridSection />
       <WhyChooseSection />
       <ProcessSection />
-      <ProgramGridSection />
       <FaqSection />
       {/* Blog section hidden until the Media articles are live (brief §5.1). */}
       <TestimonialsSection />

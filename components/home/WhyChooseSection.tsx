@@ -13,9 +13,10 @@ export function WhyChooseSection() {
       <div aria-hidden className="pointer-events-none absolute top-1/2 -left-24 size-[28rem] -translate-y-1/2 rounded-full bg-secondary/70 blur-3xl" />
       <div className="relative grid items-center gap-12 lg:grid-cols-[2fr_3fr] lg:gap-16">
         <BlurIn className="mx-auto w-full max-w-sm lg:mx-0 lg:max-w-none">
-          <div className="relative mx-auto flex aspect-square max-w-[22rem] items-center justify-center lg:max-w-none">
+          <div className="relative mx-auto flex aspect-square max-w-[26rem] items-center justify-center lg:max-w-none">
             <div aria-hidden className="absolute inset-[8%] rounded-full bg-soft" />
-            <Image src="/images/about/balanced-indian-meal-bowl.jpg" alt="A balanced Indian meal" width={1200} height={1200} sizes="(max-width: 1024px) 320px, 40vw" className="relative z-10 aspect-square w-[78%] rounded-full object-cover shadow-card" />
+            {/* A transparent illustration, so it sits on the soft circle with no frame of its own. */}
+            <Image src="/images/about/food-as-medicine-illustration.webp" alt="A salad bowl with fruit, greens, a water bottle and a yoga mat: food as medicine" width={804} height={488} sizes="(max-width: 1024px) 416px, 40vw" className="relative z-10 h-auto w-full drop-shadow-sm" />
           </div>
         </BlurIn>
         <div className="min-w-0">
