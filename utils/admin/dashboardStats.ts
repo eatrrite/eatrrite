@@ -1,11 +1,5 @@
-import {
-  CalendarCheck2,
-  CalendarDays,
-  IndianRupee,
-  Users,
-} from "lucide-react";
+import { CalendarCheck2, CalendarClock, IndianRupee, WalletCards } from "lucide-react";
 import type { Appointment } from "@/types/admin/appointment";
-import type { Lead } from "@/types/admin/lead";
 import type { DashboardFilters, StatsCardModel } from "@/types/admin/dashboard";
 import {
   getCustomPreviousWindow,
@@ -13,86 +7,40 @@ import {
   getPreviousWindow,
   getRangeWindow,
   trendLabelFor,
+  type DateWindow,
 } from "@/utils/admin/dashboardRange";
-import {
-  countAppointments,
-  countCompleted,
-  countLeads,
-  percentChange,
-} from "@/utils/admin/dashboardStatsCount";
+import { countDue, countPaid, countWithStatus, percentChange } from "@/utils/admin/dashboardStatsCount";
 
+type Count = (window: DateWindow) => number;
+
+// The four dashboard cards: upcoming, completed, payments due and revenue (fees received × fee).
 export function buildDashboardStats(
-  leads: Lead[],
   appointments: Appointment[],
   filters: DashboardFilters,
   reference: Date,
   feeRupees: number,
 ): StatsCardModel[] {
   const hasCustom = Boolean(filters.dateRange?.from);
-  const current = hasCustom
-    ? getCustomWindow(filters.dateRange!)
-    : getRangeWindow(filters.range, reference);
-  const previous = hasCustom
-    ? getCustomPreviousWindow(filters.dateRange!)
-    : getPreviousWindow(filters.range, reference);
+  const current = hasCustom ? getCustomWindow(filters.dateRange!) : getRangeWindow(filters.range, reference);
+  const previous = hasCustom ? getCustomPreviousWindow(filters.dateRange!) : getPreviousWindow(filters.range, reference);
   const trendLabel = trendLabelFor(filters.range, hasCustom);
+  if (!current) return [];
 
-  if (!current) {
-    return [];
-  }
-
-  const leadNow = countLeads(leads, current);
-  const aptNow = countAppointments(appointments, filters, current);
-  const doneNow = countCompleted(appointments, filters, current);
-  const revenueNow = doneNow * feeRupees;
-
-  const leadPrev = previous ? countLeads(leads, previous) : null;
-  const aptPrev = previous
-    ? countAppointments(appointments, filters, previous)
-    : null;
-  const donePrev = previous
-    ? countCompleted(appointments, filters, previous)
-    : null;
-  const revenuePrev = donePrev === null ? null : donePrev * feeRupees;
+  // The value now, and its change against the window before (none for "all time").
+  const measure = (count: Count) => {
+    const now = count(current);
+    const before = previous ? count(previous) : null;
+    return { now, trendPercent: before === null ? null : percentChange(now, before) };
+  };
+  const upcoming = measure((w) => countWithStatus(appointments, "upcoming", filters, w));
+  const completed = measure((w) => countWithStatus(appointments, "completed", filters, w));
+  const due = measure((w) => countDue(appointments, filters, w));
+  const revenue = measure((w) => countPaid(appointments, filters, w) * feeRupees);
 
   return [
-    {
-      id: "leads",
-      label: "Total Leads",
-      value: String(leadNow),
-      icon: Users,
-      tone: "teal",
-      trendPercent:
-        leadPrev === null ? null : percentChange(leadNow, leadPrev),
-      trendLabel,
-    },
-    {
-      id: "appointments",
-      label: "Appointments",
-      value: String(aptNow),
-      icon: CalendarDays,
-      tone: "gold",
-      trendPercent: aptPrev === null ? null : percentChange(aptNow, aptPrev),
-      trendLabel,
-    },
-    {
-      id: "completed",
-      label: "Completed",
-      value: String(doneNow),
-      icon: CalendarCheck2,
-      tone: "leaf",
-      trendPercent: donePrev === null ? null : percentChange(doneNow, donePrev),
-      trendLabel,
-    },
-    {
-      id: "revenue",
-      label: "Revenue",
-      value: `₹${revenueNow.toLocaleString("en-IN")}`,
-      icon: IndianRupee,
-      tone: "coral",
-      trendPercent:
-        revenuePrev === null ? null : percentChange(revenueNow, revenuePrev),
-      trendLabel,
-    },
+    { id: "upcoming", label: "Appointments Upcoming", value: String(upcoming.now), icon: CalendarClock, tone: "teal", trendPercent: upcoming.trendPercent, trendLabel },
+    { id: "completed", label: "Appointments Completed", value: String(completed.now), icon: CalendarCheck2, tone: "leaf", trendPercent: completed.trendPercent, trendLabel },
+    { id: "due", label: "Due Payments", value: String(due.now), icon: WalletCards, tone: "gold", trendPercent: due.trendPercent, trendLabel },
+    { id: "revenue", label: "Revenue", value: `₹${revenue.now.toLocaleString("en-IN")}`, icon: IndianRupee, tone: "coral", trendPercent: revenue.trendPercent, trendLabel },
   ];
 }

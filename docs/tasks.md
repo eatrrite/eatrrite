@@ -314,6 +314,18 @@ Details in `requirements.md` (What the PHP Site Has That Next.js Still Needs).
 - [x] Cohort application form: left out, `/cohort` books the normal consultation
 - [x] Snackbar page and orders: left out on purpose (product line)
 
+## Phase 11: Admin Payments, Questionnaire Link and List Tools
+
+- [x] `payment_done` on appointments (`005_payment_status.sql` for an existing database; existing bookings marked paid): Paid/Due in the appointment form, "Payment due" badge on the list and calendar cards, "Mark as paid" in the details, payment filter; the confirmation page says "Payment received" only when paid
+- [x] Questionnaire optional when the admin adds an appointment; unfinished answers are not saved. The details show a copyable questionnaire link while it is empty; the confirmation page opens admin-added bookings too, and sending it keeps a Meet link the admin already made
+- [x] Dashboard cards: Appointments Upcoming, Appointments Completed, Due Payments, Revenue (paid × fee, by `paid_at`); admin data reloads when the tab regains focus (at most every 15 seconds)
+- [x] Leads and Appointments: one date filter (All dates, Today, This week, This month, Custom range) shared in `components/shared/DateFilter.tsx`; sort (appointments: recently edited, date oldest or newest; leads: newest or oldest added); search on the left, filters on the right; toolbar stays pinned while the list scrolls (`StickyToolbar`)
+- [x] "Add lead" and "Add appointment" in the page header (`AddRecordButton`, `AdminPageHeader` actions)
+- [x] Details panel: two-way sticky beside the list, no scrollbar of its own (`useDetailsPanel`)
+- [x] Time dropdown no longer warns about switching from uncontrolled to controlled (`TimeSelect` uses `null` for no time)
+- [x] Seed bookings are never dated in the future (`004_dashboard_seed.sql`)
+- [ ] On the dev database, move sample rows dated in the future back to now, so the dashboard counts them (SQL in `database.md`, step 5)
+
 
 ---
 

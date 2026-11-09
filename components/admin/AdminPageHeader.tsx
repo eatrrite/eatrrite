@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import { HeroMotion } from "@/components/motion/FadeIn";
+import { cn } from "cn";
 
 type AdminPageHeaderProps = {
   eyebrow?: string;
@@ -9,18 +10,29 @@ type AdminPageHeaderProps = {
   title: ReactNode;
   description?: ReactNode;
   children?: ReactNode;
+  /**
+   * The actions are small (a button or two): put them right of the title from md up, instead of
+   * from xl up as for wider content such as the Schedule page's note.
+   */
+  compactActions?: boolean;
 };
 
-/** Shared admin page title row; pass actions as `children`. */
+/** Shared admin page title row; pass actions (an "Add …" button, a note) as `children`. */
 export function AdminPageHeader({
   eyebrow,
   lead,
   title,
   description,
   children,
+  compactActions = false,
 }: AdminPageHeaderProps) {
   return (
-    <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
+    <div
+      className={cn(
+        "flex flex-col gap-4",
+        compactActions ? "md:flex-row md:items-end md:justify-between" : "xl:flex-row xl:items-end xl:justify-between",
+      )}
+    >
       <div className="min-w-0">
         {eyebrow ? (
           <HeroMotion delay={0.05}>
@@ -54,7 +66,7 @@ export function AdminPageHeader({
         ) : null}
       </div>
       {children ? (
-        <HeroMotion delay={0.28} className="w-full shrink-0 xl:w-auto">
+        <HeroMotion delay={0.28} className={cn("w-full shrink-0", compactActions ? "md:w-auto" : "xl:w-auto")}>
           {children}
         </HeroMotion>
       ) : null}

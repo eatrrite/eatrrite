@@ -9,11 +9,13 @@ import { LEAD_LIST_COLUMNS } from "@/components/admin/leads/leadColumns";
 import { LeadsToolbar } from "@/components/admin/leads/LeadsToolbar";
 import { BulkActionBar } from "@/components/admin/BulkActionBar";
 import { ConfirmationModal } from "@/components/admin/ConfirmationModal";
+import { StickyToolbar } from "@/components/admin/StickyToolbar";
 import { Button } from "@/components/ui/button";
 import { useBulkSelection } from "@/hooks/admin/useBulkSelection";
 import { useLeadBulkActions } from "@/hooks/admin/useLeadBulkActions";
 import { Trash2Icon } from "lucide-react";
 import { useConfirmDialog } from "@/hooks/admin/useConfirmDialog";
+import { useCreateRequest } from "@/hooks/admin/useCreateRequest";
 import { useSelectedRow } from "@/hooks/admin/useSelectedRow";
 import { DETAILS_PANEL_CLASS, useDetailsPanel } from "@/hooks/admin/useDetailsPanel";
 import { useAdminStore } from "@/stores/useAdminStore";
@@ -25,6 +27,8 @@ import { filterLeads } from "@/utils/admin/filterLeads";
 const INITIAL_FILTERS: LeadListFilters = {
   query: "",
   age: "all",
+  date: "all",
+  sort: "newest",
 };
 
 export function LeadsTable() {
@@ -43,6 +47,12 @@ export function LeadsTable() {
   const { ref: detailsRef, reveal: revealDetails } = useDetailsPanel();
   const bulk = useBulkSelection(rows, getId);
   const bulkActions = useLeadBulkActions(ask, bulk.clear);
+
+  // "Add lead" in the page header opens the form here.
+  useCreateRequest("lead", () => {
+    setEditing(null);
+    setOpen(true);
+  });
 
   const save = (input: LeadInput) => {
     const { title, description } = leadSaveToast(editing, input);
@@ -68,14 +78,9 @@ export function LeadsTable() {
 
   return (
     <div className="space-y-4">
-      <LeadsToolbar
-        filters={filters}
-        onChange={setFilters}
-        onAdd={() => {
-          setEditing(null);
-          setOpen(true);
-        }}
-      />
+      <StickyToolbar>
+        <LeadsToolbar filters={filters} onChange={setFilters} />
+      </StickyToolbar>
       <div className="grid gap-4 lg:grid-cols-[3fr_2fr]">
         <DataTable
           columns={LEAD_LIST_COLUMNS}

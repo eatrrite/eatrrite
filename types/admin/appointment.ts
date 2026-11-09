@@ -1,3 +1,4 @@
+import type { DateRange } from "react-day-picker";
 import type { QuestionnaireAnswers } from "@/features/appointment/types/questionnaire";
 
 export type AppointmentStatus =
@@ -22,6 +23,8 @@ export type Appointment = {
   paymentId?: string;
   /** The ₹800 fee is paid (website checkout, or marked paid by the admin). False: still due. */
   paymentDone: boolean;
+  /** When the fee was received (paid_at). Places revenue in the dashboard's date range. */
+  paidAt?: string;
   questionnaire: QuestionnaireAnswers;
   createdAt: string;
   updatedAt: string;
@@ -43,6 +46,12 @@ export type AppointmentListFilters = {
   status: "all" | AppointmentStatus;
   date: AppointmentDateFilter;
   payment: AppointmentPaymentFilter;
+  sort: AppointmentSort;
+  /** Appointments on days between these (replaces the date preset while set). */
+  dateRange?: DateRange;
 };
 
 export type AppointmentPaymentFilter = "all" | "paid" | "due";
+
+/** List order: last added or changed first (updated_at), or by appointment date and time. */
+export type AppointmentSort = "updated" | "date-asc" | "date-desc";

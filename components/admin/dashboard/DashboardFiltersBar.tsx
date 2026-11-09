@@ -4,7 +4,7 @@ import {
   DASHBOARD_RANGE_OPTIONS,
   DASHBOARD_STATUS_OPTIONS,
 } from "@/constants/admin/dashboard/filters";
-import { DateRangePicker } from "@/components/admin/forms/DateRangePicker";
+import { DateRangePicker } from "@/components/shared/DateRangePicker";
 import { FilterSelect } from "@/components/admin/forms/FilterSelect";
 import { useShowToast } from "@/hooks/useShowToast";
 import type { DashboardFilters } from "@/types/admin/dashboard";

@@ -46,6 +46,7 @@ export type AppointmentRow = {
   meet_link: string | null;
   payment_id: string | null;
   payment_done: boolean;
+  paid_at: Date | null;
   questionnaire: QuestionnaireAnswers;
   created_at: Date;
   updated_at: Date;
@@ -62,6 +63,7 @@ export const toAppointment = (row: AppointmentRow): Appointment => ({
   meetLink: optional(row.meet_link),
   paymentId: optional(row.payment_id),
   paymentDone: row.payment_done,
+  paidAt: row.paid_at ? iso(row.paid_at) : undefined,
   questionnaire: row.questionnaire ?? [],
   createdAt: iso(row.created_at),
   updatedAt: iso(row.updated_at),

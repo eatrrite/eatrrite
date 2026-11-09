@@ -85,7 +85,8 @@ planned as (
       when p.k % 9 = 0 then 'not-attended'
       else 'completed'
     end as status,
-    (p.day - (1 + p.k % 5)::int) + time '10:00' as booked_at
+    -- Booked 1 to 5 days before the slot, but never later than now (a booking is never in the future).
+    least((p.day - (1 + p.k % 5)::int) + time '10:00', (select at from now_ist)) as booked_at
   from picked p
   cross join settings s
 )

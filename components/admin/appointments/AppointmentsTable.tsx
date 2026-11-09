@@ -9,7 +9,9 @@ import { getAppointmentListColumns } from "@/components/admin/appointments/appoi
 import { AppointmentsToolbar } from "@/components/admin/appointments/AppointmentsToolbar";
 import { AppointmentBulkBar } from "@/components/admin/appointments/AppointmentBulkBar";
 import { ConfirmationModal } from "@/components/admin/ConfirmationModal";
+import { StickyToolbar } from "@/components/admin/StickyToolbar";
 import { useBulkSelection } from "@/hooks/admin/useBulkSelection";
+import { useCreateRequest } from "@/hooks/admin/useCreateRequest";
 import { useAppointmentTableActions } from "@/hooks/admin/useAppointmentTableActions";
 import { useSelectedRow } from "@/hooks/admin/useSelectedRow";
 import { DETAILS_PANEL_CLASS, useDetailsPanel } from "@/hooks/admin/useDetailsPanel";
@@ -23,6 +25,7 @@ const INITIAL_FILTERS: AppointmentListFilters = {
   status: "all",
   date: "all",
   payment: "all",
+  sort: "updated",
 };
 
 export function AppointmentsTable() {
@@ -37,6 +40,8 @@ export function AppointmentsTable() {
   const getId = useCallback((item: Appointment) => item.id, []);
   const [selectedId, selectRow, selected] = useSelectedRow(rows, getId);
   const { ref: detailsRef, reveal: revealDetails } = useDetailsPanel();
+  // "Add appointment" in the page header opens the form here.
+  useCreateRequest("appointment", actions.startCreate);
   const bulk = useBulkSelection(rows, getId);
   const { getLead } = actions;
   const columns = useMemo(
@@ -46,12 +51,9 @@ export function AppointmentsTable() {
 
   return (
     <div className="space-y-4">
-      <AppointmentsToolbar
-        filters={filters}
-        onChange={setFilters}
-        canAdd={leads.length > 0}
-        onAdd={actions.startCreate}
-      />
+      <StickyToolbar>
+        <AppointmentsToolbar filters={filters} onChange={setFilters} />
+      </StickyToolbar>
       <div className="grid gap-4 lg:grid-cols-[3fr_2fr]">
         <DataTable
           columns={columns}

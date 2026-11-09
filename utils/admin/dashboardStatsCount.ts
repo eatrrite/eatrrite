@@ -1,46 +1,41 @@
-import type { Appointment } from "@/types/admin/appointment";
-import type { Lead } from "@/types/admin/lead";
+import type { Appointment, AppointmentStatus } from "@/types/admin/appointment";
 import type { DashboardFilters, DashboardStatusFilter } from "@/types/admin/dashboard";
 import { isInWindow, type DateWindow } from "@/utils/admin/dashboardRange";
 
-function matchStatus(
-  appointment: Appointment,
-  status: DashboardStatusFilter,
-): boolean {
+function matchStatus(appointment: Appointment, status: DashboardStatusFilter): boolean {
   return status === "all" || appointment.status === status;
 }
 
-function inCreatedWindow(
-  item: { createdAt: string },
-  window: DateWindow,
-): boolean {
-  return isInWindow(item.createdAt, window);
+// Appointments booked in the window (created_at) that pass the status filter.
+function booked(appointments: Appointment[], filters: DashboardFilters, window: DateWindow) {
+  return appointments.filter((a) => matchStatus(a, filters.status) && isInWindow(a.createdAt, window));
 }
 
-export function countLeads(leads: Lead[], window: DateWindow) {
-  return leads.filter((p) => inCreatedWindow(p, window)).length;
-}
-
-export function countAppointments(
+export function countWithStatus(
   appointments: Appointment[],
+  status: AppointmentStatus,
   filters: DashboardFilters,
   window: DateWindow,
 ) {
-  return appointments.filter(
-    (a) => matchStatus(a, filters.status) && inCreatedWindow(a, window),
-  ).length;
+  return booked(appointments, filters, window).filter((a) => a.status === status).length;
 }
 
-export function countCompleted(
-  appointments: Appointment[],
-  filters: DashboardFilters,
-  window: DateWindow,
-) {
+/** Fee still due (payment_done false). A cancelled one is not owed. */
+export function countDue(appointments: Appointment[], filters: DashboardFilters, window: DateWindow) {
+  return booked(appointments, filters, window).filter((a) => !a.paymentDone && a.status !== "cancelled").length;
+}
+
+/**
+ * Fees received in the window, by when they were paid (paid_at, else the booking time). A
+ * cancelled booking is left out: its fee is usually refunded.
+ */
+export function countPaid(appointments: Appointment[], filters: DashboardFilters, window: DateWindow) {
   return appointments.filter(
     (a) =>
-      a.status === "completed" &&
+      a.paymentDone &&
+      a.status !== "cancelled" &&
       matchStatus(a, filters.status) &&
-      inCreatedWindow(a, window),
+      isInWindow(a.paidAt ?? a.createdAt, window),
   ).length;
 }
 

@@ -78,7 +78,8 @@ export function createEntityActions(set: SetState, get: GetState) {
     markAppointmentsPaid: (ids: string[], notice: SaveNotice) => {
       const before = get().appointments;
       const picked = new Set(ids);
-      set({ appointments: before.map((item) => (picked.has(item.id) ? { ...item, paymentDone: true } : item)) });
+      const now = new Date().toISOString();
+      set({ appointments: before.map((item) => (picked.has(item.id) ? { ...item, paymentDone: true, paidAt: item.paidAt ?? now, updatedAt: now } : item)) });
       saveOrRevert(markAppointmentsPaidAction(ids), () => set({ appointments: before }), notice);
     },
   };

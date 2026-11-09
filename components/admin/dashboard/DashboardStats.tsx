@@ -12,11 +12,9 @@ type DashboardStatsProps = {
 };
 
 export function DashboardStats({ filters }: DashboardStatsProps) {
-  const leads = useAdminStore((s) => s.leads);
   const appointments = useAdminStore((s) => s.appointments);
   const { feeRupees } = useAdminStore((s) => s.settings);
   const cards = buildDashboardStats(
-    leads,
     appointments,
     filters,
     parseISO(adminNow()),
