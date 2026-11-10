@@ -16,6 +16,7 @@ export const ROUTES = {
 
 export const programPath = (slug: string) => `${ROUTES.programs}/${slug}`;
 
+
 export const confirmedPath = (appointmentId: string) =>
   `${ROUTES.appointmentConfirmed}?appointmentId=${appointmentId}`;
 
