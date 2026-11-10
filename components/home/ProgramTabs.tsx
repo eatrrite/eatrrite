@@ -44,7 +44,7 @@ export function ProgramTabs() {
                 </li>
               ))}
             </ul>
-            <LinkButton href={programPath(program.slug)} ariaLabel={`Learn more about ${program.short}`} className="mt-2 self-start px-5">Learn More</LinkButton>
+            <LinkButton href={programPath(program.slug)} className="mt-2 self-start px-5">Explore {program.short}</LinkButton>
           </div>
           <div className="relative min-h-56 overflow-hidden rounded-lg bg-beige-deep sm:min-h-72">
             <Image src={program.image} alt={program.imageAlt} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />

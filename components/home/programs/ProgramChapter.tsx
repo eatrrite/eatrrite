@@ -64,8 +64,8 @@ export function ProgramChapter({
             </li>
           ))}
         </ul>
-        <LinkButton href={programPath(program.slug)} ariaLabel={`Learn more about ${program.short}`} className="mt-7 self-start px-5">
-          Learn More
+        <LinkButton href={programPath(program.slug)} className="mt-7 self-start px-5">
+          Explore {program.short}
           <ArrowRight className="size-4" />
         </LinkButton>
       </div>
