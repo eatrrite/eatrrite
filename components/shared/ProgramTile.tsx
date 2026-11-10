@@ -9,7 +9,7 @@ type Program = { slug: string; short: string; image: string; imageAlt: string; s
 export function ProgramTile({ program, index, linkLabel = "Learn More" }: { program: Program; index: number; linkLabel?: string }) {
   return (
     <Link href={programPath(program.slug)} aria-label={`${linkLabel} about ${program.short}`} className="group flex h-full flex-col overflow-hidden rounded-lg border border-border bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-card">
-      <div className="relative aspect-[4/3] overflow-hidden bg-secondary">
+      <div className="relative aspect-[4/3] overflow-hidden bg-beige-deep">
         <Image src={program.image} alt={program.imageAlt} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" className="object-cover transition-transform duration-500 group-hover:scale-105" />
       </div>
       <div className="flex flex-1 flex-col gap-2 p-5">

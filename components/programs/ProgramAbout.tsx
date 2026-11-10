@@ -21,7 +21,7 @@ export function ProgramAbout({ program, pill }: { program: Program; pill: string
           </BlurIn>
         </div>
         <BlurIn delay={0.12} className="relative">
-          <div aria-hidden className="absolute -inset-3 rounded-xl bg-soft" />
+          <div aria-hidden className="absolute -inset-3 rounded-xl bg-beige-deep" />
           <Image src={program.image} alt={program.imageAlt} width={520} height={420} priority sizes="(max-width: 1024px) 100vw, 40vw" className="relative aspect-[4/3] w-full rounded-lg object-cover" />
         </BlurIn>
       </div>

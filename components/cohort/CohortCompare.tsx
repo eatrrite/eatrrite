@@ -18,7 +18,7 @@ const MARKS = {
 export function CohortCompare() {
   const { compare } = copy;
   return (
-    <PageSection tone="mint" food={pageFood(1)}>
+    <PageSection tone="beige" food={pageFood(1)}>
       <SectionIntro eyebrow={compare.pill} title={compare.title} lead={compare.lead} center />
       <p className="mx-auto mt-6 mb-0 max-w-2xl text-center text-sm text-text">{compare.note}</p>
       <ul className="mt-10 mb-0 grid gap-4 p-0 md:grid-cols-3">

@@ -10,7 +10,7 @@ import { ProgramTabs } from "./ProgramTabs";
 export function ProgramsSection() {
   const { services } = home;
   return (
-    <PageSection id="services" tone="mint" food={FLOATING_FOOD.programs}>
+    <PageSection id="services" tone="beige" food={FLOATING_FOOD.programs}>
       <SectionIntro eyebrow={services.pill} title={services.title} lead={services.lead} center />
       <ProgramTabs />
       <BlurIn delay={0.2} className="mt-10 flex justify-center">

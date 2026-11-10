@@ -23,7 +23,7 @@ export function HeroTrustBadge({ className }: { className?: string }) {
             style={{ zIndex: PHOTOS.length - index }}
           />
         ))}
-        <span aria-hidden className="-ml-2.5 inline-flex size-9 items-center justify-center rounded-full border-[2.5px] border-white bg-mint text-text shadow-xs sm:size-10">
+        <span aria-hidden className="-ml-2.5 inline-flex size-9 items-center justify-center rounded-full border-[2.5px] border-white bg-beige text-text shadow-xs sm:size-10">
           <Plus className="size-4" strokeWidth={2.25} />
         </span>
       </div>

@@ -29,7 +29,7 @@ async function Confirmed({ searchParams }: Props) {
 // Copies appointment-confirmed.php: summary on the left, questionnaire then Meet link on the right.
 export default function AppointmentConfirmedPage(props: Props) {
   return (
-    <section className="border-b border-border bg-mint py-20">
+    <section className="border-b border-border bg-beige py-20">
       <Suspense fallback={<LoadingState label="Loading your booking…" className="er-container min-h-96" />}>
         <Confirmed {...props} />
       </Suspense>

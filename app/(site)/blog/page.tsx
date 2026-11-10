@@ -19,7 +19,7 @@ export default function BlogPage() {
   return (
     <>
       <PageBanner title="Blog" path={ROUTES.blog} />
-      <PageSection tone="white" food={pageFood(5)}>
+      <PageSection tone="beige" food={pageFood(5)}>
         <EmptyState
           image="search"
           title="Articles are on their way"

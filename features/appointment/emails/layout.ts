@@ -8,7 +8,7 @@ const C = {
   primaryDark: "#003636",
   accent: "#e5b858",
   cream: "#f8f5f0",
-  mint: "#f1f7f4",
+  beige: "#f8f2e7",
   ink: "#1c2029",
   text: "#595b62",
   muted: "#819291",
@@ -58,7 +58,7 @@ type EmailParts = {
   signOff?: boolean;
 };
 
-// One email: logo, teal welcome band with gold rule, white content, mint contact footer.
+// One email: logo, teal welcome band with gold rule, white content, beige contact footer.
 export function emailLayout({ preheader, eyebrow, heading, intro, body, signOff = true }: EmailParts): string {
   const year = new Date().getFullYear();
   return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light only"><title>${escapeHtml(heading)}</title>
@@ -80,7 +80,7 @@ export function emailLayout({ preheader, eyebrow, heading, intro, body, signOff 
 ${body}
 ${signOff ? SIGN_OFF : ""}
 </td></tr>
-<tr><td class="er-foot" style="background:${C.mint};padding:22px 32px;border-top:1px solid ${C.border};border-radius:0 0 24px 24px;font-family:${BODY};">
+<tr><td class="er-foot" style="background:${C.beige};padding:22px 32px;border-top:1px solid ${C.border};border-radius:0 0 24px 24px;font-family:${BODY};">
 <p style="margin:0 0 6px;font-size:13px;line-height:1.6;color:${C.text};">Questions about your booking? We're happy to help.</p>
 <p style="margin:0;font-size:13px;line-height:1.8;">
 <a href="https://wa.me/919639877483" style="color:${C.primary};font-weight:700;text-decoration:none;">WhatsApp</a>
@@ -92,9 +92,9 @@ General guidance, not medical advice. With a medical condition, follow your doct
 </td></tr></table></td></tr></table></body></html>`;
 }
 
-// Booking details as label / value rows on a mint card. On phones each label sits above its value.
+// Booking details as label / value rows on a beige card. On phones each label sits above its value.
 export const detailsCard = (rows: [string, string][]) =>
-  `<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:${C.mint};border:1px solid ${C.border};border-radius:16px;">${rows
+  `<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:${C.beige};border:1px solid ${C.border};border-radius:16px;">${rows
     .map(([label, value], i) => {
       const line = i ? `border-top:1px solid ${C.border};` : "";
       return `<tr class="er-row"><td class="er-label" style="padding:13px 20px;${line}font-size:13px;color:${C.muted};width:32%;vertical-align:top;">${label}</td><td class="er-value" style="padding:13px 20px;${line}font-size:14px;font-weight:700;color:${C.ink};word-break:break-word;">${escapeHtml(value)}</td></tr>`;

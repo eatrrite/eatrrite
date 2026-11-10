@@ -25,7 +25,12 @@
   --er-color-accent: #e5b858;
   --er-color-accent-green: #52c834;
   --er-color-cream: #f8f5f0;
-  --er-color-mint: #f1f7f4;
+  /* Palette from Mukta's LinkedIn banner (Nov 2026): warm beige with gold, in place of the PHP
+     mint (#f1f7f4), on the website and the admin. accent-deep is the gold dark enough to read
+     as text. */
+  --er-color-beige: #f8f2e7;
+  --er-color-beige-deep: #efe5d2;
+  --er-color-accent-deep: #9a6f1e;
   --er-color-white: #ffffff;
   --er-color-ink: #1c2029;
   --er-color-text: #595b62;
@@ -40,27 +45,27 @@
 
   /* Hard-coded in PHP rules, named here so they stay in one place */
   --er-color-accent-hover: #f0c96a;
-  --er-color-pill: #eceeed;
-  --er-color-chevron: #eef3f1;
-  --er-color-soft: #e8f3ef;
+  --er-color-pill: #eee8de;
+  --er-color-chevron: #f3ead9;
+  --er-color-soft: #efe5d2;
   --er-color-footer-text: #c9d0ce;
   --er-color-alert-bg: #fdecee;
   --er-color-alert-text: #842029;
   --er-color-whatsapp: #25d366;
   --er-color-input-border: rgba(1, 78, 78, 0.08);
   --er-color-cta-mid: #026363;
-  --er-color-slot-hover: #e5fad1;
-  --er-color-slot-icon: #f3f6f1;
-  --er-color-slot-weekday: #8a958b;
-  --er-color-slot-muted: #c5cdc6;
-  --er-color-slot-today: #b7c9b0;
-  --er-color-slot-line: #eef2eb;
-  --er-color-slot-border: #e3ebe0;
-  --er-color-slot-time-hover: #f7fbf3;
+  --er-color-slot-hover: #f6ead0;
+  --er-color-slot-icon: #f8f2e7;
+  --er-color-slot-weekday: #9a8f7d;
+  --er-color-slot-muted: #cfc6b6;
+  --er-color-slot-today: #d9b56a;
+  --er-color-slot-line: #f1eadc;
+  --er-color-slot-border: #e9dfcb;
+  --er-color-slot-time-hover: #fbf6ec;
   --er-ease: cubic-bezier(0.25, 1, 0.5, 1);
 
   /* shadcn semantic tokens */
-  --background: var(--er-color-mint);
+  --background: var(--er-color-beige);
   --foreground: var(--er-color-text);
   --card: var(--er-color-white);
   --card-foreground: var(--er-color-text);
@@ -68,7 +73,7 @@
   --popover-foreground: var(--er-color-ink);
   --primary: var(--er-color-primary);
   --primary-foreground: var(--er-color-white);
-  --secondary: var(--er-color-mint);
+  --secondary: var(--er-color-beige-deep);
   --secondary-foreground: var(--er-color-primary);
   --muted: var(--er-color-pill);
   --muted-foreground: var(--er-color-muted);
@@ -86,7 +91,7 @@
   --chart-4: var(--er-color-muted);
   --chart-5: var(--er-color-primary-dark);
 
-  --sidebar: var(--er-color-mint);
+  --sidebar: var(--er-color-beige);
   --sidebar-foreground: var(--er-color-ink);
   --sidebar-primary: var(--er-color-primary);
   --sidebar-primary-foreground: var(--er-color-white);
@@ -134,7 +139,9 @@
   --color-accent-hover: var(--er-color-accent-hover);
   --color-accent-green: var(--er-color-accent-green);
   --color-cream: var(--er-color-cream);
-  --color-mint: var(--er-color-mint);
+  --color-beige: var(--er-color-beige);
+  --color-beige-deep: var(--er-color-beige-deep);
+  --color-accent-deep: var(--er-color-accent-deep);
   --color-soft: var(--er-color-soft);
   --color-ink: var(--er-color-ink);
   --color-text: var(--er-color-text);
@@ -211,6 +218,12 @@
 }
 
 /* Admin base type, same as the reference design base layer. */
+/* Public site: the page and form fields are white (they sit on beige cards); the admin's page
+   background is beige. */
+:root:not(:has(.admin-shell)) {
+  --background: var(--er-color-white);
+}
+
 @layer base {
   :root:has(.admin-shell) body {
     font-family: var(--font-body);
@@ -355,7 +368,7 @@
   letter-spacing: 0;
   text-transform: none;
   line-height: 1;
-  color: var(--primary);
+  color: var(--er-color-accent-deep);
   @media (width >= 40rem) {
     font-size: 1.875rem;
   }

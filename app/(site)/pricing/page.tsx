@@ -19,7 +19,7 @@ export default function PricingPage() {
   return (
     <>
       <PageBanner title="Pricing" path={ROUTES.pricing} />
-      <PageSection tone="white" food={pageFood(4)}>
+      <PageSection tone="beige" food={pageFood(4)}>
         <SectionIntro eyebrow={copy.pill} title={copy.title} lead={copy.lead} center />
         <PackageCards badge />
         <BlurIn delay={0.2}>

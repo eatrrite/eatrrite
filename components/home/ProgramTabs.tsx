@@ -31,7 +31,7 @@ export function ProgramTabs() {
       <BlurIn delay={0.15} className="mt-8">
         <div className="grid gap-8 rounded-xl border border-border bg-white p-6 md:grid-cols-2 md:p-8 lg:gap-10">
           <div className="flex flex-col gap-5">
-            <div className="flex size-12 items-center justify-center rounded-full bg-secondary text-lg text-primary">
+            <div className="flex size-12 items-center justify-center rounded-full bg-accent/20 text-lg text-primary">
               <Icon icon={ICONS[active]} />
             </div>
             <h3 className="m-0 font-heading text-2xl font-bold text-ink">{program.short}</h3>
@@ -46,7 +46,7 @@ export function ProgramTabs() {
             </ul>
             <LinkButton href={programPath(program.slug)} ariaLabel={`Learn more about ${program.short}`} className="mt-2 self-start px-5">Learn More</LinkButton>
           </div>
-          <div className="relative min-h-56 overflow-hidden rounded-lg bg-secondary sm:min-h-72">
+          <div className="relative min-h-56 overflow-hidden rounded-lg bg-beige-deep sm:min-h-72">
             <Image src={program.image} alt={program.imageAlt} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
           </div>
         </div>

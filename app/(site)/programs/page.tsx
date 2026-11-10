@@ -21,7 +21,7 @@ export default function ProgramsPage() {
   return (
     <>
       <PageBanner title="Programs" path={ROUTES.programs} />
-      <PageSection tone="white" food={pageFood(0)}>
+      <PageSection tone="beige" food={pageFood(0)}>
         <SectionIntro eyebrow={copy.pill} title={copy.title} lead={copy.lead} count={programs.length} center />
         <div className="mt-10 grid gap-5 sm:grid-cols-2">
           {programs.map((program, index) => (

@@ -54,7 +54,7 @@ export function BulkActionBar({ count, noun, onClear, children }: BulkActionBarP
             >
               <XIcon />
             </Button>
-            <span className="inline-flex h-7 min-w-7 items-center justify-center rounded-full bg-primary/10 px-2 text-sm font-bold text-primary tabular-nums">
+            <span className="inline-flex h-7 min-w-7 items-center justify-center rounded-full bg-accent/25 px-2 text-sm font-bold text-ink tabular-nums">
               {shown}
             </span>
             <p className="truncate text-sm font-semibold" aria-live="polite">

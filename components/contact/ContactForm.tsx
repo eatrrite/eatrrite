@@ -16,8 +16,8 @@ const PROGRAMS = programs.map((p) => p.short);
 export function ContactForm() {
   const showToast = useShowToast();
   return (
-    <div className="rounded-xl border border-border bg-mint p-6 md:p-8">
-      <p className="m-0 type-eyebrow">{copy.enquireTitle}</p>
+    <div className="rounded-xl border border-accent/30 bg-beige p-6 md:p-8">
+      <p className="m-0 type-eyebrow text-accent-deep">{copy.enquireTitle}</p>
       <p className="mt-2 mb-0 text-sm text-text">{copy.enquireText}</p>
       <form className="mt-6 space-y-4" onSubmit={(e) => {
         e.preventDefault();

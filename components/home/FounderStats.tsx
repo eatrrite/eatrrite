@@ -9,7 +9,7 @@ export function FounderStats() {
     <ol className="mt-8 mb-0 grid gap-1 border-l border-border pl-5">
       {(home.about.stats as Stat[]).map((stat, index) => {
         const row = (
-          <div className="flex items-baseline justify-between gap-4 rounded-md px-3 py-3 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:bg-secondary/80">
+          <div className="flex items-baseline justify-between gap-4 rounded-md px-3 py-3 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:bg-beige">
             <div>
               <p className="m-0 font-heading text-2xl font-bold text-ink transition-colors duration-300 group-hover:text-primary sm:text-3xl">{stat.value}</p>
               <p className="m-0 mt-0.5 text-sm text-text">{stat.label}</p>

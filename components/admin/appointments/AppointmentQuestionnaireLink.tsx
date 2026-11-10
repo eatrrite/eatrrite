@@ -21,7 +21,7 @@ export function AppointmentQuestionnaireLink({ appointmentId }: { appointmentId:
   }
 
   return (
-    <div className="space-y-2 rounded-lg bg-mint px-3 py-2.5">
+    <div className="space-y-2 rounded-lg bg-beige px-3 py-2.5">
       <p className="m-0 text-xs text-muted-foreground">Share this link so the lead can fill it in.</p>
       <div className="flex flex-wrap gap-2">
         <Button type="button" size="sm" variant="outline" onClick={copy}>

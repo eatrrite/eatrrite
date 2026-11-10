@@ -25,7 +25,7 @@ export function TodoItem({ todo, onToggle, onEdit, onDelete }: TodoItemProps) {
         type="button"
         aria-pressed={todo.done}
         onClick={onToggle}
-        className="flex min-w-0 flex-1 items-center gap-3 rounded-xl px-2 py-3 text-left transition-colors duration-300 hover:bg-mint"
+        className="flex min-w-0 flex-1 items-center gap-3 rounded-xl px-2 py-3 text-left transition-colors duration-300 hover:bg-beige"
       >
         <span
           className={cn(

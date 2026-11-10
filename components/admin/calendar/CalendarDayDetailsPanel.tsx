@@ -67,7 +67,7 @@ export function CalendarDayDetailsPanel({
 
       <div className="mt-4 flex min-h-0 flex-1 flex-col gap-2.5 overflow-y-auto">
         {count === 0 ? (
-          <div className="flex flex-1 items-center justify-center rounded-xl border border-dashed border-border bg-mint/40 px-4">
+          <div className="flex flex-1 items-center justify-center rounded-xl border border-dashed border-border bg-beige/40 px-4">
             <EmptyState size="sm" image="appointments" title="Nothing booked this day" description="Add an appointment to get started." />
           </div>
         ) : (

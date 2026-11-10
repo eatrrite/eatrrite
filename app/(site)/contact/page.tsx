@@ -25,7 +25,7 @@ export default function ContactPage() {
       <PageSection tone="white" food={pageFood(9)}>
         <SectionIntro eyebrow={copy.pill} title={copy.title} lead={copy.text} />
         <BlurIn delay={0.2}>
-          <p className="mt-5 mb-0 font-heading text-4xl font-bold text-primary/15 tabular-nums sm:text-5xl">{BRAND.phone}</p>
+          <p className="mt-5 mb-0 font-heading text-4xl font-bold text-accent/50 tabular-nums sm:text-5xl">{BRAND.phone}</p>
         </BlurIn>
         <div className="mt-10 grid gap-8 lg:grid-cols-2">
           <BlurIn className="min-w-0"><ContactForm /></BlurIn>

@@ -28,7 +28,7 @@ export function AboutSection() {
         </div>
         <div className="min-w-0">
           <BlurIn delay={0.12}>
-            <div className="rounded-lg border border-border bg-mint p-5 sm:p-6">
+            <div className="rounded-lg border border-accent/30 bg-beige p-5 sm:p-6">
               <p className="m-0 font-script text-2xl text-primary sm:text-3xl">“{about.quote}”</p>
               <p className="mt-3 mb-0 text-sm text-text">{about.cite}</p>
             </div>

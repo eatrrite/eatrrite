@@ -25,9 +25,9 @@ export function PackageCards({ badge = false }: { badge?: boolean }) {
               <span className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-primary transition-transform duration-500 ease-out group-hover:scale-x-100" />
             </span>
             {badge && pack.featured ? (
-              <span className="absolute -top-3 left-6 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-white">Most Popular</span>
+              <span className="absolute -top-3 left-6 rounded-full bg-accent px-3 py-1 text-xs font-semibold text-ink">Most Popular</span>
             ) : null}
-            <span className="font-heading text-3xl font-bold text-primary/20 tabular-nums transition-colors duration-300 group-hover:text-primary/45">{String(index + 1).padStart(2, "0")}</span>
+            <span className="font-heading text-3xl font-bold text-accent/45 tabular-nums transition-colors duration-300 group-hover:text-accent-deep">{String(index + 1).padStart(2, "0")}</span>
             <h3 className="m-0 font-heading text-xl font-bold text-ink transition-colors duration-300 group-hover:text-primary">{pack.name}</h3>
             <p className="m-0 flex-1 text-sm leading-relaxed text-text">{pack.blurb}</p>
             {/* The outline buttons turn into the primary button while their card is hovered. */}

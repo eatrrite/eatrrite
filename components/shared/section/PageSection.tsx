@@ -12,7 +12,7 @@ export function PageSection({
   children,
 }: {
   id?: string;
-  tone: "white" | "mint";
+  tone: "white" | "beige";
   food: FloatingFoodItem[];
   className?: string;
   children: React.ReactNode;
@@ -24,7 +24,7 @@ export function PageSection({
         // Keep overflow visible so sticky children (e.g. program rail) can pin.
         // FloatingFood clips itself in its own absolute layer.
         "relative border-b border-border py-20",
-        tone === "white" ? "bg-white" : "bg-mint",
+        tone === "white" ? "bg-white" : "bg-beige",
         className
       )}
     >

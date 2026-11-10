@@ -19,7 +19,7 @@ export function ContactAside() {
   return (
     <div className="flex flex-col gap-6">
       <div className="rounded-xl border border-border bg-white p-6 md:p-7">
-        <p className="m-0 type-eyebrow">Reach us</p>
+        <p className="m-0 type-eyebrow text-accent-deep">Reach us</p>
         <ol className="mt-5 mb-0 grid gap-1 border-l border-border pl-5">
           {DETAILS.map((item) => (
             <li key={item.label} className="relative py-3">
@@ -41,7 +41,7 @@ export function ContactAside() {
         </div>
       </div>
       <div className="rounded-xl border border-border bg-white p-6 md:p-7">
-        <p className="m-0 type-eyebrow">Programs</p>
+        <p className="m-0 type-eyebrow text-accent-deep">Programs</p>
         <ul className="mt-4 mb-0 grid gap-2 p-0 text-sm text-ink">
           {programs.map((p) => <li key={p.slug}>✓ {p.short}</li>)}
         </ul>

@@ -14,7 +14,7 @@ const buttonVariants = cva(
         secondary:
           "btn-elevated btn-secondary ![background-clip:padding-box,border-box] focus-visible:ring-0 focus-visible:outline-none aria-expanded:brightness-95",
         ghost:
-          "hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:hover:bg-mint",
+          "hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:hover:bg-beige",
         accent:
           "btn-elevated btn-accent ![background-clip:padding-box,border-box] focus-visible:ring-0 focus-visible:outline-none",
         light:

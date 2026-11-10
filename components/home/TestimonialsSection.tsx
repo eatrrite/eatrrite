@@ -9,7 +9,7 @@ import { TestimonialsCarousel } from "./TestimonialsCarousel";
 export function TestimonialsSection() {
   const stories = home.testimonials;
   return (
-    <PageSection id="testimonials" tone="white" food={FLOATING_FOOD.testimonials}>
+    <PageSection id="testimonials" tone="beige" food={FLOATING_FOOD.testimonials}>
       <SectionIntro eyebrow={stories.pill} title={stories.title} lead={stories.lead} count={stories.items.length} />
       <BlurIn delay={0.12} className="mt-4">
         <TestimonialsCarousel />

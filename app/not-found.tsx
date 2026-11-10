@@ -23,7 +23,7 @@ export default function NotFound() {
       <TopBar />
       <SiteHeader />
       <main>
-        <PageSection tone="mint" food={pageFood(0)}>
+        <PageSection tone="beige" food={pageFood(0)}>
           <SectionIntro eyebrow="Error 404" title="This page has moved" lead="Find what you need in our programs, book a consultation, or message us on WhatsApp." count={404} center />
           <BlurIn delay={0.2} className="mt-8 flex flex-wrap justify-center gap-3">
             <LinkButton href={ROUTES.programs} variant="outline" size="xl">Programs</LinkButton>

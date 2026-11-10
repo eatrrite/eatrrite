@@ -55,7 +55,7 @@ export function AppointmentDetailsBody({
         </div>
       </div>
 
-      <div className="space-y-3 rounded-xl bg-mint px-3.5 py-3">
+      <div className="space-y-3 rounded-xl bg-beige px-3.5 py-3">
         <div>
           <p className="mb-1 flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
             <Salad className="size-3.5" />

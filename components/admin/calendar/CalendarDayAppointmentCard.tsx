@@ -26,7 +26,7 @@ export function CalendarDayAppointmentCard({
     <button
       type="button"
       onClick={onOpen}
-      className="group relative flex w-full shrink-0 gap-2 overflow-hidden rounded-xl border border-border/80 bg-card p-2.5 pl-3.5 text-left shadow-xs transition-[background-color,border-color,translate] duration-300 hover:-translate-y-0.5 hover:border-primary/25 hover:bg-mint sm:gap-3 sm:p-3 sm:pl-4"
+      className="group relative flex w-full shrink-0 gap-2 overflow-hidden rounded-xl border border-border/80 bg-card p-2.5 pl-3.5 text-left shadow-xs transition-[background-color,border-color,translate] duration-300 hover:-translate-y-0.5 hover:border-primary/25 hover:bg-beige sm:gap-3 sm:p-3 sm:pl-4"
     >
       {/* Teal edge marks each consultation, like the lists elsewhere in the admin. */}
       <span aria-hidden className="absolute inset-y-0 left-0 w-1 bg-primary/70 transition-colors group-hover:bg-primary" />

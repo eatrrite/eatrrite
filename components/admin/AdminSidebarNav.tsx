@@ -65,7 +65,7 @@ export function AdminSidebarNav({
               collapsed ? "justify-center px-4 py-4" : "px-4 py-2.5",
               active
                 ? "btn-elevated btn-primary ![background-clip:padding-box,border-box]"
-                : "text-sidebar-foreground/75 hover:translate-x-0.5 hover:bg-mint hover:text-primary",
+                : "text-sidebar-foreground/75 hover:translate-x-0.5 hover:bg-beige hover:text-primary",
             )}
           >
             <Icon className={cn("size-4 shrink-0 transition-colors", active ? "text-accent" : "group-hover/nav:text-primary")} />

@@ -21,13 +21,13 @@ export function TestimonialCard({ item, index, focused }: { item: Testimonial; i
         focused ? "z-10 scale-100 opacity-100 shadow-md lg:scale-[1.04]" : "scale-[0.97] opacity-70 lg:scale-[0.95]"
       )}
     >
-      <span aria-hidden className="pointer-events-none absolute -top-3 -right-1 font-heading text-7xl leading-none font-bold text-primary/10">”</span>
+      <span aria-hidden className="pointer-events-none absolute -top-3 -right-1 font-heading text-7xl leading-none font-bold text-accent/30">”</span>
       <div className="relative flex items-center justify-between gap-3">
         <div className="flex items-center gap-3">
           {item.image ? (
             <Image src={item.image} alt={item.name} width={96} height={96} className="size-12 rounded-full border-2 border-accent object-cover" />
           ) : (
-            <span aria-hidden className="grid size-12 shrink-0 place-items-center rounded-full border-2 border-accent bg-mint font-heading text-sm font-bold text-primary">
+            <span aria-hidden className="grid size-12 shrink-0 place-items-center rounded-full border-2 border-accent bg-beige font-heading text-sm font-bold text-primary">
               {initials(item.name)}
             </span>
           )}

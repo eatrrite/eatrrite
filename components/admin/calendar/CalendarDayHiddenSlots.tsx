@@ -27,7 +27,7 @@ export function CalendarDayHiddenSlots({ date }: { date: string }) {
   const isHidden = (time: string) => hiddenSlots.some((slot) => slot.date === date && slot.time === time);
 
   return (
-    <section aria-label="Website slots" className="mt-4 shrink-0 rounded-xl border border-border/70 bg-mint/60 p-3">
+    <section aria-label="Website slots" className="mt-4 shrink-0 rounded-xl border border-border/70 bg-beige/60 p-3">
       <p className="m-0 flex items-center gap-1.5 text-sm font-semibold text-ink"><Globe className="size-3.5 text-primary" />Website slots</p>
       <p className="mt-0.5 mb-2.5 text-xs text-muted-foreground">Tap a time to hide it from the booking page.</p>
       <div className="flex flex-wrap gap-1.5">

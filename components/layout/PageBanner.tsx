@@ -4,7 +4,8 @@ import { Reveal } from "@/components/motion/Reveal";
 import { JsonLd } from "@/components/shared/JsonLd";
 import { breadcrumbData, type Crumb } from "@/utils/structuredData";
 
-// Copies .page-banner--photo from pages.css. Timings are from main.js.
+// Copies .page-banner--photo from pages.css, with the brand's gold rule under the title.
+// Timings are from main.js.
 // `path` adds BreadcrumbList data for Google; `parent` is the level between Home and this page.
 export function PageBanner({ title, crumb, path, parent }: { title: string; crumb?: string; path: string; parent?: Crumb }) {
   return (
@@ -32,6 +33,8 @@ export function PageBanner({ title, crumb, path, parent }: { title: string; crum
         </Reveal>
         <Reveal preset="banner" immediate delay={0.1}>
           <h1 className="type-banner mb-3 text-white">{title}</h1>
+          {/* The gold rule every section heading has. */}
+          <span aria-hidden className="mx-auto block h-[3px] w-14 rounded-full bg-accent" />
         </Reveal>
       </div>
     </section>

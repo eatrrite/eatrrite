@@ -27,7 +27,7 @@ export default function MediaPage() {
           <CredentialRows />
         </div>
       </PageSection>
-      <PageSection tone="mint" food={pageFood(4)}>
+      <PageSection tone="beige" food={pageFood(4)}>
         <SectionIntro eyebrow="Read" title="Online articles and interviews" />
         <div className="mt-10">
           <ReadCards />

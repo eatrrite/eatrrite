@@ -2,7 +2,9 @@ import { cn } from "cn";
 import { BlurIn } from "@/components/motion/BlurIn";
 
 // Eyebrow, optional italic accent, title, lead and a large faded count, each
-// revealed one after another. Copies the reference design section headings.
+// revealed one after another. Copies the reference design section headings. Gold from the
+// brand palette marks every section the same way: the eyebrow, a short rule under the title
+// and the faded count.
 export function SectionIntro({
   eyebrow,
   accent,
@@ -29,15 +31,16 @@ export function SectionIntro({
   return (
     <div className={cn("max-w-3xl", center && "mx-auto text-center", className)}>
       <BlurIn>
-        <Eyebrow className="m-0 type-eyebrow">{eyebrow}</Eyebrow>
+        <Eyebrow className="m-0 type-eyebrow text-accent-deep">{eyebrow}</Eyebrow>
       </BlurIn>
       {accent ? (
         <BlurIn delay={0.05}>
-          <p className="mt-3 mb-0 type-eyebrow">{accent}</p>
+          <p className="mt-3 mb-0 type-eyebrow text-accent-deep">{accent}</p>
         </BlurIn>
       ) : null}
       <BlurIn delay={0.1}>
         <Title className="mt-3 mb-0 font-heading text-3xl leading-tight font-bold tracking-tight text-ink sm:text-4xl">{title}</Title>
+        <span aria-hidden className={cn("mt-4 block h-[3px] w-12 rounded-full bg-accent", center && "mx-auto")} />
       </BlurIn>
       {lead ? (
         <BlurIn delay={0.15}>
@@ -46,7 +49,7 @@ export function SectionIntro({
       ) : null}
       {count ? (
         <BlurIn delay={0.2}>
-          <p className="mt-5 mb-0 font-heading text-5xl leading-none font-bold text-primary/15 tabular-nums sm:text-6xl">
+          <p className="mt-5 mb-0 font-heading text-5xl leading-none font-bold text-accent/45 tabular-nums sm:text-6xl">
             {String(count).padStart(2, "0")}
           </p>
         </BlurIn>

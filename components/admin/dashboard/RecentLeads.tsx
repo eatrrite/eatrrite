@@ -48,7 +48,7 @@ export function RecentLeads() {
           <li key={lead.id}>
             <Link
               href={`/admin/leads?id=${lead.id}`}
-              className="flex items-center gap-3 py-3.5 -mx-2 rounded-xl px-2 transition-[background-color,translate] duration-300 hover:translate-x-0.5 hover:bg-mint"
+              className="flex items-center gap-3 py-3.5 -mx-2 rounded-xl px-2 transition-[background-color,translate] duration-300 hover:translate-x-0.5 hover:bg-beige"
             >
               <DashboardAvatar name={lead.name} />
               <div className="min-w-0 flex-1">
