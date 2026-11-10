@@ -15,8 +15,7 @@ export function WhyChooseSection() {
         <BlurIn className="mx-auto w-full max-w-sm lg:mx-0 lg:max-w-none">
           <div className="relative mx-auto flex aspect-square max-w-[26rem] items-center justify-center lg:max-w-none">
             <div aria-hidden className="absolute inset-[8%] rounded-full bg-soft" />
-            {/* A transparent illustration, so it sits on the soft circle with no frame of its own. */}
-            <Image src="/images/about/food-as-medicine-illustration.webp" alt="A salad bowl with fruit, greens, a water bottle and a yoga mat: food as medicine" width={804} height={488} sizes="(max-width: 1024px) 416px, 40vw" className="relative z-10 h-auto w-full drop-shadow-sm" />
+            <Image src="/images/about/holistic-wellness-branding.png" alt="Eat Rrite branding card with wellness props: journal, herbs, yoga mat and water bottle" width={1536} height={1024} sizes="(max-width: 1024px) 416px, 40vw" className="relative z-10 h-auto w-full drop-shadow-sm" />
           </div>
         </BlurIn>
         <div className="min-w-0">
