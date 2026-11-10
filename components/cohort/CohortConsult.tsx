@@ -12,7 +12,7 @@ import { ROUTES } from "@/constants/routes";
 export function CohortConsult() {
   const { get, steps } = copy;
   return (
-    <PageSection id="how-it-works" tone="mint" food={pageFood(3)}>
+    <PageSection id="how-it-works" tone="beige" food={pageFood(3)}>
       <SectionIntro eyebrow={get.pill} title={get.title} lead={get.lead} center />
       <ul className="mt-10 mb-0 grid gap-4 p-0 sm:grid-cols-2 lg:grid-cols-5">
         {get.items.map((item, index) => (

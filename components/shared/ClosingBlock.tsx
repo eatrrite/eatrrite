@@ -14,8 +14,8 @@ import { whatsappLink, whatsappMessageFor } from "@/constants/whatsapp";
 export function ClosingBlock({ pathname }: { pathname: string }) {
   const { quote, cite } = home.about;
   return (
-    <PageSection tone="mint" food={pageFood(6)}>
-      <div className="flex flex-col items-center gap-6 rounded-xl border border-border bg-white px-6 py-12 text-center sm:px-12">
+    <PageSection tone="beige" food={pageFood(6)}>
+      <div className="flex flex-col items-center gap-6 rounded-xl border border-accent/40 bg-white px-6 py-12 text-center sm:px-12">
         <BlurIn>
           <p className="m-0 max-w-2xl font-script text-2xl text-primary sm:text-3xl">“{quote}”</p>
           <p className="mt-3 mb-0 text-sm text-text">{cite}</p>

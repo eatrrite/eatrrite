@@ -18,11 +18,11 @@ export function CredentialLists() {
                 <span className="inline-flex size-10 items-center justify-center rounded-full bg-primary text-white">
                   <Icon aria-hidden className="size-[18px]" />
                 </span>
-                <h3 className="m-0 type-eyebrow text-2xl">{row.label}</h3>
+                <h3 className="m-0 type-eyebrow text-2xl text-accent-deep">{row.label}</h3>
               </div>
               <ul className="mt-4 mb-0 flex flex-wrap gap-2 p-0">
                 {row.text.split(" · ").map((name) => (
-                  <li key={name} className="list-none rounded-full border border-border bg-mint px-3.5 py-1.5 text-sm font-medium text-ink">{name}</li>
+                  <li key={name} className="list-none rounded-full border border-accent/30 bg-beige px-3.5 py-1.5 text-sm font-medium text-ink">{name}</li>
                 ))}
               </ul>
             </div>

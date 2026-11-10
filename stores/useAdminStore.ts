@@ -14,6 +14,7 @@ import { createEntityActions } from "@/stores/adminEntityActions";
 import { createHiddenSlotActions } from "@/stores/hiddenSlotActions";
 import { createTodoActions } from "@/stores/todoActions";
 import { saveOrRevert, type SaveNotice } from "@/stores/saveOrRevert";
+import { weekHasProblems } from "@/utils/admin/scheduleChecks";
 import { createScheduleActions } from "@/stores/scheduleActions";
 import type { Appointment, AppointmentInput, PaymentStatus } from "@/types/admin/appointment";
 import type { Lead, LeadInput } from "@/types/admin/lead";
@@ -81,7 +82,10 @@ export const useAdminStore = create<AdminState>()((set, get) => ({
   services: [],
   questions: [],
   hiddenSlots: [],
-  hydrate: ({ preferences, ...data }) => set({ ...preferences, ...data }),
+  // Fresh data from the server. Hours being edited with a problem still to fix are not saved
+  // yet, so they stay as they are on screen instead of the server's copy.
+  hydrate: ({ preferences, ...data }) =>
+    set({ ...preferences, ...data, days: weekHasProblems(get().days) ? get().days : data.days }),
   ...createEntityActions(set, get),
   ...createAppointmentSlotActions(set, get),
   ...createScheduleActions(set, get),

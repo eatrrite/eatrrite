@@ -126,7 +126,7 @@ export function ProgramsScroll() {
       className="grid items-start gap-10 lg:grid-cols-[minmax(16rem,34rem)_minmax(0,1fr)] lg:gap-14 xl:gap-20"
     >
       <aside className="relative z-20 lg:sticky lg:top-28 lg:self-start">
-        <p className="mb-0 type-eyebrow">
+        <p className="mb-0 type-eyebrow text-accent-deep">
           {block.pill}
         </p>
         <h2 className="mt-3 mb-0 font-heading text-3xl leading-tight font-bold tracking-tight text-ink sm:text-4xl">

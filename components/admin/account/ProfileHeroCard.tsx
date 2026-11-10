@@ -38,7 +38,7 @@ export function ProfileHeroCard() {
           <p className="truncate font-heading text-2xl font-bold text-white">{profile.name}</p>
         </div>
       </div>
-      <div className="space-y-2.5 rounded-xl border border-border/60 bg-mint px-3.5 py-3">
+      <div className="space-y-2.5 rounded-xl border border-border bg-background px-3.5 py-3">
         <p className="flex items-center gap-2.5 text-sm text-foreground">
           <Mail className="size-3.5 shrink-0 text-primary" />
           {profile.email}

@@ -14,8 +14,8 @@ export function FaqPicker({ items = home.faq.items }: { items?: FaqItem[] }) {
   const active = ITEMS[activeIndex];
   return (
     <div className="grid gap-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:gap-10">
-      <div className="order-2 flex flex-col justify-center rounded-xl border border-border bg-mint p-6 sm:p-8 lg:order-none">
-        <p className="m-0 type-eyebrow">Good to know</p>
+      <div className="order-2 flex flex-col justify-center rounded-xl border border-accent/30 bg-beige p-6 sm:p-8 lg:order-none">
+        <p className="m-0 type-eyebrow text-accent-deep">Good to know</p>
         <p className="mt-2 mb-0 text-xs text-muted-foreground tabular-nums">Question {pad(activeIndex + 1)} of {pad(ITEMS.length)}</p>
         <p aria-hidden className="mt-4 mb-0 font-heading text-xl font-bold text-ink sm:text-2xl">{active.q}</p>
         <p className="mt-4 mb-0 text-sm leading-relaxed text-text sm:text-base">{active.a}</p>
@@ -32,7 +32,7 @@ export function FaqPicker({ items = home.faq.items }: { items?: FaqItem[] }) {
                 type="button"
                 aria-pressed={selected}
                 onClick={() => setActiveIndex(index)}
-                className={cn("flex w-full cursor-pointer items-start justify-between gap-3 rounded-md px-3 py-3 text-left transition-colors", selected ? "bg-secondary text-ink" : "text-text hover:bg-soft hover:text-ink")}
+                className={cn("flex w-full cursor-pointer items-start justify-between gap-3 rounded-md px-3 py-3 text-left transition-colors", selected ? "bg-beige text-ink" : "text-text hover:bg-beige hover:text-ink")}
               >
                 <span className="font-heading text-base leading-snug font-bold sm:text-lg">{item.q}</span>
                 <span className="shrink-0 pt-1 text-xs tabular-nums opacity-60">{pad(index + 1)}</span>

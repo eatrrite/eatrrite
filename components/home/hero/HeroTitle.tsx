@@ -11,10 +11,11 @@ export type HeroSlideCopy = { title: string; highlight: string };
 export const LETTER_STEP_MS = 15;
 
 // One size for every slide, so the headlines look alike and nothing below moves. The width is in
-// ch (it grows with the font), set so each headline wraps to three lines on tablets and up. Size
-// classes come before leading-*: tailwind-merge drops a leading-* that comes before a text-* size.
+// ch (it grows with the font), set so each headline wraps to three lines on tablets and up. Slide 1
+// is shorter copy, so it uses a tighter max-w to fill those three lines instead of leaving a gap.
+// Size classes come before leading-*: tailwind-merge drops a leading-* that comes before a text-* size.
 const TITLE =
-  "text-[1.85rem] sm:text-[2.25rem] lg:text-[2.35rem] xl:text-[2.5rem] m-0 max-w-[26ch] font-heading leading-[1.12] font-bold tracking-tight text-white";
+  "text-[1.85rem] sm:text-[2.25rem] lg:text-[2.35rem] xl:text-[2.5rem] m-0 font-heading leading-[1.12] font-bold tracking-tight text-white";
 
 // The hero headline for the current slide: white words, then the gold words with the brush mark.
 // Each letter reveals in turn (slide up, fade in, blur clears, as the site's headings do), so the
@@ -34,6 +35,7 @@ export function HeroTitle({ slides }: { slides: HeroSlideCopy[] }) {
             aria-label={current ? full : undefined}
             className={cn(
               TITLE,
+              i === 0 ? "max-w-[14ch]" : "max-w-[22ch]",
               "[grid-area:1/1] self-start transition-opacity duration-500 motion-reduce:transition-none",
               current ? "hero-title-active opacity-100" : "pointer-events-none opacity-0",
             )}

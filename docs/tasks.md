@@ -314,6 +314,16 @@ Details in `requirements.md` (What the PHP Site Has That Next.js Still Needs).
 - [x] Cohort application form: left out, `/cohort` books the normal consultation
 - [x] Snackbar page and orders: left out on purpose (product line)
 
+## Phase 12: Colour Pass (client feedback)
+
+Mukta: "the whole site has become too green … use beige with hues of gold … check my LinkedIn banner". Details in `requirements.md` (Colour pass).
+
+- [x] Palette from the banner: `beige` `#f8f2e7`, `beige-deep` `#efe5d2`, `accent-deep` `#9a6f1e` (gold readable as text)
+- [x] Same palette in the admin (page, sidebar, panels, table header, gold eyebrows), the admin sign-in pages, the booking slot picker and the emails; mint removed from the project
+- [x] Every page alternates white and beige sections (`PageSection tone="beige"`); no two beige sections touch; the footer is deeper beige
+- [x] Gold on every section heading (eyebrow, rule, numbers), page banners, icon circles, chips, quote and form cards, "Most Popular"
+- [ ] Show Mukta on staging and adjust shades if she wants
+
 ## Phase 11: Admin Payments, Questionnaire Link and List Tools
 
 - [x] `payment_done` on appointments (`003_payment_status.sql` for an existing database; existing bookings marked paid): Paid/Due in the appointment form, "Payment due" badge on the list and calendar cards, "Mark as paid" in the details, payment filter; the confirmation page says "Payment received" only when paid

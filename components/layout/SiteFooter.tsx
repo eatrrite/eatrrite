@@ -22,11 +22,13 @@ function FooterTitle({ children }: { children: React.ReactNode }) {
   return <h3 className="m-0 font-heading text-base font-bold text-ink">{children}</h3>;
 }
 
-// Light footer in the reference design layout. Copy and links match the PHP footer.
+// Light footer in the reference design layout, on the deeper brand beige (so it still stands
+// apart after a beige section) with gold icons. Copy and
+// links match the PHP footer.
 export async function SiteFooter() {
   const year = await currentYear();
   return (
-    <footer className="bg-white">
+    <footer className="border-t border-beige-deep bg-beige">
       <div className="er-container grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
         <BlurIn viewport={footerViewport} className="flex flex-col gap-4">
           <Image src={BRAND.logo} alt={BRAND.name} width={1162} height={332} className="h-12 w-auto self-start object-contain" />
@@ -54,17 +56,17 @@ export async function SiteFooter() {
         <BlurIn viewport={footerViewport} delay={0.18}>
           <FooterTitle>Get In Touch</FooterTitle>
           <ul className="mt-4 mb-0 grid gap-3 p-0 text-sm text-text">
-            <li className="flex items-center gap-2.5"><Mail className="size-4 shrink-0 text-primary" /><a className={link} href={BRAND.emailHref}>{BRAND.email}</a></li>
-            <li className="flex items-center gap-2.5"><Phone className="size-4 shrink-0 text-primary" /><a className={link} href={BRAND.phoneHref}>{BRAND.phone}</a></li>
-            <li className="flex items-center gap-2.5"><Clock3 className="size-4 shrink-0 text-primary" />{BRAND.hoursLine}</li>
+            <li className="flex items-center gap-2.5"><Mail className="size-4 shrink-0 text-accent-deep" /><a className={link} href={BRAND.emailHref}>{BRAND.email}</a></li>
+            <li className="flex items-center gap-2.5"><Phone className="size-4 shrink-0 text-accent-deep" /><a className={link} href={BRAND.phoneHref}>{BRAND.phone}</a></li>
+            <li className="flex items-center gap-2.5"><Clock3 className="size-4 shrink-0 text-accent-deep" />{BRAND.hoursLine}</li>
             <li className="flex gap-2.5">
-              <MapPin className="mt-0.5 size-4 shrink-0 text-primary" />
+              <MapPin className="mt-0.5 size-4 shrink-0 text-accent-deep" />
               <span>{BRAND.address1} &amp; {BRAND.address2}<br /><span className="text-xs text-muted-foreground">{BRAND.locationsNote}</span></span>
             </li>
           </ul>
         </BlurIn>
       </div>
-      <div className="border-t border-border">
+      <div className="border-t border-accent/20">
         <div className="er-container flex flex-col gap-2 py-5 text-xs text-text sm:flex-row sm:items-center sm:justify-between">
           <p className="m-0">&copy; {year} {BRAND.name}. All rights reserved.</p>
           <p className="m-0">{BRAND.disclaimer}</p>

@@ -28,7 +28,7 @@ export function ProgramChapter({
     >
       <div
         data-chapter-media
-        className="relative aspect-[16/11] overflow-hidden rounded-xl bg-secondary sm:aspect-[5/3]"
+        className="relative aspect-[16/11] overflow-hidden rounded-xl bg-beige-deep sm:aspect-[5/3]"
       >
         <Image
           data-chapter-image
@@ -49,7 +49,7 @@ export function ProgramChapter({
       </div>
 
       <div data-chapter-copy className="min-w-0 max-w-xl">
-        <p className="m-0 type-eyebrow">
+        <p className="m-0 type-eyebrow text-accent-deep">
           Program {String(index + 1).padStart(2, "0")}
         </p>
         <h3 className="mt-3 mb-0 font-heading text-2xl leading-tight font-bold text-ink sm:text-3xl">

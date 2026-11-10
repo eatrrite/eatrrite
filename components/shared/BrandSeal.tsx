@@ -1,7 +1,7 @@
 import { Leaf } from "lucide-react";
 import { cn } from "cn";
 
-// Round brand seal for the corner of Mukta's photo: mint disc, gold ring type, leaf centre.
+// Round brand seal for the corner of Mukta's photo: beige disc, gold ring type, leaf centre.
 const TAGLINE = "NUTRITION · HOLISTIC HEALTH · FITNESS · ";
 
 export function BrandSeal({ className }: { className?: string }) {
@@ -9,7 +9,7 @@ export function BrandSeal({ className }: { className?: string }) {
     <span
       aria-hidden
       className={cn(
-        "relative inline-flex items-center justify-center rounded-full bg-mint border border-primary/10 shadow-[0_12px_28px_-12px_rgba(1,78,78,0.35)]",
+        "relative inline-flex items-center justify-center rounded-full bg-beige border border-accent/40 shadow-[0_12px_28px_-12px_rgba(1,78,78,0.35)]",
         className,
       )}
     >

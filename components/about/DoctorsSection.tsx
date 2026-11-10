@@ -21,11 +21,11 @@ export function DoctorsSection() {
         return (
           <BlurIn key={doctor.name} delay={0.15} className="mt-10">
             <article className="grid items-center gap-8 rounded-xl border border-border bg-white p-6 md:grid-cols-[220px_1fr] md:p-8">
-              <div className="relative mx-auto aspect-[4/5] w-full max-w-[220px] overflow-hidden rounded-lg bg-secondary">
+              <div className="relative mx-auto aspect-[4/5] w-full max-w-[220px] overflow-hidden rounded-lg bg-beige-deep">
                 <Image src={doctor.image} alt={doctor.name} fill sizes="220px" className="object-cover object-[center_22%]" />
               </div>
               <div className="min-w-0">
-                <p className="m-0 type-eyebrow">{doctor.designation}</p>
+                <p className="m-0 type-eyebrow text-accent-deep">{doctor.designation}</p>
                 <h3 className="mt-1 mb-0 font-heading text-2xl font-bold text-ink">{doctor.name}</h3>
                 <dl className="mt-5 mb-0 grid gap-1 border-l border-border pl-5 sm:grid-cols-2 sm:gap-x-6">
                   {rows.map(([label, value]) => (

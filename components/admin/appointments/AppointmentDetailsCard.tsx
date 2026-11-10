@@ -29,7 +29,7 @@ export function AppointmentDetailsCard({
   }
 
   return (
-    <aside className="flex h-fit flex-col gap-4 self-start overflow-hidden rounded-2xl border border-border/80 bg-card p-5 shadow-[0_14px_40px_-28px_rgba(1,78,78,0.35)]">
+    <aside className="flex h-fit flex-col gap-4 self-start overflow-hidden rounded-2xl border border-border bg-card p-5 shadow-[0_14px_40px_-28px_rgba(1,78,78,0.35)]">
       {/* Teal band across the top, like the website's banners; the details follow unchanged. */}
       <div className="relative -mx-5 -mt-5 flex items-center justify-between gap-3 bg-linear-to-br from-primary to-primary-dark px-5 py-3.5 text-white">
         <div aria-hidden className="absolute -top-10 -right-8 size-28 rounded-full bg-accent/20 blur-2xl" />

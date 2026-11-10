@@ -5,13 +5,13 @@ import type { Lead } from "@/types/admin/lead";
 export function AppointmentLeadSummary({ lead }: { lead: Lead | undefined }) {
   if (!lead) {
     return (
-      <p className="rounded-xl bg-mint px-3.5 py-3 text-sm text-muted-foreground">
+      <p className="rounded-xl bg-beige px-3.5 py-3 text-sm text-muted-foreground">
         Go back and choose a lead first.
       </p>
     );
   }
   return (
-    <div className="flex items-center gap-3 rounded-xl border border-border bg-mint px-3.5 py-3">
+    <div className="flex items-center gap-3 rounded-xl border border-border bg-beige px-3.5 py-3">
       <DashboardAvatar name={lead.name} className="size-10" />
       <div className="min-w-0">
         <p className="m-0 truncate text-sm font-semibold text-foreground">

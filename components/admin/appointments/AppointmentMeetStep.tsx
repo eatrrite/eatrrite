@@ -64,7 +64,7 @@ export function AppointmentMeetStep({ value, lead, onChange, questions, appointm
         <dd className="m-0 text-foreground">{APPOINTMENT_STATUS_LABELS[value.status]}</dd>
       </dl>
 
-      <div className="flex flex-col items-start gap-3 rounded-xl border border-border bg-mint px-3.5 py-4">
+      <div className="flex flex-col items-start gap-3 rounded-xl border border-border bg-beige px-3.5 py-4">
         <p className="m-0 flex items-center gap-2 text-sm font-semibold text-foreground">
           <Link2 className="size-4 text-primary" />
           Google Meet link

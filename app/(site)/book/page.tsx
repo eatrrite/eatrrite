@@ -29,8 +29,8 @@ async function BookingSection() {
     <div className="grid items-start gap-10 lg:grid-cols-[2fr_3fr] lg:gap-12">
       <SectionIntro eyebrow={copy.pill} title={copy.title} lead={copy.text.replace("{amount}", String(fee))} count={fee} />
       <BlurIn delay={0.1} className="min-w-0">
-        <div className="rounded-xl border border-border bg-mint p-6 md:p-8">
-          <p className="m-0 type-eyebrow">Reserve your slot</p>
+        <div className="rounded-xl border border-accent/30 bg-beige p-6 md:p-8">
+          <p className="m-0 type-eyebrow text-accent-deep">Reserve your slot</p>
           <h3 className="mt-2 mb-6 font-heading text-xl font-bold text-ink">Consultation booking</h3>
           <BookingForm feeRupees={fee} meetingMinutes={settings.meetingMinutes} hours={hoursNote(weekly)} services={services} />
         </div>

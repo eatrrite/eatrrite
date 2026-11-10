@@ -18,7 +18,7 @@ export function ForgotPasswordForm() {
   return (
     <AuthCard title="Reset your password" lead="Enter your admin email and we'll send you a link to set a new password.">
       {sent ? (
-        <div className="mt-6 flex gap-3 rounded-xl bg-mint p-4 text-sm text-foreground">
+        <div className="mt-6 flex gap-3 rounded-xl bg-beige p-4 text-sm text-foreground">
           <MailCheck aria-hidden className="mt-0.5 size-5 shrink-0 text-primary" />
           <p className="m-0">If that email has an admin account, a reset link is on its way. It works once and expires soon, so use it shortly. Check your spam folder if it doesn&apos;t arrive.</p>
         </div>

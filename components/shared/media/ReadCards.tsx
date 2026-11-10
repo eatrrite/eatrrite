@@ -1,6 +1,19 @@
 import { ArrowUpRight } from "lucide-react";
 import { BlurInItem } from "@/components/motion/BlurIn";
+import type { IconProps } from "@/components/svg/HandIcon";
+import { ChilliIcon, EarIcon, NewspaperIcon, PlateIcon, WomanHealthIcon, YogaScienceIcon } from "@/components/svg/articles";
 import credentials from "@/constants/about/credentials.json";
+
+// A hand-drawn icon (components/svg) beside each article title, drawn for its topic; never
+// the publisher's own art. Articles without their own drawing get the newspaper.
+const ICONS: [string, (props: IconProps) => React.ReactNode][] = [
+  ["Paint Your Plate", PlateIcon],
+  ["Spicy", ChilliIcon],
+  ["Strong Women", WomanHealthIcon],
+  ["Science of Yoga", YogaScienceIcon],
+  ["Listen", EarIcon],
+];
+const iconFor = (title: string) => ICONS.find(([key]) => title.includes(key))?.[1] ?? NewspaperIcon;
 
 // "Read" cards for Mukta's articles and interviews. Each opens the publisher's page in a new
 // tab: we link to their sites and never copy their text (brief §5.2, §5.3). The source line
@@ -11,6 +24,7 @@ export function ReadCards() {
       {credentials.articles.map((article, index) => {
         const [publisher, ...rest] = article.source.split(", ");
         const date = rest.join(", ");
+        const Icon = iconFor(article.title);
         return (
           <BlurInItem key={article.href} delay={0.05 + index * 0.05} className="list-none">
             <a
@@ -21,12 +35,17 @@ export function ReadCards() {
             >
               <span aria-hidden className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-primary transition-transform duration-300 group-hover:scale-x-100" />
               <span className="flex items-start justify-between gap-3">
-                <span className="rounded-full bg-mint px-3 py-1 text-xs font-semibold text-primary">{publisher}</span>
+                <span className="rounded-full bg-accent/20 px-3 py-1 text-xs font-semibold text-ink">{publisher}</span>
                 <span aria-hidden className="inline-flex size-9 shrink-0 items-center justify-center rounded-full border border-border text-primary transition-colors duration-300 group-hover:border-primary group-hover:bg-primary group-hover:text-white">
                   <ArrowUpRight className="size-4" />
                 </span>
               </span>
-              <span className="mt-4 font-heading text-lg leading-snug font-bold text-ink">{article.title}</span>
+              <span className="mt-4 mb-5 flex items-start gap-3">
+                <span aria-hidden className="inline-flex size-14 shrink-0 items-center justify-center rounded-full bg-beige text-primary ring-1 ring-accent/40 transition-transform duration-300 group-hover:-rotate-6">
+                  <Icon className="size-10" />
+                </span>
+                <span className="font-heading text-lg leading-snug font-bold text-ink">{article.title}</span>
+              </span>
               <span className="mt-auto flex items-center justify-between gap-3 border-t border-border pt-4 text-sm">
                 <span className="text-muted-foreground">{date}</span>
                 <span className="font-semibold text-primary">Read<span className="sr-only"> (opens in a new tab)</span></span>

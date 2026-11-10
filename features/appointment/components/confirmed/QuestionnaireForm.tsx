@@ -75,7 +75,7 @@ export function QuestionnaireForm({ booking, questions }: { booking: ConfirmedBo
   return (
     <form noValidate onSubmit={submit} className="space-y-6">
       <header>
-        <p className="m-0 type-eyebrow">{copy.kicker}</p>
+        <p className="m-0 type-eyebrow text-accent-deep">{copy.kicker}</p>
         <h2 className="mt-2 mb-2 font-heading text-2xl font-bold text-ink">{copy.title}</h2>
         <p className="m-0 text-text">{copy.lead}</p>
         <p className="mt-2 mb-0 text-sm text-muted-foreground">{copy.note}</p>

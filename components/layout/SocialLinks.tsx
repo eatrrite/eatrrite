@@ -15,7 +15,7 @@ const LINKS: { href: string; label: string; icon: IconDefinition }[] = [
   { href: BRAND.socials.medium, label: "Medium: Mukta Patil's articles", icon: faMedium },
 ].filter((link) => link.href);
 
-// Round social icons for the footer (brief §4), in the site's mint and primary colours, each
+// Round social icons for the footer (brief §4), white on the beige footer, gold on hover, each
 // with a shadcn tooltip naming the account.
 export function SocialLinks() {
   return (
@@ -31,7 +31,7 @@ export function SocialLinks() {
                     target="_blank"
                     rel="noopener"
                     aria-label={link.label}
-                    className="grid size-10 place-items-center rounded-full bg-mint text-base text-primary transition-colors hover:bg-primary hover:text-white"
+                    className="grid size-10 place-items-center rounded-full bg-white text-base text-primary shadow-xs transition-colors hover:bg-accent hover:text-ink"
                   />
                 }
               >

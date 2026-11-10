@@ -12,7 +12,7 @@ import { pageFood } from "@/constants/home/floatingFood";
 export function CredentialsSection() {
   const last = credentials.paragraphs.length - 1;
   return (
-    <PageSection id={credentials.id} tone="mint" food={pageFood(2)} className="scroll-mt-24">
+    <PageSection id={credentials.id} tone="beige" food={pageFood(2)} className="scroll-mt-24">
       <div className="grid gap-12 lg:grid-cols-[5fr_7fr] lg:gap-16">
         <div className="lg:sticky lg:top-28 lg:self-start">
           <BlurIn>
@@ -43,7 +43,7 @@ export function CredentialsSection() {
 
       <div className="mt-14">
         <BlurIn>
-          <h3 className="m-0 type-eyebrow">Read</h3>
+          <h3 className="m-0 type-eyebrow text-accent-deep">Read</h3>
         </BlurIn>
         <div className="mt-4">
           <ReadCards />

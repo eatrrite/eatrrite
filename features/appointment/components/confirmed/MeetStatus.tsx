@@ -24,7 +24,7 @@ export function MeetStatus({ link }: { link: string }) {
       </div>
       <h2 className="mb-2 text-2xl text-primary">Your booking is confirmed.</h2>
       <p className="text-text">Join your consultation with this Google Meet link at your booked time. We will also be in touch on WhatsApp.</p>
-      <a href={link} target="_blank" rel="noopener noreferrer" className="mb-5 inline-block rounded-xs bg-mint px-4 py-2.5 font-semibold break-all text-primary">
+      <a href={link} target="_blank" rel="noopener noreferrer" className="mb-5 inline-block rounded-xs bg-beige px-4 py-2.5 font-semibold break-all text-primary">
         {link}
       </a>
       <div className="flex flex-wrap justify-center gap-3">

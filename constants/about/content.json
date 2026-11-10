@@ -30,15 +30,21 @@
         "cards": [
             {
                 "title": "Mission",
-                "text": "Reach 1000+ women and help them heal — in mind, body and soul — with nutrition as the foundation."
+                "text": "Reach 1000+ women and help them heal — in mind, body and soul — with nutrition as the foundation.",
+                "image": "/images/about/mission/mission.jpg",
+                "imageAlt": "Woman practising yoga, strength and healing"
             },
             {
                 "title": "Vision",
-                "text": "Help the world learn to Eat Rrite and discover the magic of what a well-nourished body can achieve."
+                "text": "Help the world learn to Eat Rrite and discover the magic of what a well-nourished body can achieve.",
+                "image": "/images/about/mission/vision.jpg",
+                "imageAlt": "Colourful nourishing bowl of fresh food"
             },
             {
                 "title": "Approach",
-                "text": "To listen without judgement\nTo heal with empathy first\nTo treat everyone and every symptom with a tailor made approach - no generalisation, ever!"
+                "text": "To listen without judgement\nTo heal with empathy first\nTo treat everyone and every symptom with a tailor made approach - no generalisation, ever!",
+                "image": "/images/about/mission/approach.jpg",
+                "imageAlt": "Warm, attentive conversation"
             }
         ]
     }

@@ -8,11 +8,11 @@ import { ROUTES } from "@/constants/routes";
 export function CohortHero() {
   const { hero } = copy;
   return (
-    <section className="relative overflow-hidden border-b border-border bg-mint py-16 sm:py-20">
+    <section className="relative overflow-hidden border-b border-border bg-beige py-16 sm:py-20">
       <div className="er-container grid items-center gap-10 lg:grid-cols-[3fr_2fr] lg:gap-14">
         <div className="min-w-0">
           <BlurIn>
-            <p className="mb-0 type-eyebrow">{hero.pill}</p>
+            <p className="mb-0 type-eyebrow text-accent-deep">{hero.pill}</p>
           </BlurIn>
           <BlurIn delay={0.08}>
             <h1 className="mt-3 mb-0 font-heading text-3xl leading-tight font-bold tracking-tight text-ink sm:text-4xl lg:text-5xl">{hero.title}</h1>
