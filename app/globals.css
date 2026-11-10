@@ -28,6 +28,7 @@
   /* Palette from Mukta's LinkedIn banner (Nov 2026): warm beige with gold, in place of the PHP
      mint (#f1f7f4), on the website and the admin. accent-deep is the gold dark enough to read
      as text. */
+  --er-color-beige-light: #fdf9f2;
   --er-color-beige: #f8f2e7;
   --er-color-beige-deep: #efe5d2;
   --er-color-accent-deep: #9a6f1e;
@@ -139,6 +140,7 @@
   --color-accent-hover: var(--er-color-accent-hover);
   --color-accent-green: var(--er-color-accent-green);
   --color-cream: var(--er-color-cream);
+  --color-beige-light: var(--er-color-beige-light);
   --color-beige: var(--er-color-beige);
   --color-beige-deep: var(--er-color-beige-deep);
   --color-accent-deep: var(--er-color-accent-deep);
@@ -220,9 +222,6 @@
 /* Admin base type, same as the reference design base layer. */
 /* Public site: the page and form fields are white (they sit on beige cards); the admin's page
    background is beige. */
-:root:not(:has(.admin-shell)) {
-  --background: var(--er-color-white);
-}
 
 @layer base {
   :root:has(.admin-shell) body {

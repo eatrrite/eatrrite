@@ -52,7 +52,7 @@ export function SiteHeader() {
         transition={transition}
       />
       <m.nav
-        className="mx-auto w-full border px-4 backdrop-blur-xl backdrop-saturate-150 sm:px-5"
+        className={`mx-auto w-full border px-4 sm:px-5 bg-transparent ${scrolled ? "bg-white backdrop-blur-xl backdrop-saturate-150" : "bg-transparent"}`}
         initial={false}
         animate={scrolled ? (open ? PILL_OPEN : PILL) : BAR}
         transition={transition}

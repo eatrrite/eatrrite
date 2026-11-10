@@ -45,8 +45,8 @@ export function CalendarGrid({
               onClick={() => onSelect(date)}
               className={cn(
                 "h-10 rounded-xs font-semibold text-primary transition-colors",
-                usable ? "cursor-pointer hover:bg-slot-hover" : "cursor-default text-slot-muted",
-                date === today && "shadow-[inset_0_0_0_1px_var(--er-color-slot-today)]",
+                usable ? "cursor-pointer hover:bg-background" : "cursor-default text-slot-muted",
+                date === today && "shadow-[inset_0_0_0_1px_var(--er-color-primary)]",
                 isSelected && "bg-primary text-white hover:bg-primary"
               )}
             >

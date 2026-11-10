@@ -28,7 +28,7 @@ function FooterTitle({ children }: { children: React.ReactNode }) {
 export async function SiteFooter() {
   const year = await currentYear();
   return (
-    <footer className="border-t border-beige-deep bg-beige">
+    <footer className="border-t border-beige-deep bg-beige-light">
       <div className="er-container grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
         <BlurIn viewport={footerViewport} className="flex flex-col gap-4">
           <Image src={BRAND.logo} alt={BRAND.name} width={1162} height={332} sizes="180px" className="h-12 w-auto self-start object-contain" />

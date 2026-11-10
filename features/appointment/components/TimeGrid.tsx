@@ -41,7 +41,7 @@ export function TimeGrid({
               "h-10 cursor-pointer rounded-xs border text-sm font-semibold transition-colors",
               time === selected
                 ? "border-primary bg-primary text-white"
-                : "border-slot-border bg-white text-primary hover:border-primary hover:bg-slot-time-hover"
+                : "border-primary/20 bg-background text-primary hover:border-primary hover:bg-white"
             )}
           >
             {displayTime(time)}

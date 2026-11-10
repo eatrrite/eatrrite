@@ -11,7 +11,7 @@ export function AppointmentLeadSummary({ lead }: { lead: Lead | undefined }) {
     );
   }
   return (
-    <div className="flex items-center gap-3 rounded-xl border border-border bg-beige px-3.5 py-3">
+    <div className="flex items-center gap-3 rounded-xl border border-border bg-white px-3.5 py-3">
       <DashboardAvatar name={lead.name} className="size-10" />
       <div className="min-w-0">
         <p className="m-0 truncate text-sm font-semibold text-foreground">
