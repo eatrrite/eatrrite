@@ -64,7 +64,7 @@ export function LeadDetailsCard({
       </HeroMotion>
 
       <HeroMotion key={`${lead.id}-contact`} delay={0.18}>
-        <div className="space-y-2.5 rounded-xl border border-border/60 bg-beige px-3.5 py-3">
+        <div className="space-y-2.5 rounded-xl border border-border bg-background px-3.5 py-3">
           <p className="flex items-start gap-2.5 text-sm text-foreground">
             <Phone className="mt-0.5 size-3.5 shrink-0 text-primary" />
             <span>{lead.phone}</span>

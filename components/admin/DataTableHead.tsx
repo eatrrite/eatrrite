@@ -12,7 +12,7 @@ export const ALIGN_CLASS: Record<DataTableAlign, string> = {
 // The header row of DataTable: one cell per column, at its width.
 export function DataTableHead<T>({ columns, widths, leading }: { columns: DataTableColumn<T>[]; widths: number[]; leading?: ReactNode }) {
   return (
-    <TableHeader className="bg-beige/80">
+    <TableHeader>
       <TableRow className="hover:bg-transparent">
         {leading}
         {columns.map((column, index) => (

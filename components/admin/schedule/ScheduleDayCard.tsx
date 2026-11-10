@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { WEEKDAY_LABELS } from "@/constants/admin/schedule/weekdays";
 import type { DaySchedule, ScheduleTimeSlot } from "@/types/admin/schedule";
+import { slotProblems } from "@/utils/admin/scheduleChecks";
 import { openHours } from "@/utils/admin/scheduleHours";
 import { cn } from "cn";
 
@@ -29,6 +30,7 @@ export function ScheduleDayCard({
 }: ScheduleDayCardProps) {
   const label = WEEKDAY_LABELS[day.day];
   const hours = day.isOpen ? openHours(day.slots) : null;
+  const problems = day.isOpen ? slotProblems(day.slots) : {};
 
   return (
     <article
@@ -86,6 +88,7 @@ export function ScheduleDayCard({
                 day={day.day}
                 slot={slot}
                 canRemove={day.slots.length > 1}
+                problem={problems[slot.id]}
                 onChange={onChangeSlot}
                 onRemove={onRemoveSlot}
               />

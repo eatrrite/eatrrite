@@ -65,7 +65,7 @@
   --er-ease: cubic-bezier(0.25, 1, 0.5, 1);
 
   /* shadcn semantic tokens */
-  --background: var(--er-color-beige);
+  --background: #f6f6f6;
   --foreground: var(--er-color-text);
   --card: var(--er-color-white);
   --card-foreground: var(--er-color-text);
