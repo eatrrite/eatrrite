@@ -68,7 +68,7 @@ export function HeroSlides({ images }: { images: string[] }) {
                 alt=""
                 fill
                 sizes="100vw"
-                quality={75}
+                quality={60}
                 priority={i === 0}
                 fetchPriority={i === 0 ? "high" : "auto"}
                 className="object-cover object-center"

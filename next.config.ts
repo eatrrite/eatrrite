@@ -13,6 +13,8 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
   images: {
+    // AVIF first (about a quarter smaller than WebP), WebP for browsers without it.
+    formats: ["image/avif", "image/webp"],
     // 60 for large photos below the first screen (a smaller first load), 75 normal, 90 hero.
     qualities: [60, 75, 90],
   },
