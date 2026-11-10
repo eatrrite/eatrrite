@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Apple, Banana, Carrot, Cherry, Citrus, Grape, Leaf, Salad, Sprout, Wheat } from "lucide-react";
 import { cn } from "cn";
 import type { FloatingFoodItem, FoodIcon } from "@/constants/home/floatingFood";
@@ -25,14 +25,14 @@ export function FloatingFood({ items }: { items: FloatingFoodItem[] }) {
       {items.map((item, index) => {
         const Icon = ICONS[item.icon];
         return (
-          <motion.div
+          <m.div
             key={`${item.icon}-${index}`}
             className={cn("absolute text-primary opacity-[0.18]", item.className)}
             animate={{ y: [0, -14, 0], x: [0, 6, 0], rotate: [item.rotate - 2, item.rotate + 2.5, item.rotate - 2] }}
             transition={{ duration: 8.5 + index * 0.5, delay: item.delay ?? 0, repeat: Infinity, ease: "easeInOut" }}
           >
             <Icon strokeWidth={1.2} className="h-auto w-full" />
-          </motion.div>
+          </m.div>
         );
       })}
     </div>

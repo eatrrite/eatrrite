@@ -16,6 +16,7 @@ export function PageBanner({ title, crumb, path, parent }: { title: string; crum
         alt="A balanced plate of Indian food"
         fill
         priority
+        fetchPriority="high"
         sizes="100vw"
         className="object-cover"
       />

@@ -1,43 +1,25 @@
-"use client";
-
-import type { ReactNode } from "react";
-import { motion, type HTMLMotionProps } from "framer-motion";
+import type { HTMLAttributes, ReactNode } from "react";
+import { Appear } from "@/components/motion/Appear";
 import { cn } from "cn";
-import { revealViewport as inViewViewport } from "@/constants/motion";
 
-type FadeInProps = HTMLMotionProps<"div"> & {
+type FadeInProps = HTMLAttributes<HTMLDivElement> & {
   delay?: number;
   duration?: number;
   y?: number;
   className?: string;
 };
 
-const ease = [0.22, 1, 0.36, 1] as const;
-
 // Trigger point: revealViewport in constants/motion.ts (same as BlurIn and Reveal).
-
-export function FadeIn({
-  children,
-  className,
-  delay = 0,
-  duration = 0.65,
-  y = 32,
-  ...props
-}: FadeInProps) {
+export function FadeIn({ children, className, delay = 0, duration = 0.65, y = 32, ...props }: FadeInProps) {
   return (
-    <motion.div
-      className={cn(className)}
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={inViewViewport}
-      transition={{ duration, delay, ease }}
-      {...props}
-    >
+    <Appear delay={delay} duration={duration} y={y} className={className} {...props}>
       {children}
-    </motion.div>
+    </Appear>
   );
 }
 
+// Page-load entrance (rise, fade, clear the blur) in plain CSS (.hero-rise in globals.css), so it
+// runs as soon as the page is painted, with no script needed. `key` on it replays it.
 export function HeroMotion({
   children,
   className,
@@ -50,13 +32,11 @@ export function HeroMotion({
   y?: number;
 }) {
   return (
-    <motion.div
-      className={cn(className)}
-      initial={{ opacity: 0, y, filter: "blur(6px)" }}
-      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-      transition={{ duration: 0.9, delay, ease }}
+    <div
+      className={cn("hero-rise", className)}
+      style={{ "--rise-y": `${y}px`, animationDelay: `${delay}s` } as React.CSSProperties}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }

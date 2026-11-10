@@ -1,16 +1,11 @@
 "use client";
 
-import { useRef, useState } from "react";
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "cn";
 import home from "@/constants/home/content.json";
 import programs from "@/constants/programs/programs.json";
 import { LinkButton } from "@/components/shared/section/LinkButton";
 import { ProgramChapter } from "./ProgramChapter";
-
-gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 // Sticky intro rail + scroll-triggered program chapters.
 // Never put transform/filter on the sticky aside — that kills position:sticky.
@@ -19,106 +14,29 @@ export function ProgramsScroll() {
   const [active, setActive] = useState(0);
   const block = home.programs;
 
-  useGSAP(
-    () => {
-      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const chapters = gsap.utils.toArray<HTMLElement>("[data-program-chapter]");
-
-      chapters.forEach((chapter, index) => {
-        const media = chapter.querySelector<HTMLElement>("[data-chapter-media]");
-        const image = chapter.querySelector<HTMLElement>("[data-chapter-image]");
-        const copy = chapter.querySelector<HTMLElement>("[data-chapter-copy]");
-        if (!media || !copy) return;
-
-        if (reduced) {
-          gsap.set([media, copy], { clearProps: "all" });
-        } else {
-          gsap.fromTo(
-            media,
-            { opacity: 0, y: 56 },
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.9,
-              ease: "power3.out",
-              overwrite: "auto",
-              scrollTrigger: {
-                trigger: chapter,
-                start: "top 88%",
-                end: "top 40%",
-                toggleActions: "play none none none",
-                // Catch chapters already past the start (fast scroll / refresh).
-                immediateRender: false,
-                onRefresh(self) {
-                  if (self.progress > 0) self.animation?.progress(1);
-                },
-              },
-            },
-          );
-
-          gsap.fromTo(
-            copy,
-            { opacity: 0, y: 40 },
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.8,
-              delay: 0.08,
-              ease: "power3.out",
-              overwrite: "auto",
-              scrollTrigger: {
-                trigger: chapter,
-                start: "top 88%",
-                end: "top 40%",
-                toggleActions: "play none none none",
-                immediateRender: false,
-                onRefresh(self) {
-                  if (self.progress > 0) self.animation?.progress(1);
-                },
-              },
-            },
-          );
-
-          if (image) {
-            gsap.fromTo(
-              image,
-              { scale: 1.12 },
-              {
-                scale: 1,
-                ease: "none",
-                scrollTrigger: {
-                  trigger: chapter,
-                  start: "top bottom",
-                  end: "bottom top",
-                  scrub: 0.7,
-                },
-              },
-            );
-          }
-        }
-
-        ScrollTrigger.create({
-          trigger: chapter,
-          start: "top 55%",
-          end: "bottom 45%",
-          onToggle: (self) => {
-            if (self.isActive) setActive(index);
-          },
+  // GSAP loads when the section is within 800px of the screen (see programsMotion.ts).
+  useEffect(() => {
+    const element = root.current;
+    if (!element) return;
+    let cleanup: (() => void) | undefined;
+    let cancelled = false;
+    const observer = new IntersectionObserver(
+      (records) => {
+        if (!records.some((record) => record.isIntersecting)) return;
+        observer.disconnect();
+        import("./programsMotion").then((module) => {
+          if (!cancelled) cleanup = module.setupProgramsMotion(element, setActive);
         });
-      });
-
-      const refresh = () => ScrollTrigger.refresh();
-      refresh();
-      window.addEventListener("load", refresh);
-      const imgs = root.current?.querySelectorAll("img") ?? [];
-      imgs.forEach((img) => {
-        if (!img.complete) img.addEventListener("load", refresh, { once: true });
-      });
-
-      return () => window.removeEventListener("load", refresh);
-    },
-    { scope: root },
-  );
+      },
+      { rootMargin: "800px 0px" },
+    );
+    observer.observe(element);
+    return () => {
+      cancelled = true;
+      observer.disconnect();
+      cleanup?.();
+    };
+  }, []);
 
   return (
     <div

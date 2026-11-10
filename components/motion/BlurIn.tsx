@@ -1,47 +1,24 @@
-"use client";
-
-import { motion, type HTMLMotionProps } from "framer-motion";
-import { revealViewport as viewport } from "@/constants/motion";
+import type { HTMLAttributes } from "react";
+import { Appear } from "@/components/motion/Appear";
 
 // reference design reveal (same ease and trigger point), plus a blur that clears
-// as the element slides up and fades in.
-const ease = [0.22, 1, 0.36, 1] as const;
+// as the element slides up and fades in. Trigger point: revealViewport in constants/motion.ts
+// (pass `viewport` to override).
 
-// Trigger point: revealViewport in constants/motion.ts (pass `viewport` to override).
-
-type BlurInProps = HTMLMotionProps<"div"> & {
+type BlurInProps = HTMLAttributes<HTMLDivElement> & {
   delay?: number;
   duration?: number;
   y?: number;
+  viewport?: { margin?: string };
 };
 
-export function BlurIn({ delay = 0, duration = 0.7, y = 24, children, ...props }: BlurInProps) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y, filter: "blur(8px)" }}
-      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-      viewport={viewport}
-      transition={{ duration, delay, ease }}
-      {...props}
-    >
-      {children}
-    </motion.div>
-  );
+export function BlurIn({ delay = 0, duration = 0.7, y = 24, ...props }: BlurInProps) {
+  return <Appear delay={delay} duration={duration} y={y} blur={8} {...props} />;
 }
 
-type BlurInItemProps = HTMLMotionProps<"li"> & { delay?: number };
+type BlurInItemProps = HTMLAttributes<HTMLLIElement> & { delay?: number };
 
 // Same reveal for list items, so lists keep valid <ul>/<ol> markup.
-export function BlurInItem({ delay = 0, children, ...props }: BlurInItemProps) {
-  return (
-    <motion.li
-      initial={{ opacity: 0, y: 24, filter: "blur(8px)" }}
-      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-      viewport={viewport}
-      transition={{ duration: 0.7, delay, ease }}
-      {...props}
-    >
-      {children}
-    </motion.li>
-  );
+export function BlurInItem({ delay = 0, ...props }: BlurInItemProps) {
+  return <Appear as="li" delay={delay} duration={0.7} y={24} blur={8} {...props} />;
 }

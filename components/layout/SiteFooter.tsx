@@ -31,7 +31,7 @@ export async function SiteFooter() {
     <footer className="border-t border-beige-deep bg-beige">
       <div className="er-container grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
         <BlurIn viewport={footerViewport} className="flex flex-col gap-4">
-          <Image src={BRAND.logo} alt={BRAND.name} width={1162} height={332} className="h-12 w-auto self-start object-contain" />
+          <Image src={BRAND.logo} alt={BRAND.name} width={1162} height={332} sizes="180px" className="h-12 w-auto self-start object-contain" />
           <p className="m-0 max-w-xs text-sm leading-relaxed text-text">
             Science-backed, culturally-rooted nutrition coaching — so you learn how to Eat Rrite for life, without crash diets.
           </p>

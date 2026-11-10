@@ -29,7 +29,7 @@ export function HeroTrustBadge({ className }: { className?: string }) {
       </div>
       <div className="min-w-0">
         <p className="m-0 text-xs font-medium text-ink sm:text-sm">Trusted by {LIVES} happy people</p>
-        <div className="mt-1 flex items-center gap-0.5 text-accent" aria-label="5 out of 5 stars">
+        <div role="img" className="mt-1 flex items-center gap-0.5 text-accent" aria-label="5 out of 5 stars">
           {[0, 1, 2, 3, 4].map((n) => <Star key={n} className="size-3.5 fill-current" />)}
         </div>
       </div>

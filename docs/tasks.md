@@ -324,6 +324,15 @@ Mukta: "the whole site has become too green … use beige with hues of gold … 
 - [x] Gold on every section heading (eyebrow, rule, numbers), page banners, icon circles, chips, quote and form cards, "Most Popular"
 - [ ] Show Mukta on staging and adjust shades if she wants
 
+## Phase 13: Home Page Speed and Accessibility (Lighthouse, mobile)
+
+- [x] Accessibility 100 on the home page (and About, Pricing): the star rating is `role="img"`
+- [x] Local production build, Lighthouse mobile: Performance 44 to 82 (blocking time 3,000 ms to about 20 ms); LCP in the real browser 0.2 s, 4.9 s in Lighthouse's simulated slow 4G
+- [x] Scroll reveals in plain CSS and one shared IntersectionObserver (`components/motion/Appear.tsx`) instead of Framer Motion; hero entrance in CSS (`.hero-rise`); Framer Motion's animation code (header, floating food) loads after first paint (`MotionProvider`)
+- [x] GSAP (Programs scroll) loads only when the section is near the screen (`programsMotion.ts`); the toast library mounts after the page loads (`LazyToaster`)
+- [x] Hero: only the first picture is in the page at load (`fetchPriority="high"`); the others are added after load; logo `sizes`; no automatic prefetch from the header and hero; Caveat not preloaded; below-fold sections use `content-visibility: auto` (`PageSection defer`)
+- [ ] Performance 90+ would need less up-front weight (fonts about 200 KB, framework and UI script about 330 KB): self-hosted trimmed fonts, fewer Base UI parts, a lighter hero
+
 ## Phase 11: Admin Payments, Questionnaire Link and List Tools
 
 - [x] `payment_done` on appointments (`003_payment_status.sql` for an existing database; existing bookings marked paid): Paid/Due in the appointment form, "Payment due" badge on the list and calendar cards, "Mark as paid" in the details, payment filter; the confirmation page says "Payment received" only when paid

@@ -10,7 +10,7 @@ import { SectionIntro } from "@/components/shared/section/SectionIntro";
 export function FaqSection() {
   const { faq } = home;
   return (
-    <PageSection id="faqs" tone="white" food={FLOATING_FOOD.faq}>
+    <PageSection id="faqs" tone="white" food={FLOATING_FOOD.faq} defer>
       <div className="grid items-end gap-8 lg:grid-cols-[auto_1fr] lg:gap-12">
         <BlurIn className="mx-auto w-40 sm:w-48 lg:mx-0">
           <Image src={faq.image} alt="Mukta Patil answering common nutrition questions" width={433} height={326} sizes="192px" className="h-auto w-full mix-blend-multiply" />

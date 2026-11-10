@@ -13,7 +13,8 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
   images: {
-    qualities: [75, 90],
+    // 60 for large photos below the first screen (a smaller first load), 75 normal, 90 hero.
+    qualities: [60, 75, 90],
   },
   // Old addresses → new pages (301). The list lives in config/redirects.ts.
   async redirects() {

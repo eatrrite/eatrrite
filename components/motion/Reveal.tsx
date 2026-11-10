@@ -1,11 +1,12 @@
-"use client";
+import { Appear } from "@/components/motion/Appear";
+import { footerViewport, revealPresets, type RevealPreset } from "@/constants/motion";
+import { cn } from "cn";
 
-import { motion } from "framer-motion";
-import { easePower3Out, footerViewport, revealPresets, revealViewport, type RevealPreset } from "@/constants/motion";
-
-// Framer Motion version of revealOnEnter() from the PHP main.js.
+// revealOnEnter() from the PHP main.js (rise and fade, eased like GSAP power3.out).
 // It animates this wrapper, so hover transforms on the child keep working.
 // `immediate` runs on load instead of on scroll, as the PHP hero does.
+const EASE = "cubic-bezier(0.215, 0.61, 0.355, 1)";
+
 export function Reveal({
   children,
   className,
@@ -24,20 +25,19 @@ export function Reveal({
   immediate?: boolean;
 }) {
   const p = revealPresets[preset];
-  const shown = { opacity: 1, y: 0 };
+  if (immediate) {
+    return (
+      <div
+        className={cn("reveal-rise", className)}
+        style={{ "--rise-y": `${y ?? p.y}px`, animationDuration: `${duration ?? p.duration}s`, animationDelay: `${delay}s` } as React.CSSProperties}
+      >
+        {children}
+      </div>
+    );
+  }
   return (
-    <motion.div
-      className={className}
-      initial={{ opacity: 0, y: y ?? p.y }}
-      {...(immediate
-        ? { animate: shown }
-        : {
-            whileInView: shown,
-            viewport: preset === "footer" ? footerViewport : revealViewport,
-          })}
-      transition={{ duration: duration ?? p.duration, delay, ease: easePower3Out }}
-    >
+    <Appear delay={delay} duration={duration ?? p.duration} y={y ?? p.y} ease={EASE} viewport={preset === "footer" ? footerViewport : undefined} className={className}>
       {children}
-    </motion.div>
+    </Appear>
   );
 }

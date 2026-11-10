@@ -9,7 +9,7 @@ import { SectionIntro } from "@/components/shared/section/SectionIntro";
 export function WhyChooseSection() {
   const { why } = home;
   return (
-    <PageSection id="why-choose" tone="white" food={FLOATING_FOOD.why}>
+    <PageSection id="why-choose" tone="white" food={FLOATING_FOOD.why} defer>
       <div aria-hidden className="pointer-events-none absolute top-1/2 -left-24 size-[20rem] -translate-y-1/2 sm:size-[28rem] rounded-full bg-beige-deep/80 blur-3xl" />
       <div className="relative grid items-center gap-12 lg:grid-cols-[2fr_3fr] lg:gap-16">
         <BlurIn className="mx-auto w-full max-w-sm lg:mx-0 lg:max-w-none">

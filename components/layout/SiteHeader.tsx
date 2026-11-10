@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { useScrolled } from "@/hooks/useScrolled";
 import { BRAND } from "@/constants/brand";
 import { BookButton } from "./header/BookButton";
@@ -45,25 +45,26 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-40 flow-root px-2">
-      <motion.div
+      <m.div
         aria-hidden
         className="absolute inset-0 -z-10 border-b border-border bg-white"
         animate={{ opacity: scrolled ? 0 : 1 }}
         transition={transition}
       />
-      <motion.nav
+      <m.nav
         className="mx-auto w-full border px-4 backdrop-blur-xl backdrop-saturate-150 sm:px-5"
         initial={false}
         animate={scrolled ? (open ? PILL_OPEN : PILL) : BAR}
         transition={transition}
       >
         <div className="flex items-center justify-between gap-5">
-          <Link href="/" onClick={close} className="shrink-0">
+          <Link prefetch={false} href="/" onClick={close} className="shrink-0">
             <Image
               src={BRAND.logo}
               alt={BRAND.name}
               width={1162}
               height={332}
+              sizes="160px"
               priority
               className="h-11 w-auto"
             />
@@ -78,7 +79,7 @@ export function SiteHeader() {
         </div>
         <AnimatePresence initial={false}>
           {open ? (
-            <motion.div
+            <m.div
               key="menu"
               className="overflow-hidden lg:hidden"
               initial={{ height: 0, opacity: 0, filter: "blur(6px)" }}
@@ -90,10 +91,10 @@ export function SiteHeader() {
                 <NavLinks mobile onNavigate={close} />
                 <BookButton className="w-full" onClick={close} />
               </div>
-            </motion.div>
+            </m.div>
           ) : null}
         </AnimatePresence>
-      </motion.nav>
+      </m.nav>
     </header>
   );
 }

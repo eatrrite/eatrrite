@@ -19,7 +19,7 @@ export function FounderBadge({ className }: { className?: string }) {
         aria-hidden
         className="inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-white p-1.5 shadow-xs ring-2 ring-accent/50 sm:size-12"
       >
-        <Image src="/images/logo/logo-mark.png" alt="" width={96} height={80} className="h-auto w-full object-contain" />
+        <Image src="/images/logo/logo-mark.png" alt="" width={96} height={80} sizes="48px" className="h-auto w-full object-contain" />
       </span>
       <span className="min-w-0">
         <span className="flex min-w-0 items-center gap-1 sm:gap-1.5">

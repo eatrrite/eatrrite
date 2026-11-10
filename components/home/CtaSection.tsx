@@ -9,7 +9,7 @@ import { SectionIntro } from "@/components/shared/section/SectionIntro";
 export function CtaSection() {
   const { cta } = home;
   return (
-    <PageSection tone="white" food={FLOATING_FOOD.cta}>
+    <PageSection tone="white" food={FLOATING_FOOD.cta} defer>
       <div className="flex flex-col items-center gap-8 rounded-xl border border-accent/40 bg-beige px-6 py-12 text-center sm:px-12">
         <SectionIntro eyebrow={cta.pill} title={cta.title} lead={cta.text} center />
         <BlurIn delay={0.2}>

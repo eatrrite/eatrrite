@@ -40,7 +40,7 @@ export function FloatActions() {
             size="lg"
             className="w-full min-w-0"
             nativeButton={false}
-            render={<Link href={ROUTES.appointment} />}
+            render={<Link prefetch={false} href={ROUTES.appointment} />}
           >
             <CalendarDays />
             Book Appointment
@@ -53,6 +53,7 @@ export function FloatActions() {
         className="fixed right-5 bottom-5 z-40 hidden flex-col items-center gap-3 lg:flex"
       >
         <Link
+          prefetch={false}
           href={ROUTES.appointment}
           aria-label="Book Appointment"
           className={`${floatBtn} bg-primary text-white`}

@@ -17,7 +17,7 @@ const ICONS = {
 export function ProcessSection() {
   const { process } = home;
   return (
-    <PageSection tone="beige" food={FLOATING_FOOD.process}>
+    <PageSection tone="beige" food={FLOATING_FOOD.process} defer>
       <SectionIntro eyebrow={process.pill} title={process.title} count={process.steps.length} center />
       <ol className="mt-10 mb-0 grid gap-4 p-0 sm:grid-cols-2 lg:grid-cols-4">
         {process.steps.map((step, index) => (

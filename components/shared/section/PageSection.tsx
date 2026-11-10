@@ -8,12 +8,18 @@ export function PageSection({
   id,
   tone,
   food,
+  defer = false,
   className,
   children,
 }: {
   id?: string;
   tone: "white" | "beige";
   food: FloatingFoodItem[];
+  /**
+   * A section well below the first screen: the browser skips drawing it (and loading its images)
+   * until it is about to scroll into view. Not for sections with a sticky or scroll-driven part.
+   */
+  defer?: boolean;
   className?: string;
   children: React.ReactNode;
 }) {
@@ -25,6 +31,7 @@ export function PageSection({
         // FloatingFood clips itself in its own absolute layer.
         "relative border-b border-border py-20",
         tone === "white" ? "bg-white" : "bg-beige",
+        defer && "defer-section",
         className
       )}
     >

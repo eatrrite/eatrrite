@@ -39,7 +39,7 @@ export function Hero() {
                   variant="accent"
                   className="!rounded-full"
                   nativeButton={false}
-                  render={<Link href={hero.primaryCta.href} />}
+                  render={<Link prefetch={false} href={hero.primaryCta.href} />}
                 >
                   <CalendarDays />
                   {hero.primaryCta.label}
@@ -49,7 +49,7 @@ export function Hero() {
                   variant="light"
                   className="!rounded-full"
                   nativeButton={false}
-                  render={<Link href={hero.secondaryCta.href} />}
+                  render={<Link prefetch={false} href={hero.secondaryCta.href} />}
                 >
                   <LayoutGrid />
                   {hero.secondaryCta.label}

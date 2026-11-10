@@ -6,7 +6,7 @@ import { ROUTES } from "@/constants/routes";
 // Header call to action, using the shadcn (reference style) Button.
 export function BookButton({ className, onClick }: { className?: string; onClick?: () => void }) {
   return (
-    <Button size="lg" className={className} nativeButton={false} render={<Link href={ROUTES.appointment} onClick={onClick} />}>
+    <Button size="lg" className={className} nativeButton={false} render={<Link prefetch={false} href={ROUTES.appointment} onClick={onClick} />}>
       <CalendarDays />
       Book Appointment
     </Button>

@@ -33,7 +33,7 @@ export function NavLinks({ mobile = false, onNavigate }: { mobile?: boolean; onN
               <ul className="m-0 ml-3 flex flex-col gap-1 border-l border-border p-0 pl-2">
                 {children.map((child) => (
                   <li key={child.href}>
-                    <Link href={child.href} aria-current={pathname === child.href ? "page" : undefined} onClick={onNavigate} className={linkClass(true, pathname === child.href)}>
+                    <Link prefetch={false} href={child.href} aria-current={pathname === child.href ? "page" : undefined} onClick={onNavigate} className={linkClass(true, pathname === child.href)}>
                       {child.label}
                     </Link>
                   </li>
@@ -54,7 +54,7 @@ export function NavLinks({ mobile = false, onNavigate }: { mobile?: boolean; onN
                   {children.map((child) => (
                     <DropdownMenuItem
                       key={child.href}
-                      render={<Link href={child.href} />}
+                      render={<Link prefetch={false} href={child.href} />}
                       className={cn(
                         "cursor-pointer rounded-lg px-3 py-2 text-[0.95rem] focus:bg-beige focus:text-primary not-data-[variant=destructive]:focus:**:text-primary",
                         pathname === child.href ? "bg-beige text-primary" : "text-ink"
@@ -70,7 +70,7 @@ export function NavLinks({ mobile = false, onNavigate }: { mobile?: boolean; onN
         }
         return (
           <li key={href}>
-            <Link href={href} aria-current={active ? "page" : undefined} onClick={onNavigate} className={linkClass(mobile, active)}>
+            <Link prefetch={false} href={href} aria-current={active ? "page" : undefined} onClick={onNavigate} className={linkClass(mobile, active)}>
               {label}
             </Link>
           </li>

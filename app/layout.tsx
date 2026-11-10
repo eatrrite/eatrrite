@@ -22,6 +22,8 @@ const caveat = Caveat({
   variable: "--font-caveat",
   subsets: ["latin"],
   weight: ["500", "600", "700"],
+  // Handwritten accents sit below the first screen, so it is not preloaded (a smaller first load).
+  preload: false,
 });
 
 export const metadata: Metadata = {
