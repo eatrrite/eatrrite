@@ -21,6 +21,7 @@ export function SettingsPanel() {
         subtitle="Saved to your admin account"
       />
       <div>
+        
         {SETTINGS_TOGGLES.map((item) => (
           <SettingsToggleRow
             key={item.key}
