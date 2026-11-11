@@ -64,7 +64,8 @@ export function ProgramChapter({
             </li>
           ))}
         </ul>
-        <LinkButton href={programPath(program.slug)} className="mt-7 self-start px-5">
+        {/* A long program name wraps inside the button instead of pushing the page sideways on phones. */}
+        <LinkButton href={programPath(program.slug)} className="mt-7 h-auto min-h-9 max-w-full shrink self-start px-5 py-2 text-left whitespace-normal">
           Explore {program.short}
           <ArrowRight className="size-4" />
         </LinkButton>
