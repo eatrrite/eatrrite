@@ -11,13 +11,13 @@ const FEATURES = [
 
 export function HeroFeatures() {
   return (
-    <ul className="mt-10 mb-0 grid grid-cols-2 gap-4 p-0 sm:grid-cols-4 sm:gap-5">
+    <ul className="mt-10 mb-0 flex flex-wrap items-center divide-x divide-white/25 p-0">
       {FEATURES.map(({ label, icon: Icon }) => (
-        <li key={label} className="flex items-center gap-2.5">
-          <span className="flex size-10 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/12 text-accent backdrop-blur-sm">
-            <Icon className="size-4" strokeWidth={1.75} />
+        <li key={label} className="flex items-center gap-1.5 px-2.5 first:pl-0 last:pr-0">
+          <span className="flex size-7 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/12 text-accent backdrop-blur-sm">
+            <Icon className="size-3" strokeWidth={1.75} />
           </span>
-          <span className="text-xs leading-snug text-white/90 sm:text-sm">{label}</span>
+          <span className="text-[10px] leading-snug text-white/90 sm:text-[11px]">{label}</span>
         </li>
       ))}
     </ul>
