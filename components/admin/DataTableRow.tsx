@@ -22,8 +22,8 @@ type DataTableRowProps<T> = {
   actions?: RowActions;
 };
 
-// One body row of DataTable. Open and ticked rows share the soft teal tint, and only the open row
-// has the teal left edge.
+// One body row of DataTable. Open and ticked rows share the soft grey of the page background, and
+// only the open row has the teal left edge.
 export function DataTableRow<T>({ row, id, columns, widths, active, onOpen, selection, label, actions }: DataTableRowProps<T>) {
   const ticked = selection?.isSelected(id) ?? false;
   return (
@@ -31,7 +31,9 @@ export function DataTableRow<T>({ row, id, columns, widths, active, onOpen, sele
       data-state={active || ticked ? "selected" : undefined}
       className={cn(
         onOpen && "cursor-pointer",
-        (active || ticked) && "bg-primary/5 hover:bg-primary/10",
+        // Hovered, open, ticked and menu-open rows use the page grey, not the shared table beige.
+        "hover:bg-background has-aria-expanded:bg-background data-[state=selected]:bg-background",
+        (active || ticked) && "bg-background",
         active && "shadow-[inset_3px_0_0_var(--color-primary)]",
       )}
       onClick={onOpen}
