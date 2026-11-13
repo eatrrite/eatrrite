@@ -54,6 +54,11 @@ export function LeadsTable() {
     setOpen(true);
   });
 
+  const startEdit = (lead: Lead) => {
+    setEditing(lead);
+    setOpen(true);
+  };
+
   const save = (input: LeadInput) => {
     const { title, description } = leadSaveToast(editing, input);
     if (editing) updateLead(editing.id, input, { title, description });
@@ -93,6 +98,7 @@ export function LeadsTable() {
           }}
           resetKey={JSON.stringify(filters)}
           selection={bulk.selection}
+          rowActions={(lead) => ({ onEdit: () => startEdit(lead), onDelete: () => remove(lead) })}
           rowLabel={(lead) => lead.name}
           minWidthClass="min-w-[18rem]"
           empty={
@@ -106,14 +112,8 @@ export function LeadsTable() {
         <div ref={detailsRef} className={DETAILS_PANEL_CLASS}>
           <LeadDetailsCard
             lead={selected}
-            onEdit={() => {
-              if (!selected) return;
-              setEditing(selected);
-              setOpen(true);
-            }}
-            onDelete={() => {
-              if (selected) remove(selected);
-            }}
+            onEdit={() => selected && startEdit(selected)}
+            onDelete={() => selected && remove(selected)}
           />
         </div>
       </div>

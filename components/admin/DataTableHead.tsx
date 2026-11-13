@@ -10,7 +10,7 @@ export const ALIGN_CLASS: Record<DataTableAlign, string> = {
 };
 
 // The header row of DataTable: one cell per column, at its width.
-export function DataTableHead<T>({ columns, widths, leading }: { columns: DataTableColumn<T>[]; widths: number[]; leading?: ReactNode }) {
+export function DataTableHead<T>({ columns, widths, leading, trailing }: { columns: DataTableColumn<T>[]; widths: number[]; leading?: ReactNode; trailing?: ReactNode }) {
   return (
     <TableHeader>
       <TableRow className="hover:bg-transparent">
@@ -27,6 +27,7 @@ export function DataTableHead<T>({ columns, widths, leading }: { columns: DataTa
             {column.header}
           </TableHead>
         ))}
+        {trailing}
       </TableRow>
     </TableHeader>
   );

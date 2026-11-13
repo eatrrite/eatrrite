@@ -31,7 +31,10 @@ export function ChoiceChips({ options, value, multiple = false, onChange, labelF
             onClick={() => toggle(option)}
             className={cn(
               "inline-flex items-center gap-1.5 rounded-lg border px-3 py-2 text-left text-sm leading-snug transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/30",
-              selected ? "border-primary bg-primary/5 font-medium text-primary" : "border-border bg-card text-foreground hover:border-primary/40 hover:bg-beige"
+              // Selected is a solid teal fill with white text, so a picked answer reads at a glance.
+              selected
+                ? "border-primary bg-primary font-medium text-primary-foreground shadow-sm hover:bg-primary/90"
+                : "border-border bg-card text-foreground hover:border-primary/40 hover:bg-beige"
             )}
           >
             {selected ? <Check className="size-3.5 shrink-0" /> : null}

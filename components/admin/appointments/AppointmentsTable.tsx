@@ -73,6 +73,7 @@ export function AppointmentsTable() {
           }}
           resetKey={JSON.stringify(filters)}
           selection={bulk.selection}
+          rowActions={(item) => ({ onEdit: () => actions.startEdit(item), onDelete: () => actions.remove(item) })}
           rowLabel={(item) => `${getLead(item.leadId)?.name ?? "Unknown"}, ${item.date} ${item.time}${paymentLabel(item)}`}
           empty={
             appointments.length === 0 ? (

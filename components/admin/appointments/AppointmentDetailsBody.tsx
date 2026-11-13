@@ -3,12 +3,11 @@
 import { EmptyState } from "@/components/shared/EmptyState";
 import { CalendarDays, Clock3, Link2, Salad } from "lucide-react";
 import { format, parseISO } from "date-fns";
+import { AppointmentQuestionnaireAnswers } from "@/components/admin/appointments/AppointmentQuestionnaireAnswers";
 import { AppointmentPaymentRow } from "@/components/admin/appointments/AppointmentPaymentRow";
 import { AppointmentQuestionnaireLink } from "@/components/admin/appointments/AppointmentQuestionnaireLink";
 import { AppointmentStatusBadge } from "@/components/admin/appointments/AppointmentStatusBadge";
-import { useAdminStore } from "@/stores/useAdminStore";
 import type { Appointment } from "@/types/admin/appointment";
-import { answerForKey } from "@/utils/admin/questionnaireAnswers";
 
 type AppointmentDetailsBodyProps = {
   appointment: Appointment;
@@ -19,16 +18,10 @@ function formatStamp(iso: string) {
   return format(parseISO(iso), "MMM d, yyyy");
 }
 
-function formatAnswer(value: string | string[] | undefined) {
-  if (!value) return "—";
-  return Array.isArray(value) ? value.join(", ") : value;
-}
-
 export function AppointmentDetailsBody({
   appointment,
   leadName,
 }: AppointmentDetailsBodyProps) {
-  const questions = useAdminStore((s) => s.questions);
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-start gap-3">
@@ -113,21 +106,7 @@ export function AppointmentDetailsBody({
             {appointment.status !== "cancelled" ? <AppointmentQuestionnaireLink appointmentId={appointment.id} /> : null}
           </>
         ) : (
-          <ul className="space-y-2">
-            {questions.map((question) => {
-              const answer = answerForKey(
-                appointment.questionnaire,
-                question.key,
-              );
-              if (!answer) return null;
-              return (
-                <li key={question.key} className="text-sm">
-                  <p className="text-muted-foreground">{question.label}</p>
-                  <p className="text-foreground">{formatAnswer(answer)}</p>
-                </li>
-              );
-            })}
-          </ul>
+          <AppointmentQuestionnaireAnswers appointment={appointment} />
         )}
       </div>
 

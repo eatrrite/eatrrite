@@ -2,6 +2,7 @@
 
 import { ALIGN_CLASS } from "@/components/admin/DataTableHead";
 import { SelectRowCell } from "@/components/admin/DataTableSelect";
+import { RowActionsCell, type RowActions } from "@/components/admin/DataTableRowActions";
 import { TableCell, TableRow } from "@/components/ui/table";
 import type { TableSelection } from "@/hooks/admin/useBulkSelection";
 import type { DataTableColumn } from "@/types/admin/dataTable";
@@ -17,11 +18,13 @@ type DataTableRowProps<T> = {
   onOpen?: () => void;
   selection?: TableSelection;
   label: string;
+  /** Edit and Delete in a ⋮ menu at the end of the row. */
+  actions?: RowActions;
 };
 
 // One body row of DataTable. Open and ticked rows share the soft teal tint, and only the open row
 // has the teal left edge.
-export function DataTableRow<T>({ row, id, columns, widths, active, onOpen, selection, label }: DataTableRowProps<T>) {
+export function DataTableRow<T>({ row, id, columns, widths, active, onOpen, selection, label, actions }: DataTableRowProps<T>) {
   const ticked = selection?.isSelected(id) ?? false;
   return (
     <TableRow
@@ -43,6 +46,7 @@ export function DataTableRow<T>({ row, id, columns, widths, active, onOpen, sele
           {column.cell(row)}
         </TableCell>
       ))}
+      {actions ? <RowActionsCell actions={actions} label={label} /> : null}
     </TableRow>
   );
 }

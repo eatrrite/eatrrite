@@ -9,6 +9,7 @@ import { ListPagination } from "@/components/admin/ListPagination";
 import { usePagination } from "@/hooks/admin/usePagination";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { SELECT_COLUMN_WIDTH, SelectAllHead } from "@/components/admin/DataTableSelect";
+import { ROW_ACTIONS_WIDTH, RowActionsHead, type RowActions } from "@/components/admin/DataTableRowActions";
 import type { TableSelection } from "@/hooks/admin/useBulkSelection";
 import { cn } from "cn";
 
@@ -31,19 +32,15 @@ type DataTableProps<T> = {
   rowLabel?: (row: T) => string;
   /** Below lg the table keeps this width and scrolls sideways instead of squashing. */
   minWidthClass?: string;
+  /** Edit and Delete for a row, shown in a ⋮ menu at the end of it. */
+  rowActions?: (row: T) => RowActions;
 };
 
 export function DataTable<T>({
   columns,
   rows,
   getRowId,
-  empty = (
-    <EmptyState
-      image="search"
-      title="Nothing found"
-      description="Try a different search or filter."
-    />
-  ),
+  empty = <EmptyState image="search" title="Nothing found" description="Try a different search or filter." />,
   className,
   selectedRowId,
   onRowSelect,
@@ -52,6 +49,7 @@ export function DataTable<T>({
   selection,
   rowLabel,
   minWidthClass = "min-w-[28rem]",
+  rowActions,
 }: DataTableProps<T>) {
   const { page, pageCount, pageItems, setPage } = usePagination(rows, pageSize, resetKey);
   const widths = normalizeColumnWidths(columns.map((column) => column.width));
@@ -67,23 +65,20 @@ export function DataTable<T>({
       <Table className={cn("table-fixed text-sm sm:text-base lg:min-w-0", minWidthClass)}>
         <colgroup>
           {selection ? <col style={{ width: SELECT_COLUMN_WIDTH }} /> : null}
-          {widths.map((width, index) => (
-            <col
-              key={columns[index]?.key ?? index}
-              style={{ width: `${width}%` }}
-            />
-          ))}
+          {widths.map((width, index) => <col key={columns[index]?.key ?? index} style={{ width: `${width}%` }} />)}
+          {rowActions ? <col style={{ width: ROW_ACTIONS_WIDTH }} /> : null}
         </colgroup>
         <DataTableHead
           columns={columns}
           widths={widths}
           leading={selection ? <SelectAllHead selection={selection} pageIds={pageIds} /> : null}
+          trailing={rowActions ? <RowActionsHead /> : null}
         />
         <TableBody>
           {rows.length === 0 ? (
             <TableRow>
               <TableCell
-                colSpan={columns.length + (selection ? 1 : 0)}
+                colSpan={columns.length + (selection ? 1 : 0) + (rowActions ? 1 : 0)}
                 className="px-6 text-center whitespace-normal"
               >
                 {empty}
@@ -103,6 +98,7 @@ export function DataTable<T>({
                   onOpen={onRowSelect ? () => onRowSelect(row) : undefined}
                   selection={selection}
                   label={rowLabel?.(row) ?? "row"}
+                  actions={rowActions?.(row)}
                 />
               );
             })
