@@ -27,6 +27,11 @@ const PAGES: [string, string][] = [
   ["/appointment-confirmed.php", "/appointment-confirmed"],
   // Old site pages found in Google (brief §3). More are added once Search Console lists them.
   ["/nutricare-for-mom-to-be.php", "/programs/female-hormone-health"],
+  // Old PHP pages with no page of their own now: send them home or to the closest page.
+  ["/snackbar.php", "/"],
+  ["/cohort-form/:path*", "/cohort"],
+  ["/appointment-form/:path*", "/book"],
+  ["/snackbar-form/:path*", "/"],
 ];
 
 export function siteRedirects(): Redirect[] {
