@@ -5,16 +5,19 @@
         "slides": [
             {
                 "image": "/images/hero/hero-lose-weight-dal-chawal.jpg",
+                "mobileFocus": "75%",
                 "title": "Lose Weight,",
                 "highlight": "Without Losing Your Dal-Chawal."
             },
             {
                 "image": "/images/hero/hero-diabetes-roti-rice.jpg",
+                "mobileFocus": "90%",
                 "title": "Manage or Reverse Your Diabetes",
                 "highlight": "Without Quitting Roti, Rice or Potatoes!"
             },
             {
                 "image": "/images/hero/hero-hormones-dal-roti.jpg",
+                "mobileFocus": "90%",
                 "title": "Lose Weight & Manage PMOS or Perimenopause",
                 "highlight": "Without Quitting Dal-Chawal or Roti."
             }

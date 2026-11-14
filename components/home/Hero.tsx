@@ -17,8 +17,9 @@ export function Hero() {
   return (
     <HeroSlideProvider count={hero.slides.length}>
       <section className="relative flex min-h-[70vh] items-center overflow-hidden text-white md:min-h-[85vh] er-md:pb-0">
-        <HeroSlides images={hero.slides.map((slide) => slide.image)} />
-        <div className="absolute inset-0 z-2 bg-[linear-gradient(90deg,rgba(1,78,78,0.82),rgba(1,78,78,0))]" />
+        <HeroSlides slides={hero.slides} />
+        {/* Phones: an even teal overlay, since the text spans the full width there. From md up it fades out to the right. */}
+        <div className="absolute inset-0 z-2 bg-[rgba(1,78,78,0.82)] md:bg-[linear-gradient(90deg,rgba(1,78,78,0.82),rgba(1,78,78,0))]" />
         <div className="er-container relative z-3 py-16">
           <div className="max-w-xl lg:max-w-[56rem]">
             <HeroMotion delay={0.05}>

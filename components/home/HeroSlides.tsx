@@ -19,7 +19,10 @@ const arrow =
 // clock lives in HeroSlideProvider, so the headline changes with the picture. Only the first
 // picture is in the page at load (it is the largest paint); the others are added once the page
 // has finished loading, so they never compete with it.
-export function HeroSlides({ images }: { images: string[] }) {
+/** One background picture. `mobileFocus` is the left-right point kept in view on phones, e.g. "90%". */
+export type HeroSlideImage = { image: string; mobileFocus: string };
+
+export function HeroSlides({ slides }: { slides: HeroSlideImage[] }) {
   const { active, go } = useHeroSlide();
   const touchX = useRef<number | null>(null);
   const [restReady, setRestReady] = useState(false);
@@ -53,7 +56,7 @@ export function HeroSlides({ images }: { images: string[] }) {
         onTouchStart={(event) => (touchX.current = event.touches[0].clientX)}
         onTouchEnd={(event) => onTouchEnd(event.changedTouches[0].clientX)}
       >
-        {images.map((src, i) =>
+        {slides.map(({ image: src, mobileFocus }, i) =>
           i === 0 || restReady ? (
             <div
               key={src}
@@ -71,7 +74,10 @@ export function HeroSlides({ images }: { images: string[] }) {
                 quality={60}
                 priority={i === 0}
                 fetchPriority={i === 0 ? "high" : "auto"}
-                className="object-cover object-center"
+                // Phones show about a quarter of a wide picture, so each slide says which part
+                // to keep in view there (its subject sits right of centre). Wider screens centre it.
+                style={{ "--hero-focus": mobileFocus } as React.CSSProperties}
+                className="object-cover object-[var(--hero-focus)_center] md:object-center"
               />
             </div>
           ) : null,
@@ -95,7 +101,7 @@ export function HeroSlides({ images }: { images: string[] }) {
             {String(active + 1).padStart(2, "0")}
           </span>
           <span className="mx-0.5 text-white/40">/</span>
-          {String(images.length).padStart(2, "0")}
+          {String(slides.length).padStart(2, "0")}
         </span>
         <button
           type="button"

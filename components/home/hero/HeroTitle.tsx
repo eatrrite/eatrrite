@@ -14,8 +14,12 @@ export const LETTER_STEP_MS = 15;
 // ch (it grows with the font), set so each headline wraps to three lines on tablets and up. Slide 1
 // is shorter copy, so it uses a tighter max-w to fill those three lines instead of leaving a gap.
 // Size classes come before leading-*: tailwind-merge drops a leading-* that comes before a text-* size.
+// All headlines share one grid cell, so the tallest sets the height (nothing below jumps when the
+// slide changes). From sm up every headline is three lines. Phones scale the size with the screen
+// (24px to 25.6px) so the longest stays at four lines, and the shorter ones sit at the bottom of the
+// cell (see self-end below), so any spare line is space under the pill, not a gap above the text.
 const TITLE =
-  "text-[1.85rem] sm:text-[2.25rem] lg:text-[2.35rem] xl:text-[2.5rem] m-0 font-heading leading-[1.12] font-bold tracking-tight text-white";
+  "text-[clamp(1.5rem,6.7vw,1.6rem)] sm:text-[2.25rem] lg:text-[2.35rem] xl:text-[2.5rem] m-0 font-heading leading-[1.12] font-bold tracking-tight text-white";
 
 // The hero headline for the current slide: white words, then the gold words with the brush mark.
 // Each letter reveals in turn (slide up, fade in, blur clears, as the site's headings do), so the
@@ -36,7 +40,7 @@ export function HeroTitle({ slides }: { slides: HeroSlideCopy[] }) {
             className={cn(
               TITLE,
               i === 0 ? "max-w-[14ch]" : "max-w-[22ch]",
-              "[grid-area:1/1] self-start transition-opacity duration-500 motion-reduce:transition-none",
+              "[grid-area:1/1] self-end sm:self-start transition-opacity duration-500 motion-reduce:transition-none",
               current ? "hero-title-active opacity-100" : "pointer-events-none opacity-0",
             )}
           >
