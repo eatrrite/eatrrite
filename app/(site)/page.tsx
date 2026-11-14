@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { JsonLd } from "@/components/shared/JsonLd";
 import home from "@/constants/home/content.json";
-import { faqData } from "@/utils/structuredData";
+import { faqData, websiteData } from "@/utils/structuredData";
 import { pageMetadata } from "@/utils/seo";
 import { ROUTES } from "@/constants/routes";
 import { AboutSection } from "@/components/home/AboutSection";
@@ -25,6 +25,7 @@ export const metadata: Metadata = pageMetadata({
 export default function HomePage() {
   return (
     <>
+      <JsonLd data={websiteData()} />
       <JsonLd data={faqData(home.faq.items)} />
       <Hero />
       <CredentialsStrip />

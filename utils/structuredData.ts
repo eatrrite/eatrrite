@@ -7,6 +7,8 @@ const absolute = (path: string) => new URL(path, BRAND.url).toString();
 const SAME_AS = Object.values(BRAND.socials).filter(Boolean);
 const ORG_ID = `${BRAND.url}/#organization`;
 const PERSON_ID = `${BRAND.url}/#mukta-patil`;
+// Other ways people type the name, so "eatrrite" and "eat rrite" match the brand (Google site names).
+const ALTERNATE_NAMES = ["Eatrrite", "EatRrite", "Eat Rrite Nutrition"];
 const AREA_SERVED = [{ "@type": "Country", name: "India" }, { "@type": "Place", name: "Worldwide (online)" }];
 
 export const organizationData = () => ({
@@ -14,6 +16,7 @@ export const organizationData = () => ({
   "@type": "ProfessionalService",
   "@id": ORG_ID,
   name: BRAND.name,
+  alternateName: ALTERNATE_NAMES,
   url: BRAND.url,
   logo: absolute(BRAND.logo),
   image: absolute(BRAND.shareImage),
@@ -22,6 +25,16 @@ export const organizationData = () => ({
   founder: { "@id": PERSON_ID },
   areaServed: AREA_SERVED,
   sameAs: SAME_AS,
+});
+
+// The site's name for Google's search results (home page only).
+export const websiteData = () => ({
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: BRAND.name,
+  alternateName: ALTERNATE_NAMES,
+  url: `${BRAND.url}/`,
+  publisher: { "@id": ORG_ID },
 });
 
 export const personData = () => ({
