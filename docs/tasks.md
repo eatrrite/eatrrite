@@ -422,7 +422,7 @@ Copied from the Notion page "Eat Rrite: Phase 1 and Phase 2 checklist" (Mukta's 
 - [ ] Blog cards: hide the section until Media articles are live, then show the 3 latest with full dates, each linking to its own article. *Note:* hidden; showing the latest 3 waits for the articles
 - [x] FAQ illustration alt text: "Mukta Patil answering common nutrition questions"
 - [x] FAQ questions as H3 headings (no text change)
-- [ ] Link the "4.8★ Google Rating" stat to the Google reviews page (needs the link from Mukta)
+- [ ] Link the "4.7★ Google Rating" stat to the Google reviews page (needs the link from Mukta)
 - [x] Testimonial names: H4 tags → plain bold text
 - [x] Credentials strip under the hero, linking to About › Credentials & Media
 
@@ -519,7 +519,7 @@ Copied from the Notion page "Eat Rrite: Phase 1 and Phase 2 checklist" (Mukta's 
 - [ ] /media page: "Online articles and interviews" list with the six Read-card links (link only)
 
 **2.2 Reviews, testimonials and social integrations (brief §5.4, §5.5, §8.1)**
-- [ ] Google Business Profile managed from the marketing account (or created: online service-area business covering India, Hyderabad address used to verify and hidden, category Nutritionist; Eat Rrite began in Hyderabad, Dehradun and Mumbai) before the 4.8★ rating stays on the site
+- [x] Google Business Profile managed from the marketing account (verified, 4.7★ from 20 reviews on 19 Nov 2026; site rating changed from 4.8★ to 4.7★ to match). Still to set: category Nutritionist, address hidden, service area India
 - [ ] Google Business Profile links to the website and booking page; the website links back to it
 - [ ] Google reviews widget: live rating, latest reviews, "See all reviews on Google" link
 - [ ] YouTube client testimonial videos with click-to-load thumbnails and VideoObject structured data
@@ -636,7 +636,7 @@ Copied from the Notion page "Eat Rrite: Phase 1 and Phase 2 checklist" (Mukta's 
 - [ ] Access: Search Console, Analytics, Tag Manager, Ads, Business Profile (all on marketing.eatrrite@gmail.com)
 - [ ] Access: Meta Business Portfolio (Events Manager only)
 - [ ] Access: the marketing Google account, to deploy the Apps Script there (see Handover and go-live)
-- [ ] Link to the Google reviews profile (site shows 4.8★)
+- [ ] Link to the Google reviews profile (site shows 4.7★, matching Google on 19 Nov 2026)
 - [ ] Links to the YouTube client testimonial videos, and the YouTube and Facebook profile links
 - [ ] Written consent from Anju (and any other client) to show a testimonial with first name and city
 - [ ] Certificate images and the Global Sustainability Award
