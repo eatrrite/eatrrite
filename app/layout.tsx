@@ -27,7 +27,9 @@ const caveat = Caveat({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(env.siteUrl()),
+  // Canonical links and share previews always name the real domain, never the deployment host
+  // (Vercel's eatrrite.vercel.app was being sent to Google as the canonical address).
+  metadataBase: new URL(BRAND.url),
   title: `${BRAND.name} - Nutritionist, Holistic Health and Wellness`,
   description: BRAND.description,
   applicationName: BRAND.name,
@@ -38,6 +40,11 @@ export const metadata: Metadata = {
     images: [{ url: BRAND.shareImage, width: 1200, height: 630, alt: BRAND.shareImageAlt }],
   },
   twitter: { card: "summary_large_image" },
+  // Search Console and Bing Webmaster Tools ownership tags, only once the owner sets the values.
+  verification: {
+    google: env.googleSiteVerification() || undefined,
+    other: env.bingSiteVerification() ? { "msvalidate.01": env.bingSiteVerification() } : undefined,
+  },
 };
 
 export const viewport: Viewport = { themeColor: BRAND.themeColor };

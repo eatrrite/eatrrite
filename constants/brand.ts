@@ -2,7 +2,7 @@
 // Used by the header, footer, SEO metadata and the web app manifest.
 export const BRAND = {
   name: "Eat Rrite",
-  // An online, worldwide brand: no city names and no "coaching" in titles or descriptions.
+  // An online, pan-India and worldwide brand: no city names and no "coaching" in titles or descriptions.
   tagline: "Holistic Nutrition and Wellbeing",
   description:
     "Eat Rrite is a nutrition and holistic wellness platform offering personalised diet programs, yoga, and lifestyle guidance.",
@@ -14,11 +14,13 @@ export const BRAND = {
   email: "info@eatrrite.com",
   emailHref: "mailto:info@eatrrite.com",
   whatsapp: "https://wa.me/919639877483?text=Hi%2C%20I%27d%20like%20to%20book%20a%20consultation.",
-  address1: "Hyderabad, Telangana",
-  address2: "Dehradun, Uttarakhand",
+  // Where Eat Rrite works: online, across India and abroad. Pages never limit it to a city or state.
+  presence: "Online · Pan-India and abroad",
   // Header and footer hours line (brief §5.1); the exact slots stay on the booking page.
   hoursLine: "Consultations by appointment · Mon–Sun",
   locationsNote: "Consultations conducted online — join from anywhere",
+  // Where Eat Rrite began. Structured data only (foundingLocation), never shown as a service limit.
+  origins: ["Hyderabad, Telangana", "Dehradun, Uttarakhand", "Mumbai, Maharashtra"],
   // Profiles from the brief (handles). YouTube and Facebook are added once Mukta shares the links.
   socials: {
     instagramMukta: "https://www.instagram.com/muktapatil01",

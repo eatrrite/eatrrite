@@ -10,7 +10,7 @@ import { ROUTES } from "@/constants/routes";
 const DETAILS = [
   { icon: Phone, label: "Phone / WhatsApp", body: BRAND.phone, href: BRAND.phoneHref },
   { icon: Mail, label: "Email", body: BRAND.email, href: BRAND.emailHref },
-  { icon: MapPin, label: "Based in", body: `${BRAND.address1} & ${BRAND.address2}`, note: BRAND.locationsNote },
+  { icon: MapPin, label: "Where we work", body: BRAND.presence, note: BRAND.locationsNote },
   { icon: Clock3, label: "Hours", body: <WorkingHours /> },
 ];
 

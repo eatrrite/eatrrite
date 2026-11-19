@@ -457,6 +457,7 @@ Copied from the Notion page "Eat Rrite: Phase 1 and Phase 2 checklist" (Mukta's 
 - [x] Blog: the 3 placeholder posts removed
 
 **1.9 Google and Bing tools (brief §6.1)**
+- [x] Search Console and Bing verification tags and GA4 wired to env vars (`GOOGLE_SITE_VERIFICATION`, `BING_SITE_VERIFICATION`, `GA_MEASUREMENT_ID`); steps in `docs/seo.md`
 - [ ] Verify the site in Google Search Console on marketing.eatrrite@gmail.com; add Mukta as owner
 - [ ] Submit /sitemap.xml, then URL Inspection → "Request indexing" for Home, About, Programs and each program page
 - [ ] Verify in Bing Webmaster Tools (import from Search Console)
@@ -464,14 +465,16 @@ Copied from the Notion page "Eat Rrite: Phase 1 and Phase 2 checklist" (Mukta's 
 **1.10 Page titles and descriptions (brief §6.2)**
 - [x] Home, About, Programs, the four program pages, Pricing, Booking, Contact, Blog and Media use the brief's titles and descriptions (`utils/seo.ts`)
 - [x] Every page has a unique title, a unique description and exactly one H1
-- [x] Online, worldwide brand: no city names and no "coaching" in any title or description. Home title is Mukta's answer from Notion ("Eat Rrite | Holistic Nutrition and Wellbeing"), its description the credentials line
+- [x] Online, pan-India and worldwide brand: pages never limit the service to a city (origins Hyderabad, Dehradun and Mumbai live only in structured data). No city names and no "coaching" in any title or description. Home title is Mukta's answer from Notion ("Eat Rrite | Holistic Nutrition and Wellbeing"), its description the credentials line
 
 **1.11 Technical SEO (brief §6.5)**
 - [x] /sitemap.xml lists only live, final pages and updates itself
 - [x] /robots.txt allows public pages, points to the sitemap, blocks /thank-you and the admin
-- [x] Self-referencing canonical on every page
+- [x] Self-referencing canonical on every page, on www.eatrrite.com (it pointed at eatrrite.vercel.app until the Nov 2026 SEO pass)
+- [x] eatrrite.vercel.app public pages 301 to www.eatrrite.com (API and admin excluded)
 - [ ] HTTPS on every page with no mixed-content warnings (check on the host)
-- [ ] Thank-you page and ad-only landing pages set to noindex
+- [x] Confirmation page set to noindex
+- [ ] Ad-only landing pages set to noindex (when built)
 - [x] lang="en-IN" on every page
 - [x] Image files named by content
 - [ ] Internal links: every program page links to 2–3 related articles and back to Book; every article links to its program (needs the articles)
@@ -516,7 +519,7 @@ Copied from the Notion page "Eat Rrite: Phase 1 and Phase 2 checklist" (Mukta's 
 - [ ] /media page: "Online articles and interviews" list with the six Read-card links (link only)
 
 **2.2 Reviews, testimonials and social integrations (brief §5.4, §5.5, §8.1)**
-- [ ] Google Business Profile managed from the marketing account (or created: online service-area business for Hyderabad and Dehradun, category Nutritionist) before the 4.8★ rating stays on the site
+- [ ] Google Business Profile managed from the marketing account (or created: online service-area business covering India, address hidden, category Nutritionist; Eat Rrite began in Hyderabad, Dehradun and Mumbai) before the 4.8★ rating stays on the site
 - [ ] Google Business Profile links to the website and booking page; the website links back to it
 - [ ] Google reviews widget: live rating, latest reviews, "See all reviews on Google" link
 - [ ] YouTube client testimonial videos with click-to-load thumbnails and VideoObject structured data

@@ -27,6 +27,10 @@ export const env = {
   mailFromName: () => optional("MAIL_FROM_NAME") || "Eat Rrite",
   adminNotifyEmail: () => optional("ADMIN_NOTIFY_EMAIL"),
   cronSecret: () => optional("CRON_SECRET"),
+  // Search tools. Each is empty until the owner copies the value from the tool's own screen.
+  googleSiteVerification: () => optional("GOOGLE_SITE_VERIFICATION"),
+  bingSiteVerification: () => optional("BING_SITE_VERIFICATION"),
+  gaMeasurementId: () => optional("GA_MEASUREMENT_ID"),
   // The address this deployment is reached at: SITE_URL when set, else Vercel's production
   // address (the custom domain once it is added), else the live site. Used for share previews,
   // canonical links and email links, so they never point at a host that lacks the page.

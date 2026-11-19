@@ -9,7 +9,10 @@ const ORG_ID = `${BRAND.url}/#organization`;
 const PERSON_ID = `${BRAND.url}/#mukta-patil`;
 // Other ways people type the name, so "eatrrite" and "eat rrite" match the brand (Google site names).
 const ALTERNATE_NAMES = ["Eatrrite", "EatRrite", "Eat Rrite Nutrition"];
+// Online, across India and abroad: no city limits the service.
 const AREA_SERVED = [{ "@type": "Country", name: "India" }, { "@type": "Place", name: "Worldwide (online)" }];
+// Where Eat Rrite began (Hyderabad, Dehradun, Mumbai): brand history for Google, not a service area.
+const FOUNDING_LOCATIONS = BRAND.origins.map((name) => ({ "@type": "Place", name: `${name}, India` }));
 
 export const organizationData = () => ({
   "@context": "https://schema.org",
@@ -23,6 +26,8 @@ export const organizationData = () => ({
   telephone: "+919639877483",
   email: BRAND.email,
   founder: { "@id": PERSON_ID },
+  foundingDate: "2018",
+  foundingLocation: FOUNDING_LOCATIONS,
   areaServed: AREA_SERVED,
   sameAs: SAME_AS,
 });

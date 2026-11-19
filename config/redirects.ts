@@ -54,6 +54,14 @@ export function siteRedirects(): Redirect[] {
       destination: "https://www.eatrrite.com/:path*",
       statusCode: 301 as const,
     },
+    // Vercel's own address served a full copy of the site: send its public pages to the real
+    // domain. The API (payment webhooks) and admin keep working on it, and robots.txt blocks them.
+    {
+      source: "/:path((?!api/|admin).*)",
+      has: [{ type: "host" as const, value: "eatrrite.vercel.app" }],
+      destination: "https://www.eatrrite.com/:path",
+      statusCode: 301 as const,
+    },
     ...programQuery,
     { source: "/program.php", destination: "/programs", statusCode: 301 },
     ...programPaths,

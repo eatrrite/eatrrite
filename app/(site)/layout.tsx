@@ -1,5 +1,6 @@
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { FloatActions } from "@/components/layout/FloatActions";
+import { GoogleAnalytics } from "@/components/layout/GoogleAnalytics";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { TopBar } from "@/components/layout/TopBar";
@@ -19,6 +20,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
         <SiteFooter />
       </div>
       <FloatActions />
+      <GoogleAnalytics />
       {/* Offsets keep toasts clear of the sticky header (top), the WhatsApp button (desktop) and the bottom bar (phones). */}
       <LazyToaster offset={{ top: 96, right: 92, bottom: 24 }} mobileOffset={{ top: 96, left: 16, right: 16, bottom: 88 }} />
     </MotionProvider>
