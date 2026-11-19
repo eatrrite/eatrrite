@@ -519,7 +519,7 @@ Copied from the Notion page "Eat Rrite: Phase 1 and Phase 2 checklist" (Mukta's 
 - [ ] /media page: "Online articles and interviews" list with the six Read-card links (link only)
 
 **2.2 Reviews, testimonials and social integrations (brief §5.4, §5.5, §8.1)**
-- [ ] Google Business Profile managed from the marketing account (or created: online service-area business covering India, address hidden, category Nutritionist; Eat Rrite began in Hyderabad, Dehradun and Mumbai) before the 4.8★ rating stays on the site
+- [ ] Google Business Profile managed from the marketing account (or created: online service-area business covering India, Hyderabad address used to verify and hidden, category Nutritionist; Eat Rrite began in Hyderabad, Dehradun and Mumbai) before the 4.8★ rating stays on the site
 - [ ] Google Business Profile links to the website and booking page; the website links back to it
 - [ ] Google reviews widget: live rating, latest reviews, "See all reviews on Google" link
 - [ ] YouTube client testimonial videos with click-to-load thumbnails and VideoObject structured data

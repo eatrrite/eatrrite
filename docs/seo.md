@@ -7,6 +7,7 @@ Goal: www.eatrrite.com is the first result for "Eat Rrite" and "eatrrite". Audit
 - **Main address:** https://www.eatrrite.com (brief §3). eatrrite.com and eatrrite.vercel.app 301 to it.
 - **Brand name:** Eat Rrite, always with the space. "Eatrrite" and "EatRrite" appear only in structured data `alternateName`, so the joined spelling people type still matches the brand.
 - **Presence:** online, across India and abroad. Eat Rrite began in Hyderabad, Dehradun and Mumbai (`BRAND.origins`); those cities appear only in structured data (`foundingLocation`), never on pages as a service limit, and never in titles or descriptions.
+- **Address for Google:** the site's earlier addresses, Hyderabad, Telangana and Dehradun, Uttarakhand (city and state, no street), go in structured data `address` (`BRAND.seoAddresses`) and in Google Business Profile with the address hidden. Never shown on a page.
 - **No scorebadge badge** in the footer (the brief forbids layout changes).
 - **Product Hunt: not a fit.** It is a launch site for software and tech products; a nutrition practice would get no relevant audience and risks removal. Skipped.
 
@@ -19,7 +20,7 @@ Goal: www.eatrrite.com is the first result for "Eat Rrite" and "eatrrite". Audit
 | Email and sign-in links used `SITE_URL`, which was set to eatrrite.vercel.app | `SITE_URL` must be `https://www.eatrrite.com` in Vercel Production and in `.env.local`; see owner steps |
 | No Search Console, Bing or GA4 tags | Read from `GOOGLE_SITE_VERIFICATION`, `BING_SITE_VERIFICATION`, `GA_MEASUREMENT_ID`; nothing renders until set (`config/env.ts`, `components/layout/GoogleAnalytics.tsx`) |
 | Pages named Hyderabad and Dehradun as where Eat Rrite is based | Footer, contact page, home and cohort copy now say online, pan-India and abroad (`BRAND.presence`) |
-| Organization schema had no origin | `foundingDate` 2018 and `foundingLocation` Hyderabad, Dehradun, Mumbai (`utils/structuredData.ts`) |
+| Organization schema had no origin or address | `foundingDate` 2018, `foundingLocation` Hyderabad, Dehradun, Mumbai, and `address` Hyderabad and Dehradun as city-level `PostalAddress` (`utils/structuredData.ts`) |
 
 Already right: robots.txt (allows Google, Bing and AI crawlers; blocks admin, API, confirmation), sitemap of 15 live pages, unique titles under 60 characters, one H1 per page, alt text on every image, breadcrumbs, FAQ, Person and Service schema, real 404s, every internal link 200, confirmation page noindex.
 
@@ -34,7 +35,7 @@ Already right: robots.txt (allows Google, Bing and AI crawlers; blocks admin, AP
 6. **GA4:** analytics.google.com → Admin → Create property "Eat Rrite" (India, INR) → Web stream `https://www.eatrrite.com` → copy `G-…` → first add Google Analytics to the privacy policy (Mukta approves), then set `GA_MEASUREMENT_ID` in Vercel → redeploy.
 7. **Link GA4 to Search Console:** Analytics → Admin → Product links → Search Console links → Link.
 8. **Bing:** bing.com/webmasters → Import from Google Search Console (copies site and sitemap).
-9. **Google Business Profile:** business.google.com → Nutritionist → online service-area business, area India, **hide the address**, website www.eatrrite.com, phone +91 96398 77483. Name exactly "Eat Rrite".
+9. **Google Business Profile:** business.google.com → Nutritionist → service-area business. Business address: the Hyderabad one (Google needs a full address to verify, it stays private), then **hide the address**; service area India. Add Dehradun later as a second profile only if there is a real place there, website www.eatrrite.com, phone +91 96398 77483. Name exactly "Eat Rrite".
 10. **Google Alerts:** google.com/alerts for "Eat Rrite", "eatrrite.com" and "Mukta Patil".
 11. **Microsoft Clarity** (optional, free heatmaps): after GA4, if wanted, add it the same way.
 

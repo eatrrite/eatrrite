@@ -21,6 +21,12 @@ export const BRAND = {
   locationsNote: "Consultations conducted online — join from anywhere",
   // Where Eat Rrite began. Structured data only (foundingLocation), never shown as a service limit.
   origins: ["Hyderabad, Telangana", "Dehradun, Uttarakhand", "Mumbai, Maharashtra"],
+  // The addresses the site listed before (city and state, no street). Structured data and
+  // Google Business Profile only: never shown on a page.
+  seoAddresses: [
+    { locality: "Hyderabad", region: "Telangana" },
+    { locality: "Dehradun", region: "Uttarakhand" },
+  ],
   // Profiles from the brief (handles). YouTube and Facebook are added once Mukta shares the links.
   socials: {
     instagramMukta: "https://www.instagram.com/muktapatil01",

@@ -13,6 +13,13 @@ const ALTERNATE_NAMES = ["Eatrrite", "EatRrite", "Eat Rrite Nutrition"];
 const AREA_SERVED = [{ "@type": "Country", name: "India" }, { "@type": "Place", name: "Worldwide (online)" }];
 // Where Eat Rrite began (Hyderabad, Dehradun, Mumbai): brand history for Google, not a service area.
 const FOUNDING_LOCATIONS = BRAND.origins.map((name) => ({ "@type": "Place", name: `${name}, India` }));
+// City-level addresses for Google (no street), so the business listing has an address. Not on any page.
+const ADDRESSES = BRAND.seoAddresses.map(({ locality, region }) => ({
+  "@type": "PostalAddress",
+  addressLocality: locality,
+  addressRegion: region,
+  addressCountry: "IN",
+}));
 
 export const organizationData = () => ({
   "@context": "https://schema.org",
@@ -28,6 +35,7 @@ export const organizationData = () => ({
   founder: { "@id": PERSON_ID },
   foundingDate: "2018",
   foundingLocation: FOUNDING_LOCATIONS,
+  address: ADDRESSES,
   areaServed: AREA_SERVED,
   sameAs: SAME_AS,
 });
