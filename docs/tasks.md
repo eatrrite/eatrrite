@@ -458,8 +458,8 @@ Copied from the Notion page "Eat Rrite: Phase 1 and Phase 2 checklist" (Mukta's 
 
 **1.9 Google and Bing tools (brief §6.1)**
 - [x] Search Console and Bing verification tags and GA4 wired to env vars (`GOOGLE_SITE_VERIFICATION`, `BING_SITE_VERIFICATION`, `GA_MEASUREMENT_ID`); steps in `docs/seo.md`
-- [ ] Verify the site in Google Search Console on marketing.eatrrite@gmail.com; add Mukta as owner
-- [ ] Submit /sitemap.xml, then URL Inspection → "Request indexing" for Home, About, Programs and each program page
+- [x] Verify the site in Google Search Console on marketing.eatrrite@gmail.com (Domain property, DNS TXT at Wix, 19 Nov 2026); add Mukta as owner
+- [x] Submit /sitemap.xml, then URL Inspection → "Request indexing" for Home, About, Programs and each program page (19 Nov 2026)
 - [ ] Verify in Bing Webmaster Tools (import from Search Console)
 
 **1.10 Page titles and descriptions (brief §6.2)**

@@ -7,7 +7,8 @@
       "items": [
         "Your name, email address and mobile number, when you book or contact us.",
         "Your answers to the health questionnaire you fill in after booking.",
-        "Payment confirmation details from the payment provider. We never see or store your card or bank details."
+        "Payment confirmation details from the payment provider. We never see or store your card or bank details.",
+        "Anonymous visit statistics, such as pages viewed, device type and approximate location, through Google Analytics cookies. These never include your name, contact details, health answers or form entries."
       ]
     },
     {
@@ -24,6 +25,7 @@
         "Google, for the Meet link, calendar and email.",
         "Meta, for WhatsApp messages about your consultation.",
         "Razorpay, the payment provider, for the ₹800 confirmation fee.",
+        "Google Analytics, for anonymous visit statistics that show which pages help visitors.",
         "No one else. We never sell your data."
       ]
     },
