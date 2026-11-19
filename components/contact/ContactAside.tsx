@@ -10,7 +10,7 @@ import { ROUTES } from "@/constants/routes";
 const DETAILS = [
   { icon: Phone, label: "Phone / WhatsApp", body: BRAND.phone, href: BRAND.phoneHref },
   { icon: Mail, label: "Email", body: BRAND.email, href: BRAND.emailHref },
-  { icon: MapPin, label: "Where we work", body: BRAND.presence, note: BRAND.locationsNote },
+  { icon: MapPin, label: "Where we work", body: BRAND.presence, note: BRAND.locationsNote, extra: BRAND.headOperations },
   { icon: Clock3, label: "Hours", body: <WorkingHours /> },
 ];
 
@@ -30,6 +30,7 @@ export function ContactAside() {
                   <p className="m-0 text-xs font-medium tracking-wide text-muted-foreground uppercase">{item.label}</p>
                   {item.href ? <a href={item.href} className="mt-1 block text-ink hover:text-primary">{item.body}</a> : <p className="mt-1 mb-0 leading-relaxed text-ink">{item.body}</p>}
                   {item.note ? <p className="mt-1 mb-0 text-xs text-muted-foreground">{item.note}</p> : null}
+                  {item.extra ? <p className="mt-1 mb-0 text-xs text-muted-foreground">{item.extra}</p> : null}
                 </div>
               </div>
             </li>

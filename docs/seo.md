@@ -6,8 +6,8 @@ Goal: www.eatrrite.com is the first result for "Eat Rrite" and "eatrrite". Audit
 
 - **Main address:** https://www.eatrrite.com (brief §3). eatrrite.com and eatrrite.vercel.app 301 to it.
 - **Brand name:** Eat Rrite, always with the space. "Eatrrite" and "EatRrite" appear only in structured data `alternateName`, so the joined spelling people type still matches the brand.
-- **Presence:** online, across India and abroad. Eat Rrite began in Hyderabad, Dehradun and Mumbai (`BRAND.origins`); those cities appear only in structured data (`foundingLocation`), never on pages as a service limit, and never in titles or descriptions.
-- **Address for Google:** the site's earlier addresses, Hyderabad, Telangana and Dehradun, Uttarakhand (city and state, no street), go in structured data `address` (`BRAND.seoAddresses`) and in Google Business Profile with the address hidden. Never shown on a page.
+- **Presence:** online, across India and abroad. The footer and contact page add Mukta's line "Head operations: Hyderabad, Mumbai, Dehradun" (`BRAND.headOperations`, Nov 2026). No city names in titles or descriptions. Eat Rrite began in Hyderabad, Dehradun and Mumbai (`BRAND.origins`, structured data `foundingLocation`).
+- **Addresses (Mukta, Nov 2026):** primary Sainikpuri, Secunderabad, Telangana; also Sus Road, Pune, Maharashtra and Sahastradhara Road, Dehradun, Uttarakhand (`BRAND.addresses`, structured data `address`, primary first). The Google Business Profile holds the primary address only, **shown publicly**. Pages show the head operations line, not street addresses.
 - **No scorebadge badge** in the footer (the brief forbids layout changes).
 - **Product Hunt: not a fit.** It is a launch site for software and tech products; a nutrition practice would get no relevant audience and risks removal. Skipped.
 
@@ -35,7 +35,7 @@ Already right: robots.txt (allows Google, Bing and AI crawlers; blocks admin, AP
 6. **GA4:** analytics.google.com → Admin → Create property "Eat Rrite" (India, INR) → Web stream `https://www.eatrrite.com` → copy `G-…` → first add Google Analytics to the privacy policy (Mukta approves), then set `GA_MEASUREMENT_ID` in Vercel → redeploy.
 7. **Link GA4 to Search Console:** Analytics → Admin → Product links → Search Console links → Link.
 8. **Bing:** bing.com/webmasters → Import from Google Search Console (copies site and sitemap).
-9. **Google Business Profile:** business.google.com → Nutritionist → service-area business. Business address: the Hyderabad one (Google needs a full address to verify, it stays private), then **hide the address**; service area India. Add Dehradun later as a second profile only if there is a real place there, website www.eatrrite.com, phone +91 96398 77483. Name exactly "Eat Rrite".
+9. **Google Business Profile** (already exists and verified, do not create another): name "Eat Rrite", primary category Nutritionist, address Sainikpuri, Secunderabad shown publicly, service area India, website https://www.eatrrite.com, phone +91 96398 77483, hours that match when clients can reach Mukta. Pune and Dehradun would each need their own verified profile at a real, staffed place; do not add them to this one.
 10. **Google Alerts:** google.com/alerts for "Eat Rrite", "eatrrite.com" and "Mukta Patil".
 11. **Microsoft Clarity** (optional, free heatmaps): after GA4, if wanted, add it the same way.
 

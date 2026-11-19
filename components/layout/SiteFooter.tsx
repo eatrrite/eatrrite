@@ -61,7 +61,7 @@ export async function SiteFooter() {
             <li className="flex items-center gap-2.5"><Clock3 className="size-4 shrink-0 text-accent-deep" />{BRAND.hoursLine}</li>
             <li className="flex gap-2.5">
               <MapPin className="mt-0.5 size-4 shrink-0 text-accent-deep" />
-              <span>{BRAND.presence}<br /><span className="text-xs text-muted-foreground">{BRAND.locationsNote}</span></span>
+              <span>{BRAND.presence}<br /><span className="text-xs text-muted-foreground">{BRAND.locationsNote}</span><br /><span className="text-xs text-muted-foreground">{BRAND.headOperations}</span></span>
             </li>
           </ul>
         </BlurIn>

@@ -12,5 +12,5 @@ Client work for Mukta Patil on www.eatrrite.com: fixes, SEO, speed and automatio
 - Keep the ₹800 fee. Do not publish program fees. Keep "PMOS". Never mention the product line.
 - Client names, photos and stories only with written consent.
 - No health information or personal data in tracking events or URLs.
-- Eat Rrite is online, pan-India and abroad. Never limit it to a city on a page; Hyderabad, Dehradun and Mumbai (where it began) and the Hyderabad and Dehradun addresses go only in structured data and Google Business Profile.
+- Eat Rrite is online, pan-India and abroad. Pages show only "Head operations: Hyderabad, Mumbai, Dehradun" (`BRAND.headOperations`), never street addresses; the addresses (primary Sainikpuri, Secunderabad, plus Sus Road Pune and Sahastradhara Road Dehradun) go only in structured data and the Google Business Profile.
 - Work on staging, keep a backup, and show Mukta before going live.

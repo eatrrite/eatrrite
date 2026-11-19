@@ -519,7 +519,7 @@ Copied from the Notion page "Eat Rrite: Phase 1 and Phase 2 checklist" (Mukta's 
 - [ ] /media page: "Online articles and interviews" list with the six Read-card links (link only)
 
 **2.2 Reviews, testimonials and social integrations (brief §5.4, §5.5, §8.1)**
-- [x] Google Business Profile managed from the marketing account (verified, 4.7★ from 20 reviews on 19 Nov 2026; site rating changed from 4.8★ to 4.7★ to match). Still to set: category Nutritionist, address hidden, service area India
+- [x] Google Business Profile managed from the marketing account (verified, 4.7★ from 20 reviews on 19 Nov 2026; site rating changed from 4.8★ to 4.7★ to match). Still to set: category Nutritionist, address Sainikpuri, Secunderabad (shown), service area India
 - [ ] Google Business Profile links to the website and booking page; the website links back to it
 - [ ] Google reviews widget: live rating, latest reviews, "See all reviews on Google" link
 - [ ] YouTube client testimonial videos with click-to-load thumbnails and VideoObject structured data

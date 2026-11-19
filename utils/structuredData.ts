@@ -13,9 +13,10 @@ const ALTERNATE_NAMES = ["Eatrrite", "EatRrite", "Eat Rrite Nutrition"];
 const AREA_SERVED = [{ "@type": "Country", name: "India" }, { "@type": "Place", name: "Worldwide (online)" }];
 // Where Eat Rrite began (Hyderabad, Dehradun, Mumbai): brand history for Google, not a service area.
 const FOUNDING_LOCATIONS = BRAND.origins.map((name) => ({ "@type": "Place", name: `${name}, India` }));
-// City-level addresses for Google (no street), so the business listing has an address. Not on any page.
-const ADDRESSES = BRAND.seoAddresses.map(({ locality, region }) => ({
+// Business addresses, primary (Sainikpuri, Secunderabad) first, matching the Google Business Profile.
+const ADDRESSES = BRAND.addresses.map(({ street, locality, region }) => ({
   "@type": "PostalAddress",
+  streetAddress: street,
   addressLocality: locality,
   addressRegion: region,
   addressCountry: "IN",

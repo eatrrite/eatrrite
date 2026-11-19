@@ -19,13 +19,16 @@ export const BRAND = {
   // Header and footer hours line (brief §5.1); the exact slots stay on the booking page.
   hoursLine: "Consultations by appointment · Mon–Sun",
   locationsNote: "Consultations conducted online — join from anywhere",
+  // Mukta's wording (Nov 2026), shown under the online line in the footer and on the contact page.
+  headOperations: "Head operations: Hyderabad, Mumbai, Dehradun",
   // Where Eat Rrite began. Structured data only (foundingLocation), never shown as a service limit.
   origins: ["Hyderabad, Telangana", "Dehradun, Uttarakhand", "Mumbai, Maharashtra"],
-  // The addresses the site listed before (city and state, no street). Structured data and
-  // Google Business Profile only: never shown on a page.
-  seoAddresses: [
-    { locality: "Hyderabad", region: "Telangana" },
-    { locality: "Dehradun", region: "Uttarakhand" },
+  // Business addresses from Mukta (Nov 2026). The first is the official primary one and the
+  // Google Business Profile address. Structured data only: pages show headOperations instead.
+  addresses: [
+    { street: "Sainikpuri", locality: "Secunderabad", region: "Telangana" },
+    { street: "Sus Road", locality: "Pune", region: "Maharashtra" },
+    { street: "Sahastradhara Road", locality: "Dehradun", region: "Uttarakhand" },
   ],
   // Profiles from the brief (handles). YouTube and Facebook are added once Mukta shares the links.
   socials: {
