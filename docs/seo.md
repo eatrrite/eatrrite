@@ -15,7 +15,8 @@ Goal: www.eatrrite.com is the first result for "Eat Rrite" and "eatrrite". Audit
 | Issue | Fix |
 | --- | --- |
 | Every page's canonical, `og:url` and `og:image` pointed at eatrrite.vercel.app, telling Google the Vercel copy was the real site | `metadataBase` now comes from `BRAND.url` (`app/layout.tsx`) |
-| eatrrite.vercel.app served a full duplicate of the site with 200 | Public pages 301 to www (`config/redirects.ts`); `/api` and `/admin` stay so webhooks and sign-in keep working |
+| eatrrite.vercel.app served a full duplicate of the site with 200 | Public pages 301 to www (`config/redirects.ts`); `/api` and `/admin` stay so webhooks and sign-in keep working. Same Vercel project as the domain, so this applies to production only |
+| Email and sign-in links used `SITE_URL`, which was set to eatrrite.vercel.app | `SITE_URL` must be `https://www.eatrrite.com` in Vercel Production and in `.env.local`; see owner steps |
 | No Search Console, Bing or GA4 tags | Read from `GOOGLE_SITE_VERIFICATION`, `BING_SITE_VERIFICATION`, `GA_MEASUREMENT_ID`; nothing renders until set (`config/env.ts`, `components/layout/GoogleAnalytics.tsx`) |
 | Pages named Hyderabad and Dehradun as where Eat Rrite is based | Footer, contact page, home and cohort copy now say online, pan-India and abroad (`BRAND.presence`) |
 | Organization schema had no origin | `foundingDate` 2018 and `foundingLocation` Hyderabad, Dehradun, Mumbai (`utils/structuredData.ts`) |
@@ -24,7 +25,8 @@ Already right: robots.txt (allows Google, Bing and AI crawlers; blocks admin, AP
 
 ## Owner clicks (marketing.eatrrite@gmail.com)
 
-1. **Deploy** this branch, then check `https://www.eatrrite.com` view-source shows `<link rel="canonical" href="https://www.eatrrite.com">`.
+1. **Vercel → Project → Settings → Environment Variables:** set `SITE_URL` = `https://www.eatrrite.com` for Production. Replace any `https://eatrrite.vercel.app` value. Then redeploy.
+2. **Deploy** this branch, then check `https://www.eatrrite.com` view-source shows `<link rel="canonical" href="https://www.eatrrite.com">`, and `https://eatrrite.vercel.app/about` returns a 301 to `https://www.eatrrite.com/about`.
 2. **Search Console:** search.google.com/search-console → Add property → **Domain** → `eatrrite.com` → add the TXT record at the DNS host → Verify. (No DNS access: URL prefix `https://www.eatrrite.com/` → HTML tag → put the content value in Vercel as `GOOGLE_SITE_VERIFICATION` → redeploy → Verify.) Add Mukta as owner.
 3. **Sitemap:** Search Console → Sitemaps → `sitemap.xml` → Submit.
 4. **Request indexing:** URL Inspection → Home, /about, /programs, each program page → Request indexing.

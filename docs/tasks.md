@@ -412,7 +412,7 @@ Copied from the Notion page "Eat Rrite: Phase 1 and Phase 2 checklist" (Mukta's 
 - [x] Footer: copyright year updates automatically
 - [x] Footer disclaimer line: "General guidance, not medical advice. With a medical condition, follow your doctor."
 - [x] Remove the stray "meta-description / meta-viewport / title" text on About and Booking
-- [x] Favicon (logo mark): 16/32/48 favicon on a white tile, 512 icon, 180 Apple icon, 192/512 and maskable manifest icons, all from the full (uncut) tree mark; share previews use the deployment's own address (`SITE_URL`)
+- [x] Favicon (logo mark): 16/32/48 favicon on a white tile, 512 icon, 180 Apple icon, 192/512 and maskable manifest icons, all from the full (uncut) tree mark; share previews and canonical links use the real domain from `BRAND.url` (www.eatrrite.com)
 - [x] Open Graph share preview on every page: title, description and 1200×630 image. *Note:* the image is a branded logo card (`public/images/og/eatrrite-share.jpg`: logo, "Holistic Nutrition and Wellbeing", www.eatrrite.com), so WhatsApp, Facebook, LinkedIn, X and Slack show the logo, not a food photo
 
 **1.5 Home page (brief §5.1)**

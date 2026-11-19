@@ -31,9 +31,9 @@ export const env = {
   googleSiteVerification: () => optional("GOOGLE_SITE_VERIFICATION"),
   bingSiteVerification: () => optional("BING_SITE_VERIFICATION"),
   gaMeasurementId: () => optional("GA_MEASUREMENT_ID"),
-  // The address this deployment is reached at: SITE_URL when set, else Vercel's production
-  // address (the custom domain once it is added), else the live site. Used for share previews,
-  // canonical links and email links, so they never point at a host that lacks the page.
+  // The public address used in email links and sign-in return links. Set SITE_URL to
+  // https://www.eatrrite.com on Vercel: the fallback below may be the vercel.app address.
+  // Canonical links and share previews use BRAND.url, not this.
   siteUrl: () =>
     optional("SITE_URL") ||
     (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : "") ||
