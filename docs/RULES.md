@@ -24,7 +24,7 @@ Short, binding rules for the Eat Rrite Next.js site. Clarity beats cleverness.
 | `components/admin/` | Admin panel, by page (`components/admin/calendar/`) |
 | `features/<feature>/` | Everything one feature needs, in one place: `components/`, `hooks/`, `services/`, `constants/`, `types/`, `utils/`, `stores/`. Today: `features/appointment/`, `features/auth/` (Neon Auth: sign-in, sign-up, session, profile), `features/admin/` (admin data load and save actions) |
 | `stores/` | Client state for the admin (zustand), until Neon is wired |
-| `constants/<page>/` | Copy for one page, such as `constants/about/` |
+| `constants/<page>/` | Copy for one page, such as `constants/about/`. Imported into Cosmic once; now the shape and the fallback |
 | `constants/` | Brand manifest, routes, API paths, motion values |
 | `hooks/` | Shared React hooks; admin hooks in `hooks/admin/`. Feature hooks live in their feature |
 | `services/` | Shared services, such as the database client. Feature services live in their feature |
@@ -59,6 +59,7 @@ No clinic, dental or other-brand wording in names, files, comments or text. The 
 - Anything you can press or pick shows the pointer cursor. One rule in `app/globals.css` covers buttons, chips, radios, checkboxes, tabs and options; do not add `cursor-pointer` by hand.
 - Every user action ends with a toast through `useShowToast` (long forms may also use `useProgressToast`). An action that waits on the server shows a pending toast first and replaces it with the result.
 - Empty and failed views use `components/shared/EmptyState` (illustrations in `public/images/empty-states/`). Server waits use `LoadingState`; every route group has an `error.tsx` with `ErrorState` and a Try again button.
+- Site copy is read with `getPage()` / `getCollection()` from `features/cms/services/cmsContent.ts`, never by importing a page's JSON in a component. Client components get it as props. Copy changes are made in Cosmic (`docs/cosmic.md`).
 - Brand name, contact details and links come from `constants/brand.ts`. WhatsApp links come from `constants/whatsapp.ts` (pre-filled per page, never health details).
 - Every public page sets its metadata with `pageMetadata()` (`utils/seo.ts`): brief title, description, canonical and share preview. Inner pages pass `path` to `PageBanner` for breadcrumb data.
 - Old addresses redirect only through `config/redirects.ts` (301). Link with `ROUTES`, never an old address.
@@ -81,6 +82,7 @@ No clinic, dental or other-brand wording in names, files, comments or text. The 
 
 - Secrets live only in `.env.local`. Never commit them, never send them to the browser.
 - `config/env.ts` is server-only.
+- `COSMIC_WRITE_KEY` stays in `.env.local` for the import script. It is never set on the host.
 - Check every input on the server, even when the form already checks it.
 - Payment amounts come from the server, never from the browser.
 - Confirm a payment only after checking the Razorpay signature.

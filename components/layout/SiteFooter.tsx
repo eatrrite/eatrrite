@@ -6,7 +6,7 @@ import { SocialLinks } from "@/components/layout/SocialLinks";
 import { BlurIn } from "@/components/motion/BlurIn";
 import { footerViewport } from "@/constants/motion";
 import { BRAND } from "@/constants/brand";
-import programs from "@/constants/programs/programs.json";
+import { getCollection } from "@/features/cms/services/cmsContent";
 import { FOOTER_LINKS, programPath } from "@/constants/routes";
 
 const link = "text-sm text-text transition-colors hover:text-primary";
@@ -26,7 +26,7 @@ function FooterTitle({ children }: { children: React.ReactNode }) {
 // apart after a beige section) with gold icons. Copy and
 // links match the PHP footer.
 export async function SiteFooter() {
-  const year = await currentYear();
+  const [year, programs] = await Promise.all([currentYear(), getCollection("programs")]);
   return (
     <footer className="border-t border-beige-deep bg-beige-light">
       <div className="er-container grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">

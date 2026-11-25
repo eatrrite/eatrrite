@@ -2,7 +2,7 @@ import { ArrowUpRight } from "lucide-react";
 import { BlurInItem } from "@/components/motion/BlurIn";
 import type { IconProps } from "@/components/svg/HandIcon";
 import { ChilliIcon, EarIcon, NewspaperIcon, PlateIcon, WomanHealthIcon, YogaScienceIcon } from "@/components/svg/articles";
-import credentials from "@/constants/about/credentials.json";
+import { getPage } from "@/features/cms/services/cmsContent";
 
 // A hand-drawn icon (components/svg) beside each article title, drawn for its topic; never
 // the publisher's own art. Articles without their own drawing get the newspaper.
@@ -18,7 +18,8 @@ const iconFor = (title: string) => ICONS.find(([key]) => title.includes(key))?.[
 // "Read" cards for Mukta's articles and interviews. Each opens the publisher's page in a new
 // tab: we link to their sites and never copy their text (brief §5.2, §5.3). The source line
 // ("The New Indian Express, 8 Apr 2021") shows as a publisher tag and a date.
-export function ReadCards() {
+export async function ReadCards() {
+  const credentials = await getPage("credentials");
   return (
     <ul className="m-0 grid gap-4 p-0 sm:grid-cols-2 lg:grid-cols-3">
       {credentials.articles.map((article, index) => {

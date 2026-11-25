@@ -6,7 +6,6 @@ import { FounderBadge } from "@/components/shared/FounderBadge";
 import { LinkButton } from "@/components/shared/section/LinkButton";
 import { PageSection } from "@/components/shared/section/PageSection";
 import { SectionIntro } from "@/components/shared/section/SectionIntro";
-import about from "@/constants/about/content.json";
 import { getPage } from "@/features/cms/services/cmsContent";
 import { pageFood } from "@/constants/home/floatingFood";
 import { ROUTES } from "@/constants/routes";
@@ -15,6 +14,7 @@ import { ROUTES } from "@/constants/routes";
 // photo with the brand seal and Mukta's badge on the left; her quote, the stats timeline and a
 // button on the right. Copy is the site's existing text (About story, home quote and stats).
 export async function StorySection() {
+  const about = await getPage("about-page");
   const home = await getPage("home-page");
   const { story } = about;
   const { quote, cite } = home.about;

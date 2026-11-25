@@ -2,11 +2,12 @@ import Image from "next/image";
 import { BlurIn } from "@/components/motion/BlurIn";
 import { PageSection } from "@/components/shared/section/PageSection";
 import { SectionIntro } from "@/components/shared/section/SectionIntro";
-import about from "@/constants/about/content.json";
+import { getPage } from "@/features/cms/services/cmsContent";
 import { pageFood } from "@/constants/home/floatingFood";
 
 // Doctors on board: a reference-style card with a details timeline.
-export function DoctorsSection() {
+export async function DoctorsSection() {
+  const about = await getPage("about-page");
   const { doctors } = about;
   return (
     <PageSection tone="white" food={pageFood(2)}>

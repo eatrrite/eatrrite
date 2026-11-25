@@ -1,13 +1,14 @@
 import { BlurIn } from "@/components/motion/BlurIn";
 import { LinkButton } from "@/components/shared/section/LinkButton";
 import { cn } from "cn";
-import packages from "@/constants/programs/packages.json";
+import { getCollection } from "@/features/cms/services/cmsContent";
 import { ROUTES } from "@/constants/routes";
 
 type Package = { name: string; blurb: string; featured?: boolean };
 
 // Program lengths as reference-style cards. No fees: Mukta keeps them unpublished.
-export function PackageCards({ badge = false }: { badge?: boolean }) {
+export async function PackageCards({ badge = false }: { badge?: boolean }) {
+  const packages = await getCollection("packages");
   return (
     <div className="mt-10 grid gap-5 md:grid-cols-3">
       {(packages as Package[]).map((pack, index) => (

@@ -1,7 +1,7 @@
 import { BlurInItem } from "@/components/motion/BlurIn";
 import type { IconProps } from "@/components/svg/HandIcon";
 import { AwardIcon, GlobeIcon, SinceIcon, YogaTreeIcon } from "@/components/svg/highlights";
-import credentials from "@/constants/about/credentials.json";
+import { getPage } from "@/features/cms/services/cmsContent";
 import { cn } from "cn";
 
 // The "Highlights" row (brief §5.2) as small tiles, one per item, each with its own hand-drawn
@@ -14,7 +14,8 @@ const ICONS: [string, (props: IconProps) => React.ReactNode][] = [
 ];
 const iconFor = (text: string) => ICONS.find(([word]) => text.includes(word))?.[1] ?? SinceIcon;
 
-export function CredentialHighlights({ className }: { className?: string }) {
+export async function CredentialHighlights({ className }: { className?: string }) {
+  const credentials = await getPage("credentials");
   const items = credentials.rows[0].text.split(" · ");
   return (
     <div className={className}>

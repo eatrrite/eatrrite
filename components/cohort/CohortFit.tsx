@@ -2,13 +2,14 @@ import { IconCard } from "@/components/cohort/IconCard";
 import { cohortIcon } from "@/components/cohort/cohortIcons";
 import { PageSection } from "@/components/shared/section/PageSection";
 import { SectionIntro } from "@/components/shared/section/SectionIntro";
-import copy from "@/constants/cohort/content.json";
+import { getPage } from "@/features/cms/services/cmsContent";
 import { pageFood } from "@/constants/home/floatingFood";
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
 // cohort-fit.php: the eight symptoms the cohort is built for.
-export function CohortFit() {
+export async function CohortFit() {
+  const copy = await getPage("cohort-page");
   const { fit } = copy;
   return (
     <PageSection tone="white" food={pageFood(0)}>

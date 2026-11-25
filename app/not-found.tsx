@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { FloatActions } from "@/components/layout/FloatActions";
+import { getCollection } from "@/features/cms/services/cmsContent";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { TopBar } from "@/components/layout/TopBar";
@@ -17,7 +18,8 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function NotFound() {
+export default async function NotFound() {
+  const programs = await getCollection("programs");
   return (
     <>
       <TopBar />
@@ -35,7 +37,7 @@ export default function NotFound() {
         </PageSection>
       </main>
       <SiteFooter />
-      <FloatActions />
+      <FloatActions programs={programs.map(({ slug, short }) => ({ slug, short }))} />
     </>
   );
 }

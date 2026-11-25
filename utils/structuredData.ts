@@ -1,4 +1,3 @@
-import credentials from "@/constants/about/credentials.json";
 import { BRAND } from "@/constants/brand";
 
 // JSON-LD builders (brief §6.4, §5.2). Review / AggregateRating is left out until real Google
@@ -51,7 +50,8 @@ export const websiteData = () => ({
   publisher: { "@id": ORG_ID },
 });
 
-export const personData = () => ({
+// `articles`: Mukta's columns and interviews (Cosmic "credentials").
+export const personData = (articles: readonly { title: string; href: string }[]) => ({
   "@context": "https://schema.org",
   "@type": "Person",
   "@id": PERSON_ID,
@@ -74,7 +74,7 @@ export const personData = () => ({
   ].map((name) => ({ "@type": "EducationalOccupationalCredential", name })),
   award: "Global Sustainability Award 2024 (SDG-3, Good Health and Well-being)",
   sameAs: SAME_AS,
-  subjectOf: credentials.articles.map((article) => ({ "@type": "Article", headline: article.title, url: article.href })),
+  subjectOf: articles.map((article) => ({ "@type": "Article", headline: article.title, url: article.href })),
 });
 
 export const faqData = (items: { q: string; a: string }[]) => ({

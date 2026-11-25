@@ -8,7 +8,7 @@ import { BlurIn } from "@/components/motion/BlurIn";
 import { PageSection } from "@/components/shared/section/PageSection";
 import { SectionIntro } from "@/components/shared/section/SectionIntro";
 import { BRAND } from "@/constants/brand";
-import copy from "@/constants/contact/content.json";
+import { getCollection, getPage } from "@/features/cms/services/cmsContent";
 import { pageFood } from "@/constants/home/floatingFood";
 
 export const metadata: Metadata = pageMetadata({
@@ -18,7 +18,8 @@ export const metadata: Metadata = pageMetadata({
 });
 
 // Copies contact.php in the reference design contact section layout.
-export default function ContactPage() {
+export default async function ContactPage() {
+  const [copy, programs] = await Promise.all([getPage("contact-page"), getCollection("programs")]);
   return (
     <>
       <PageBanner title="Contact Us" path={ROUTES.contact} />
@@ -28,7 +29,7 @@ export default function ContactPage() {
           <p className="mt-5 mb-0 font-heading text-4xl font-bold text-accent/50 tabular-nums sm:text-5xl">{BRAND.phone}</p>
         </BlurIn>
         <div className="mt-10 grid gap-8 lg:grid-cols-2">
-          <BlurIn className="min-w-0"><ContactForm /></BlurIn>
+          <BlurIn className="min-w-0"><ContactForm copy={copy} programs={programs.map((program) => program.short)} /></BlurIn>
           <BlurIn delay={0.1} className="min-w-0"><ContactAside /></BlurIn>
         </div>
       </PageSection>

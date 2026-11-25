@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import credentials from "@/constants/about/credentials.json";
+import { getPage } from "@/features/cms/services/cmsContent";
 import { ROUTES } from "@/constants/routes";
 
 // One-line strip under the hero that links to Credentials & Media on About (brief §5.2).
-export function CredentialsStrip() {
+export async function CredentialsStrip() {
+  const credentials = await getPage("credentials");
   return (
     <div className="border-b border-accent/25 bg-beige">
       <div className="er-container py-4">

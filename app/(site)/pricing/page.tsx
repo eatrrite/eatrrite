@@ -6,7 +6,7 @@ import { BlurIn } from "@/components/motion/BlurIn";
 import { PackageCards } from "@/components/shared/PackageCards";
 import { PageSection } from "@/components/shared/section/PageSection";
 import { SectionIntro } from "@/components/shared/section/SectionIntro";
-import copy from "@/constants/pricing/content.json";
+import { getPage } from "@/features/cms/services/cmsContent";
 import { pageFood } from "@/constants/home/floatingFood";
 
 export const metadata: Metadata = pageMetadata({
@@ -15,7 +15,8 @@ export const metadata: Metadata = pageMetadata({
   path: ROUTES.pricing,
 });
 
-export default function PricingPage() {
+export default async function PricingPage() {
+  const copy = await getPage("pricing-page");
   return (
     <>
       <PageBanner title="Pricing" path={ROUTES.pricing} />

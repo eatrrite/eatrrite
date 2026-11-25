@@ -12,31 +12,34 @@ import { PackageCards } from "@/components/shared/PackageCards";
 import { PageSection } from "@/components/shared/section/PageSection";
 import { SectionIntro } from "@/components/shared/section/SectionIntro";
 import { pageFood } from "@/constants/home/floatingFood";
-import content from "@/constants/programs/content.json";
-import programs from "@/constants/programs/programs.json";
+import { getCollection, getPage } from "@/features/cms/services/cmsContent";
 
 // All four slugs are prerendered by generateStaticParams, so no loading state is needed.
 export const instant = false;
 
 type Props = { params: Promise<{ slug: string }> };
 
-const find = (slug: string) => programs.find((p) => p.slug === slug);
+async function findProgram(slug: string) {
+  const programs = await getCollection("programs");
+  return programs.find((p) => p.slug === slug);
+}
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const programs = await getCollection("programs");
   return programs.map(({ slug }) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const program = find((await params).slug);
+  const program = await findProgram((await params).slug);
   if (!program) return {};
   return pageMetadata({ title: program.seoTitle, description: program.seoDescription ?? program.summary, path: programPath(program.slug) });
 }
 
 // Copies program.php in the reference section style. An unknown slug goes to /programs, as in PHP.
 export default async function ProgramPage({ params }: Props) {
-  const program = find((await params).slug);
+  const program = await findProgram((await params).slug);
   if (!program) redirect("/programs");
-  const copy = content.detail;
+  const copy = (await getPage("programs-page")).detail;
   return (
     <>
       <JsonLd data={serviceData(program.name, program.seoDescription ?? program.summary, programPath(program.slug))} />

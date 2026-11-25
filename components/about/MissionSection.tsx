@@ -2,11 +2,12 @@ import Image from "next/image";
 import { BlurInItem } from "@/components/motion/BlurIn";
 import { PageSection } from "@/components/shared/section/PageSection";
 import { SectionIntro } from "@/components/shared/section/SectionIntro";
-import about from "@/constants/about/content.json";
+import { getPage } from "@/features/cms/services/cmsContent";
 import { pageFood } from "@/constants/home/floatingFood";
 
 // Mission, vision and approach as numbered cards with small real-photo icons.
-export function MissionSection() {
+export async function MissionSection() {
+  const about = await getPage("about-page");
   const { mission } = about;
   return (
     <PageSection tone="white" food={pageFood(3)}>

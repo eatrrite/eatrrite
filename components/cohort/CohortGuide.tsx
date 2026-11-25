@@ -4,11 +4,12 @@ import { BlurIn } from "@/components/motion/BlurIn";
 import { Icon } from "@/components/shared/Icon";
 import { PageSection } from "@/components/shared/section/PageSection";
 import { SectionIntro } from "@/components/shared/section/SectionIntro";
-import copy from "@/constants/cohort/content.json";
+import { getPage } from "@/features/cms/services/cmsContent";
 import { pageFood } from "@/constants/home/floatingFood";
 
 // cohort-guide.php: Mukta's photo beside her story and four checked points.
-export function CohortGuide() {
+export async function CohortGuide() {
+  const copy = await getPage("cohort-page");
   const { guide } = copy;
   return (
     <PageSection tone="white" food={pageFood(2)}>

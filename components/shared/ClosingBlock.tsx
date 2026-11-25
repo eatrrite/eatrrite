@@ -4,7 +4,7 @@ import { Icon } from "@/components/shared/Icon";
 import { LinkButton } from "@/components/shared/section/LinkButton";
 import { PageSection } from "@/components/shared/section/PageSection";
 import { Button } from "@/components/ui/button";
-import { getPage } from "@/features/cms/services/cmsContent";
+import { getCollection, getPage } from "@/features/cms/services/cmsContent";
 import { pageFood } from "@/constants/home/floatingFood";
 import { ROUTES } from "@/constants/routes";
 import { whatsappLink, whatsappMessageFor } from "@/constants/whatsapp";
@@ -12,7 +12,7 @@ import { whatsappLink, whatsappMessageFor } from "@/constants/whatsapp";
 // The same ending for every program page (and later every article): one line from Mukta,
 // Book a Consultation and WhatsApp (brief §9). The WhatsApp message names the page.
 export async function ClosingBlock({ pathname }: { pathname: string }) {
-  const home = await getPage("home-page");
+  const [home, programs] = await Promise.all([getPage("home-page"), getCollection("programs")]);
   const { quote, cite } = home.about;
   return (
     <PageSection tone="beige" food={pageFood(6)}>
@@ -23,7 +23,7 @@ export async function ClosingBlock({ pathname }: { pathname: string }) {
         </BlurIn>
         <BlurIn delay={0.15} className="flex flex-wrap justify-center gap-3">
           <LinkButton href={ROUTES.appointment} size="xl">Book a Consultation</LinkButton>
-          <Button size="xl" variant="outline" nativeButton={false} render={<a href={whatsappLink(whatsappMessageFor(pathname))} target="_blank" rel="noopener" />}>
+          <Button size="xl" variant="outline" nativeButton={false} render={<a href={whatsappLink(whatsappMessageFor(pathname, programs))} target="_blank" rel="noopener" />}>
             <Icon icon={faWhatsapp} className="text-whatsapp" />
             WhatsApp
           </Button>

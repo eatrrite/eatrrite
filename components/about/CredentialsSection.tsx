@@ -3,13 +3,14 @@ import { CredentialHighlights } from "@/components/shared/media/CredentialHighli
 import { CredentialLists } from "@/components/shared/media/CredentialLists";
 import { ReadCards } from "@/components/shared/media/ReadCards";
 import { PageSection } from "@/components/shared/section/PageSection";
-import credentials from "@/constants/about/credentials.json";
+import { getPage } from "@/features/cms/services/cmsContent";
 import { pageFood } from "@/constants/home/floatingFood";
 
 // Credentials & Media (brief §5.2), below the story on About. Left: the heading, subtitle and
 // highlight tiles, held in view while the story scrolls. Right: the story as a timeline. Then
 // "Featured in" and "Spoken at", and the "Read" cards. All words are the brief's.
-export function CredentialsSection() {
+export async function CredentialsSection() {
+  const credentials = await getPage("credentials");
   const last = credentials.paragraphs.length - 1;
   return (
     <PageSection id={credentials.id} tone="beige" food={pageFood(2)} className="scroll-mt-24">

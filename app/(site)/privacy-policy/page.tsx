@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { PageBanner } from "@/components/layout/PageBanner";
 import { PageSection } from "@/components/shared/section/PageSection";
 import { pageFood } from "@/constants/home/floatingFood";
-import privacy from "@/constants/legal/privacy.json";
+import { getPage } from "@/features/cms/services/cmsContent";
 import { ROUTES } from "@/constants/routes";
 import { pageMetadata } from "@/utils/seo";
 
@@ -13,7 +13,8 @@ export const metadata: Metadata = pageMetadata({
 });
 
 // Brief §8.3. Every consent box links here. Mukta's lawyer checks the final wording.
-export default function PrivacyPolicyPage() {
+export default async function PrivacyPolicyPage() {
+  const privacy = await getPage("privacy-page");
   return (
     <>
       <PageBanner title="Privacy Policy" path={ROUTES.privacy} />

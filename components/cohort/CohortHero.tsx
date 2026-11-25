@@ -1,11 +1,12 @@
 import Image from "next/image";
 import { BlurIn } from "@/components/motion/BlurIn";
 import { LinkButton } from "@/components/shared/section/LinkButton";
-import copy from "@/constants/cohort/content.json";
+import { getPage } from "@/features/cms/services/cmsContent";
 import { ROUTES } from "@/constants/routes";
 
 // cohort-hero.php: pill, heading, text, booking button and stats beside the hormone photo.
-export function CohortHero() {
+export async function CohortHero() {
+  const copy = await getPage("cohort-page");
   const { hero } = copy;
   return (
     <section className="relative overflow-hidden border-b border-border bg-beige py-16 sm:py-20">

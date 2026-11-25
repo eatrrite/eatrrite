@@ -9,7 +9,7 @@ import { CohortGuide } from "@/components/cohort/CohortGuide";
 import { CohortHero } from "@/components/cohort/CohortHero";
 import { CohortSticky } from "@/components/cohort/CohortSticky";
 import { CohortVideos } from "@/components/cohort/CohortVideos";
-import copy from "@/constants/cohort/content.json";
+import { getPage } from "@/features/cms/services/cmsContent";
 import { ROUTES } from "@/constants/routes";
 
 export const metadata: Metadata = pageMetadata({
@@ -20,7 +20,8 @@ export const metadata: Metadata = pageMetadata({
 
 // Copies cohort.php: a landing page (not in the menu) that books the ₹800 consultation.
 // The booking buttons open the normal booking page instead of a modal.
-export default function CohortPage() {
+export default async function CohortPage() {
+  const copy = await getPage("cohort-page");
   return (
     <>
       <CohortHero />

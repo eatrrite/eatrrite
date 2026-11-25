@@ -1,12 +1,13 @@
 import Image from "next/image";
 import { BadgeCheck } from "lucide-react";
 import { cn } from "cn";
-import credentials from "@/constants/about/credentials.json";
+import { getPage } from "@/features/cms/services/cmsContent";
 
 // Mukta's profile badge over her photo on Home and About. Compact beige plate so it
 // sits as a premium caption, not a full-width bar across the image. The Eat Rrite logo mark
 // sits on a white disc with a gold ring, so its colours stand out on the beige plate.
-export function FounderBadge({ className }: { className?: string }) {
+export async function FounderBadge({ className }: { className?: string }) {
+  const credentials = await getPage("credentials");
   const { badge } = credentials;
   return (
     <div

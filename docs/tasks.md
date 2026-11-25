@@ -348,6 +348,23 @@ Mukta: "the whole site has become too green … use beige with hues of gold … 
 - [ ] On the dev database, move sample rows dated in the future back to now, so the dashboard counts them (SQL in `database.md`, step 5)
 
 
+## Phase 14: Cosmic CMS (site copy)
+
+How it works: `cosmic.md`.
+
+- [x] Delete the scraped `Pages` type, its 4 objects and its image from the Cosmic bucket `eatrrite-production`
+- [x] Install `@cosmicjs/sdk`; keys in `.env.local` and `.env.example`
+- [x] Import script `bun run cms:import`: 20 images, 9 page objects, 4 programs, 3 packages; read back and matched against the JSON (11 of 11)
+- [x] `bun run check:cms`: JSON → Cosmic → JSON round trip
+- [x] `getPage()` / `getCollection()` with cache and JSON fallback; Cosmic image address allowed in `next.config.ts`
+- [x] Home page reads from Cosmic, checked in the browser
+- [x] Webhook route `/api/cms/revalidate`; keys in Vercel; webhook added in Cosmic
+- [x] Switch every page, the footer, WhatsApp messages, contact form, structured data and sitemap to Cosmic; build passes, every page checked in the browser
+- [x] Deploy the home page change; webhook tested on the live site
+- [ ] Deploy the all-pages change and check one edit per page type on the live site
+- [ ] Replace the Cosmic write key and webhook secret (they were pasted in a chat); update `.env.local` and Vercel
+- [ ] Decide whether SEO titles and descriptions move into Cosmic
+
 ---
 
 # Client Brief Checklist
@@ -656,6 +673,7 @@ All of this is done, in this order, before the website is handed to Mukta. Detai
 - [ ] Choose the host and confirm it runs Next.js; deploy to staging and show Mukta
 - [ ] Back up the live PHP site and the database
 - [ ] Set every environment variable on the host (`.env.example` lists them); secrets never go in the repo
+- [ ] Cosmic: show Mukta how to edit and publish a page; confirm the plan limits once the dashboard's setup period ends
 
 **Google Apps Script (Meet links) on the client's account**
 - [ ] The Apps Script runs on Farhan's account (itz.me.farhan6710@gmail.com) today. Deploy `apps-script/Code.gs` again on the client account, marketing.eatrrite@gmail.com: new project, Calendar advanced service on, Script Property `SECRET`, deploy as a web app (execute as me, anyone can access)

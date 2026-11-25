@@ -11,7 +11,7 @@ import { LoadingState } from "@/components/shared/LoadingState";
 import { connection } from "next/server";
 import { getBookingSettings, getServices, getWeeklyHours } from "@/features/appointment/services/bookingConfig";
 import { hoursNote } from "@/features/appointment/utils/hours";
-import copy from "@/features/appointment/constants/content.json";
+import { getPage } from "@/features/cms/services/cmsContent";
 import { pageFood } from "@/constants/home/floatingFood";
 
 export const metadata: Metadata = pageMetadata({
@@ -23,7 +23,7 @@ export const metadata: Metadata = pageMetadata({
 // The fee, call length, hours and services come from the database, read per request.
 async function BookingSection() {
   await connection();
-  const [settings, services, weekly] = await Promise.all([getBookingSettings(), getServices(), getWeeklyHours()]);
+  const [settings, services, weekly, copy] = await Promise.all([getBookingSettings(), getServices(), getWeeklyHours(), getPage("booking-page")]);
   const fee = settings.feeRupees;
   return (
     <div className="grid items-start gap-10 lg:grid-cols-[2fr_3fr] lg:gap-12">

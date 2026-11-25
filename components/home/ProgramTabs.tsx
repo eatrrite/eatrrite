@@ -7,7 +7,7 @@ import { faDroplet, faLeaf, faVenus, faWheatAwn } from "@fortawesome/free-solid-
 import { BlurIn } from "@/components/motion/BlurIn";
 import { Icon } from "@/components/shared/Icon";
 import { Button } from "@/components/ui/button";
-import programs from "@/constants/programs/programs.json";
+import type { CmsItem } from "@/features/cms/sources";
 import { programPath } from "@/constants/routes";
 import { LinkButton } from "@/components/shared/section/LinkButton";
 
@@ -15,7 +15,7 @@ import { LinkButton } from "@/components/shared/section/LinkButton";
 const ICONS = [faWheatAwn, faDroplet, faLeaf, faVenus];
 
 // Tabs plus a detail panel, as in the reference design services section.
-export function ProgramTabs() {
+export function ProgramTabs({ programs }: { programs: readonly CmsItem<"programs">[] }) {
   const [active, setActive] = useState(0);
   const program = programs[active];
   return (

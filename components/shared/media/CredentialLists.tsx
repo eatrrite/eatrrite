@@ -1,12 +1,13 @@
 import { Mic, Newspaper, Sparkles, type LucideIcon } from "lucide-react";
 import { BlurInItem } from "@/components/motion/BlurIn";
-import credentials from "@/constants/about/credentials.json";
+import { getPage } from "@/features/cms/services/cmsContent";
 
 // "Featured in" and "Spoken at" (brief §5.2) as two cards of name chips. Publication names are
 // plain text, never newspaper logos.
 const ICONS: Record<string, LucideIcon> = { "Featured in": Newspaper, "Spoken at": Mic };
 
-export function CredentialLists() {
+export async function CredentialLists() {
+  const credentials = await getPage("credentials");
   return (
     <ul className="m-0 grid gap-4 p-0 md:grid-cols-2">
       {credentials.rows.slice(1).map((row, index) => {

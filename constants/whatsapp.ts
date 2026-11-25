@@ -1,4 +1,5 @@
-import programs from "@/constants/programs/programs.json";
+// The two program fields a WhatsApp message needs (programs come from Cosmic).
+export type ProgramLink = { slug: string; short: string };
 
 const NUMBER = "919639877483";
 const DEFAULT_MESSAGE = "Hi, I'd like to book a consultation.";
@@ -20,7 +21,7 @@ const PAGE_MESSAGES: Record<string, string> = {
   "/cohort": "Hi, I'd like to know about the cohort.",
 };
 
-export function whatsappMessageFor(pathname: string): string {
+export function whatsappMessageFor(pathname: string, programs: readonly ProgramLink[]): string {
   const program = programs.find((item) => pathname === `/programs/${item.slug}`);
   if (program) return `Hi, I'd like to know about the ${program.short} program.`;
   return PAGE_MESSAGES[pathname] ?? DEFAULT_MESSAGE;

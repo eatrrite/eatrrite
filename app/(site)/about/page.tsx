@@ -7,6 +7,7 @@ import { StorySection } from "@/components/about/StorySection";
 import { PageBanner } from "@/components/layout/PageBanner";
 import { JsonLd } from "@/components/shared/JsonLd";
 import { personData } from "@/utils/structuredData";
+import { getPage } from "@/features/cms/services/cmsContent";
 
 export const metadata: Metadata = pageMetadata({
   title: "Mukta Patil: Nutritionist, Yoga Teacher & Life Coach",
@@ -14,10 +15,11 @@ export const metadata: Metadata = pageMetadata({
   path: ROUTES.about,
 });
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const credentials = await getPage("credentials");
   return (
     <>
-      <JsonLd data={personData()} />
+      <JsonLd data={personData(credentials.articles)} />
       <PageBanner title="About Us" path={ROUTES.about} />
       <StorySection />
       <CredentialsSection />

@@ -4,12 +4,13 @@ import { cohortIcon } from "@/components/cohort/cohortIcons";
 import { LinkButton } from "@/components/shared/section/LinkButton";
 import { PageSection } from "@/components/shared/section/PageSection";
 import { SectionIntro } from "@/components/shared/section/SectionIntro";
-import copy from "@/constants/cohort/content.json";
+import { getPage } from "@/features/cms/services/cmsContent";
 import { pageFood } from "@/constants/home/floatingFood";
 import { ROUTES } from "@/constants/routes";
 
 // cohort-consult.php: what the ₹800 consultation gives, the four steps, the fee note and a button.
-export function CohortConsult() {
+export async function CohortConsult() {
+  const copy = await getPage("cohort-page");
   const { get, steps } = copy;
   return (
     <PageSection id="how-it-works" tone="beige" food={pageFood(3)}>

@@ -7,8 +7,7 @@ import { ProgramTile } from "@/components/shared/ProgramTile";
 import { PageSection } from "@/components/shared/section/PageSection";
 import { SectionIntro } from "@/components/shared/section/SectionIntro";
 import { pageFood } from "@/constants/home/floatingFood";
-import content from "@/constants/programs/content.json";
-import programs from "@/constants/programs/programs.json";
+import { getCollection, getPage } from "@/features/cms/services/cmsContent";
 
 export const metadata: Metadata = pageMetadata({
   title: "Online Nutrition Programs with Indian Food | Eat Rrite",
@@ -16,7 +15,8 @@ export const metadata: Metadata = pageMetadata({
   path: ROUTES.programs,
 });
 
-export default function ProgramsPage() {
+export default async function ProgramsPage() {
+  const [content, programs] = await Promise.all([getPage("programs-page"), getCollection("programs")]);
   const copy = content.list;
   return (
     <>

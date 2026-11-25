@@ -1,11 +1,12 @@
 import { BlurInItem } from "@/components/motion/BlurIn";
 import { PageSection } from "@/components/shared/section/PageSection";
 import { SectionIntro } from "@/components/shared/section/SectionIntro";
-import copy from "@/constants/cohort/content.json";
+import { getPage } from "@/features/cms/services/cmsContent";
 import { pageFood } from "@/constants/home/floatingFood";
 
 // cohort-videos.php: three client video stories. Each loads only its first frame until played.
-export function CohortVideos() {
+export async function CohortVideos() {
+  const copy = await getPage("cohort-page");
   const { videos } = copy;
   return (
     <PageSection tone="white" food={pageFood(4)}>

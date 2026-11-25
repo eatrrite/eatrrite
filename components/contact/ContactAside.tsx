@@ -4,7 +4,7 @@ import { LinkButton } from "@/components/shared/section/LinkButton";
 import { Button } from "@/components/ui/button";
 import { BRAND } from "@/constants/brand";
 import { whatsappLink, whatsappMessageFor } from "@/constants/whatsapp";
-import programs from "@/constants/programs/programs.json";
+import { getCollection } from "@/features/cms/services/cmsContent";
 import { ROUTES } from "@/constants/routes";
 
 const DETAILS = [
@@ -15,7 +15,8 @@ const DETAILS = [
 ];
 
 // "Reach us" timeline, actions and programs, as in the reference ContactAside.
-export function ContactAside() {
+export async function ContactAside() {
+  const programs = await getCollection("programs");
   return (
     <div className="flex flex-col gap-6">
       <div className="rounded-xl border border-border bg-white p-6 md:p-7">
@@ -38,7 +39,7 @@ export function ContactAside() {
         </ol>
         <div className="mt-5 flex flex-wrap gap-3">
           <LinkButton href={ROUTES.appointment}>Get Consultation</LinkButton>
-          <Button variant="outline" size="lg" nativeButton={false} render={<a href={whatsappLink(whatsappMessageFor("/contact"))} target="_blank" rel="noopener" />}>Message on WhatsApp</Button>
+          <Button variant="outline" size="lg" nativeButton={false} render={<a href={whatsappLink(whatsappMessageFor("/contact", programs))} target="_blank" rel="noopener" />}>Message on WhatsApp</Button>
         </div>
       </div>
       <div className="rounded-xl border border-border bg-white p-6 md:p-7">

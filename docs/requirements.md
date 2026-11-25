@@ -44,6 +44,7 @@ From `CLAUDE.md` and the brief. They apply to every change.
 | Payments | Razorpay Standard Checkout and webhook; test mode until handover |
 | Meet links | Google Apps Script web app (`apps-script/Code.gs`) with the Calendar advanced service |
 | Email | nodemailer over SMTP (the account the PHP site used) |
+| Site copy | Cosmic headless CMS (`@cosmicjs/sdk`), JSON files as fallback; see `cosmic.md` |
 
 ## Design Tokens
 
@@ -93,8 +94,9 @@ From `CLAUDE.md` and the brief. They apply to every change.
 | `components/` | UI by page (`home`, `about`, `programs`, `contact`, `layout`, `shared`, `admin`) and shadcn parts in `ui` |
 | `features/appointment/` | All booking code: components, hooks, services (booking, emails, Meet link, reminders), constants, types, utils |
 | `features/admin/`, `features/auth/` | Admin server actions and queries; Neon Auth |
+| `features/cms/` | Cosmic: what is imported (`sources.ts`), the read functions and the JSON ↔ Cosmic converters (`cosmic.md`) |
 | `config/` | Environment getters (`env.ts`) and the 301 list (`redirects.ts`) |
-| `constants/`, `lib/data/` | Site copy and settings |
+| `constants/`, `lib/data/` | Settings, and the site copy JSON that seeded Cosmic and is its fallback |
 | `db/migrations/` | `001_initial.sql` builds the whole database; `002_dashboard_seed.sql` adds sample data (dev only); `003_payment_status.sql` and `004_payment_status_refunded.sql` bring a database set up before the payment column up to date |
 | `apps-script/Code.gs` | The Google Apps Script that creates Meet links |
 
@@ -144,6 +146,7 @@ Neon Postgres, set up by `db/migrations/001_initial.sql` on an empty database (`
 | `APPS_SCRIPT_URL`, `APPS_SCRIPT_SECRET` | The Meet-link web app and its `SECRET` script property |
 | `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `MAIL_FROM`, `MAIL_FROM_NAME`, `ADMIN_NOTIFY_EMAIL` | The sending mail account, and where team emails go (`ADMIN_NOTIFY_EMAIL` takes several addresses, comma-separated) |
 | `CRON_SECRET` | Protects the questionnaire reminder route |
+| `COSMIC_BUCKET_SLUG`, `COSMIC_READ_KEY`, `COSMIC_WEBHOOK_SECRET` | Cosmic content and its webhook (also on the host). `COSMIC_WRITE_KEY` only in `.env.local`, for `bun run cms:import`; see `cosmic.md` |
 | `SITE_URL` | Address used in email links and sign-in return links. Set to `https://www.eatrrite.com` in Vercel Production (not `eatrrite.vercel.app`) |
 
 ## Handover and Go-live

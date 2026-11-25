@@ -5,15 +5,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import programs from "@/constants/programs/programs.json";
-import copy from "@/constants/contact/content.json";
+import type { CmsPage } from "@/features/cms/sources";
 import { useShowToast } from "@/hooks/useShowToast";
 
-const PROGRAMS = programs.map((p) => p.short);
+interface ContactFormProps {
+  copy: Pick<CmsPage<"contact-page">, "enquireTitle" | "enquireText">;
+  programs: readonly string[];
+}
 
 // reference design enquiry form with the fields PHP asks for (name, phone, city,
 // program). Sending is not connected yet, so submitting shows a notice.
-export function ContactForm() {
+export function ContactForm({ copy, programs }: ContactFormProps) {
   const showToast = useShowToast();
   return (
     <div className="rounded-xl border border-accent/30 bg-beige p-6 md:p-8">
@@ -39,10 +41,10 @@ export function ContactForm() {
         </div>
         <div className="space-y-2">
           <Label htmlFor="contact-program">Program of interest</Label>
-          <Select items={PROGRAMS.map((p) => ({ label: p, value: p }))} defaultValue={PROGRAMS[0]}>
+          <Select items={programs.map((p) => ({ label: p, value: p }))} defaultValue={programs[0]}>
             <SelectTrigger id="contact-program" className="w-full min-w-0"><SelectValue className="block min-w-0 truncate" /></SelectTrigger>
             <SelectContent>
-              {PROGRAMS.map((p) => <SelectItem key={p} value={p}>{p}</SelectItem>)}
+              {programs.map((p) => <SelectItem key={p} value={p}>{p}</SelectItem>)}
             </SelectContent>
           </Select>
         </div>

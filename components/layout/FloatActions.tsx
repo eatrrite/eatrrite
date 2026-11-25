@@ -7,15 +7,15 @@ import { CalendarDays } from "lucide-react";
 import { Icon } from "@/components/shared/Icon";
 import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/constants/routes";
-import { whatsappLink, whatsappMessageFor } from "@/constants/whatsapp";
+import { type ProgramLink, whatsappLink, whatsappMessageFor } from "@/constants/whatsapp";
 
 const floatBtn =
   "grid size-14 place-items-center rounded-full text-[22px] shadow-float transition-[translate,scale,box-shadow] duration-[250ms] hover:-translate-y-[3px] hover:scale-[1.04] hover:shadow-float-hover";
 
 // Phones: sticky WhatsApp + Book bar. Desktop: two floating buttons, bottom right.
-export function FloatActions() {
+export function FloatActions({ programs }: { programs: readonly ProgramLink[] }) {
   const pathname = usePathname();
-  const href = whatsappLink(whatsappMessageFor(pathname));
+  const href = whatsappLink(whatsappMessageFor(pathname, programs));
 
   return (
     <>

@@ -4,7 +4,7 @@ import { cohortIcon } from "@/components/cohort/cohortIcons";
 import { Icon } from "@/components/shared/Icon";
 import { PageSection } from "@/components/shared/section/PageSection";
 import { SectionIntro } from "@/components/shared/section/SectionIntro";
-import copy from "@/constants/cohort/content.json";
+import { getPage } from "@/features/cms/services/cmsContent";
 import { pageFood } from "@/constants/home/floatingFood";
 
 const MARKS = {
@@ -15,7 +15,8 @@ const MARKS = {
 };
 
 // cohort-compare.php: Eat Rrite vs diet apps vs Instagram advice, one card per column.
-export function CohortCompare() {
+export async function CohortCompare() {
+  const copy = await getPage("cohort-page");
   const { compare } = copy;
   return (
     <PageSection tone="beige" food={pageFood(1)}>

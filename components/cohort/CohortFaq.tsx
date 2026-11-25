@@ -3,11 +3,12 @@ import { BlurIn } from "@/components/motion/BlurIn";
 import { FaqPicker } from "@/components/home/FaqPicker";
 import { PageSection } from "@/components/shared/section/PageSection";
 import { SectionIntro } from "@/components/shared/section/SectionIntro";
-import copy from "@/constants/cohort/content.json";
+import { getPage } from "@/features/cms/services/cmsContent";
 import { pageFood } from "@/constants/home/floatingFood";
 
 // cohort-faq.php, in the home FAQ layout.
-export function CohortFaq() {
+export async function CohortFaq() {
+  const copy = await getPage("cohort-page");
   const { faq } = copy;
   return (
     <PageSection id="faqs" tone="white" food={pageFood(5)}>
