@@ -1,12 +1,13 @@
 import { BlurIn } from "@/components/motion/BlurIn";
 import { FLOATING_FOOD } from "@/constants/home/floatingFood";
-import home from "@/constants/home/content.json";
+import { getPage } from "@/features/cms/services/cmsContent";
 import { PageSection } from "@/components/shared/section/PageSection";
 import { LinkButton } from "@/components/shared/section/LinkButton";
 import { SectionIntro } from "@/components/shared/section/SectionIntro";
 
 // Closing call to action, in the same section pattern.
-export function CtaSection() {
+export async function CtaSection() {
+  const home = await getPage("home-page");
   const { cta } = home;
   return (
     <PageSection tone="white" food={FLOATING_FOOD.cta} defer>

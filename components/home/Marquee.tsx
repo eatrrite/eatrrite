@@ -1,7 +1,8 @@
-import home from "@/constants/home/content.json";
+import { getPage } from "@/features/cms/services/cmsContent";
 
 // Copies .marquee from style.css. The track holds two copies and slides by half.
-export function Marquee() {
+export async function Marquee() {
+  const home = await getPage("home-page");
   return (
     <div aria-hidden className="group/marquee relative overflow-hidden bg-primary py-6 whitespace-nowrap text-white">
       <div className="flex w-max animate-marquee group-hover/marquee:[animation-play-state:paused]">

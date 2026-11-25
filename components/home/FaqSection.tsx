@@ -1,13 +1,14 @@
 import Image from "next/image";
 import { BlurIn } from "@/components/motion/BlurIn";
 import { FLOATING_FOOD } from "@/constants/home/floatingFood";
-import home from "@/constants/home/content.json";
+import { getPage } from "@/features/cms/services/cmsContent";
 import { FaqPicker } from "./FaqPicker";
 import { PageSection } from "@/components/shared/section/PageSection";
 import { SectionIntro } from "@/components/shared/section/SectionIntro";
 
 // FAQ in the reference design layout: illustration, heading with count, then the picker.
-export function FaqSection() {
+export async function FaqSection() {
+  const home = await getPage("home-page");
   const { faq } = home;
   return (
     <PageSection id="faqs" tone="white" food={FLOATING_FOOD.faq} defer>
@@ -18,7 +19,7 @@ export function FaqSection() {
         <SectionIntro eyebrow={faq.pill} title={faq.title} count={faq.items.length} />
       </div>
       <BlurIn delay={0.12} className="mt-10">
-        <FaqPicker />
+        <FaqPicker items={faq.items} />
       </BlurIn>
     </PageSection>
   );

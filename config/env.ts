@@ -31,6 +31,11 @@ export const env = {
   googleSiteVerification: () => optional("GOOGLE_SITE_VERIFICATION"),
   bingSiteVerification: () => optional("BING_SITE_VERIFICATION"),
   gaMeasurementId: () => optional("GA_MEASUREMENT_ID"),
+  // Cosmic (site copy). When not set, the site shows the JSON copy in constants/.
+  cosmicBucketSlug: () => optional("COSMIC_BUCKET_SLUG"),
+  cosmicReadKey: () => optional("COSMIC_READ_KEY"),
+  // Sent by the Cosmic webhook (header x-webhook-secret) so a publish refreshes the site.
+  cosmicWebhookSecret: () => optional("COSMIC_WEBHOOK_SECRET"),
   // The public address used in email links and sign-in return links. Set SITE_URL to
   // https://www.eatrrite.com on Vercel: the fallback below may be the vercel.app address.
   // Canonical links and share previews use BRAND.url, not this.

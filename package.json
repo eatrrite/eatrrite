@@ -9,10 +9,13 @@
     "lint": "eslint",
     "check:rules": "bun scripts/check-appointment-rules.ts",
     "check:booking": "bun scripts/check-booking-flow.ts",
-    "db:migrate": "bun --env-file=.env.local scripts/migrate.ts"
+    "check:cms": "bun scripts/check-cms-content.ts",
+    "db:migrate": "bun --env-file=.env.local scripts/migrate.ts",
+    "cms:import": "bun --env-file=.env.local scripts/cms-import.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
+    "@cosmicjs/sdk": "2.4.0",
     "@fortawesome/fontawesome-common-types": "6.5.2",
     "@fortawesome/free-brands-svg-icons": "6.5.2",
     "@fortawesome/free-regular-svg-icons": "6.5.2",

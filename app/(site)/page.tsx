@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { JsonLd } from "@/components/shared/JsonLd";
-import home from "@/constants/home/content.json";
+import { getPage } from "@/features/cms/services/cmsContent";
 import { faqData, websiteData } from "@/utils/structuredData";
 import { pageMetadata } from "@/utils/seo";
 import { ROUTES } from "@/constants/routes";
@@ -22,7 +22,8 @@ export const metadata: Metadata = pageMetadata({
   path: ROUTES.home,
 });
 
-export default function HomePage() {
+export default async function HomePage() {
+  const home = await getPage("home-page");
   return (
     <>
       <JsonLd data={websiteData()} />

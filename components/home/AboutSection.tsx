@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { BlurIn } from "@/components/motion/BlurIn";
 import { FLOATING_FOOD } from "@/constants/home/floatingFood";
-import home from "@/constants/home/content.json";
+import { getPage } from "@/features/cms/services/cmsContent";
 import { FounderStats } from "./FounderStats";
 import { BrandSeal } from "@/components/shared/BrandSeal";
 import { FounderBadge } from "@/components/shared/FounderBadge";
@@ -10,7 +10,8 @@ import { LinkButton } from "@/components/shared/section/LinkButton";
 import { SectionIntro } from "@/components/shared/section/SectionIntro";
 
 // Founder spotlight in the reference design about layout (3fr text, 2fr side).
-export function AboutSection() {
+export async function AboutSection() {
+  const home = await getPage("home-page");
   const { about } = home;
   return (
     <PageSection tone="white" food={FLOATING_FOOD.about}>

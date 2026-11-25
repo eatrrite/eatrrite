@@ -1,12 +1,13 @@
 import Image from "next/image";
 import { BlurIn, BlurInItem } from "@/components/motion/BlurIn";
 import { FLOATING_FOOD } from "@/constants/home/floatingFood";
-import home from "@/constants/home/content.json";
+import { getPage } from "@/features/cms/services/cmsContent";
 import { PageSection } from "@/components/shared/section/PageSection";
 import { SectionIntro } from "@/components/shared/section/SectionIntro";
 
 // Why choose us in the reference design layout: round image left, numbered reasons right.
-export function WhyChooseSection() {
+export async function WhyChooseSection() {
+  const home = await getPage("home-page");
   const { why } = home;
   return (
     <PageSection id="why-choose" tone="white" food={FLOATING_FOOD.why} defer>

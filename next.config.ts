@@ -17,6 +17,8 @@ const nextConfig: NextConfig = {
     formats: ["image/avif", "image/webp"],
     // 60 for large photos below the first screen (a smaller first load), 75 normal, 90 hero.
     qualities: [60, 75, 90],
+    // Images edited in Cosmic.
+    remotePatterns: [new URL("https://cdn.cosmicjs.com/**")],
   },
   // Old addresses → new pages (301). The list lives in config/redirects.ts.
   async redirects() {

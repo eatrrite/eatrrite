@@ -2,17 +2,20 @@
 
 import { useEffect, useRef, useState } from "react";
 import { cn } from "cn";
-import home from "@/constants/home/content.json";
-import programs from "@/constants/programs/programs.json";
+import type { CmsItem, CmsPage } from "@/features/cms/sources";
 import { LinkButton } from "@/components/shared/section/LinkButton";
 import { ProgramChapter } from "./ProgramChapter";
 
 // Sticky intro rail + scroll-triggered program chapters.
 // Never put transform/filter on the sticky aside — that kills position:sticky.
-export function ProgramsScroll() {
+interface ProgramsScrollProps {
+  block: CmsPage<"home-page">["programs"];
+  programs: readonly CmsItem<"programs">[];
+}
+
+export function ProgramsScroll({ block, programs }: ProgramsScrollProps) {
   const root = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
-  const block = home.programs;
 
   // GSAP loads when the section is within 800px of the screen (see programsMotion.ts).
   useEffect(() => {

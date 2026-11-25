@@ -2,7 +2,7 @@ import Link from "next/link";
 import { CalendarDays, LayoutGrid } from "lucide-react";
 import { HeroMotion } from "@/components/motion/FadeIn";
 import { Button } from "@/components/ui/button";
-import home from "@/constants/home/content.json";
+import { getPage } from "@/features/cms/services/cmsContent";
 import { HeroEyebrow } from "./hero/HeroEyebrow";
 import { HeroFeatures } from "./hero/HeroFeatures";
 import { HeroTrustBadge } from "./hero/HeroTrustBadge";
@@ -12,7 +12,8 @@ import { HeroSlides } from "./HeroSlides";
 
 // Background slides and overlay are unchanged. The left side copies the reference
 // Dentics hero: eyebrow, headline, lead, buttons, features and trust badge.
-export function Hero() {
+export async function Hero() {
+  const home = await getPage("home-page");
   const { hero } = home;
   return (
     <HeroSlideProvider count={hero.slides.length}>

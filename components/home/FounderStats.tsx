@@ -1,10 +1,11 @@
 import Link from "next/link";
-import home from "@/constants/home/content.json";
+import { getPage } from "@/features/cms/services/cmsContent";
 
 type Stat = { value: string; label: string; href?: string };
 
 // Timeline of stats with numbered rows, as in the reference design AboutStats.
-export function FounderStats() {
+export async function FounderStats() {
+  const home = await getPage("home-page");
   return (
     <ol className="mt-8 mb-0 grid gap-1 border-l border-border pl-5">
       {(home.about.stats as Stat[]).map((stat, index) => {

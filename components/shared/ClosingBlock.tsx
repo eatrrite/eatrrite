@@ -4,14 +4,15 @@ import { Icon } from "@/components/shared/Icon";
 import { LinkButton } from "@/components/shared/section/LinkButton";
 import { PageSection } from "@/components/shared/section/PageSection";
 import { Button } from "@/components/ui/button";
-import home from "@/constants/home/content.json";
+import { getPage } from "@/features/cms/services/cmsContent";
 import { pageFood } from "@/constants/home/floatingFood";
 import { ROUTES } from "@/constants/routes";
 import { whatsappLink, whatsappMessageFor } from "@/constants/whatsapp";
 
 // The same ending for every program page (and later every article): one line from Mukta,
 // Book a Consultation and WhatsApp (brief §9). The WhatsApp message names the page.
-export function ClosingBlock({ pathname }: { pathname: string }) {
+export async function ClosingBlock({ pathname }: { pathname: string }) {
+  const home = await getPage("home-page");
   const { quote, cite } = home.about;
   return (
     <PageSection tone="beige" food={pageFood(6)}>

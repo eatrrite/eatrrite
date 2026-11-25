@@ -6,13 +6,13 @@ import { useCallback, useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "cn";
 import { Button } from "@/components/ui/button";
-import home from "@/constants/home/content.json";
+import type { CmsPage } from "@/features/cms/sources";
 import { TestimonialCard } from "./TestimonialCard";
 
-const ITEMS = home.testimonials.items;
+type Testimonial = CmsPage<"home-page">["testimonials"]["items"][number];
 
 // Copies ReviewsCarousel from reference design: looping, autoplay, focused centre card.
-export function TestimonialsCarousel() {
+export function TestimonialsCarousel({ items }: { items: readonly Testimonial[] }) {
   const [selected, setSelected] = useState(0);
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "center" }, [Autoplay({ delay: 4500, stopOnInteraction: true })]);
 
@@ -34,7 +34,7 @@ export function TestimonialsCarousel() {
     <div className="relative">
       <div className="overflow-hidden px-2" ref={emblaRef}>
         <div className="flex touch-pan-y items-stretch py-10 sm:py-12">
-          {ITEMS.map((item, index) => (
+          {items.map((item, index) => (
             <div key={item.name} className="min-w-0 shrink-0 grow-0 basis-full px-2 sm:basis-1/2 lg:basis-1/3">
               <TestimonialCard item={item} index={index} focused={index === selected} />
             </div>
@@ -46,7 +46,7 @@ export function TestimonialsCarousel() {
           <ChevronLeft className="size-4" />
         </Button>
         <div className="flex gap-1.5">
-          {ITEMS.map((item, index) => (
+          {items.map((item, index) => (
             <button
               key={item.name}
               type="button"

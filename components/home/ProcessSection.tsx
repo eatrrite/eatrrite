@@ -2,7 +2,7 @@ import { faClipboardCheck, faHandshake, faPersonWalking, faPlateWheat } from "@f
 import { BlurInItem } from "@/components/motion/BlurIn";
 import { Icon } from "@/components/shared/Icon";
 import { FLOATING_FOOD } from "@/constants/home/floatingFood";
-import home from "@/constants/home/content.json";
+import { getPage } from "@/features/cms/services/cmsContent";
 import { PageSection } from "@/components/shared/section/PageSection";
 import { SectionIntro } from "@/components/shared/section/SectionIntro";
 
@@ -14,7 +14,8 @@ const ICONS = {
 };
 
 // Four steps on a connected rail, in the reference design card style.
-export function ProcessSection() {
+export async function ProcessSection() {
+  const home = await getPage("home-page");
   const { process } = home;
   return (
     <PageSection tone="beige" food={FLOATING_FOOD.process} defer>
