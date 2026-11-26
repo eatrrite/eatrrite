@@ -1,143 +1,138 @@
 # WhatsApp Messages
 
-Plan for sending a WhatsApp message next to every email the booking flow already sends. The emails stay exactly as they are; WhatsApp is added beside them. Nothing here is built yet.
+**Decided with Mukta:** Meta's WhatsApp Cloud API, direct. No provider (AiSensy, Interakt, WATI). Every email the booking flow sends also goes out on WhatsApp; the emails stay exactly as they are. Not built yet.
 
-Brief: §9 (“Automatic WhatsApp and email confirmation with the questionnaire link”, “Google Meet link sent on WhatsApp and email”, “Reminders 24 hours and 1 hour before, on WhatsApp”) and `tasks.md` 2.4. The brief names a provider (Interakt, WATI or AiSensy) and leaves the choice to Mukta.
+Brief: §9 and `tasks.md` 2.4.
 
-## What exists today (email)
+## Cost
 
-| # | Message | To | When | Sent from |
+- No monthly fee and no setup fee. Testing on Meta's test number is free.
+- Every message we send is a **Utility template**, charged only when delivered: ₹0.115 + 18% GST ≈ ₹0.14 to a +91 number. There is no free monthly allowance for these.
+- A typical booking sends 3 to 5 messages (about ₹0.41 to ₹0.68). 100 bookings a month ≈ ₹41 to ₹68.
+- Price depends on the template category and the recipient's country. If a utility template reads like an offer, Meta can recategorise it as marketing (about 7 times the price), so keep templates plain.
+- Meta's India rate card from 1 October 2026; it can change on 1 Jan, 1 Apr, 1 Jul and 1 Oct. Check before go-live.
+
+## The flow
+
+The booking order never changes: payment, confirmed appointment, questionnaire, Meet link. WhatsApp goes out beside each email and never blocks or changes a step.
+
+| # | When | To | Template | Sent from (beside the email) |
 | --- | --- | --- | --- | --- |
-| 1 | Booking confirmed, questionnaire link | Customer | Right after payment, new booking only | `app/api/payments/verify`, `app/api/payments/webhook` → `sendQuestionnaireEmail` |
-| 2 | Questionnaire reminder | Customer | 1, 3, 6, 12, 24, 30 and 36 hours after payment, until it is filled in; stops after 48 hours | Cron `GET /api/cron/questionnaire-reminders` → `runQuestionnaireReminders` → `sendReminderEmail` |
-| 3 | Google Meet link | Customer | After the questionnaire is submitted | `submitQuestionnaireAction` (`bookingActions.ts`) → `sendMeetEmails` |
-| 4 | New consultation (no health answers) | Team (`ADMIN_NOTIFY_EMAIL`) | Same moment as 3 | `sendMeetEmails` |
+| 1 | Right after payment, new booking only | Customer | `booking_questionnaire` | `app/api/payments/verify`, `app/api/payments/webhook` |
+| 2 | 1, 3, 6, 12, 24, 30 and 36 hours after payment, while the questionnaire is empty (stops at 48 hours) | Customer | `questionnaire_reminder` | `runQuestionnaireReminders` (cron every 15 minutes) |
+| 3 | After the questionnaire is submitted | Customer | `meet_link` | `submitQuestionnaireAction` (`bookingActions.ts`) |
+| 4 | Same moment as 3 | Team numbers | `admin_new_booking` | `submitQuestionnaireAction` |
 
-Every email goes through `sendMail()` in `services/mailer.ts`. When SMTP is not set it logs “Email skipped” and returns false; a failed send is logged and never fails a booking. Emails 1 and 3 run in `after()`, so the page does not wait.
+## Templates: 4 to create now
 
-The goal: messages 1 to 4 also go out on WhatsApp, to the customer’s mobile (`er_leads.phone`) and to the team’s WhatsApp number.
+Created in WhatsApp Manager as **Utility**, language **English (`en`)**. The language code in the code must match exactly. Only first name, program, date, time and links; never health answers.
 
-## Can it be free?
+| Name | Body (variables in braces) | Button |
+| --- | --- | --- |
+| `booking_questionnaire` | Hi {{1}}, your Eat Rrite consultation is booked for {{2}} at {{3}} (IST). One step left: please fill in the short questionnaire so we can prepare. Your Google Meet link follows on WhatsApp and email. | URL "Fill questionnaire": `https://www.eatrrite.com/appointment-confirmed?appointmentId={{1}}` |
+| `questionnaire_reminder` | Hi {{1}}, a reminder: your questionnaire for {{2}} at {{3}} (IST) is still open. It takes a few minutes, and your Google Meet link is sent once it is done. | Same as above |
+| `meet_link` | Hi {{1}}, thank you for filling in the questionnaire. Your consultation is on {{2}} at {{3}} (IST). Join with the Google Meet button below. | URL "Join Google Meet": `https://meet.google.com/{{1}}` |
+| `admin_new_booking` | New consultation: {{1}}, {{2}} at {{3}}. Program: {{4}}. Mobile: {{5}}. Details are in the admin. | URL "Open admin": `https://www.eatrrite.com/admin` (fixed) |
 
-Not fully. Meta charges per **delivered** business-to-customer message. For this booking flow, every WhatsApp message is business-initiated, so it is billable.
+- A URL button may hold one variable, only at the end, so it carries the appointment ID or the Meet code.
+- Mukta approves the wording. Approval usually takes minutes, at most 24 hours.
+- Later, each with its own template (not in this step): reminders 24 hours and 1 hour before the consultation, and the Google review request when a program ends.
 
-| Part | Cost |
+## Code
+
+Same shape as the email code, which is not touched. Each function does one job, with early returns and no nesting. Repeating a line is fine when it keeps a function easy to read.
+
+| File | Functions |
 | --- | --- |
-| Meta’s WhatsApp Cloud API (direct, no provider) | ₹0 a month. No setup fee |
-| Development and testing | Free. Meta’s test number can send to a limited set of verified recipient numbers during development |
-| Each utility message to a +91 number | ₹0.115 + 18% GST ≈ ₹0.14, charged only when delivered |
-| Customer replies to the business | Free to receive. Non-template replies from the business within 24 hours: first 1,000 service messages per number per month are free, then ₹0.115 |
-| Marketing messages (offers, festive broadcasts) | ₹0.8631 each, before GST. Not part of this work |
-| Numbers outside India | Priced by the destination country’s rate card |
+| `services/whatsapp.ts` | `whatsAppNumber(phone)`: digits only; 10 digits → `91` + digits; 11 starting `0` → `91` + the last 10; 12 starting `91` → as is; anything else → `null` |
+| | `cleanParam(text)`: newlines and tabs become spaces, runs of spaces become one (Meta rejects them); empty → `"there"` |
+| | `sendWhatsAppMessage({ to, template, bodyParams, buttonParam })`: the only function that calls Meta. Returns `true` or `false`, never throws |
+| `features/appointment/whatsapp/templates.ts` | `questionnaireMessage(data)`, `reminderMessage(data)`, `meetMessage(data)`, `adminBookingMessage(data)`: each returns `{ template, bodyParams, buttonParam }`; plus `firstName(name)` and `meetCode(link)` |
+| `features/appointment/services/bookingWhatsApp.ts` | `bookingWhatsAppData(appointmentId)`: one query for name, phone, service, date, time and Meet link; `null` when the appointment is missing |
+| | `sendQuestionnaireWhatsApp(id)`, `sendReminderWhatsApp(id)`, `sendMeetWhatsApp(id)`, `sendAdminWhatsApp(id)`: load the data, build one message, send it. Each returns `true` or `false` |
 
-Rates are Meta’s India rate card, effective 1 October 2026. Meta may update pricing only on 1 January, 1 April, 1 July and 1 October; check before go-live.
+`sendWhatsAppMessage`, in order, each step an early return:
 
-**Per booking:** messages 1, 3 and 4 make 3 messages; reminders add 0 to 7 more. A typical booking is 3 to 5 messages, about ₹0.41 to ₹0.68 including GST. At 100 bookings a month that is roughly ₹41 to ₹68, against ₹80,000 in booking fees.
+1. `WHATSAPP_TOKEN` or `WHATSAPP_PHONE_NUMBER_ID` missing → log `WhatsApp skipped (not set up): <template>`, return `false`.
+2. `whatsAppNumber(to)` is `null` → log `WhatsApp skipped (no usable number): <template>`, return `false`.
+3. `POST https://graph.facebook.com/<GRAPH_API_VERSION>/<WHATSAPP_PHONE_NUMBER_ID>/messages` with `Authorization: Bearer <WHATSAPP_TOKEN>`, `{ messaging_product: "whatsapp", to, type: "template", template: { name, language: { code: "en" }, components } }`, and `signal: AbortSignal.timeout(10_000)`. `components` holds the body parameters, and the button parameter (`type: "button"`, `sub_type: "url"`, `index: "0"`) only when there is one.
+4. Network error or timeout → log, return `false`.
+5. Response not `ok` → log Meta's `error.code` and `error.message` with the template name, return `false`.
+6. Otherwise return `true`. This means Meta **accepted** the message, not that it was delivered.
 
-## Options
+`GRAPH_API_VERSION` is one constant at the top of the file, set to the version shown on the app's API Setup page.
 
-| Option | Monthly fee | Per utility message (India) | What Mukta gets | Our code |
-| --- | --- | --- | --- | --- |
-| **A. Meta Cloud API, direct (recommended to try first)** | ₹0 | ₹0.115 + GST | Messages only. Replies arrive in the WhatsApp Business app if the number uses app onboarding/coexistence | Calls Meta’s API |
-| B. AiSensy | ₹1,500 (Basic) | ₹0.145 | Shared inbox, broadcasts, contacts | Calls AiSensy’s API |
-| C. Interakt | ₹2,799 (Growth) or ₹3,499 a quarter (Starter) | ₹0.140 to ₹0.160 | Inbox, unlimited agents, broadcasts | Calls Interakt’s API |
-| D. WATI | ₹2,999 (Growth) | ₹0.1495 | Inbox, 3 users, broadcasts | Calls WATI’s API |
+Call sites gain separate lines beside the email, so a failing email never stops WhatsApp, and the reverse:
 
-Provider prices are from their pricing pages in November 2026, before tax. Re-check each provider’s live pricing page before Mukta decides.
+```ts
+// app/api/payments/verify and app/api/payments/webhook
+if (outcome.created) after(() => sendQuestionnaireEmail(outcome.appointmentId));
+if (outcome.created) after(() => sendQuestionnaireWhatsApp(outcome.appointmentId));
 
-Option A meets the brief’s automation needs at no fixed cost. A provider is worth it only if Mukta wants a team inbox or marketing broadcasts. Whichever she picks, the code is the same shape; only the function that calls the API changes. The brief leaves the choice to Mukta, so show her this table.
+// bookingActions.ts, after the questionnaire is saved
+if (result.ok) after(() => sendMeetEmails(appointmentId));
+if (result.ok) after(() => sendMeetWhatsApp(appointmentId));
+if (result.ok) after(() => sendAdminWhatsApp(appointmentId));
 
-## Not an option
+// questionnaireReminders.ts: the hour is recorded when either channel sent it
+const emailSent = await sendReminderEmail(row.id);
+const whatsAppSent = await sendReminderWhatsApp(row.id);
+if (!emailSent && !whatsAppSent) continue;
+```
 
-Unofficial libraries that drive WhatsApp Web (`whatsapp-web.js`, Baileys) and “free WhatsApp API” services built on them cost nothing but break WhatsApp’s terms. The number can be banned without warning, which would cut Mukta off from her clients on WhatsApp. They also need a server that runs all the time, which Vercel does not provide. Not for a commercial site.
+## Edge cases
 
-## What we need
-
-### From Mukta (she owns every account)
-
-- [ ] Choice of option A, B, C or D
-- [ ] Meta Business Portfolio owned by Mukta (already in `tasks.md` 2.6), with Farhan added as developer
-- [ ] The WhatsApp number to send from. With WhatsApp Business app onboarding/coexistence, the number she uses in the WhatsApp Business app today can also send through the API, so clients keep one number and her chats stay in the app. Confirm eligibility during setup; otherwise use a second number that is not on WhatsApp
-- [ ] Display name “Eat Rrite” approved by Meta for that number
-- [ ] A payment method added in Meta Billing Hub before go-live, so production messages are not blocked
-- [ ] The team number(s) that should get the new-consultation message
-
-## From Meta (one-off setup)
-
-Done by Farhan with Mukta’s access.
-
-1. Set up the WhatsApp Business Platform / Cloud API connection through Meta’s current onboarding flow, linked to Mukta’s Business Portfolio.
-2. Test with Meta’s test number first, sending only to our own verified numbers.
-3. Add Mukta’s number, register it, and note the phone number ID.
-4. Create a system user in the portfolio and generate a permanent access token with `whatsapp_business_messaging`. A personal user token expires quickly and is not suitable for production.
-5. Submit the four templates below as **Utility**, language English. Approval usually takes minutes, at most 24 hours.
-
-## Templates
-
-Every message we start must be an approved template. Templates carry only what the emails carry: first name, program, date, time and a link. No health answers, ever.
-
-| Template name | To | Text (variables in braces) | Button |
-| --- | --- | --- | --- |
-| `booking_questionnaire` | Customer | Hi {{1}}, your Eat Rrite consultation is booked for {{2}} at {{3}} (IST). One step left: please fill in the short questionnaire so we can prepare. Your Google Meet link follows on WhatsApp and email. | “Fill questionnaire”: `https://www.eatrrite.com/appointment-confirmed?appointmentId={{1}}` |
-| `questionnaire_reminder` | Customer | Hi {{1}}, a reminder: your questionnaire for {{2}} at {{3}} (IST) is still open. It takes a few minutes, and your Google Meet link is sent once it is done. | Same as above |
-| `meet_link` | Customer | Hi {{1}}, thank you for filling in the questionnaire. Your consultation is on {{2}} at {{3}} (IST). Join with the Google Meet button below. | “Join Google Meet”: `https://meet.google.com/{{1}}` |
-| `admin_new_booking` | Team | New consultation: {{1}}, {{2}} at {{3}}. Program: {{4}}. Mobile: {{5}}. Details are in the admin. | “Open admin”: `https://www.eatrrite.com/admin` |
-
-Wording is a draft; Mukta approves it, and it must match the emails’ tone. Meta rejects a utility template that reads like an offer, so keep these plain. URL buttons with a variable place the variable only at the end of the address, which is why the button carries the appointment ID and the Meet code.
-
-## How it fits the code
-
-Same pattern as email, so the email code is not touched.
-
-| Email today | WhatsApp, to add |
+| Case | What happens |
 | --- | --- |
-| `services/mailer.ts`: `sendMail()` | `services/whatsapp.ts`: `sendWhatsApp({ to, template, params, buttonParam })`. One `fetch` to `https://graph.facebook.com/<version>/<WHATSAPP_PHONE_NUMBER_ID>/messages` with the token. Logs “WhatsApp skipped” and returns false when not set up; logs and returns false on failure. Never throws, never fails a booking |
-| `features/appointment/emails/templates.ts` | `features/appointment/whatsapp/templates.ts`: template names and their parameters from `BookingEmailData` |
-| `features/appointment/services/bookingEmails.ts` | `features/appointment/services/bookingWhatsApp.ts`: `sendQuestionnaireWhatsApp`, `sendReminderWhatsApp`, `sendMeetWhatsApp` (customer and team), reusing `bookingEmailData()` |
+| WhatsApp not set up (development, or before go-live) | Skipped with a log line; the booking and emails carry on |
+| Payment confirmed twice (verify and webhook) | Sent once: both only send when `outcome.created` |
+| Phone not a usable Indian mobile (admin-added lead, foreign number) | Skipped with a log line. Country codes come with the picker in `tasks.md` 2.3; then store the full number and send it as is |
+| Questionnaire already filled | No reminder: the reminder query skips it |
+| Reminder: one channel fails | The hour is still recorded (the other channel sent it), so neither repeats. Both fail → retried on the next run |
+| No Meet link yet | `sendMeetWhatsApp` returns `false` with a log line; no message with a broken button. Without `APPS_SCRIPT_URL` the link is a placeholder, so the dev button opens a room that does not exist |
+| `WHATSAPP_ADMIN_NUMBERS` empty or with a bad entry | Each number is cleaned and sent separately; bad ones are skipped with a log line |
+| Meta error `190` | Token expired: replace `WHATSAPP_TOKEN` (the test token lasts about 24 hours) |
+| Meta error `131030` | Test number: that phone is not in the allowed recipient list |
+| Meta error `132001` | Template not approved, or its name or language differs from the code |
+| Meta error `131026` | The number is not on WhatsApp, or cannot receive the message |
+| Meta slow or down | Gives up after 10 seconds, logs, returns `false` |
+| Logs | Template name, appointment ID and Meta's error only; never the phone number, name or answers |
 
-Call sites gain one line each, next to the email call:
+## Testing (free)
 
-- `payments/verify` and `payments/webhook`: `after(() => sendQuestionnaireWhatsApp(id))` beside `sendQuestionnaireEmail`.
-- `bookingActions.ts`: `after(() => sendMeetWhatsApp(id))` beside `sendMeetEmails`.
-- `questionnaireReminders.ts`: send both; record the reminder hour when either one was sent, so neither repeats. A reminder hour is never sent twice on either channel.
+- **Sender:** Meta's test number, created with the developer app. **Receiver:** your own WhatsApp, including the Business app number you use daily; receiving does not touch it.
+- Add your number (up to 5) as a test recipient and enter the code WhatsApp sends.
+- Book on the local or staging site with **your number**, pay with a Razorpay test card, and check the booking message; fill the questionnaire and check the Meet and team messages. Repeat as often as you like.
+- The 4 templates need approval on the test account too; Meta's ready-made `hello_world` works at once for a first check.
 
-## Details to get right
+## Sending number
 
-- **Phone format.** Leads store 10 digits (`validateBooking` takes Indian mobiles only). WhatsApp needs the country code: send `91` + the 10 digits. When the country-code picker from `tasks.md` 2.3 lands, store the full number and send it as is.
-- **Meet link.** Send the Meet code (the part after `meet.google.com/`) as the button variable. Without `APPS_SCRIPT_URL` the link is a made-up placeholder, so in development the button opens a room that does not exist; that is expected.
-- **Order stays the same:** payment, confirmed appointment, questionnaire, Meet link, then messages. WhatsApp never blocks or changes a step.
-- **Opt-in.** Meta requires the customer to agree to WhatsApp messages. The line under the pay button already says the Meet link follows on WhatsApp, and the consent tick in `tasks.md` 2.3 should name WhatsApp too. The Privacy Policy already lists WhatsApp as a recipient.
-- **Logs.** Log the template name and appointment ID only, never the phone number or answers.
-- **Delivery status.** Not needed for the first version. Later, a webhook can record delivered or failed per message.
+- Never register a WhatsApp Business **app** number straight on the Cloud API: it stops working in the app.
+- **Coexistence** keeps one number in both the app and the API: app version 2.24.17 or later, used in the app for at least 7 days, app opened at least every 14 days. Most sources say it goes through Meta's Embedded Signup with a Tech Provider, not a plain developer app; confirm during setup. If it does not work for us, use a second number that is not on WhatsApp.
 
 ## Environment
 
-Set in `.env.local` and on the host; add the names to `.env.example`. All optional, so the site runs without them, like SMTP.
+All optional: the site runs without them, like SMTP. Set in `.env.local` and on the host, and add the names to `.env.example` and `config/env.ts`.
 
 | Name | Value |
 | --- | --- |
-| `WHATSAPP_TOKEN` | Permanent system-user token from Mukta’s portfolio |
-| `WHATSAPP_PHONE_NUMBER_ID` | The sending number’s ID from the WhatsApp setup page (not the phone number) |
-| `WHATSAPP_ADMIN_NUMBERS` | Team numbers with country code, comma-separated, for `admin_new_booking` |
-
-With a provider (B, C or D), these become that provider’s API key and the code calls its endpoint instead.
-
-## Not in this step
-
-From the brief, for later; each needs its own template:
-
-- Reminders 24 hours and 1 hour before the consultation (a new cron rule, no email equivalent today).
-- Google review request when a program ends.
-- Marketing broadcasts (marketing rate, and Mukta’s chosen tool).
+| `WHATSAPP_TOKEN` | Testing: the temporary token (about 24 hours). Live: a permanent system-user token from Mukta's portfolio, with `whatsapp_business_messaging` |
+| `WHATSAPP_PHONE_NUMBER_ID` | The sending number's ID from API Setup (not the phone number) |
+| `WHATSAPP_ADMIN_NUMBERS` | Team numbers with country code, comma-separated |
 
 ## Checklist
 
-- [ ] Mukta picks option A, B, C or D
-- [ ] WhatsApp Business Platform / Cloud API connection and test number set up; test messages reach our own phones
-- [ ] Four templates submitted and approved as Utility
-- [ ] `services/whatsapp.ts`, WhatsApp templates and `bookingWhatsApp.ts` built; call sites added beside the emails
+**Code (Claude)**
+- [ ] `services/whatsapp.ts`, `features/appointment/whatsapp/templates.ts`, `features/appointment/services/bookingWhatsApp.ts`, and the call sites above
+- [ ] `WHATSAPP_*` in `.env.example` and `config/env.ts`; consent tick and Privacy Policy name WhatsApp
 - [ ] Lint, type check and build pass
-- [ ] Test booking on the test number: questionnaire message, one reminder, Meet message, team message
-- [ ] Mukta’s number connected, display name approved, payment method added
-- [ ] Token, phone number ID and team numbers set on the host
-- [ ] Included in the final live booking (Handover and Go-live in `tasks.md`)
+
+**Test setup (Farhan, own Meta portfolio)**
+- [ ] Developer app with the WhatsApp product; test number; own WhatsApp added as a recipient
+- [ ] Token and phone number ID in `.env.local` (never pasted in a chat); the 4 templates approved
+- [ ] Test booking: questionnaire message, one reminder, Meet message and team message all arrive
+
+**Go-live (with Mukta)**
+- [ ] Her sending number connected (see Sending number), display name "Eat Rrite" approved, payment method in Billing Hub
+- [ ] The 4 templates approved on her account; system-user permanent token
+- [ ] `WHATSAPP_*` on the host; included in the final live booking (`tasks.md`, Handover and go-live)

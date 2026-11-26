@@ -4,10 +4,13 @@ Short, binding rules for the Eat Rrite Next.js site. Clarity beats cleverness.
 
 ## Code
 
-- One function does one job. Name it after that job.
-- Prefer early returns. No nested loops, no nested conditions, no clever one-liners.
-- No abstraction until it removes real repetition. Small duplication is fine.
-- Handle expected failures with a clear message for the user. Never swallow an error.
+**Write code a beginner can read, change and debug without help.** These rules are strict.
+
+- **Plain over clever.** The simplest code that works. No wrappers, helpers or layers that do not earn their place; repeating a few lines is better than a shared function that is hard to follow.
+- **One function, one job,** named after that job. If the name needs "and", split it.
+- **Flat logic.** Early returns. No nested conditions or loops, no chained ternaries, no clever one-liners.
+- **Every edge case handled on purpose:** missing or bad input, empty lists, duplicate calls, network failures and timeouts, a service that is not set up. Each has a clear outcome (a message for the user, a log line for us) and nothing unexpected happens.
+- **Never swallow an error.** Expected failures return a clear result; unexpected ones are logged with enough context to debug, never with personal data.
 - Strict TypeScript. No `any`.
 - **No file over 120 lines.** `components/ui/` is exempt, because the shadcn CLI generates it.
 - Delete unused code, files and dependencies.
@@ -89,13 +92,9 @@ No clinic, dental or other-brand wording in names, files, comments or text. The 
 - No health answers or personal data in URLs, logs or tracking events.
 - Admin access: a Neon Auth session whose email is in `ADMIN_EMAILS`. `proxy.ts` sends visitors without a session to `/admin/login`; the admin layout and every admin action check the email again.
 
-## Client rules
-
-- Keep the ₹800 fee. Do not publish program fees. Keep "PMOS". Never mention the product line.
-- Use client names, photos and stories only with written consent.
-
 ## Done means
 
+- The client rules in `requirements.md` still hold (₹800 fee, no program fees, "PMOS", no product line, consent for client stories).
 - Lint, type check and build pass.
 - The change is tested in the browser.
 - `docs/tasks.md` and `README.md` match the code.
