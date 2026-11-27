@@ -1,5 +1,7 @@
 import "server-only";
+import { WHATSAPP_REMINDER_HOURS } from "@/constants/whatsappTemplates";
 import { sendReminderEmail } from "@/features/appointment/services/bookingEmails";
+import { sendReminderWhatsApp } from "@/features/appointment/services/bookingWhatsApp";
 import { db } from "@/services/database";
 
 // Same timings as the PHP site (constants/questionnaire-reminders.php): hours after payment.
@@ -22,14 +24,24 @@ async function pendingAppointments(): Promise<Pending[]> {
   return rows as Pending[];
 }
 
-// Sends at most one reminder per appointment per run and records it, so a reminder is never sent twice.
+// Email at every reminder hour; WhatsApp only at WHATSAPP_REMINDER_HOURS, so a customer is not
+// messaged seven times. False when nothing went out, so the hour is tried again on the next run.
+async function sendReminder(appointmentId: string, hour: number): Promise<boolean> {
+  const emailSent = await sendReminderEmail(appointmentId);
+  if (!WHATSAPP_REMINDER_HOURS.includes(hour)) return emailSent;
+  const whatsAppSent = await sendReminderWhatsApp(appointmentId);
+  return emailSent || whatsAppSent;
+}
+
+// Sends at most one reminder per appointment per run and records its hour once either channel
+// sent it, so neither channel repeats it.
 export async function runQuestionnaireReminders(): Promise<{ checked: number; sent: number }> {
   const rows = await pendingAppointments();
   let sent = 0;
   for (const row of rows) {
     const hour = nextReminder(Number(row.hours_since), row.reminders_sent ?? []);
     if (hour === null) continue;
-    if (!(await sendReminderEmail(row.id))) continue;
+    if (!(await sendReminder(row.id, hour))) continue;
     await db()`update er_appointments set reminders_sent = array_append(reminders_sent, ${hour}::int) where id = ${row.id}`;
     sent += 1;
   }

@@ -2,6 +2,9 @@
 
 import { useMemo } from "react";
 import { format, parseISO } from "date-fns";
+import { useSearchParams } from "next/navigation";
+import { CALENDAR_VIEWS } from "@/constants/admin/calendar/views";
+import type { CalendarView } from "@/types/admin/calendar";
 import { CalendarAppointmentDialogs } from "@/components/admin/calendar/CalendarAppointmentDialogs";
 import { CalendarDayDetails } from "@/components/admin/calendar/CalendarDayDetails";
 import { CalendarDayView } from "@/components/admin/calendar/CalendarDayView";
@@ -17,8 +20,17 @@ import { toDateValue } from "@/utils/admin/date";
 import { formatMonthTitle } from "@/utils/admin/calendarMonth";
 import { formatWeekTitle } from "@/utils/admin/calendarWeek";
 
+// `?view=day` (the "Today's appointments" link in team emails and WhatsApp) opens that view;
+// a missing or unknown value opens the month.
+function viewFromAddress(value: string | null): CalendarView {
+  const match = CALENDAR_VIEWS.find((option) => option.value === value);
+  if (!match) return "month";
+  return match.value;
+}
+
 export function CalendarWorkspace() {
   const appointments = useAdminStore((s) => s.appointments);
+  const searchParams = useSearchParams();
   const {
     view,
     setView,
@@ -29,7 +41,7 @@ export function CalendarWorkspace() {
     goPrevious,
     goNext,
     selectDate,
-  } = useCalendarState();
+  } = useCalendarState(viewFromAddress(searchParams.get("view")));
   const actions = useCalendarDayActions(selectedKey);
 
   const title = useMemo(() => {

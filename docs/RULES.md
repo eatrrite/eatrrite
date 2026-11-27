@@ -25,12 +25,13 @@ Short, binding rules for the Eat Rrite Next.js site. Clarity beats cleverness.
 | `components/shared/` | Parts used by several pages |
 | `components/ui/` | shadcn components |
 | `components/admin/` | Admin panel, by page (`components/admin/calendar/`) |
-| `features/<feature>/` | Everything one feature needs, in one place: `components/`, `hooks/`, `services/`, `constants/`, `types/`, `utils/`, `stores/`. Today: `features/appointment/`, `features/auth/` (Neon Auth: sign-in, sign-up, session, profile), `features/admin/` (admin data load and save actions) |
+| `features/<feature>/` | Everything one feature needs, in one place: `components/`, `hooks/`, `services/`, `constants/`, `types/`, `utils/`, `stores/`, `emails/`, `whatsapp/`. Today: `features/appointment/`, `features/contact/` (contact form messages), `features/auth/` (Neon Auth: sign-in, sign-up, session, profile), `features/admin/` (admin data load and save actions), `features/cms/` |
+| `emails/` | The shared email look (`layout.ts`, `parts.ts`, `theme.ts`, `logo.ts`). Each feature's email wording lives in its own `emails/templates.ts` |
 | `stores/` | Client state for the admin (zustand), until Neon is wired |
 | `constants/<page>/` | Copy for one page, such as `constants/about/`. Imported into Cosmic once; now the shape and the fallback |
 | `constants/` | Brand manifest, routes, API paths, motion values |
 | `hooks/` | Shared React hooks; admin hooks in `hooks/admin/`. Feature hooks live in their feature |
-| `services/` | Shared services, such as the database client. Feature services live in their feature |
+| `services/` | Shared services: the database client, `mailer.ts` (SMTP) and `whatsapp.ts` (Meta). Feature services live in their feature |
 | `utils/` | Small pure helpers used everywhere, such as API responses. Feature helpers live in their feature |
 | `config/` | Server environment variables |
 | `types/` | Shared types |
@@ -89,7 +90,8 @@ No clinic, dental or other-brand wording in names, files, comments or text. The 
 - Check every input on the server, even when the form already checks it.
 - Payment amounts come from the server, never from the browser.
 - Confirm a payment only after checking the Razorpay signature.
-- No health answers or personal data in URLs, logs or tracking events.
+- No health answers or personal data in URLs, logs or tracking events. WhatsApp messages never carry questionnaire answers or the contact form's free text (`messages.md`).
+- Every email and WhatsApp message follows `messages.md`: one send function per message and channel, each called on its own `after()` line, never blocking a booking step.
 - Admin access: a Neon Auth session whose email is in `ADMIN_EMAILS`. `proxy.ts` sends visitors without a session to `/admin/login`; the admin layout and every admin action check the email again.
 
 ## Done means

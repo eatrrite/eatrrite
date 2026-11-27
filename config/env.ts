@@ -27,6 +27,11 @@ export const env = {
   mailFromName: () => optional("MAIL_FROM_NAME") || "Eat Rrite",
   adminNotifyEmail: () => optional("ADMIN_NOTIFY_EMAIL"),
   cronSecret: () => optional("CRON_SECRET"),
+  // WhatsApp Cloud API (Meta, direct). When the token or number ID is missing, messages are skipped.
+  whatsappToken: () => optional("WHATSAPP_TOKEN"),
+  whatsappPhoneNumberId: () => optional("WHATSAPP_PHONE_NUMBER_ID"),
+  // Team numbers with country code, comma-separated: "917993896266,919639877483".
+  whatsappAdminNumbers: () => optional("WHATSAPP_ADMIN_NUMBERS").split(",").map((number) => number.trim()).filter(Boolean),
   // Search tools. Each is empty until the owner copies the value from the tool's own screen.
   googleSiteVerification: () => optional("GOOGLE_SITE_VERIFICATION"),
   bingSiteVerification: () => optional("BING_SITE_VERIFICATION"),

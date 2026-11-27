@@ -1,6 +1,7 @@
 import { after } from "next/server";
 import { env } from "@/config/env";
 import { sendQuestionnaireEmail } from "@/features/appointment/services/bookingEmails";
+import { sendBookingConfirmedWhatsApp } from "@/features/appointment/services/bookingWhatsApp";
 import { confirmBooking, holdForOrder } from "@/features/appointment/services/bookingDb";
 import { isValidWebhookSignature } from "@/features/appointment/utils/razorpaySignature";
 import { fail, ok } from "@/utils/apiResponse";
@@ -31,6 +32,8 @@ export async function POST(request: Request) {
     console.error("Webhook could not confirm booking", payment.id, outcome.error);
     return ok({ saved: false });
   }
+  // Sent once per booking: a repeat confirm (page and webhook) has created = false.
   if (outcome.created) after(() => sendQuestionnaireEmail(outcome.appointmentId));
+  if (outcome.created) after(() => sendBookingConfirmedWhatsApp(outcome.appointmentId));
   return ok({ saved: true });
 }

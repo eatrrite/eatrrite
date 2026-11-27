@@ -1,6 +1,6 @@
 # Eat Rrite
 
-Next.js site and admin for www.eatrrite.com. Plan: `docs/tasks.md`. Rules: `docs/RULES.md`. Database: `docs/database.md`. Site copy (Cosmic CMS): `docs/cosmic.md`.
+Next.js site and admin for www.eatrrite.com. Plan: `docs/tasks.md`. Rules: `docs/RULES.md`. Database: `docs/database.md`. Site copy (Cosmic CMS): `docs/cosmic.md`. Emails and WhatsApp: `docs/messages.md`, `docs/whatsApp.md`.
 
 ## Setup
 
@@ -25,9 +25,11 @@ Test payments move no money.
 | `app/(site)/` | Public pages |
 | `app/admin/` | Admin login, signup and panel |
 | `app/api/` | Slots, booking, payment verify, Razorpay webhook, reminder cron, Cosmic webhook |
-| `features/` | `appointment/`, `auth/`, `admin/`, `cms/` (Cosmic): everything one feature needs |
+| `features/` | `appointment/`, `contact/`, `auth/`, `admin/`, `cms/` (Cosmic): everything one feature needs |
+| `emails/` | Shared email look |
+| `services/` | Database, email (SMTP) and WhatsApp (Meta) senders |
 | `components/` | Page parts, layout, shared parts, shadcn `ui/` |
-| `constants/` | Brand, routes, WhatsApp links; page copy JSON (imported into Cosmic, now the fallback) |
+| `constants/` | Brand, routes, WhatsApp links and template names; page copy JSON (imported into Cosmic, now the fallback) |
 | `config/` | Server environment, redirects |
 | `db/migrations/` | SQL for Neon, numbered |
 | `docs/` | Brief, requirements, tasks, rules |

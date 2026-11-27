@@ -48,8 +48,9 @@ export async function getConfirmedBooking(id: string): Promise<ConfirmedBooking 
 
 // Creates the Meet link (Apps Script, as on the PHP site), then saves the answers on the
 // appointment and the name, age and gender on the lead. If the link cannot be made nothing is
-// saved, so the customer can submit again. Answers are saved once: a second submit keeps the first.
-export async function saveQuestionnaire(appointmentId: string, input: QuestionnaireInput): Promise<{ meetLink: string }> {
+// saved, so the customer can submit again. Answers are saved once: a second submit keeps the first
+// and returns firstSubmit false, so the Meet link emails and WhatsApp messages go out only once.
+export async function saveQuestionnaire(appointmentId: string, input: QuestionnaireInput): Promise<{ meetLink: string; firstSubmit: boolean }> {
   const sql = db();
   const [row] = await sql`
     select a.lead_id, a.meet_link, jsonb_array_length(a.questionnaire) as answered, a.service,
@@ -57,7 +58,7 @@ export async function saveQuestionnaire(appointmentId: string, input: Questionna
     from er_appointments a
     where a.id = ${appointmentId} and a.status <> 'cancelled'`;
   if (!row) throw new Error("We could not find this booking.");
-  if (row.answered > 0 && row.meet_link) return { meetLink: row.meet_link };
+  if (row.answered > 0 && row.meet_link) return { meetLink: row.meet_link, firstSubmit: false };
 
   const questions = await getQuestions();
   const ageRule = questions.find((question) => question.key === "age");
@@ -82,5 +83,5 @@ export async function saveQuestionnaire(appointmentId: string, input: Questionna
     sql`update er_leads set name = ${name}, age = ${input.age}, gender = ${input.gender} where id = ${row.lead_id}`,
     sql`update er_appointments set questionnaire = ${JSON.stringify(answers)}::jsonb, meet_link = ${meetLink} where id = ${appointmentId}`,
   ]);
-  return { meetLink };
+  return { meetLink, firstSubmit: true };
 }

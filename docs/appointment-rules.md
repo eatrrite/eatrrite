@@ -80,7 +80,7 @@ The admin Schedule page starts from these; the booking page note is built from t
 ## Toasts, emails and Meet links
 
 - Every action toasts through `hooks/useShowToast.ts` (`success`, `info`, `error`, `pending`). Server waits show a `pending` toast ("Saving…", "Holding your slot…") that the result replaces by `id`. "Payment taken but booking not completed" also stays on screen. Questionnaire progress uses `hooks/useProgressToast.tsx`.
-- Emails (`features/appointment/emails/`, logo as an inline attachment): questionnaire link after payment, reminders at 1, 3, 6, 12, 24, 30 and 36 hours until answered (`/api/cron/questionnaire-reminders`), then the Meet link to the customer and the booking to the team.
+- Emails and WhatsApp (`messages.md`): questionnaire link after payment, reminders at 1, 3, 6, 12, 24, 30 and 36 hours until answered (`/api/cron/questionnaire-reminders`; WhatsApp at 3 and 24 only), then the Meet link to the customer and the booking to the team, sent once on the first questionnaire save.
 - The Meet link comes from `apps-script/Code.gs`: one calendar event per appointment, its id made from the appointment id, so a retry returns the same link. The admin's "Generate Meet link" uses it too. Without `APPS_SCRIPT_URL` the link is a placeholder; if it fails, nothing is saved and the customer can submit again.
 
 Not built yet: admin screens for the booking settings, services and questions (edit them in Neon for now).

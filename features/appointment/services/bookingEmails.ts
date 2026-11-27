@@ -1,61 +1,44 @@
 import "server-only";
 import { env } from "@/config/env";
-import { confirmedPath } from "@/constants/routes";
-import {
-  adminBookingEmail, customerMeetEmail, customerQuestionnaireEmail, customerReminderEmail, type BookingEmailData,
-} from "@/features/appointment/emails/templates";
-import { db } from "@/services/database";
+import { adminBookingEmail, meetLinkEmail, questionnaireEmail, reminderEmail } from "@/features/appointment/emails/templates";
+import { bookingMessageData } from "@/features/appointment/services/bookingMessageData";
 import { sendMail } from "@/services/mailer";
-import { formatTimeLabel } from "@/utils/admin/time";
 
-const displayDate = (date: string) =>
-  new Date(`${date}T00:00:00+05:30`).toLocaleDateString("en-IN", {
-    weekday: "long", day: "numeric", month: "long", year: "numeric", timeZone: "Asia/Kolkata",
-  });
+// One function per booking email. Each loads the appointment, builds one email and sends it.
+// Each returns true when the mail server accepted it, false (with a log line) otherwise.
 
-// "Tue, 10 Nov", short enough for a subject line.
-const shortDate = (date: string) =>
-  new Date(`${date}T00:00:00+05:30`).toLocaleDateString("en-IN", {
-    weekday: "short", day: "numeric", month: "short", timeZone: "Asia/Kolkata",
-  });
-
-// Everything an email about this appointment needs, or null when it has no email address.
-export async function bookingEmailData(appointmentId: string): Promise<BookingEmailData | null> {
-  const [row] = await db()`
-    select l.name, l.email, l.phone, a.service, a.meet_link, a.payment_id,
-      to_char(a.date, 'YYYY-MM-DD') as date, to_char(a.time, 'HH24:MI') as time
-    from er_appointments a join er_leads l on l.id = a.lead_id where a.id = ${appointmentId}`;
-  if (!row?.email) return null;
-  return {
-    name: row.name,
-    email: row.email,
-    phone: row.phone,
-    service: row.service,
-    displayDate: displayDate(row.date),
-    shortDate: shortDate(row.date),
-    displayTime: formatTimeLabel(row.time),
-    meetLink: row.meet_link ?? undefined,
-    paymentId: row.payment_id ?? undefined,
-    questionnaireUrl: `${env.siteUrl()}${confirmedPath(appointmentId)}`,
-  };
+// Customer, after payment: the questionnaire link.
+export async function sendQuestionnaireEmail(appointmentId: string): Promise<boolean> {
+  const data = await bookingMessageData(appointmentId);
+  if (!data?.email) return false;
+  return sendMail({ to: data.email, ...questionnaireEmail(data) });
 }
 
-// After payment: the customer gets the questionnaire link.
-export async function sendQuestionnaireEmail(appointmentId: string) {
-  const data = await bookingEmailData(appointmentId);
-  if (data) await sendMail({ to: data.email, ...customerQuestionnaireEmail(data) });
-}
-
-// Reminder while the questionnaire is still empty.
+// Customer, while the questionnaire is still empty.
 export async function sendReminderEmail(appointmentId: string): Promise<boolean> {
-  const data = await bookingEmailData(appointmentId);
-  return data ? sendMail({ to: data.email, ...customerReminderEmail(data) }) : false;
+  const data = await bookingMessageData(appointmentId);
+  if (!data?.email) return false;
+  return sendMail({ to: data.email, ...reminderEmail(data) });
 }
 
-// After the questionnaire: the Meet link to the customer and the booking to the team.
-export async function sendMeetEmails(appointmentId: string) {
-  const data = await bookingEmailData(appointmentId);
-  if (!data) return;
-  await sendMail({ to: data.email, ...customerMeetEmail(data) });
-  await sendMail({ to: env.adminNotifyEmail(), replyTo: data.email, ...adminBookingEmail(data) });
+// Customer, after the questionnaire: the Meet link.
+export async function sendMeetLinkEmail(appointmentId: string): Promise<boolean> {
+  const data = await bookingMessageData(appointmentId);
+  if (!data?.email) return false;
+  if (!data.meetLink) {
+    console.warn(`Email skipped (no Meet link): appointment ${appointmentId}`);
+    return false;
+  }
+  return sendMail({ to: data.email, ...meetLinkEmail(data) });
+}
+
+// Team, after the questionnaire: the new consultation, to every ADMIN_NOTIFY_EMAIL address.
+export async function sendAdminBookingEmail(appointmentId: string): Promise<boolean> {
+  const data = await bookingMessageData(appointmentId);
+  if (!data) return false;
+  if (!data.meetLink) {
+    console.warn(`Email skipped (no Meet link): team booking, appointment ${appointmentId}`);
+    return false;
+  }
+  return sendMail({ to: env.adminNotifyEmail(), replyTo: data.email || undefined, ...adminBookingEmail(data) });
 }

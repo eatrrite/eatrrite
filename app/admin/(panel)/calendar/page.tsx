@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { AdminMotion, AdminPage } from "@/components/admin/AdminPage";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { CalendarWorkspace } from "@/components/admin/calendar/CalendarWorkspace";
@@ -13,7 +14,10 @@ export default function AdminCalendarPage() {
         description="View and manage all consultations by date."
       />
       <AdminMotion>
-        <CalendarWorkspace />
+        {/* The workspace reads ?view= from the address, which needs a Suspense boundary. */}
+        <Suspense fallback={null}>
+          <CalendarWorkspace />
+        </Suspense>
       </AdminMotion>
     </AdminPage>
   );

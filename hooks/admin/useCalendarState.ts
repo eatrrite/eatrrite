@@ -24,11 +24,12 @@ function cursorForView(view: CalendarView, date: Date): Date {
   return date;
 }
 
-export function useCalendarState() {
+// `initialView` comes from the page address (`?view=day` opens today's day view).
+export function useCalendarState(initialView: CalendarView = "month") {
   const today = useMemo(() => getCalendarToday(), []);
-  const [view, setViewState] = useState<CalendarView>("month");
+  const [view, setViewState] = useState<CalendarView>(initialView);
   const [selectedDate, setSelectedDate] = useState(() => today);
-  const [cursorDate, setCursorDate] = useState(() => startOfMonth(today));
+  const [cursorDate, setCursorDate] = useState(() => cursorForView(initialView, today));
 
   const setView = useCallback(
     (next: CalendarView) => {

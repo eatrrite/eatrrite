@@ -20,6 +20,10 @@ export const programPath = (slug: string) => `${ROUTES.programs}/${slug}`;
 export const confirmedPath = (appointmentId: string) =>
   `${ROUTES.appointmentConfirmed}?appointmentId=${appointmentId}`;
 
+// The admin calendar opened on today's day view. Linked from the team's booking email and
+// WhatsApp message (the WhatsApp template holds the same address as a fixed button).
+export const ADMIN_TODAY_PATH = "/admin/calendar?view=day";
+
 type NavLink = { label: string; href: string; children?: { label: string; href: string }[] };
 
 export const NAV_LINKS: NavLink[] = [

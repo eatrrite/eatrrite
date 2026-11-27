@@ -1,6 +1,7 @@
 import { after } from "next/server";
 import { env } from "@/config/env";
 import { sendQuestionnaireEmail } from "@/features/appointment/services/bookingEmails";
+import { sendBookingConfirmedWhatsApp } from "@/features/appointment/services/bookingWhatsApp";
 import { getServices } from "@/features/appointment/services/bookingConfig";
 import { confirmBooking } from "@/features/appointment/services/bookingDb";
 import { isValidPaymentSignature } from "@/features/appointment/utils/razorpaySignature";
@@ -31,7 +32,9 @@ export async function POST(request: Request) {
   try {
     const outcome = await confirmBooking(input, body.holdId, paymentId);
     if (!outcome.ok) return fail(outcome.error, 409);
+    // Sent once per booking: a repeat confirm (page and webhook) has created = false.
     if (outcome.created) after(() => sendQuestionnaireEmail(outcome.appointmentId));
+    if (outcome.created) after(() => sendBookingConfirmedWhatsApp(outcome.appointmentId));
     return ok({ appointmentId: outcome.appointmentId });
   } catch (error) {
     console.error("Confirm booking failed", error);

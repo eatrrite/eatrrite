@@ -46,10 +46,16 @@ Numbers like 1.2 and 2.4 follow Mukta's brief and the Notion page "Eat Rrite: Ph
 - [ ] Form order: program, name, email, mobile, slot, consent tick, then ₹800; no health questions on the form
 - [ ] /thank-you after payment: slot confirmed, "Add to calendar", what to expect, WhatsApp button (the booking conversion)
 - [ ] Calendar event with the Meet link on the marketing account (built; moves there at handover); hidden UTM source, medium and campaign saved with each booking
-- [ ] Contact form connected (name, phone, city, program) with a consent tick; "Not ready yet?" guides for name + WhatsApp, with consent: /guides/diwali, /guides/sugar-sense, /guides/midlife
-### 2.4 WhatsApp and email automation (`whatsApp.md`)
-- [ ] Build the sender beside the emails; test free on Meta's test number with our own WhatsApp as the receiver
-- [ ] On WhatsApp: questionnaire link after booking, Meet link after the questionnaire, team message (emails already built)
+- [ ] Contact form connected (name, phone, city, optional email, program) with a consent tick: built, sends team and customer email and WhatsApp (`messages.md`); test it; "Not ready yet?" guides for name + WhatsApp, with consent: /guides/diwali, /guides/sugar-sense, /guides/midlife
+### 2.4 WhatsApp and email automation (`messages.md`, `whatsApp.md`)
+- [x] Build the sender beside the emails: 6 templates (booking, reminder, Meet link, team booking with "Today's appointments", enquiry received, team enquiry)
+- [x] Test setup (27 Nov 2026): Farhan's Meta app and test number (+1 555 168 8902), recipient 7993896266 verified, system-user token and phone number ID in `.env.local`, Graph API v25.0, 6 templates submitted for review
+- [ ] Template fix 1 (27 Nov 2026): Meet button in `meet_link_ready` and `admin_new_booking` saved as `https://meet.google.com/%7B%7B1%7D%7D{{1}}`; set Website URL to `https://meet.google.com/` only (Meta adds `{{1}}`), then re-check it is Active
+- [ ] Template fix 2 (27 Nov 2026): `admin_new_enquiry` has no button (Meta rejects `wa.me` links); body ends "Any message they wrote is in the team email."; confirm it is Active
+- [ ] Before testing: all 6 templates Active, both fixes above applied
+- [ ] Local test (28 Nov 2026), on the test number with 7993896266 as team and customer: one booking (`booking_confirmed`, questionnaire → `meet_link_ready` and `admin_new_booking`), one contact enquiry (`admin_new_enquiry`, `enquiry_received`), one reminder after 3 hours; then commit and push
+- [ ] Live publish test on Mukta's account (`whatsApp.md`, Go-live): her number connected, the 6 templates recreated and Active, system-user token; `WHATSAPP_TOKEN`, `WHATSAPP_PHONE_NUMBER_ID`, `WHATSAPP_ADMIN_NUMBERS=919639877483` in Vercel; redeploy; one booking and one enquiry on the live site, all six messages arrive from "Eat Rrite"
+- [ ] Privacy Policy line in Cosmic: "Meta, for WhatsApp messages about your consultation or enquiry" (lawyer checks)
 - [ ] WhatsApp reminders 24 hours and 1 hour before the consultation; Google review request when a program ends
 ### 2.5 Legal, privacy and consent (Mukta's lawyer checks the wording)
 - [ ] Lawyer checks `/privacy-policy`; Terms of Service, Cancellation & Reschedule Policy and Disclaimer pages, linked in the footer and on every form
@@ -91,7 +97,7 @@ Numbers like 1.2 and 2.4 follow Mukta's brief and the Notion page "Eat Rrite: Ph
 - [ ] Every variable from `.env.example` on the host, secrets never in the repo; Cosmic: show Mukta how to edit and publish, confirm the plan limits once the setup period ends
 - [ ] Apps Script on marketing.eatrrite@gmail.com (today on Farhan's account): new project, Calendar advanced service, Script Property `SECRET`, web app (execute as me, anyone can access); new `APPS_SCRIPT_URL` and `APPS_SCRIPT_SECRET` on the host; a Meet link from the admin and one from a booking land in the marketing calendar; old deployment removed
 - [ ] `SMTP_*`, `MAIL_FROM` and `ADMIN_NOTIFY_EMAIL` are the client's; `GET /api/cron/questionnaire-reminders` every 15 minutes with `Authorization: Bearer <CRON_SECRET>`; questionnaire email, one reminder (left empty past the first hour), Meet email and admin email checked on a phone and desktop
-- [ ] WhatsApp: Mukta's number connected, display name approved, payment method in Billing Hub, 4 templates approved, system-user token; `WHATSAPP_*` on the host
+- [ ] WhatsApp: Mukta's number connected, display name approved, payment method in Billing Hub, the 6 templates in `messages.md` Active, system-user token; `WHATSAPP_*` in Vercel (see 2.4, live publish test)
 - [ ] Razorpay live: `rzp_live_…` keys on the host and no test keys anywhere; webhook `https://www.eatrrite.com/api/payments/webhook` (`payment.captured`, `order.paid`) with `RAZORPAY_WEBHOOK_SECRET`; test mode off
 - [ ] With Mukta's agreement, one real ₹800 booking: payment, slot, questionnaire email and WhatsApp, questionnaire, Meet link, Meet email and WhatsApp, admin email and WhatsApp, booking in the admin and calendar; refund if she wants
 - [ ] Switch the domain; old `.php` addresses redirect and HTTPS works everywhere; keep the PHP site for rollback until stable

@@ -1,7 +1,7 @@
 import "server-only";
 import nodemailer from "nodemailer";
 import { env } from "@/config/env";
-import { LOGO_CID, LOGO_PNG_BASE64 } from "@/features/appointment/emails/logo";
+import { LOGO_CID, LOGO_PNG_BASE64 } from "@/emails/logo";
 
 export type Mail = { to: string; subject: string; html: string; replyTo?: string };
 

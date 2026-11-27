@@ -22,7 +22,7 @@ Client work for Mukta Patil on www.eatrrite.com: fixes, SEO, speed and automatio
 | Data and auth | Neon Postgres (`@neondatabase/serverless`); Neon Auth for the admin, access by `ADMIN_EMAILS` |
 | Payments | Razorpay Standard Checkout and webhook; test mode until handover |
 | Meet links | Google Apps Script web app (`apps-script/Code.gs`), Calendar advanced service |
-| Messages | Email with nodemailer over SMTP; WhatsApp through Meta's Cloud API, direct, no provider (decided with Mukta; not built yet, `whatsApp.md`) |
+| Messages | Email with nodemailer over SMTP; WhatsApp through Meta's Cloud API, direct, no provider (decided with Mukta; built, testing on Meta's test number). Every message: `messages.md`; setup: `whatsApp.md` |
 | Site copy | Cosmic headless CMS, JSON files as fallback (`cosmic.md`) |
 
 ## Design
@@ -38,7 +38,8 @@ Client work for Mukta Patil on www.eatrrite.com: fixes, SEO, speed and automatio
 | --- | --- |
 | `app/(site)/`, `app/admin/`, `app/api/` | Public pages; admin sign-in and panel; slots, appointments, payments, reminder cron, auth, Cosmic webhook |
 | `components/` | UI by page, layout, shared parts, shadcn `ui/` |
-| `features/` | `appointment/` (all booking code), `admin/`, `auth/` (Neon Auth), `cms/` (Cosmic) |
+| `features/` | `appointment/` (all booking code), `contact/` (contact form messages), `admin/`, `auth/` (Neon Auth), `cms/` (Cosmic) |
+| `emails/` | The shared email look; each feature's wording is in its `emails/templates.ts` |
 | `config/` | Environment getters (`env.ts`) and the 301 list (`redirects.ts`) |
 | `constants/` | Brand, routes, WhatsApp links, and the page copy JSON that seeded Cosmic and is its fallback |
 | `db/migrations/` | `001_initial.sql` builds the database; `002` sample data (dev only); `003` and `004` update an older database's payment column |
@@ -65,7 +66,7 @@ The order never changes. Rules and settings: `appointment-rules.md`.
 2. Razorpay takes ₹800; the server checks the signature, and the webhook confirms the booking if the tab closed.
 3. The customer gets the questionnaire email, with reminders at 1, 3, 6, 12, 24, 30 and 36 hours until it is filled in.
 4. After the questionnaire, the Apps Script creates one calendar event with a Meet link, saved on the appointment.
-5. The customer gets the Meet-link email; the team gets the booking email (no health answers). Planned: each email also goes out on WhatsApp (`whatsApp.md`).
+5. The customer gets the Meet link; the team gets the booking with a "Today's appointments" link (no health answers). Steps 3 and 5 go out by email and WhatsApp (`messages.md`).
 
 ## Environment
 
@@ -79,7 +80,7 @@ The order never changes. Rules and settings: `appointment-rules.md`.
 | `SMTP_*`, `MAIL_FROM`, `MAIL_FROM_NAME`, `ADMIN_NOTIFY_EMAIL` | Sending account; team addresses, comma-separated |
 | `CRON_SECRET` | Protects the reminder route |
 | `COSMIC_BUCKET_SLUG`, `COSMIC_READ_KEY`, `COSMIC_WEBHOOK_SECRET` | Cosmic (also on the host); `COSMIC_WRITE_KEY` only in `.env.local` |
-| `WHATSAPP_TOKEN`, `WHATSAPP_PHONE_NUMBER_ID`, `WHATSAPP_ADMIN_NUMBERS` | WhatsApp (planned, optional) |
+| `WHATSAPP_TOKEN`, `WHATSAPP_PHONE_NUMBER_ID`, `WHATSAPP_ADMIN_NUMBERS` | WhatsApp (optional; testing: test number, team `917993896266`; live: Mukta's number, team `919639877483`) |
 | `SITE_URL` | `https://www.eatrrite.com` in Vercel Production, for email and sign-in links |
 
 ## Admin account

@@ -40,7 +40,10 @@ SEO decisions and owner steps:
 Site copy in Cosmic (CMS):
 @docs/cosmic.md
 
-WhatsApp messages (Meta Cloud API, direct):
+Every email and WhatsApp message: templates, triggers, code and edge cases (source of truth):
+@docs/messages.md
+
+WhatsApp setup, numbers, testing and go-live (Meta Cloud API, direct):
 @docs/whatsApp.md
 
 Next.js version notes:
