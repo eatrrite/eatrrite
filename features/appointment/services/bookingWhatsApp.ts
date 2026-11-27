@@ -29,7 +29,7 @@ export async function sendMeetLinkWhatsApp(appointmentId: string): Promise<boole
   if (!data) return false;
   const code = meetCode(data.meetLink);
   if (!code) {
-    console.warn(`WhatsApp skipped (no Google Meet link): meet_link_ready, appointment ${appointmentId}`);
+    console.warn(`WhatsApp skipped (no Google Meet link): consultation_meet_link, appointment ${appointmentId}`);
     return false;
   }
   return sendWhatsAppMessage(data.phone, meetLinkReadyMessage(data, code));
@@ -41,7 +41,7 @@ export async function sendAdminBookingWhatsApp(appointmentId: string): Promise<b
   if (!data) return false;
   const code = meetCode(data.meetLink);
   if (!code) {
-    console.warn(`WhatsApp skipped (no Google Meet link): admin_new_booking, appointment ${appointmentId}`);
+    console.warn(`WhatsApp skipped (no Google Meet link): admin_booking_alert, appointment ${appointmentId}`);
     return false;
   }
   return sendWhatsAppToTeam(adminNewBookingMessage(data, code));

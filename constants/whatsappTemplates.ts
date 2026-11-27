@@ -6,9 +6,9 @@ export const WHATSAPP_TEMPLATES = {
   /** Customer, while the questionnaire is still empty. */
   questionnaireReminder: "questionnaire_reminder",
   /** Customer, after the questionnaire: the Google Meet link. */
-  meetLinkReady: "meet_link_ready",
+  meetLinkReady: "consultation_meet_link",
   /** Team, after the questionnaire: a new consultation. */
-  adminNewBooking: "admin_new_booking",
+  adminNewBooking: "admin_booking_alert",
   /** Customer, after the contact form. */
   enquiryReceived: "enquiry_received",
   /** Team, after the contact form. */

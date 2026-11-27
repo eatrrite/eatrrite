@@ -42,7 +42,7 @@ Receiving never affects a number's WhatsApp or WhatsApp Business app. Only the s
 
 1. Book on the local or staging site with an allowed mobile, pay with a Razorpay test card → `booking_confirmed` arrives; the team email arrives later.
 2. Leave the questionnaire empty for 3 hours with the cron running (or call `/api/cron/questionnaire-reminders` with `Authorization: Bearer <CRON_SECRET>`) → `questionnaire_reminder` at 3 hours.
-3. Submit the questionnaire → `meet_link_ready` to the customer, `admin_new_booking` to 7993896266. Tap "Today's appointments": the admin calendar opens on today.
+3. Submit the questionnaire → `consultation_meet_link` to the customer, `admin_booking_alert` to 7993896266. Tap "Today's appointments": the admin calendar opens on today.
 4. Send the contact form with an allowed mobile → `admin_new_enquiry` to 7993896266, then `enquiry_received` to the customer. Tap the mobile number in the team message: WhatsApp offers to chat or call.
 5. Check the server log for `WhatsApp failed` or `WhatsApp skipped` lines (codes in `messages.md`).
 

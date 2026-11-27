@@ -50,10 +50,11 @@ Numbers like 1.2 and 2.4 follow Mukta's brief and the Notion page "Eat Rrite: Ph
 ### 2.4 WhatsApp and email automation (`messages.md`, `whatsApp.md`)
 - [x] Build the sender beside the emails: 6 templates (booking, reminder, Meet link, team booking with "Today's appointments", enquiry received, team enquiry)
 - [x] Test setup (27 Nov 2026): Farhan's Meta app and test number (+1 555 168 8902), recipient 7993896266 verified, system-user token and phone number ID in `.env.local`, Graph API v25.0, 6 templates submitted for review
-- [ ] Template fix 1 (27 Nov 2026): Meet button in `meet_link_ready` and `admin_new_booking` saved as `https://meet.google.com/%7B%7B1%7D%7D{{1}}`; set Website URL to `https://meet.google.com/` only (Meta adds `{{1}}`), then re-check it is Active
-- [ ] Template fix 2 (27 Nov 2026): `admin_new_enquiry` has no button (Meta rejects `wa.me` links); body ends "Any message they wrote is in the team email."; confirm it is Active
-- [ ] Before testing: all 6 templates Active, both fixes above applied
-- [ ] Local test (28 Nov 2026), on the test number with 7993896266 as team and customer: one booking (`booking_confirmed`, questionnaire → `meet_link_ready` and `admin_new_booking`), one contact enquiry (`admin_new_enquiry`, `enquiry_received`), one reminder after 3 hours; then commit and push
+- [x] Template fix 1 (28 Nov 2026): the Meet button in `meet_link_ready` and `admin_new_booking` was saved as `https://meet.google.com/%7B%7B1%7D%7D{{1}}`. Recreated by API as `consultation_meet_link` and `admin_booking_alert` with `https://meet.google.com/{{1}}` (a deleted name is blocked for 30 days); code and docs use the new names
+- [ ] Delete `meet_link_ready` and `admin_new_booking` in WhatsApp Manager (the token cannot delete)
+- [x] Template fix 2 (27 Nov 2026): `admin_new_enquiry` has no button (Meta rejects `wa.me` links); body ends "Any message they wrote is in the team email."; Active
+- [ ] Before testing: all 6 templates Active (`consultation_meet_link` and `admin_booking_alert` in review since 28 Nov 2026)
+- [ ] Local test (28 Nov 2026), on the test number with 7993896266 as team and customer: one booking (`booking_confirmed`, questionnaire → `consultation_meet_link` and `admin_booking_alert`), one contact enquiry (`admin_new_enquiry`, `enquiry_received`), one reminder after 3 hours; then commit and push
 - [ ] Live publish test on Mukta's account (`whatsApp.md`, Go-live): her number connected, the 6 templates recreated and Active, system-user token; `WHATSAPP_TOKEN`, `WHATSAPP_PHONE_NUMBER_ID`, `WHATSAPP_ADMIN_NUMBERS=919639877483` in Vercel; redeploy; one booking and one enquiry on the live site, all six messages arrive from "Eat Rrite"
 - [ ] Privacy Policy line in Cosmic: "Meta, for WhatsApp messages about your consultation or enquiry" (lawyer checks)
 - [ ] WhatsApp reminders 24 hours and 1 hour before the consultation; Google review request when a program ends

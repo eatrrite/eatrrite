@@ -37,7 +37,7 @@ export function questionnaireReminderMessage(data: BookingMessageData): WhatsApp
   };
 }
 
-// meet_link_ready: {{1}} first name, {{2}} date, {{3}} time. Button 0 ends in the Meet code.
+// consultation_meet_link: {{1}} first name, {{2}} date, {{3}} time. Button 0 ends in the Meet code.
 export function meetLinkReadyMessage(data: BookingMessageData, code: string): WhatsAppMessage {
   return {
     template: WHATSAPP_TEMPLATES.meetLinkReady,
@@ -46,7 +46,7 @@ export function meetLinkReadyMessage(data: BookingMessageData, code: string): Wh
   };
 }
 
-// admin_new_booking: {{1}} name, {{2}} program, {{3}} date, {{4}} time, {{5}} mobile.
+// admin_booking_alert: {{1}} name, {{2}} program, {{3}} date, {{4}} time, {{5}} mobile.
 // Button 0 ends in the Meet code; button 1 (Today's appointments) is fixed in the template.
 export function adminNewBookingMessage(data: BookingMessageData, code: string): WhatsAppMessage {
   return {

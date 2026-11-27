@@ -16,8 +16,8 @@ The source of truth for every message the site sends: when, to whom, the exact W
 | --- | --- | --- | --- | --- |
 | 1 | Payment confirmed (new booking only) | Customer | `questionnaireEmail` (`sendQuestionnaireEmail`) | `booking_confirmed` (`sendBookingConfirmedWhatsApp`) |
 | 2 | Reminder while the questionnaire is empty | Customer | `reminderEmail` (`sendReminderEmail`) at 1, 3, 6, 12, 24, 30, 36 h | `questionnaire_reminder` (`sendReminderWhatsApp`) at 3 and 24 h only |
-| 3 | Questionnaire submitted (first time only) | Customer | `meetLinkEmail` (`sendMeetLinkEmail`) | `meet_link_ready` (`sendMeetLinkWhatsApp`) |
-| 4 | Questionnaire submitted (first time only) | Team | `adminBookingEmail` (`sendAdminBookingEmail`) | `admin_new_booking` (`sendAdminBookingWhatsApp`) |
+| 3 | Questionnaire submitted (first time only) | Customer | `meetLinkEmail` (`sendMeetLinkEmail`) | `consultation_meet_link` (`sendMeetLinkWhatsApp`) |
+| 4 | Questionnaire submitted (first time only) | Team | `adminBookingEmail` (`sendAdminBookingEmail`) | `admin_booking_alert` (`sendAdminBookingWhatsApp`) |
 | 5 | Contact form sent | Team | `adminNewEnquiryEmail` (`sendAdminEnquiryEmail`) | `admin_new_enquiry` (`sendAdminEnquiryWhatsApp`) |
 | 6 | Contact form reached the team | Customer | `enquiryReceivedEmail` (`sendEnquiryReceivedEmail`), only if they gave an email | `enquiry_received` (`sendEnquiryReceivedWhatsApp`) |
 
@@ -95,12 +95,12 @@ Hi {{1}}, a gentle reminder: your Eat Rrite consultation on {{2}} at {{3}} IST i
 It takes about 5 minutes, and your Google Meet link is sent as soon as you submit it.
 ```
 
-### 3. `meet_link_ready` (customer, after the questionnaire)
+### 3. `consultation_meet_link` (customer, after the questionnaire)
 
 | Field | Value |
 | --- | --- |
 | Category / type | Utility / Default |
-| Name | `meet_link_ready` |
+| Name | `consultation_meet_link` |
 | Language | English |
 | Footer | `Need a different time? Reply to this message.` |
 | Button 1 | Visit website · text `Join Google Meet` · **Dynamic** · URL `https://meet.google.com/{{1}}` |
@@ -114,12 +114,12 @@ Hi {{1}}, thank you for completing the questionnaire. Your Eat Rrite consultatio
 Tap the button below to join on Google Meet at your booked time. Please join a couple of minutes early, from a quiet place.
 ```
 
-### 4. `admin_new_booking` (team, after the questionnaire)
+### 4. `admin_booking_alert` (team, after the questionnaire)
 
 | Field | Value |
 | --- | --- |
 | Category / type | Utility / Default |
-| Name | `admin_new_booking` |
+| Name | `admin_booking_alert` |
 | Language | English |
 | Footer | none |
 | Button 1 (must be first) | Visit website · text `Join Google Meet` · **Dynamic** · URL `https://meet.google.com/{{1}}` |
